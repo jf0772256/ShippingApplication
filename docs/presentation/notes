@@ -1,0 +1,10 @@
+presentation notes:
+
+Kalin will handle the front end description
+Jesse will handle the data end stuff.
+
+frameworks::
+  c# application in winforms style.
+  remote hosted master database
+  --possible sqlite for config -- not set yet
+  

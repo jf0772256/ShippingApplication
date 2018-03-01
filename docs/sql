@@ -1,0 +1,6 @@
+URL:// stusql.ckwia8qkgyyj.us-east-1.rds.amazonaws.com
+Database Name: otcshipping
+-u: otcshippingadmin
+-p: cis260SP18Ship
+
+Must Use SQLServer Auth
