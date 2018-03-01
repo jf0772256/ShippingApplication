@@ -51,6 +51,13 @@
     <Compile Include="AddNote.Designer.cs">
       <DependentUpon>AddNote.cs</DependentUpon>
     </Compile>
+    <Compile Include="Connections\DataConnections\TestConnClass.cs" />
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Building.cs" />
     <Compile Include="Models\Carrier.cs" />
     <Compile Include="Connections\DatabaseConnection.cs" />
@@ -178,8 +185,6 @@
   <ItemGroup>
     <Content Include="Connections\Assets\settings.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Connections\DataConnections\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
