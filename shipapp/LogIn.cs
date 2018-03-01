@@ -64,6 +64,7 @@ namespace shipapp
         /// When the user attempts to login:
         /// On succed, login and proceed to main menu.
         /// On fail, promt the user to tray again.
+        /// STUB: TODO; Remove this line
         /// </summary>
         public void UserAuthenticating()
         {
