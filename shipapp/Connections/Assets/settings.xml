@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <default_connection>
+    <host></host>
+    <database_name></database_name>
+    <user_name></user_name>
+    <password></password>
+  </default_connection>
+  <default_admin>
+    <display_name></display_name>
+    <user_name></user_name>
+    <password></password>
+  </default_admin>
+</settings>

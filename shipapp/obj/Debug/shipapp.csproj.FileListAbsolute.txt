@@ -1,0 +1,47 @@
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\bin\Debug\shipapp.exe.config
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\bin\Debug\shipapp.exe
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\bin\Debug\shipapp.pdb
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.csprojResolveAssemblyReference.cache
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.MainMenu.resources
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.LogIn.resources
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.Properties.Resources.resources
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.csproj.GenerateResource.Cache
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.csproj.CoreCompileInputs.cache
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.exe
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.pdb
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.Receiving.resources
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.Manage.resources
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.Reports.resources
+C:\Users\kalin\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.Settings.resources
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\bin\Debug\shipapp.exe.config
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\bin\Debug\shipapp.exe
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\bin\Debug\shipapp.pdb
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.csprojResolveAssemblyReference.cache
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.MainMenu.resources
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.LogIn.resources
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.Manage.resources
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.Properties.Resources.resources
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.Receiving.resources
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.Reports.resources
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.Settings.resources
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.csproj.GenerateResource.Cache
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.csproj.CoreCompileInputs.cache
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.exe
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.pdb
+C:\Users\bowdenk\Desktop\shippingappSP18\application\shipapp\obj\Debug\shipapp.AddNote.resources
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\bin\Debug\shipapp.exe.config
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\bin\Debug\shipapp.exe
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\bin\Debug\shipapp.pdb
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\obj\Debug\shipapp.csprojResolveAssemblyReference.cache
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\obj\Debug\shipapp.AddNote.resources
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\obj\Debug\shipapp.MainMenu.resources
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\obj\Debug\shipapp.LogIn.resources
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\obj\Debug\shipapp.Manage.resources
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\obj\Debug\shipapp.Properties.Resources.resources
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\obj\Debug\shipapp.Receiving.resources
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\obj\Debug\shipapp.Reports.resources
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\obj\Debug\shipapp.Settings.resources
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\obj\Debug\shipapp.csproj.GenerateResource.Cache
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\obj\Debug\shipapp.csproj.CoreCompileInputs.cache
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\obj\Debug\shipapp.exe
+C:\Users\Jesse Fender\Source\Repos\shippingappSP18\application\shipapp\obj\Debug\shipapp.pdb
