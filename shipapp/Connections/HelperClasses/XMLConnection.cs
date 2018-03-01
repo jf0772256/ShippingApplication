@@ -4,19 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace shipapp
+namespace shipapp.Connections.HelperClasses
 {
-    class Serialization
+    class XMLConnection
     {
         // Class level variables
+        private string filePath;
 
 
-        public void Serialize()
+        public void OpenConnection()
         {
 
         }
 
-        public void Deserialize()
+        public void CloseConnection()
         {
 
         }
