@@ -52,6 +52,8 @@
       <DependentUpon>AddNote.cs</DependentUpon>
     </Compile>
     <Compile Include="Connections\DataConnections\TestConnClass.cs" />
+    <Compile Include="Connections\HelperClasses\Serialize.cs" />
+    <Compile Include="Connections\HelperClasses\SQLHelperClass.cs" />
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,7 +97,6 @@
       <DependentUpon>Reports.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Room.cs" />
-    <Compile Include="Connections\HelperClasses\Serialization.cs" />
     <Compile Include="Settings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,7 +184,10 @@
     <None Include="Resources\android-archive.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Connections\Assets\settings.xml" />
+    <Content Include="Connections\Assets\settings - Copy.xml" />
+    <Content Include="Connections\Assets\settings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

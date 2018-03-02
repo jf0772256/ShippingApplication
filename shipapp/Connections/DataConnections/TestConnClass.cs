@@ -9,7 +9,7 @@ namespace shipapp.Connections.DataConnections
 {
     class TestConnClass:DatabaseConnection
     {
-        public TestConnClass() : base("stusql.ckwia8qkgyyj.us-east-1.rds.amazonaws.com", "otcshipping", "otcshippingadmin", "cis260SP18Ship")
+        public TestConnClass() : base(HelperClasses.SQLHelperClass.DatabaseType.MSSQL)
         {
             OpenConnection();
         }
