@@ -200,6 +200,18 @@ namespace shipapp.Connections
                             cmd.ExecuteNonQuery();
                         }
                         cmd.Transaction.Commit();
+                        //for  confirmation that the tables had been created...
+                        cmd.CommandText = "SELECT [name] FROM sys.tables;";
+                        string message = "Tables Created::\n";
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                message += reader["name"].ToString() + "/n";
+                            }
+                            System.Windows.Forms.MessageBox.Show(message, "creation results");
+                        }
+
                     }
                     catch (Exception e)
                     {
