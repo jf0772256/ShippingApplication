@@ -108,7 +108,7 @@ namespace shipapp.Connections.HelperClasses
             }
             else
             {
-                throw new SQLHelperException("You must have a database type selected to connet to any databases. Acceptible data connections are MYSQL (its varients) and MSSQL 2016 or better. Please set this vaue by the chainable method SetDatabseType() and then get the connection string. Thank you.");
+                throw new SQLHelperException("You must have a database type selected to connet to any databases. Acceptible data connections are MYSQL (its varients) and MSSQL 2016 or better. Please set this value by the chainable method SetDatabseType() and then get the connection string. Thank you.");
             }
             BuiltConnectionString = cs;
             return this;
@@ -119,21 +119,12 @@ namespace shipapp.Connections.HelperClasses
         }
         #endregion
     }
-
     class SQLHelperException:Exception
     {
-        private string message;
-        public string GetMessage()
+        public string Message { get; private set; }
+        public SQLHelperException(string message)
         {
-            return message;
-        }
-        public void SetMessage(string value)
-        {
-            message = value;
-        }
-        public SQLHelperException(string Message)
-        {
-            SetMessage(Message);
+            Message = message;
         }
     }
 }

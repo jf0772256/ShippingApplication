@@ -9,7 +9,7 @@ namespace shipapp.Connections.DataConnections
 {
     class TestConnClass:DatabaseConnection
     {
-        public TestConnClass() : base(HelperClasses.SQLHelperClass.DatabaseType.MySQL)
+        public TestConnClass() : base(HelperClasses.SQLHelperClass.DatabaseType.Unset)
         {
             Test_Connection();
             Create_Tables();
