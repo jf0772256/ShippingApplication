@@ -12,8 +12,11 @@ namespace shipapp.Connections
 {
     class DatabaseConnection
     {
-        // Class level variables
+        #region Class Vars
         private string ConnString { get; set; }
+        private SQLHelperClass.DatabaseType DBType { get; set; }
+        #endregion
+        #region Constructors and Tests
         /// <summary>
         /// Let us build the nessisary connection string for you.
         /// </summary>
@@ -21,18 +24,16 @@ namespace shipapp.Connections
         protected DatabaseConnection(SQLHelperClass.DatabaseType t)
         {
             //uses a builder to make the strings
-            //open settings.xml an read the data in from the file.
-            // use the xml data to do the connecting string building
-            //set connection string to private property :)
             SQLHelperClass helperClass = new SQLHelperClass();
             Serialize serialed = new Serialize();
             XDocument doc = new XDocument();
-            int dbs = 0; string h="", d="", u="", p="",prt="0";
+            DBType = t;
+            int dbs = 0; string h = "", d = "", u = "", p = "", prt = "0";
             doc = XDocument.Load(Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml");
             XElement rt = doc.Root;
             XElement defdbcon = (XElement)rt.FirstNode;
             dbs = Convert.ToInt32(((XElement)(defdbcon.FirstNode)).Value);
-            if (dbs==1)
+            if (dbs == 1)
             {
                 //deserialize values and continue;
                 var dbnodes = defdbcon.FirstNode.NodesAfterSelf();
@@ -99,28 +100,44 @@ namespace shipapp.Connections
                 //now I need to replace the values in doc to the new values...
                 doc.Save(Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml");
             }
-            ConnString=helperClass.SetDatabaseType(t).SetDBHost(h).SetDBName(d).SetUserName(u).SetPassword(p).SetPortNumber(Convert.ToInt32(prt)).BuildConnectionString().GetConnectionString();
+            ConnString = helperClass.SetDatabaseType(t).SetDBHost(h).SetDBName(d).SetUserName(u).SetPassword(p).SetPortNumber(Convert.ToInt32(prt)).BuildConnectionString().GetConnectionString();
         }
-        protected DatabaseConnection(string connection_string)
+        /// <summary>
+        /// Use this if you already have a db connection string written and worked out. Note though that we are using ODBC to connect so 
+        /// you should probably check that 1: you have the odbc driver for teh sql server. 2: your connection string will work with your driver. and 3: you include your driver in the connection string properly.
+        /// You can test your connection string using Test_Connection();
+        /// </summary>
+        /// <param name="connection_string">Pre built Connection string</param>
+        /// <param name="t">Enum value for defining the database type that is being used.</param>
+        protected DatabaseConnection(string connection_string, SQLHelperClass.DatabaseType t)
         {
             ConnString = connection_string;
+            DBType = t;
         }
-
-        public void OpenConnection()
+        /// <summary>
+        /// Test connection strings here... must have a connection string in our system as well as a db type.
+        /// Gives two replies, "Open" meaning connection success, or an error message with reasons and trace meaning connection failure.
+        /// </summary>
+        public void Test_Connection()
         {
             using (OdbcConnection c = new OdbcConnection())
             {
                 c.ConnectionString = ConnString;
-                c.Open();
-                System.Windows.Forms.MessageBox.Show(c.State.ToString());
-                c.Close();
+                try
+                {
+                    c.Open();
+                    System.Windows.Forms.MessageBox.Show(c.State.ToString());
+                    c.Close();
+                }
+                catch (Exception e)
+                {
+                    System.Windows.Forms.MessageBox.Show("Whoops there was an error...\n" + e.Message + "\n" + e.StackTrace + "\n" + ((e.InnerException is null) ? "" : e.InnerException.Message), "Error Connecting to Database");
+                }
             }
         }
-
-        public void CloseConnection()
-        {
-
-        }
-
+        #endregion
+        #region General Database Methods
+        //
+        #endregion
     }
 }

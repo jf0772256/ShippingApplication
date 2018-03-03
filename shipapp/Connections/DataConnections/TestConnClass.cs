@@ -11,7 +11,7 @@ namespace shipapp.Connections.DataConnections
     {
         public TestConnClass() : base(HelperClasses.SQLHelperClass.DatabaseType.MySQL)
         {
-            OpenConnection();
+            Test_Connection();
         }
     }
 }
