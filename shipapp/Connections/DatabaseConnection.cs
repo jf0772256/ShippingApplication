@@ -199,23 +199,145 @@ namespace shipapp.Connections
                             cmd.ExecuteNonQuery();
                         }
                         cmd.Transaction.Commit();
-                        //for  confirmation that the tables had been created...
-                        cmd.CommandText = "SELECT [name] FROM sys.tables;";
-                        string message = "Tables Created::\n";
-                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        //for  confirmation that the tables had been created...MSSQL ONLY
+                        if (DBType == SQLHelperClass.DatabaseType.MSSQL)
                         {
-                            while (reader.Read())
+                            cmd.CommandText = "SELECT [name] FROM sys.tables;";
+                            string message = "Tables exist or were Created::\n";
+                            using (OdbcDataReader reader = cmd.ExecuteReader())
                             {
-                                message += reader[0].ToString() + "\n";
+                                while (reader.Read())
+                                {
+                                    message += reader[0].ToString() + "\n";
+                                }
+                                System.Windows.Forms.MessageBox.Show(message, "creation results");
                             }
-                            System.Windows.Forms.MessageBox.Show(message, "creation results");
                         }
-
                     }
                     catch (Exception e)
                     {
                         cmd.Transaction.Rollback();
                         DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Drop existing tables ... Use with extreame caution!
+        /// </summary>
+        /// <param name="all"> drop all tables in list, if true send blank list collection, otherwise send a list of the specific tables you want to drop</param>
+        /// <param name="tables_to_drop">if 'all' is false have a list of strings representing table names and we will go from ther, otherwise send a blank list, since 'all' will do all tables.</param>
+        protected void Drop_Tables(bool all, List<string> tables_to_drop)
+        {
+            if (!all && (tables_to_drop is null || tables_to_drop.Count == 0))
+            {
+                return;
+            }
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+                    {
+                        cmd.CommandText = "SELECT [name] FROM sys.tables;";
+                        string tbl_lst = "";
+                        if (all)
+                        {
+                            using (OdbcDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    tbl_lst += ", " + reader[0].ToString();
+                                }
+                                tbl_lst = tbl_lst.Substring(1);
+                            }
+                            cmd.CommandText = "DROP TABLE IF EXISTS" + tbl_lst + ";";
+                            cmd.Transaction = c.BeginTransaction();
+                            try
+                            {
+                                cmd.ExecuteNonQuery();
+                                cmd.Transaction.Commit();
+                            }
+                            catch (Exception e)
+                            {
+                                cmd.Transaction.Rollback();
+                                DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                            }
+                        }
+                        else
+                        {
+                            foreach (string tbl in tables_to_drop)
+                            {
+                                tbl_lst += ", " + tbl;
+                            }
+                            tbl_lst = tbl_lst.Substring(1);
+                            cmd.CommandText = "DROP TABLE IF EXISTS" + tbl_lst + ";";
+                            cmd.Transaction = c.BeginTransaction();
+                            try
+                            {
+                                cmd.ExecuteNonQuery();
+                                cmd.Transaction.Commit();
+                            }
+                            catch (Exception e)
+                            {
+                                cmd.Transaction.Rollback();
+                                DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                            }
+                        }
+                    }
+                    else if (DBType == SQLHelperClass.DatabaseType.MySQL)
+                    {
+                        cmd.CommandText = "SHOW TABLES;";
+                        string tbl_lst = "";
+                        if (all)
+                        {
+                            using (OdbcDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    tbl_lst += ", " + reader[0].ToString();
+                                }
+                                tbl_lst = tbl_lst.Substring(1);
+                            }
+                            cmd.CommandText = "DROP TABLE IF EXISTS" + tbl_lst + ";";
+                            cmd.Transaction = c.BeginTransaction();
+                            try
+                            {
+                                cmd.ExecuteNonQuery();
+                                cmd.Transaction.Commit();
+                            }
+                            catch (Exception e)
+                            {
+                                cmd.Transaction.Rollback();
+                                DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                            }
+                        }
+                        else
+                        {
+                            foreach (string tbl in tables_to_drop)
+                            {
+                                tbl_lst += ", " + tbl;
+                            }
+                            tbl_lst = tbl_lst.Substring(1);
+                            cmd.CommandText = "DROP TABLE IF EXISTS" + tbl_lst + ";";
+                            cmd.Transaction = c.BeginTransaction();
+                            try
+                            {
+                                cmd.ExecuteNonQuery();
+                                cmd.Transaction.Commit();
+                            }
+                            catch (Exception e)
+                            {
+                                cmd.Transaction.Rollback();
+                                DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        DatabaseConnectionException exc = new DatabaseConnectionException("Not Authorized.");
                     }
                 }
             }
