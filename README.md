@@ -7,3 +7,15 @@ Each computer running the software if connecting to MySQL will require that the 
 
 ## Ensure that your ODBC driver for MSSQL is installed on your computer:
 It may be the case that you have not had the proper driver for MSSQL, this is unlikly, but in the event that it is the case please use the SQL Server (32/64bit) driver to allow connections to MSSQL based servers.
+
+## Checking for drivers:
+To check if you have the correct ODBC drivers installed on your system. 
+* Open File Exlorer.
+* Navigate to Control Panel (the start up is quick access, click the cheveron to select control panel)
+* Either search for 'Administrative Tools' 
+... or... 
+* Select from the drop down in the upper right hand corner of the content window (defaults: Categories), select either large or small icons, select Administrative Tools.
+* #### *****We will want you to check both 32bit and 64 bit ODBC Drivers listsings*****
+* Double click on either the 32bit or 64bit ODBC Data Sources.
+* Click on the 'Drivers' tab.
+* 32bit will have more drivers than 64bit and may take a second to load all of them, scroll thtrough the list for the drivers wanted (bottom for MSSQL 'Sql Server' , about mid way or top for MySQL(if installed)).
