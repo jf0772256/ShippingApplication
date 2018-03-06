@@ -9,7 +9,7 @@ namespace shipapp.Connections.DataConnections
 {
     class TestConnClass:DatabaseConnection
     {
-        public TestConnClass() : base(HelperClasses.SQLHelperClass.DatabaseType.MySQL)
+        public TestConnClass() : base(HelperClasses.SQLHelperClass.DatabaseType.MSSQL)
         {
             Test_Connection();
             //Drop_Tables(true, null);

@@ -2,17 +2,17 @@
 <settings>
   <default_connection>
     <file_is_serialized>0</file_is_serialized>
-    <!--<host>stusql.ckwia8qkgyyj.us-east-1.rds.amazonaws.com</host>
+    <host>stusql.ckwia8qkgyyj.us-east-1.rds.amazonaws.com</host>
     <database_name>otcshipping</database_name>
     <user_name>otcshippingadmin</user_name>
     <password>cis260SP18Ship</password>
-    <port>0</port>-->
-    <file_is_serialized>0</file_is_serialized>
+    <port>0</port>
+    <!--<file_is_serialized>0</file_is_serialized>
     <host>192.168.1.9</host>
     <database_name>CsharpTest</database_name>
     <user_name>CsharpTest</user_name>
     <password>shelby67</password>
-    <port>0</port>
+    <port>0</port>-->
   </default_connection>
   <default_admin>
     <file_is_serialized>0</file_is_serialized>
