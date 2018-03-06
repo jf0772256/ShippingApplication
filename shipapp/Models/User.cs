@@ -12,8 +12,9 @@ namespace shipapp.Models
         private int id;
         private string firstName;
         private string lastName;
-        private char level;
+        private long level;
         private string passWord;
+        private string username;
 
         /// <summary>
         /// Default constructor.
@@ -31,7 +32,7 @@ namespace shipapp.Models
         /// <param name="lastName"></param>
         /// <param name="level"></param>
         /// <param name="password"></param>
-        public User(int id, string firstName, string lastName, char level, string password)
+        public User(int id, string firstName, string lastName, long level, string password)
         {
             this.id = id;
             this.firstName = firstName;
@@ -44,8 +45,9 @@ namespace shipapp.Models
         public int Id { get => id; set => id = value; }
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
-        public char Level { get => level; set => level = value; }
+        public long Level { get => level; set => level = value; }
         public string PassWord { get => passWord; set => passWord = value; }
+        public string Username { get => username; set => username = value; }
         #endregion
     }
 }

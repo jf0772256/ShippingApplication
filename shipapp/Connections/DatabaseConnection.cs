@@ -18,6 +18,7 @@ namespace shipapp.Connections
         #region Class Vars
         private string ConnString { get; set; }
         private SQLHelperClass.DatabaseType DBType { get; set; }
+        private string EncodeKey { get; set; }
         #endregion
         #region Constructors and Tests
         /// <summary>
@@ -103,6 +104,7 @@ namespace shipapp.Connections
                 doc.Save(Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml");
             }
             ConnString = helperClass.SetDatabaseType(t).SetDBHost(h).SetDBName(d).SetUserName(u).SetPassword(p).SetPortNumber(Convert.ToInt32(prt)).BuildConnectionString().GetConnectionString();
+            EncodeKey = "kjashdfoy3qoeifuhzskbdciuayteofiuyasljkdhflkjawhlkdfyas872fjgashdjfbqmwhlakshdltyaowtydrflkgsadfkjgawehfrklawydof973soztufuhqg3lhjwlakhgsadifuytz817c6PIqwhKW2HKJQ2HGRIA6TSD80s87dtylkIGHQLWEKHALWIOFY7O9ASDFYIuswghdasghglkhdldjqjlksjzlJshjzsdfhowiuerfjklsdluIFopaeuf7poauisydfijhasdklfjaliewrpaoydf";
         }
         /// <summary>
         /// Use this if you already have a db connection string written and worked out. Note though that we are using ODBC to connect so 
@@ -115,6 +117,7 @@ namespace shipapp.Connections
         {
             ConnString = connection_string;
             DBType = t;
+            EncodeKey = "kjashdfoy3qoeifuhzskbdciuayteofiuyasljkdhflkjawhlkdfyas872fjgashdjfbqmwhlakshdltyaowtydrflkgsadfkjgawehfrklawydof973soztufuhqg3lhjwlakhgsadifuytz817c6PIqwhKW2HKJQ2HGRIA6TSD80s87dtylkIGHQLWEKHALWIOFY7O9ASDFYIuswghdasghglkhdldjqjlksjzlJshjzsdfhowiuerfjklsdluIFopaeuf7poauisydfijhasdklfjaliewrpaoydf";
         }
         /// <summary>
         /// Test connection strings here... must have a connection string in our system as well as a db type.
@@ -148,7 +151,7 @@ namespace shipapp.Connections
             if (DBType == SQLHelperClass.DatabaseType.MySQL)
             {
                 cmdTxt = new List<string>(){
-                    "CREATE TABLE IF NOT EXISTS users(user_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_fname VARCHAR(50) NOT NULL, user_lname VARCHAR(50) NOT NULL, user_name VARCHAR(50) NOT NULL UNIQUE, user_password VARCHAR(50) NOT NULL);",
+                    "CREATE TABLE IF NOT EXISTS users(user_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_fname VARCHAR(50) NOT NULL, user_lname VARCHAR(50) NOT NULL, user_name VARCHAR(50) NOT NULL UNIQUE, user_password VARCHAR(50) NOT NULL, user_role_id BIGINT DEFAULT 0);",
                     "CREATE TABLE IF NOT EXISTS roles(role_id BigINT NOT NULL PRIMARY KEY AUTO_INCREMENT, role_title VARCHAR(50) NOT NULL UNIQUE);",
                     "CREATE TABLE IF NOT EXISTS employees(empl_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, empl_fname VARCHAR(50) NOT NULL, empl_lname VARCHAR(50), empl_phone_id INT DEFAULT NULL, empl_addr_id INT DEFAULT NULL, empl_email_id INT DEFAULT NULL, empl_notes_id INT DEFAULT NULL);",
                     "CREATE TABLE IF NOT EXISTS vendors(vend_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,vendor_name VARCHAR(50) NOT NULL UNIQUE, vendor_addr_id INT DEFAULT NULL,vendor_poc_name VARCHAR(50) DEFAULT NULL, vendor_phone_id INT DEFAULT NULL);",
@@ -166,7 +169,7 @@ namespace shipapp.Connections
                 //"IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = roles)CREATE TABLE ",
                 cmdTxt = new List<string>(){
                     //attempt to create the first table as a test;;
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'users')CREATE TABLE users(user_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, user_fname VARCHAR(50) NOT NULL, user_lname VARCHAR(50) NOT NULL, user_name VARCHAR(50) NOT NULL UNIQUE, user_password VARCHAR(50) NOT NULL);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'users')CREATE TABLE users(user_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, user_fname VARCHAR(5000) NOT NULL, user_lname VARCHAR(5000) NOT NULL, user_name VARCHAR(5000) NOT NULL UNIQUE, user_password VARCHAR(5000) NOT NULL, user_role_id BIGINT DEFAULT 0);",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'roles')CREATE TABLE roles(role_id BigINT NOT NULL IDENTITY(1,1) PRIMARY KEY, role_title VARCHAR(50) NOT NULL, CONSTRAINT UC_Roles UNIQUE(role_title));",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'employees')CREATE TABLE employees(empl_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, empl_fname VARCHAR(50) NOT NULL, empl_lname VARCHAR(50), empl_phone_id INT DEFAULT NULL, empl_addr_id INT DEFAULT NULL, empl_email_id INT DEFAULT NULL, empl_notes_id INT DEFAULT NULL);",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'vendors')CREATE TABLE vendors(vend_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, vendor_name VARCHAR(50) NOT NULL UNIQUE, vendor_addr_id INT DEFAULT NULL, vendor_poc_name VARCHAR(50) DEFAULT NULL, vendor_phone_id INT DEFAULT NULL);",
@@ -353,12 +356,105 @@ namespace shipapp.Connections
             }
             else if (DBType == SQLHelperClass.DatabaseType.MySQL)
             {
-
+                Serialize s = new Serialize();
+                User u = newU;
+                u.FirstName = s.SerializeValue(u.FirstName);
+                u.LastName = s.SerializeValue(u.LastName);
+                u.Username = s.SerializeValue(u.Username);
+                using (OdbcConnection c = new OdbcConnection())
+                {
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    OdbcTransaction tr = c.BeginTransaction();
+                    using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                    {
+                        cmd.CommandText = "INSERT INTO " + Tables.users.ToString() + " (user_fname,user_lname,user_name,user_password,user_role_id)VALUES(?,?,?,AES_ENCRYPT(?,'"+EncodeKey+"'),?);";
+                        OdbcParameter p1 = new OdbcParameter("user_fname", u.FirstName);
+                        OdbcParameter p2 = new OdbcParameter("user_lname", u.LastName);
+                        OdbcParameter p3 = new OdbcParameter("user_name", u.Username);
+                        OdbcParameter p4 = new OdbcParameter("user_password",u.PassWord);
+                        OdbcParameter p5 = new OdbcParameter("user_role_id", u.Level);
+                        cmd.Parameters.Add(p1);
+                        cmd.Parameters.Add(p2);
+                        cmd.Parameters.Add(p3);
+                        cmd.Parameters.Add(p4);
+                        cmd.Parameters.Add(p5);
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
+                            cmd.Transaction.Commit();
+                        }
+                        catch (Exception e)
+                        {
+                            cmd.Transaction.Rollback();
+                            DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                        }
+                    }
+                }
             }
             else
             {
-                DatabaseConnectionException exc = new DatabaseConnectionException("You Must slect a valid database type.", new ArgumentException(DBType.ToString() + " is invalid."));
+                DatabaseConnectionException exc = new DatabaseConnectionException("You Must select a valid database type.", new ArgumentException(DBType.ToString() + " is invalid."));
             }
+        }
+        #endregion
+        #region Get Data From Database
+        //
+        #endregion
+        #region Enums
+        /// <summary>
+        /// Enum value for the table that you want to access, makes it simpler and more accurate.
+        /// </summary>
+        public enum Tables
+        {
+            /// <summary>
+            /// default
+            /// </summary>
+            None =0,
+            /// <summary>
+            /// Users Table
+            /// </summary>
+            users=1,
+            /// <summary>
+            /// Roles Table
+            /// </summary>
+            roles=2,
+            /// <summary>
+            /// Employees Table e.g Faculty
+            /// </summary>
+            employees=3,
+            /// <summary>
+            /// Vendors Table
+            /// </summary>
+            vendors=4,
+            /// <summary>
+            /// Carriers Table
+            /// </summary>
+            carriers=5,
+            /// <summary>
+            /// Purchase Orders Table
+            /// </summary>
+            purchase_orders=6,
+            /// <summary>
+            /// Packages Table
+            /// </summary>
+            packages=7,
+            /// <summary>
+            /// Email Address Table
+            /// </summary>
+            email_addresses=8,
+            /// <summary>
+            /// Phone Number Table
+            /// </summary>
+            phone_numbers=9,
+            /// <summary>
+            /// Physical Address Table
+            /// </summary>
+            physical_addr=10,
+            /// <summary>
+            /// Notes Table
+            /// </summary>
+            notes=11
         }
         #endregion
     }

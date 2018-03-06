@@ -12,8 +12,10 @@ namespace shipapp.Connections.DataConnections
         public TestConnClass() : base(HelperClasses.SQLHelperClass.DatabaseType.MySQL)
         {
             Test_Connection();
+            //Drop_Tables(true, null);
             Create_Tables();
-            Drop_Tables(true, null);
+            Models.User JesseF = new Models.User() { FirstName = "Jesse", LastName = "Fender", Username = "test_User1", PassWord = "tadaaa!", Level = 10 };
+            Write_User_To_Database(JesseF);
         }
     }
 }
