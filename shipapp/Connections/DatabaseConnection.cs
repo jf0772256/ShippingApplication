@@ -9,6 +9,7 @@ using System.Data.Odbc;
 using System.Xml.Linq;
 using System.IO;
 using shipapp.Connections.HelperClasses;
+using shipapp.Models;
 
 namespace shipapp.Connections
 {
@@ -343,20 +344,53 @@ namespace shipapp.Connections
             }
         }
         #endregion
+        #region Write Data To Database
+        protected void Write_User_To_Database(User newU)
+        {
+            if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+            {
+
+            }
+            else if (DBType == SQLHelperClass.DatabaseType.MySQL)
+            {
+
+            }
+            else
+            {
+                DatabaseConnectionException exc = new DatabaseConnectionException("You Must slect a valid database type.", new ArgumentException(DBType.ToString() + " is invalid."));
+            }
+        }
+        #endregion
     }
+
+    /// <summary>
+    /// Database Ecxeption Class
+    /// </summary>
     internal class DatabaseConnectionException
     {
         private string Message { get; set; }
         private Exception Inner { get; set; }
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
         public DatabaseConnectionException()
         {
             ThrowException();
         }
+        /// <summary>
+        /// exception with message
+        /// </summary>
+        /// <param name="message">Exception message for outer exception</param>
         public DatabaseConnectionException(string message)
         {
             Message = message;
             ThrowException();
         }
+        /// <summary>
+        /// Exception with outer exception message and inner exception class
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="insideException"></param>
         public DatabaseConnectionException(string message,Exception insideException)
         {
             Message = message;
