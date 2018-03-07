@@ -439,7 +439,7 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("",c,tr))
                 {
                     cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
-                    cmd.CommandText += "SELECT user_id, user_fname,user_lname,user_name,DecryptByKey(Key.GUID('secure_data'),user_password),user_role_id FROM users WHERE user_id = ?;";
+                    cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id FROM users WHERE users.user_id = ?;";
                     cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
                     cmd.Parameters.Add(new OdbcParameter("userId", id));
                     using (OdbcDataReader reader = cmd.ExecuteReader())
