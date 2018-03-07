@@ -12,10 +12,12 @@ namespace shipapp.Connections.DataConnections
         public TestConnClass() : base(HelperClasses.SQLHelperClass.DatabaseType.MSSQL)
         {
             Test_Connection();
-            //Drop_Tables(true, null);
+            Drop_Tables(true, null);
             Create_Tables();
             Models.User JesseF = new Models.User() { FirstName = "Jesse", LastName = "Fender", Username = "test_User1", PassWord = "tadaaa!", Level = 10 };
             Write_User_To_Database(JesseF);
+            shipapp.Models.User me = GetUser(1);
+            System.Windows.Forms.MessageBox.Show(me.FirstName + " " + me.LastName + ": " + me.Username + ", " + me.PassWord, "did i work?");
         }
     }
 }

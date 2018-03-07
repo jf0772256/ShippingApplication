@@ -9,7 +9,7 @@ namespace shipapp.Models
     class User
     {
         // Class level variables
-        private int id;
+        private long id;
         private string firstName;
         private string lastName;
         private long level;
@@ -32,7 +32,7 @@ namespace shipapp.Models
         /// <param name="lastName"></param>
         /// <param name="level"></param>
         /// <param name="password"></param>
-        public User(int id, string firstName, string lastName, long level, string password)
+        public User(long id, string firstName, string lastName, long level, string password)
         {
             this.id = id;
             this.firstName = firstName;
@@ -42,7 +42,7 @@ namespace shipapp.Models
         }
 
         #region User Properties
-        public int Id { get => id; set => id = value; }
+        public long Id { get => id; set => id = value; }
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
         public long Level { get => level; set => level = value; }

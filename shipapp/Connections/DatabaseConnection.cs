@@ -424,7 +424,41 @@ namespace shipapp.Connections
         }
         #endregion
         #region Get Data From Database
-        //
+        /// <summary>
+        /// Test Methos get user id 1
+        /// </summary>
+        /// <param name="id"> user id</param>
+        /// <returns>user class object</returns>
+        protected User GetUser(long id)
+        {
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("",c,tr))
+                {
+                    cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
+                    cmd.CommandText += "SELECT user_id, user_fname,user_lname,user_name,DecryptByKey(Key.GUID('secure_data'),user_password),user_role_id FROM users WHERE user_id = ?;";
+                    cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
+                    cmd.Parameters.Add(new OdbcParameter("userId", id));
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        User u = new User();
+                        while (reader.Read())
+                        {
+                            u.Id = Convert.ToInt64(reader[0].ToString());
+                            u.FirstName = reader[1].ToString();
+                            u.LastName = reader[2].ToString();
+                            u.Username = reader[3].ToString();
+                            u.PassWord = reader[4].ToString();
+                            u.Level = Convert.ToInt64(reader[5].ToString());
+                        }
+                        return u;
+                    }
+                }
+            }
+        }
         #endregion
         #region Enums
         /// <summary>
