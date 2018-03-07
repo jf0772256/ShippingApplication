@@ -17,6 +17,7 @@ namespace shipapp
         {
             InitializeComponent();
             TestConnClass tc = new TestConnClass();
+            tc.Testing();
         }
     }
 }
