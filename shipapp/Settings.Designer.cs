@@ -60,6 +60,7 @@
             this.btnSubmit.TabIndex = 3;
             this.btnSubmit.TabStop = false;
             this.toolTip1.SetToolTip(this.btnSubmit, "Update Connection String");
+            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
             // pictureBox1
             // 

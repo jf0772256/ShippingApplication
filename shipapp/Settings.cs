@@ -49,5 +49,10 @@ namespace shipapp
                 DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.Unset;
             }
         }
+
+        private void btnSubmit_Click(object sender, EventArgs e)
+        {
+            Connections.DataConnections.TestConnClass tc = new Connections.DataConnections.TestConnClass(DatabaseType, dbhost.Text, dbname.Text, dbuser.Text, dbpass.Text, dbport.Text);
+        }
     }
 }

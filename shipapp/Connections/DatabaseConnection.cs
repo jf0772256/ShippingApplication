@@ -19,6 +19,8 @@ namespace shipapp.Connections
         private string ConnString { get; set; }
         private SQLHelperClass.DatabaseType DBType { get; set; }
         private string EncodeKey { get; set; }
+        private Serialize Serialization { get; set; }
+        private SQLHelperClass SQLHelper { get; set; }
         #endregion
         #region Constructors and Tests
         /// <summary>
@@ -28,11 +30,9 @@ namespace shipapp.Connections
         protected DatabaseConnection(SQLHelperClass.DatabaseType t)
         {
             //uses a builder to make the strings
-            SQLHelperClass helperClass = new SQLHelperClass();
-            Serialize serialed = new Serialize();
+            Serialization = new Serialize();
             XDocument doc = new XDocument();
-            DBType = t;
-            int dbs = 0; string h = "", d = "", u = "", p = "", prt = "0";
+            DBType = t; int dbs = 0;
             doc = XDocument.Load(Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml");
             XElement rt = doc.Root;
             XElement defdbcon = (XElement)rt.FirstNode;
@@ -43,22 +43,14 @@ namespace shipapp.Connections
                 var dbelements = from ele in doc.Descendants("default_connection").Elements() select ele;
                 foreach (XElement item in dbelements)
                 {
-                    switch (item.Name.ToString())
+                    XAttribute a = item.FirstAttribute;
+                    switch (a.Value)
                     {
-                        case "host":
-                            h = serialed.DeSerializeValue(item.Value.ToString());
+                        case "MSSQL":
+                            ConnString = Serialization.DeSerializeValue(a.Value);
                             break;
-                        case "database_name":
-                            d = serialed.DeSerializeValue(item.Value.ToString());
-                            break;
-                        case "user_name":
-                            u = serialed.DeSerializeValue(item.Value.ToString());
-                            break;
-                        case "password":
-                            p = serialed.DeSerializeValue(item.Value.ToString());
-                            break;
-                        case "port":
-                            prt = serialed.DeSerializeValue(item.Value.ToString());
+                        case "MySQL":
+                            ConnString = Serialization.DeSerializeValue(a.Value);
                             break;
                         default:
                             break;
@@ -71,39 +63,24 @@ namespace shipapp.Connections
                 var dbelements = from ele in doc.Descendants("default_connection").Elements() select ele;
                 foreach (XElement item in dbelements)
                 {
-                    switch (item.Name.ToString())
+                    XAttribute a = item.FirstAttribute;
+                    switch (a.Value)
                     {
-                        case "host":
-                            h = item.Value.ToString();
-                            item.SetValue(serialed.SerializeValue(h));
+                        case "MSSQL":
+                            ConnString = a.Value;
+                            item.SetValue(Serialization.SerializeValue(ConnString));
                             break;
-                        case "database_name":
-                            d = item.Value.ToString();
-                            item.SetValue(serialed.SerializeValue(d));
+                        case "MySQL":
+                            ConnString = a.Value;
+                            item.SetValue(Serialization.SerializeValue(ConnString));
                             break;
-                        case "user_name":
-                            u = item.Value.ToString();
-                            item.SetValue(serialed.SerializeValue(u));
-                            break;
-                        case "password":
-                            p = item.Value.ToString();
-                            item.SetValue(serialed.SerializeValue(p));
-                            break;
-                        case "port":
-                            prt = item.Value.ToString();
-                            item.SetValue(serialed.SerializeValue(prt));
-                            break;
-                        case "file_is_serialized":
-                            item.SetValue("1");
-                            break;
-                        default:
+                       default:
                             break;
                     }
                 }
                 //now I need to replace the values in doc to the new values...
                 doc.Save(Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml");
             }
-            ConnString = helperClass.SetDatabaseType(t).SetDBHost(h).SetDBName(d).SetUserName(u).SetPassword(p).SetPortNumber(Convert.ToInt32(prt)).BuildConnectionString().GetConnectionString();
             EncodeKey = "kjashdfoy3qoeifuhzskbdciuayteofiuyasljkdhflkjawhlkdfyas872fjgashdjfbqmwhlakshdltyaowtydrflkgsadfkjgawehfrklawyd";
         }
         /// <summary>
@@ -115,14 +92,60 @@ namespace shipapp.Connections
         /// <param name="t">Enum value for defining the database type that is being used.</param>
         protected DatabaseConnection(string connection_string, SQLHelperClass.DatabaseType t)
         {
+            Serialization = new Serialize();
             ConnString = connection_string;
             DBType = t;
             EncodeKey = "kjashdfoy3qoeifuhzskbdciuayteofiuyasljkdhflkjawhlkdfyas872fjgashdjfbqmwhlakshdltyaowtydrflkgsadfkjgawehfrklawyd";
+            string EncodedConString = Serialization.SerializeValue(ConnString);
+            XDocument Xdoc = new XDocument();
+            string filePath = Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml";
+            Xdoc = XDocument.Load(filePath);
+            var dbelements = from ele in Xdoc.Descendants("default_connection")
+                             where ele.Attribute("type").Value == DBType.ToString()
+                             select ele;
+            foreach (XElement item in dbelements)
+            {
+                if (item.Attribute("type").Value == DBType.ToString())
+                {
+                    item.SetValue(EncodedConString);
+                }
+            }
+            Xdoc.Descendants("default_connection").First().SetValue("1");
+            Xdoc.Save(filePath);
         }
-        protected DatabaseConnection(string dbhost, string dbname,string dbuser, string dbpw, string dbport, SQLHelperClass.DatabaseType type)
+        protected DatabaseConnection(string dbhost, string dbname,string dbuser, string dbpw, string dbport, SQLHelperClass.DatabaseType type,bool SaveConnString)
         {
-            SQLHelperClass helperClass = new SQLHelperClass();
-            ConnString = helperClass.SetDatabaseType(type).SetDBHost(dbhost).SetDBName(dbname).SetUserName(dbuser).SetPassword(dbpw).SetPortNumber(Convert.ToInt32(dbport)).BuildConnectionString().GetConnectionString();
+            DBType = type;
+            SQLHelper = new SQLHelperClass();
+            Serialization = new Serialize();
+            ConnString = SQLHelper.SetDatabaseType(type).SetDBHost(dbhost).SetDBName(dbname).SetUserName(dbuser).SetPassword(dbpw).SetPortNumber(Convert.ToInt32(dbport)).BuildConnectionString().GetConnectionString();
+            string EncodedConString = Serialization.SerializeValue(ConnString);
+            EncodeKey = "kjashdfoy3qoeifuhzskbdciuayteofiuyasljkdhflkjawhlkdfyas872fjgashdjfbqmwhlakshdltyaowtydrflkgsadfkjgawehfrklawyd";
+            XDocument Xdoc = new XDocument();
+            string filePath = Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml";
+            Xdoc = XDocument.Load(filePath);
+            var dbelements = from ele in Xdoc.Descendants("default_connection").Elements() select ele;
+            foreach (XElement item in dbelements)
+            {
+                if (item.HasAttributes)
+                {
+                    if (item.FirstAttribute.Value == DBType.ToString())
+                    {
+                        item.SetValue(EncodedConString);
+                    }
+                    else
+                    {
+                        item.SetValue("");
+                    }
+                }
+            }
+            Xdoc.Descendants("default_connection").Elements().First().SetValue("1");
+            Xdoc.Save(filePath);
+        }
+        protected DatabaseConnection(string dbhost, string dbname, string dbuser, string dbpw, string dbport, SQLHelperClass.DatabaseType type)
+        {
+            SQLHelper = new SQLHelperClass();
+            ConnString = SQLHelper.SetDatabaseType(type).SetDBHost(dbhost).SetDBName(dbname).SetUserName(dbuser).SetPassword(dbpw).SetPortNumber(Convert.ToInt32(dbport)).BuildConnectionString().GetConnectionString();
             EncodeKey = "kjashdfoy3qoeifuhzskbdciuayteofiuyasljkdhflkjawhlkdfyas872fjgashdjfbqmwhlakshdltyaowtydrflkgsadfkjgawehfrklawyd";
         }
         /// <summary>
@@ -531,7 +554,6 @@ namespace shipapp.Connections
         }
         #endregion
     }
-
     /// <summary>
     /// Database Ecxeption Class
     /// </summary>

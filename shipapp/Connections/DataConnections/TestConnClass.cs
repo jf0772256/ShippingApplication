@@ -49,5 +49,18 @@ namespace shipapp.Connections.DataConnections
         {
             Test_Connection();
         }
+        /// <summary>
+        /// Same for the most part to the test constructor except that this constructor will actually save the new connection string, Used ONLY with submit on the settings form
+        /// </summary>
+        /// <param name="dbtype">The type of the database engine.</param>
+        /// <param name="dbhost">Where the database is located in the webverse</param>
+        /// <param name="dbname">What database will we be accessing</param>
+        /// <param name="dbuser">Authorized database user</param>
+        /// <param name="dbpass">Authorized database users password</param>
+        /// <param name="dbport">Port number (if used, if not leave 0)</param>
+        public TestConnClass(HelperClasses.SQLHelperClass.DatabaseType dbtype, string dbhost, string dbname, string dbuser, string dbpass, string dbport) : base(dbhost, dbname, dbuser, dbpass, dbport, dbtype, true)
+        {
+
+        }
     }
 }
