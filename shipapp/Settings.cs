@@ -30,8 +30,9 @@ namespace shipapp
 
         private void BtnTest_Click(object sender, EventArgs e)
         {
-            Connections.DataConnections.TestConnClass tc = new Connections.DataConnections.TestConnClass(dbhost.Text,dbname.Text,dbuser.Text,dbpass.Text,dbport.Text,DatabaseType);
-            tc.TestConnectionToDatabase();
+            Connections.DataConnections.DataConnectionClass.ConnectionString = Connections.DataConnections.DataConnectionClass.SQLHelper.SetDatabaseType(DatabaseType).SetDBHost(dbhost.Text).SetDBName(dbname.Text).SetUserName(dbuser.Text).SetPassword(dbpass.Text).SetPortNumber(Convert.ToInt32(dbport.Text)).BuildConnectionString().GetConnectionString();
+            Connections.DataConnections.DataConnectionClass.DBType = DatabaseType;
+            Connections.DataConnections.DataConnectionClass.TestConn.TestConnectionToDatabase();
         }
 
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
@@ -52,7 +53,7 @@ namespace shipapp
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            Connections.DataConnections.TestConnClass tc = new Connections.DataConnections.TestConnClass(DatabaseType, dbhost.Text, dbname.Text, dbuser.Text, dbpass.Text, dbport.Text);
+            Connections.DataConnections.DataConnectionClass.SaveDatabaseData(new string[] { Connections.DataConnections.DataConnectionClass.DBType.ToString(), Connections.DataConnections.DataConnectionClass.ConnectionString, Connections.DataConnections.DataConnectionClass.EncodeString });
         }
     }
 }

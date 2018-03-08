@@ -23,6 +23,7 @@ namespace shipapp
         public LogIn()
         {
             InitializeComponent();
+            Connections.DataConnections.DataConnectionClass.GetDatabaseData();
         }
 
         /// <summary>

@@ -23,11 +23,18 @@ namespace shipapp.Connections.HelperClasses
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                BinaryFormatter bf = new BinaryFormatter();
-                bf.Serialize(ms, value);
-                string retVal = Convert.ToBase64String(ms.ToArray());
-                ms.Close();
-                return retVal;
+                try
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    bf.Serialize(ms, value);
+                    string retVal = Convert.ToBase64String(ms.ToArray());
+                    ms.Close();
+                    return retVal;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             }
         }
         /// <summary>
@@ -39,10 +46,17 @@ namespace shipapp.Connections.HelperClasses
         {
             using (MemoryStream ms = new MemoryStream(Convert.FromBase64String(value)))
             {
-                BinaryFormatter bf = new BinaryFormatter();
-                object retVal = bf.Deserialize(ms);
-                ms.Close();
-                return (string)retVal;
+                try
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    object retVal = bf.Deserialize(ms);
+                    ms.Close();
+                    return (string)retVal;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             }
         }
     }

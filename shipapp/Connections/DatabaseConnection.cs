@@ -24,139 +24,23 @@ namespace shipapp.Connections
         #endregion
         #region Constructors and Tests
         /// <summary>
-        /// Let us build the nessisary connection string for you.
+        /// Uses globalclass connection string or string builder for tasks
         /// </summary>
-        /// <param name="databaseType">Please tell us what database server type we will be connecting to.</param>
-        protected DatabaseConnection(SQLHelperClass.DatabaseType t)
+        protected DatabaseConnection()
         {
-            //uses a builder to make the strings
-            Serialization = new Serialize();
-            XDocument doc = new XDocument();
-            DBType = t; int dbs = 0;
-            doc = XDocument.Load(Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml");
-            XElement rt = doc.Root;
-            XElement defdbcon = (XElement)rt.FirstNode;
-            dbs = Convert.ToInt32(((XElement)(defdbcon.FirstNode)).Value);
-            if (dbs == 1)
-            {
-                //deserialize values and continue;
-                var dbelements = from ele in doc.Descendants("default_connection").Elements() select ele;
-                foreach (XElement item in dbelements)
-                {
-                    XAttribute a = item.FirstAttribute;
-                    switch (a.Value)
-                    {
-                        case "MSSQL":
-                            ConnString = Serialization.DeSerializeValue(a.Value);
-                            break;
-                        case "MySQL":
-                            ConnString = Serialization.DeSerializeValue(a.Value);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-            else
-            {
-                //not been serialized
-                var dbelements = from ele in doc.Descendants("default_connection").Elements() select ele;
-                foreach (XElement item in dbelements)
-                {
-                    XAttribute a = item.FirstAttribute;
-                    switch (a.Value)
-                    {
-                        case "MSSQL":
-                            ConnString = a.Value;
-                            item.SetValue(Serialization.SerializeValue(ConnString));
-                            break;
-                        case "MySQL":
-                            ConnString = a.Value;
-                            item.SetValue(Serialization.SerializeValue(ConnString));
-                            break;
-                       default:
-                            break;
-                    }
-                }
-                //now I need to replace the values in doc to the new values...
-                doc.Save(Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml");
-            }
-            EncodeKey = "kjashdfoy3qoeifuhzskbdciuayteofiuyasljkdhflkjawhlkdfyas872fjgashdjfbqmwhlakshdltyaowtydrflkgsadfkjgawehfrklawyd";
-        }
-        /// <summary>
-        /// Use this if you already have a db connection string written and worked out. Note though that we are using ODBC to connect so 
-        /// you should probably check that 1: you have the odbc driver for teh sql server. 2: your connection string will work with your driver. and 3: you include your driver in the connection string properly.
-        /// You can test your connection string using Test_Connection();
-        /// </summary>
-        /// <param name="connection_string">Pre built Connection string</param>
-        /// <param name="t">Enum value for defining the database type that is being used.</param>
-        protected DatabaseConnection(string connection_string, SQLHelperClass.DatabaseType t)
-        {
-            Serialization = new Serialize();
-            ConnString = connection_string;
-            DBType = t;
-            EncodeKey = "kjashdfoy3qoeifuhzskbdciuayteofiuyasljkdhflkjawhlkdfyas872fjgashdjfbqmwhlakshdltyaowtydrflkgsadfkjgawehfrklawyd";
-            string EncodedConString = Serialization.SerializeValue(ConnString);
-            XDocument Xdoc = new XDocument();
-            string filePath = Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml";
-            Xdoc = XDocument.Load(filePath);
-            var dbelements = from ele in Xdoc.Descendants("default_connection")
-                             where ele.Attribute("type").Value == DBType.ToString()
-                             select ele;
-            foreach (XElement item in dbelements)
-            {
-                if (item.Attribute("type").Value == DBType.ToString())
-                {
-                    item.SetValue(EncodedConString);
-                }
-            }
-            Xdoc.Descendants("default_connection").First().SetValue("1");
-            Xdoc.Save(filePath);
-        }
-        protected DatabaseConnection(string dbhost, string dbname,string dbuser, string dbpw, string dbport, SQLHelperClass.DatabaseType type,bool SaveConnString)
-        {
-            DBType = type;
-            SQLHelper = new SQLHelperClass();
-            Serialization = new Serialize();
-            ConnString = SQLHelper.SetDatabaseType(type).SetDBHost(dbhost).SetDBName(dbname).SetUserName(dbuser).SetPassword(dbpw).SetPortNumber(Convert.ToInt32(dbport)).BuildConnectionString().GetConnectionString();
-            string EncodedConString = Serialization.SerializeValue(ConnString);
-            EncodeKey = "kjashdfoy3qoeifuhzskbdciuayteofiuyasljkdhflkjawhlkdfyas872fjgashdjfbqmwhlakshdltyaowtydrflkgsadfkjgawehfrklawyd";
-            XDocument Xdoc = new XDocument();
-            string filePath = Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml";
-            Xdoc = XDocument.Load(filePath);
-            var dbelements = from ele in Xdoc.Descendants("default_connection").Elements() select ele;
-            foreach (XElement item in dbelements)
-            {
-                if (item.HasAttributes)
-                {
-                    if (item.FirstAttribute.Value == DBType.ToString())
-                    {
-                        item.SetValue(EncodedConString);
-                    }
-                    else
-                    {
-                        item.SetValue("");
-                    }
-                }
-            }
-            Xdoc.Descendants("default_connection").Elements().First().SetValue("1");
-            Xdoc.Save(filePath);
-        }
-        protected DatabaseConnection(string dbhost, string dbname, string dbuser, string dbpw, string dbport, SQLHelperClass.DatabaseType type)
-        {
-            SQLHelper = new SQLHelperClass();
-            ConnString = SQLHelper.SetDatabaseType(type).SetDBHost(dbhost).SetDBName(dbname).SetUserName(dbuser).SetPassword(dbpw).SetPortNumber(Convert.ToInt32(dbport)).BuildConnectionString().GetConnectionString();
-            EncodeKey = "kjashdfoy3qoeifuhzskbdciuayteofiuyasljkdhflkjawhlkdfyas872fjgashdjfbqmwhlakshdltyaowtydrflkgsadfkjgawehfrklawyd";
+            ConnString = DataConnections.DataConnectionClass.ConnectionString;
+            DBType = DataConnections.DataConnectionClass.DBType;
+            EncodeKey = DataConnections.DataConnectionClass.EncodeString;
         }
         /// <summary>
         /// Test connection strings here... must have a connection string in our system as well as a db type.
         /// Gives two replies, "Open" meaning connection success, or an error message with reasons and trace meaning connection failure.
         /// </summary>
-        protected void Test_Connection()
+        protected void Test_Connection(string testConstring)
         {
             using (OdbcConnection c = new OdbcConnection())
             {
-                c.ConnectionString = ConnString;
+                c.ConnectionString = testConstring;
                 try
                 {
                     c.Open();
@@ -198,17 +82,17 @@ namespace shipapp.Connections
                 //"IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = roles)CREATE TABLE ",
                 cmdTxt = new List<string>(){
                     //attempt to create the first table as a test;;
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'users')CREATE TABLE users(user_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, user_fname VARCHAR(5000) NOT NULL, user_lname VARCHAR(5000) NOT NULL, user_name VARCHAR(5000) NOT NULL UNIQUE, user_password VARBINARY(8000) NOT NULL, user_role_id BIGINT DEFAULT 0);",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'roles')CREATE TABLE roles(role_id BigINT NOT NULL IDENTITY(1,1) PRIMARY KEY, role_title VARCHAR(50) NOT NULL, CONSTRAINT UC_Roles UNIQUE(role_title));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'employees')CREATE TABLE employees(empl_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, empl_fname VARCHAR(50) NOT NULL, empl_lname VARCHAR(50), empl_phone_id INT DEFAULT NULL, empl_addr_id INT DEFAULT NULL, empl_email_id INT DEFAULT NULL, empl_notes_id INT DEFAULT NULL);",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'vendors')CREATE TABLE vendors(vend_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, vendor_name VARCHAR(50) NOT NULL UNIQUE, vendor_addr_id INT DEFAULT NULL, vendor_poc_name VARCHAR(50) DEFAULT NULL, vendor_phone_id INT DEFAULT NULL);",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'carriers')CREATE TABLE carriers(carrier_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, carrier_name VARCHAR(50) NOT NULL UNIQUE, carrier_phone_id INT DEFAULT NULL);",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'purchase_orders')CREATE TABLE purchase_orders(po_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, po_number VARCHAR(25) DEFAULT NULL,po_package_count INT DEFAULT 0, po_created_on DATE, po_created_by INT NOT NULL, po_approved_by INT NOT NULL);",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'packages')CREATE TABLE packages(package_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,package_po_id INT DEFAULT NULL, package_carrier_id INT NOT NULL, package_vendor_id INT NOT NULL, package_deliv_to_id INT NOT NULL, package_deliv_by_id INT DEFAULT NULL, package_signed_for_by_id INT DEFAULT NULL, package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date DATE, package_deliver_date DATE, package_notes_id INT DEFAULT NULL);",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'email_addresses')CREATE TABLE email_addresses(email_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, email_address VARCHAR(100) NOT NULL, CONSTRAINT UC_Email UNIQUE(email_address));",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'phone_numbers')CREATE TABLE phone_numbers(phone_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, phone_number VARCHAR(20) NOT NULL);",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'physical_addr')CREATE TABLE physical_addr(address_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, addr_line1 VARCHAR(50) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(50) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US');",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'notes')CREATE TABLE notes(id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, note_id BIGINT NOT NULL, note_value VARBINARY(8000) NOT NULL);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'users')CREATE TABLE users(user_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, user_fname VARCHAR(5000) NOT NULL, user_lname VARCHAR(5000) NOT NULL, user_name VARCHAR(5000) NOT NULL, user_password VARBINARY(8000) NOT NULL, user_role_id BIGINT FOREIGN KEY REFERENCES roles(role_id), CONSTRAINT UC_UserName UNIQUE(user_name));",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'employees')CREATE TABLE employees(empl_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, empl_fname VARCHAR(50) NOT NULL, empl_lname VARCHAR(50), empl_phone_id BIGINT FOREIGN KEY REFERENCES phone_numbers(person_id), empl_addr_id BIGINT FOREIGN KEY REFERENCES physical_addr(person_id), empl_email_id BIGINT FOREIGN KEY REFERENCES email_addresses(person_id), empl_notes_id BIGINT FOREIGN KEY REFERENCES notes(note_id));",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'vendors')CREATE TABLE vendors(vend_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, vendor_name VARCHAR(50) NOT NULL UNIQUE, vendor_addr_id BIGINT FOREIGN KEY REFERENCES physical_addr(person_id), vendor_poc_name VARCHAR(50) DEFAULT NULL, vendor_phone_id BIGINT FOREIGN KEY REFERENCES phone_numbers(person_id));",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'carriers')CREATE TABLE carriers(carrier_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, carrier_name VARCHAR(50) NOT NULL UNIQUE, carrier_phone_id  BIGINT FOREIGN KEY REFERENCES phone_numbers(person_id));",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'purchase_orders')CREATE TABLE purchase_orders(po_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, po_number VARCHAR(25) DEFAULT NULL,po_package_count INT DEFAULT 0, po_created_on DATE, po_created_by BIGINT FOREIGN KEY REFERENCES employees(empl_id), po_approved_by BIGINT FOREIGN KEY REFERENCES employees(empl_id));",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'packages')CREATE TABLE packages(package_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,package_po_id INT DEFAULT NULL, package_carrier_id INT NOT NULL, package_vendor_id INT NOT NULL, package_deliv_to_id BIGINT FOREIGN KEY REFERENCES employees(empl_id), package_deliv_by_id BIGINT FOREIGN KEY REFERENCES users(user_id), package_signed_for_by_id BIGINT FOREIGN KEY REFERENCES employees(empl_id), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date DATE, package_deliver_date DATE, package_notes_id BIGINT FOREIGN KEY REFERENCES notes(note_id));",
                     "IF (SELECT COUNT(*) FROM sys.symmetric_keys WHERE name = 'secure_data')=0 CREATE SYMMETRIC KEY secure_data WITH ALGORITHM = AES_128 ENCRYPTION BY PASSWORD = '" + EncodeKey +"';"
                 };
             }

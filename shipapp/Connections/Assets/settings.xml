@@ -1,18 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <settings>
-  <default_connection>
-    <file_is_serialized>0</file_is_serialized>
+  <default_connections>
+    <database_type type="master"></database_type>
     <connection_string type="MSSQL"></connection_string>
     <connection_string type="MySQL"></connection_string>
-  </default_connection>
-  <default_admin>
-    <file_is_serialized>0</file_is_serialized>
-    <display_name></display_name>
-    <user_name></user_name>
-    <password></password>
-  </default_admin>
+  </default_connections>
+  <strings>
+    <string></string>
+  </strings>
 </settings>
-<!--<host>stusql.ckwia8qkgyyj.us-east-1.rds.amazonaws.com</host>
+<!--
+<host>stusql.ckwia8qkgyyj.us-east-1.rds.amazonaws.com</host>
 <database_name>otcshipping</database_name>
 <user_name>otcshippingadmin</user_name>
 <password>cis260SP18Ship</password>
@@ -23,4 +21,5 @@
 <database_name>CsharpTest</database_name>
 <user_name>CsharpTest</user_name>
 <password>shelby67</password>
-<port>0</port>-->
+<port>0</port>
+-->

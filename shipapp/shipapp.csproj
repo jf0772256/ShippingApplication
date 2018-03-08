@@ -51,6 +51,7 @@
     <Compile Include="AddNote.Designer.cs">
       <DependentUpon>AddNote.cs</DependentUpon>
     </Compile>
+    <Compile Include="Connections\DataConnections\DataConnectionClass.cs" />
     <Compile Include="Connections\DataConnections\TestConnClass.cs" />
     <Compile Include="Connections\HelperClasses\Serialize.cs" />
     <Compile Include="Connections\HelperClasses\SQLHelperClass.cs" />
@@ -111,6 +112,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LogIn.resx">
       <DependentUpon>LogIn.cs</DependentUpon>

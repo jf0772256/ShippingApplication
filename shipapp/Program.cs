@@ -8,6 +8,7 @@ namespace shipapp
 {
     static class Program
     {
+        public static Connections.DataConnections.DataConnectionClass TheConnection = new Connections.DataConnections.DataConnectionClass();
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
