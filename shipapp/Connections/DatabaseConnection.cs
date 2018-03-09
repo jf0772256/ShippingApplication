@@ -193,6 +193,7 @@ namespace shipapp.Connections
                                 return;
                             }
                             cmd.CommandText = "DROP TABLE IF EXISTS" + tbl_lst + ";";
+                            cmd.CommandText += "DROP SYMMETRIC KEY secure_data;";
                             cmd.Transaction = c.BeginTransaction();
                             try
                             {
