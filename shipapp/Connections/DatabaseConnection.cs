@@ -176,17 +176,22 @@ namespace shipapp.Connections
                         string tbl_lst = "";
                         if (all)
                         {
+                            string temp = "";
                             using (OdbcDataReader reader = cmd.ExecuteReader())
                             {
                                 while (reader.Read())
                                 {
+                                    if (reader[0].ToString() == "roles")
+                                    {
+                                        temp = ", roles";
+                                        continue;
+                                    }
                                     tbl_lst += ", " + reader[0].ToString();
                                 }
                             }
                             if (tbl_lst.Length > 2)
                             {
-                                string temp = tbl_lst.Substring(0, 7);
-                                tbl_lst = tbl_lst.Substring(8) + temp;
+                                tbl_lst = tbl_lst.Substring(1) + temp;
                             }
                             else
                             {
@@ -314,7 +319,7 @@ namespace shipapp.Connections
                     {
                         //open key
                         cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
-                        cmd.CommandText += "INSERT INTO users (user_fname,user_lname,user_name,user_password,user_role_id) VALUES (?,?,?,EncryptByKey(Key_GUID('secure_data'),?),?);";
+                        cmd.CommandText += "INSERT INTO users (user_fname,user_lname,user_name,user_password,user_role_id) VALUES (?,?,?,EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)),?);";
                         cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
                         cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("firstname", u.FirstName), new OdbcParameter("lastname", u.LastName), new OdbcParameter("username", u.Username), new OdbcParameter("password", u.PassWord), new OdbcParameter("role", u.Level) });
                         try
@@ -429,7 +434,7 @@ namespace shipapp.Connections
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
+            EncodeKey = DataConnectionClass.EncodeString;//kjashdfoy3qoeifuhzskbdciuayteofiuyasljkdhflkjawhlkdfyas872fjgashdjfbqmwhlakshdltyaowtydrflkgsadfkjgawehfrklawyd
             using (OdbcConnection c = new OdbcConnection())
             {
                 c.ConnectionString = ConnString;
@@ -460,7 +465,7 @@ namespace shipapp.Connections
                             u.PassWord = reader[4].ToString();
                             u.Level = Convert.ToInt64(reader[5].ToString());
                         }
-                        return u;
+                    return u;
                     }
                 }
             }
