@@ -24,6 +24,7 @@ namespace shipapp
         {
             InitializeComponent();
             Connections.DataConnections.DataConnectionClass.GetDatabaseData();
+            Connections.DataConnections.DataConnectionClass.TestConn.ResetAllDatabaseTables();
         }
 
         /// <summary>

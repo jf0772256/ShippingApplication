@@ -36,5 +36,11 @@ namespace shipapp.Connections.DataConnections
         {
             Test_Connection(DataConnections.DataConnectionClass.ConnectionString);
         }
+
+        public void ResetAllDatabaseTables()
+        {
+            Drop_Tables(true, null);
+            Create_Tables();
+        }
     }
 }

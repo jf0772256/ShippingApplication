@@ -9,6 +9,7 @@ using System.Data.Odbc;
 using System.Xml.Linq;
 using System.IO;
 using shipapp.Connections.HelperClasses;
+using shipapp.Connections.DataConnections;
 using shipapp.Models;
 
 namespace shipapp.Connections
@@ -28,9 +29,9 @@ namespace shipapp.Connections
         /// </summary>
         protected DatabaseConnection()
         {
-            ConnString = DataConnections.DataConnectionClass.ConnectionString;
-            DBType = DataConnections.DataConnectionClass.DBType;
-            EncodeKey = DataConnections.DataConnectionClass.EncodeString;
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
         }
         /// <summary>
         /// Test connection strings here... must have a connection string in our system as well as a db type.
@@ -60,21 +61,24 @@ namespace shipapp.Connections
         /// </summary>
         protected void Create_Tables()
         {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
             List<string> cmdTxt = new List<string>() { };
             if (DBType == SQLHelperClass.DatabaseType.MySQL)
             {
                 cmdTxt = new List<string>(){
                     "CREATE TABLE IF NOT EXISTS roles(role_id BigINT NOT NULL PRIMARY KEY AUTO_INCREMENT, role_title VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS email_addresses(email_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id BIGINT NOT NULL, email_address VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS phone_numbers(phone_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id BIGINT NOT NULL, phone_number VARCHAR(20) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS physical_addr(address_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id BIGINT NOT NULL, addr_line1 VARCHAR(100) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(100) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US')engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS notes(id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, note_id BIGINT NOT NULL, note_value VARCHAR(5000) NOT NULL);",
+                    "CREATE TABLE IF NOT EXISTS email_addresses(email_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id BIGINT NOT NULL, email_address VARCHAR(100) NOT NULL UNIQUE,CREATE INDEX idx_addr_ids ON email_addresses(person_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS phone_numbers(phone_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id BIGINT NOT NULL, phone_number VARCHAR(20) NOT NULL, INDEX idx_phone_ids ON phone_numbers(person_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS physical_addr(address_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id BIGINT NOT NULL, addr_line1 VARCHAR(100) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(100) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US',INDEX idx_addr_ids ON physical_addr(person_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS notes(id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, note_id BIGINT NOT NULL, note_value VARCHAR(5000) NOT NULL, INDEX idx_note_ids ON notes(note_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS users(user_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_fname VARCHAR(100) NOT NULL, user_lname VARCHAR(100) NOT NULL, user_name VARCHAR(100) NOT NULL UNIQUE, user_password VARBINARY(500) NOT NULL, user_role_id BIGINT, FOREIGN KEY (user_role_id) REFERENCES roles(role_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS employees(empl_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, empl_fname VARCHAR(100) NOT NULL, empl_lname VARCHAR(100), empl_phone_id BIGINT, empl_addr_id BIGINT, empl_email_id BIGINT, empl_notes_id BIGINT,FOREIGN KEY (empl_phone_id) REFERENSES phone_numbers(person_id),FOREIGN KEY (empl_addr_id) REFERENSES physical_addr(person_id),FOREIGN KEY (empl_email_id) REFERENSES email_addresses(person_id),FOREIGN KEY (empl_notes_id) REFERENSES notes(note_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS vendors(vend_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,vendor_name VARCHAR(100) NOT NULL UNIQUE, vendor_addr_id BIGINT,vendor_poc_name VARCHAR(100) DEFAULT NULL, vendor_phone_id BIGINT,FOREIGN KEY (vendor_addr_id) REFERENSES physical_addr(person_id),FOREIGN KEY (vendor_phone_id) REFERENSES phone_numbers(person_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS carriers(carrier_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, carrier_name VARCHAR(100) NOT NULL UNIQUE, carrier_phone_id BIGINT,FOREIGN KEY (carrier_phone_id) REFERENSES phone_numbers(person_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS purchase_orders(po_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, po_number VARCHAR(25) DEFAULT NULL,po_package_count INT DEFAULT 0, po_created_on DATETIME, po_created_by BIGINT, po_approved_by BIGINT,FOREIGN KEY (po_created_by) REFERENSES employees(empl_id),FOREIGN KEY (po_approved_by) REFERENSES employees(empl_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS packages(package_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,package_po_id BIGINT, package_carrier_id BIGINT, package_vendor_id BIGINT, package_deliv_to_id BIGINT, package_deliv_by_id BIGINT, package_signed_for_by_id BIGINT, package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date DATE, package_deliver_date DATE, package_notes_id BIGINT,FOREIGN KEY (package_po_id) REFERENSES purchase_orders(po_id),FOREIGN KEY (package_carrier_id) REFERENSES carriers(carrier_id),FOREIGN KEY (package_vendor_id) REFERENSES vendors(vend_id),FOREIGN KEY (package_deliv_to_id) REFERENSES employees(empl_id),FOREIGN KEY (package_deliv_by_id) REFERENSES users(user_id),FOREIGN KEY (package_signed_for_by_id) REFERENSES employees(empl_id),FOREIGN KEY (package_notes_id) REFERENSES notes(note_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS employees(empl_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, empl_fname VARCHAR(100) NOT NULL, empl_lname VARCHAR(100), empl_phone_id BIGINT, empl_addr_id BIGINT, empl_email_id BIGINT, empl_notes_id BIGINT)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS vendors(vend_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,vendor_name VARCHAR(100) NOT NULL UNIQUE, vendor_addr_id BIGINT,vendor_poc_name VARCHAR(100) DEFAULT NULL, vendor_phone_id BIGINT)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS carriers(carrier_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, carrier_name VARCHAR(100) NOT NULL UNIQUE, carrier_phone_id BIGINT)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS purchase_orders(po_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, po_number VARCHAR(25) DEFAULT NULL,po_package_count INT DEFAULT 0, po_created_on DATETIME, po_created_by BIGINT, po_approved_by BIGINT)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS packages(package_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,package_po_id BIGINT, package_carrier_id BIGINT, package_vendor_id BIGINT, package_deliv_to_id BIGINT, package_deliv_by_id BIGINT, package_signed_for_by_id BIGINT, package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date DATE, package_deliver_date DATE, package_notes_id BIGINT)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                 };
             }
             else if (DBType == SQLHelperClass.DatabaseType.MSSQL)
@@ -83,16 +87,17 @@ namespace shipapp.Connections
                 cmdTxt = new List<string>(){
                     //attempt to create the first table as a test;;
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'roles')CREATE TABLE roles(role_id BigINT NOT NULL IDENTITY(1,1) PRIMARY KEY, role_title VARCHAR(50) NOT NULL, CONSTRAINT UC_Roles UNIQUE(role_title));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'email_addresses')CREATE TABLE email_addresses(email_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, email_address VARCHAR(100) NOT NULL, CONSTRAINT UC_Email UNIQUE(email_address));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'phone_numbers')CREATE TABLE phone_numbers(phone_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, phone_number VARCHAR(20) NOT NULL);",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'physical_addr')CREATE TABLE physical_addr(address_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, addr_line1 VARCHAR(50) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(50) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US');",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'notes')CREATE TABLE notes(id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, note_id BIGINT NOT NULL, note_value VARBINARY(8000) NOT NULL);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'email_addresses')CREATE TABLE email_addresses(email_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, email_address VARCHAR(100) NOT NULL, CONSTRAINT UC_Email UNIQUE(email_address), INDEX idx_email_ids ON email_addresses(person_id,));",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'phone_numbers')CREATE TABLE phone_numbers(phone_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, phone_number VARCHAR(20) NOT NULL, INDEX idx_phone_ids ON phone_numbers(person_id,));",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'physical_addr')CREATE TABLE physical_addr(address_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, addr_line1 VARCHAR(50) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(50) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US', INDEX idx_addr_ids ON physical_addr(person_id,));",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'notes')CREATE TABLE notes(id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, note_id BIGINT NOT NULL, note_value VARBINARY(8000) NOT NULL, INDEX idx_note_ids ON notes(note_id,));",
+
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'users')CREATE TABLE users(user_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, user_fname VARCHAR(5000) NOT NULL, user_lname VARCHAR(5000) NOT NULL, user_name VARCHAR(5000) NOT NULL, user_password VARBINARY(8000) NOT NULL, user_role_id BIGINT FOREIGN KEY REFERENCES roles(role_id), CONSTRAINT UC_UserName UNIQUE(user_name));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'employees')CREATE TABLE employees(empl_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, empl_fname VARCHAR(50) NOT NULL, empl_lname VARCHAR(50), empl_phone_id BIGINT FOREIGN KEY REFERENCES phone_numbers(person_id), empl_addr_id BIGINT FOREIGN KEY REFERENCES physical_addr(person_id), empl_email_id BIGINT FOREIGN KEY REFERENCES email_addresses(person_id), empl_notes_id BIGINT FOREIGN KEY REFERENCES notes(note_id));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'vendors')CREATE TABLE vendors(vend_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, vendor_name VARCHAR(50) NOT NULL UNIQUE, vendor_addr_id BIGINT FOREIGN KEY REFERENCES physical_addr(person_id), vendor_poc_name VARCHAR(50) DEFAULT NULL, vendor_phone_id BIGINT FOREIGN KEY REFERENCES phone_numbers(person_id));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'carriers')CREATE TABLE carriers(carrier_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, carrier_name VARCHAR(50) NOT NULL UNIQUE, carrier_phone_id  BIGINT FOREIGN KEY REFERENCES phone_numbers(person_id));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'purchase_orders')CREATE TABLE purchase_orders(po_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, po_number VARCHAR(25) DEFAULT NULL,po_package_count INT DEFAULT 0, po_created_on DATE, po_created_by BIGINT FOREIGN KEY REFERENCES employees(empl_id), po_approved_by BIGINT FOREIGN KEY REFERENCES employees(empl_id));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'packages')CREATE TABLE packages(package_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,package_po_id BIGINT FOREIGN KEY REFERENCES purchase_orders(po_id), package_carrier_id BIGINT FOREIGN KEY REFERENCES carriers(carrier_id), package_vendor_id BIGINT FOREIGN KEY REFERENCES vendors(vend_id), package_deliv_to_id BIGINT FOREIGN KEY REFERENCES employees(empl_id), package_deliv_by_id BIGINT FOREIGN KEY REFERENCES users(user_id), package_signed_for_by_id BIGINT FOREIGN KEY REFERENCES employees(empl_id), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date DATE, package_deliver_date DATE, package_notes_id BIGINT FOREIGN KEY REFERENCES notes(note_id));",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'employees')CREATE TABLE employees(empl_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, empl_fname VARCHAR(50) NOT NULL, empl_lname VARCHAR(50), empl_phone_id BIGINT, empl_addr_id BIGINT, empl_email_id BIGINT, empl_notes_id BIGINT);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'vendors')CREATE TABLE vendors(vend_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, vendor_name VARCHAR(50) NOT NULL UNIQUE, vendor_addr_id BIGINT, vendor_poc_name VARCHAR(50) DEFAULT NULL, vendor_phone_id BIGINT);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'carriers')CREATE TABLE carriers(carrier_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, carrier_name VARCHAR(50) NOT NULL UNIQUE, carrier_phone_id  BIGINT);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'purchase_orders')CREATE TABLE purchase_orders(po_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, po_number VARCHAR(25) DEFAULT NULL,po_package_count INT DEFAULT 0, po_created_on DATE, po_created_by BIGINT, po_approved_by BIGINT);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'packages')CREATE TABLE packages(package_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,package_po_id BIGINT, package_carrier_id BIGINT, package_vendor_id BIGINT, package_deliv_to_id BIGINT, package_deliv_by_id BIGINT, package_signed_for_by_id BIGINT, package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date DATE, package_deliver_date DATE, package_notes_id BIGINT);",
                     "IF (SELECT COUNT(*) FROM sys.symmetric_keys WHERE name = 'secure_data')=0 CREATE SYMMETRIC KEY secure_data WITH ALGORITHM = AES_128 ENCRYPTION BY PASSWORD = '" + EncodeKey +"';"
                 };
             }
@@ -147,6 +152,9 @@ namespace shipapp.Connections
         /// <param name="tables_to_drop">if 'all' is false have a list of strings representing table names and we will go from ther, otherwise send a blank list, since 'all' will do all tables.</param>
         protected void Drop_Tables(bool all, List<string> tables_to_drop)
         {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
             if (!all && (tables_to_drop is null || tables_to_drop.Count == 0))
             {
                 return;
@@ -169,7 +177,14 @@ namespace shipapp.Connections
                                 {
                                     tbl_lst += ", " + reader[0].ToString();
                                 }
+                            }
+                            if (tbl_lst.Length > 2)
+                            {
                                 tbl_lst = tbl_lst.Substring(1);
+                            }
+                            else
+                            {
+                                return;
                             }
                             cmd.CommandText = "DROP TABLE IF EXISTS" + tbl_lst + ";";
                             cmd.Transaction = c.BeginTransaction();

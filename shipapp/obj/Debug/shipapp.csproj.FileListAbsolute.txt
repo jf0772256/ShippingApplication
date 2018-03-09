@@ -80,3 +80,4 @@ C:\Users\Jesse Fender\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.pdb
 C:\Users\Jesse Fender\Desktop\ShippingApp\shipapp\bin\Debug\Connections\Assets\settings.xml
 C:\Users\jf0772256\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.Form2.resources
 C:\Users\jf0772256\Desktop\ShippingApplication\shipapp\bin\Debug\Connections\Assets\settings.xml
+C:\Users\Jesse Fender\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.Form2.resources
