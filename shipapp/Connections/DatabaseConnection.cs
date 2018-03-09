@@ -69,11 +69,15 @@ namespace shipapp.Connections
             {
                 cmdTxt = new List<string>(){
                     "CREATE TABLE IF NOT EXISTS roles(role_id BigINT NOT NULL PRIMARY KEY AUTO_INCREMENT, role_title VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS email_addresses(email_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id BIGINT NOT NULL, email_address VARCHAR(100) NOT NULL UNIQUE,CREATE INDEX idx_addr_ids ON email_addresses(person_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS phone_numbers(phone_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id BIGINT NOT NULL, phone_number VARCHAR(20) NOT NULL, INDEX idx_phone_ids ON phone_numbers(person_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS physical_addr(address_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id BIGINT NOT NULL, addr_line1 VARCHAR(100) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(100) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US',INDEX idx_addr_ids ON physical_addr(person_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS notes(id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, note_id BIGINT NOT NULL, note_value VARCHAR(5000) NOT NULL, INDEX idx_note_ids ON notes(note_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS users(user_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_fname VARCHAR(100) NOT NULL, user_lname VARCHAR(100) NOT NULL, user_name VARCHAR(100) NOT NULL UNIQUE, user_password VARBINARY(500) NOT NULL, user_role_id BIGINT, FOREIGN KEY (user_role_id) REFERENCES roles(role_id))engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS email_addresses(email_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id BIGINT NOT NULL, email_address VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE INDEX idx_addr_ids ON email_addresses(person_id);",
+                    "CREATE TABLE IF NOT EXISTS phone_numbers(phone_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id BIGINT NOT NULL, phone_number VARCHAR(20) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE INDEX idx_phone_ids ON phone_numbers(person_id);",
+                    "CREATE TABLE IF NOT EXISTS physical_addr(address_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id BIGINT NOT NULL, addr_line1 VARCHAR(100) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(100) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US')engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE INDEX idx_addr_ids ON physical_addr(person_id);",
+                    "CREATE TABLE IF NOT EXISTS notes(id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, note_id BIGINT NOT NULL, note_value VARCHAR(5000) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE INDEX idx_note_ids ON notes(note_id);",
+                    "CREATE TABLE IF NOT EXISTS users(user_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_fname VARCHAR(100) NOT NULL, user_lname VARCHAR(100) NOT NULL, user_name VARCHAR(100) NOT NULL UNIQUE, user_password VARBINARY(500) NOT NULL, user_role_id BIGINT, FOREIGN KEY (user_role_id) REFERENCES roles(role_id) ON DELETE NO ACTION ON UPDATE NO ACTION)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS employees(empl_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, empl_fname VARCHAR(100) NOT NULL, empl_lname VARCHAR(100), empl_phone_id BIGINT, empl_addr_id BIGINT, empl_email_id BIGINT, empl_notes_id BIGINT)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS vendors(vend_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,vendor_name VARCHAR(100) NOT NULL UNIQUE, vendor_addr_id BIGINT,vendor_poc_name VARCHAR(100) DEFAULT NULL, vendor_phone_id BIGINT)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS carriers(carrier_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, carrier_name VARCHAR(100) NOT NULL UNIQUE, carrier_phone_id BIGINT)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
@@ -87,10 +91,11 @@ namespace shipapp.Connections
                 cmdTxt = new List<string>(){
                     //attempt to create the first table as a test;;
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'roles')CREATE TABLE roles(role_id BigINT NOT NULL IDENTITY(1,1) PRIMARY KEY, role_title VARCHAR(50) NOT NULL, CONSTRAINT UC_Roles UNIQUE(role_title));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'email_addresses')CREATE TABLE email_addresses(email_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, email_address VARCHAR(100) NOT NULL, CONSTRAINT UC_Email UNIQUE(email_address), INDEX idx_email_ids ON email_addresses(person_id,));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'phone_numbers')CREATE TABLE phone_numbers(phone_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, phone_number VARCHAR(20) NOT NULL, INDEX idx_phone_ids ON phone_numbers(person_id,));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'physical_addr')CREATE TABLE physical_addr(address_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, addr_line1 VARCHAR(50) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(50) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US', INDEX idx_addr_ids ON physical_addr(person_id,));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'notes')CREATE TABLE notes(id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, note_id BIGINT NOT NULL, note_value VARBINARY(8000) NOT NULL, INDEX idx_note_ids ON notes(note_id,));",
+
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'email_addresses')CREATE TABLE email_addresses(email_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, email_address VARCHAR(100) NOT NULL, CONSTRAINT UC_Email UNIQUE(email_address));CREATE INDEX idx_email_ids ON email_addresses(person_id);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'phone_numbers')CREATE TABLE phone_numbers(phone_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, phone_number VARCHAR(20) NOT NULL);CREATE INDEX idx_phone_ids ON phone_numbers(person_id)",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'physical_addr')CREATE TABLE physical_addr(address_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id BIGINT NOT NULL, addr_line1 VARCHAR(50) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(50) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US');CREATE INDEX idx_addr_ids ON physical_addr(person_id);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'notes')CREATE TABLE notes(id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, note_id BIGINT NOT NULL, note_value VARBINARY(8000) NOT NULL);CREATE INDEX idx_note_ids ON notes(note_id);",
 
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'users')CREATE TABLE users(user_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, user_fname VARCHAR(5000) NOT NULL, user_lname VARCHAR(5000) NOT NULL, user_name VARCHAR(5000) NOT NULL, user_password VARBINARY(8000) NOT NULL, user_role_id BIGINT FOREIGN KEY REFERENCES roles(role_id), CONSTRAINT UC_UserName UNIQUE(user_name));",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'employees')CREATE TABLE employees(empl_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, empl_fname VARCHAR(50) NOT NULL, empl_lname VARCHAR(50), empl_phone_id BIGINT, empl_addr_id BIGINT, empl_email_id BIGINT, empl_notes_id BIGINT);",
@@ -180,7 +185,8 @@ namespace shipapp.Connections
                             }
                             if (tbl_lst.Length > 2)
                             {
-                                tbl_lst = tbl_lst.Substring(1);
+                                string temp = tbl_lst.Substring(0, 7);
+                                tbl_lst = tbl_lst.Substring(8) + temp;
                             }
                             else
                             {
@@ -226,13 +232,26 @@ namespace shipapp.Connections
                         string tbl_lst = "";
                         if (all)
                         {
+                            string temp = "";
                             using (OdbcDataReader reader = cmd.ExecuteReader())
                             {
                                 while (reader.Read())
                                 {
+                                    if (reader[0].ToString() == "roles")
+                                    {
+                                        temp = ", " + reader[0].ToString();
+                                        continue;
+                                    }
                                     tbl_lst += ", " + reader[0].ToString();
                                 }
-                                tbl_lst = tbl_lst.Substring(1);
+                                if (tbl_lst.Length > 2)
+                                {
+                                    tbl_lst = tbl_lst.Substring(1)+temp;
+                                }
+                                else
+                                {
+                                    return;
+                                }
                             }
                             cmd.CommandText = "DROP TABLE IF EXISTS" + tbl_lst + ";";
                             cmd.Transaction = c.BeginTransaction();
