@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using shipapp.Connections.HelperClasses;
 using System.Resources;
 using System.Xml.Linq;
+using shipapp.Models;
 
 namespace shipapp.Connections.DataConnections
 {
@@ -15,15 +17,20 @@ namespace shipapp.Connections.DataConnections
         public static SQLHelperClass.DatabaseType DBType { get; set; }
         public static Serialize Serialization { get; set; }
         public static string ConnectionString { get; set; }
-        public static TestConnClass TestConn { get; set; }
         public static string EncodeString { get; set; }
-
+        public static TestConnClass TestConn { get; set; }
+        public static UserConnClass UserConn { get; set; }
+        public static Dictionary<string,BindingList<object>> DataList { get; set; }
+        public static bool SuccessAuthenticating { get; set; }
+        public static User AuthenticatedUser { get; set; }
 
         static DataConnectionClass()
         {
+            DataList = new Dictionary<string, BindingList<object>>() { };
             Serialization = new Serialize();
             SQLHelper = new SQLHelperClass();
             TestConn = new TestConnClass();
+            UserConn = new UserConnClass();
         }
         public DataConnectionClass()
         {
@@ -123,6 +130,13 @@ namespace shipapp.Connections.DataConnections
             {
                 EncodeString = Properties.Resources.backupstring;
             }
+        }
+        public static void LogUserOut()
+        {
+            AuthenticatedUser = null;
+            SuccessAuthenticating = false;
+            UserConn.Authenticate.Password = "";
+            UserConn.Authenticate.UserName = "";
         }
     }
 }

@@ -298,6 +298,9 @@ namespace shipapp.Connections
         #region Write Data To Database
         protected void Write_User_To_Database(User newU)
         {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
             if (DBType == SQLHelperClass.DatabaseType.MSSQL)
             {
                 User u = newU;
@@ -378,6 +381,9 @@ namespace shipapp.Connections
         /// <returns>user class object</returns>
         protected User GetUser(long id)
         {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
             using (OdbcConnection c = new OdbcConnection())
             {
                 c.ConnectionString = ConnString;
@@ -393,10 +399,54 @@ namespace shipapp.Connections
                     }
                     else if (DBType == SQLHelperClass.DatabaseType.MySQL)
                     {
-                        //do mysql decrypt
                         cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id FROM users WHERE users.user_id = ?;";
                     }
                     cmd.Parameters.Add(new OdbcParameter("userId", id));
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        User u = new User();
+                        while (reader.Read())
+                        {
+                            u.Id = Convert.ToInt64(reader[0].ToString());
+                            u.FirstName = reader[1].ToString();
+                            u.LastName = reader[2].ToString();
+                            u.Username = reader[3].ToString();
+                            u.PassWord = reader[4].ToString();
+                            u.Level = Convert.ToInt64(reader[5].ToString());
+                        }
+                        return u;
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Gets user by username
+        /// </summary>
+        /// <param name="username">Username supplied to the application</param>
+        /// <returns>User Object</returns>
+        protected User GetUser(string username)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+                    {
+                        cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
+                        cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id FROM users WHERE users.user_name = ?;";
+                        cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
+                    }
+                    else if (DBType == SQLHelperClass.DatabaseType.MySQL)
+                    {
+                        cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id FROM users WHERE users.user_name = ?;";
+                    }
+                    cmd.Parameters.Add(new OdbcParameter("userName", username));
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
                         User u = new User();

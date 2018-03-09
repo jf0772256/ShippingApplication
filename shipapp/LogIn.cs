@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using shipapp.Connections.DataConnections;
+using shipapp.Models;
 
 namespace shipapp
 {
@@ -72,6 +74,10 @@ namespace shipapp
         {
             // This is just a stub.
             // Will need to match field vs those on database. 
+            DataConnectionClass.UserConn.Authenticate.UserName = txtBxUsername.Text;
+            DataConnectionClass.UserConn.Authenticate.Password = txtBxPassword.Text;
+            
+            // Auth system for hardcoded admin value
             if (txtBxUsername.Text == testUsername)
             {
                 if (txtBxPassword.Text == testPassword)
@@ -83,9 +89,20 @@ namespace shipapp
                     MessageBox.Show("Incorrect Username or Password.\r\nPlease try again...", "Try Again", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            //auth for users in database
             else
             {
-                MessageBox.Show("Incorrect Username or Password.\r\nPlease try again...", "Try Again", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                User Valid = DataConnectionClass.UserConn.Get1User(DataConnectionClass.UserConn.Authenticate.UserName);
+                DataConnectionClass.SuccessAuthenticating = DataConnectionClass.UserConn.CheckAuth(Valid);
+                if (DataConnectionClass.SuccessAuthenticating)
+                {
+                    DataConnectionClass.AuthenticatedUser = Valid;
+                    OnLoginSucceed();
+                }
+                else
+                {
+                    MessageBox.Show("Incorrect Username or Password.\r\nPlease try again...", "Try Again", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -94,7 +111,6 @@ namespace shipapp
             MainMenu mainMenu = new MainMenu();
             mainMenu.Show();
             this.Hide();
-            
         }
     }
 }
