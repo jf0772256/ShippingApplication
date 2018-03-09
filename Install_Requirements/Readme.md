@@ -1,7 +1,9 @@
 # Installation Requirements:
 
 In this folder are two installers, one for 32bit os and one for 64bit os. They require Admin access to install and won't be required
-unless the sql server is pointed to a MySQL database.
+unless the sql server is pointed to a MySQL database. As a just in case precaution we have included the latest 32 and 64 bit MSSQL ODBC Driver installers. 
+msodbcsql.msi -> x64
+msodbcsql (1).msi -> x32
 
 ## To install the ODBC Drivers:
 
