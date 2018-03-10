@@ -22,7 +22,7 @@ namespace shipapp.Connections.DataConnections.Classes
         public void Testing()
         {
             //Test_Connection();
-            Drop_Tables(true, null);
+            //Drop_Tables();
             Create_Tables();
             //the below lines which is now commented out would fail if it ever was run as there is no role_id 10
             //Models.User JesseF = new Models.User() { FirstName = "Jesse", LastName = "Fender", Username = "test_User1", PassWord = "tadaaa!", Level = new Models.ModelData.Role() { Role_id = 10, Role_Title = "godmode" } };
@@ -40,7 +40,7 @@ namespace shipapp.Connections.DataConnections.Classes
 
         public void ResetAllDatabaseTables()
         {
-            Drop_Tables(true, null);
+            Drop_Tables(new List<string>() { "notes","email_addresses","physical_addr","phone_numbers", "purchase_orders", "packages", "employees","users","roles"});
             Create_Tables();
         }
     }
