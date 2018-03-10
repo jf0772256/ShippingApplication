@@ -23,7 +23,6 @@ namespace shipapp.Models
         {
 
         }
-
         /// <summary>
         /// Primary constructor
         /// </summary>
@@ -40,7 +39,6 @@ namespace shipapp.Models
             this.level = level;
             this.passWord = password;
         }
-
         #region User Properties
         public long Id { get => id; set => id = value; }
         public string FirstName { get => firstName; set => firstName = value; }

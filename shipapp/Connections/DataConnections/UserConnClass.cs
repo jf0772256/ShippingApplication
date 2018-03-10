@@ -28,11 +28,11 @@ namespace shipapp.Connections.DataConnections
         {
             Update_User(id, columnNames, newValues);
         }
-        public BindingList<User> GetManyUsers()
+        public void GetManyUsers()
         {
-            throw new NotImplementedException();
+            GetUserList();
         }
-        public void WriteManuUsers(BindingList<User> users)
+        public void WriteManyUsers(BindingList<User> users)
         {
             throw new NotImplementedException();
         }
