@@ -378,6 +378,94 @@ namespace shipapp.Connections
                 DatabaseConnectionException exc = new DatabaseConnectionException("You Must select a valid database type.", new ArgumentException(DBType.ToString() + " is invalid."));
             }
         }
+        protected void Write_User_To_Database(BindingList<User> users)
+        {
+            throw new NotImplementedException();
+        }
+        protected void Update_User(long id,string[] columns, string[] values)
+        {
+            if (columns.Length != values.Length)
+            {
+                throw new ArgumentException("The number of values does not match the number of columns, please correct this and try again.");
+            }
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+                    {
+                        cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD='" + EncodeKey + "';";
+                        cmd.CommandText += "UPDATE users SET ";
+                        foreach (string col in columns)
+                        {
+                            if (col == "user_password")
+                            {
+                                cmd.CommandText += col + "=EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)),";
+                                continue;
+                            }
+                            cmd.CommandText += col + "=?,";
+                        }
+                        cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1);
+                        cmd.CommandText += " WHERE user_id=?;";
+                        cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
+                        for (int i = 0; i < values.Length; i++)
+                        {
+                            cmd.Parameters.AddWithValue(columns[i], values[i]);
+                        }
+                        cmd.Parameters.AddWithValue("user_id", id);
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
+                            cmd.Transaction.Commit();
+                        }
+                        catch (Exception)
+                        {
+                            cmd.Transaction.Rollback();
+                            throw;
+                        }
+                    }
+                    else if (DBType == SQLHelperClass.DatabaseType.MySQL)
+                    {
+                        cmd.CommandText = "UPDATE users SET ";
+                        foreach (string col in columns)
+                        {
+                            if (col == "user_password")
+                            {
+                                cmd.CommandText += col + "=AES_ENCRYPT(?,'" + EncodeKey + "'),";
+                            }
+                            cmd.CommandText += col + "=?,";
+                        }
+                        cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1);
+                        cmd.CommandText += " WHERE user_id=?;";
+                        for (int i = 0; i < values.Length; i++)
+                        {
+                            cmd.Parameters.AddWithValue(columns[i], values[i]);
+                        }
+                        cmd.Parameters.AddWithValue("user_id", id);
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
+                            cmd.Transaction.Commit();
+                        }
+                        catch (Exception)
+                        {
+                            cmd.Transaction.Rollback();
+                            throw;
+                        }
+                    }
+                    else
+                    {
+                        DatabaseConnectionException e = new DatabaseConnectionException("Select a valid database type.", new Exception());
+                    }
+                }
+            }
+        }
         #endregion
         #region Get Data From Database
         /// <summary>
@@ -407,7 +495,7 @@ namespace shipapp.Connections
                     {
                         cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id FROM users WHERE users.user_id = ?;";
                     }
-                    cmd.Parameters.Add(new OdbcParameter("userId", id));
+                    cmd.Parameters.AddWithValue("userId", id);
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
                         User u = new User();
@@ -434,7 +522,7 @@ namespace shipapp.Connections
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;//kjashdfoy3qoeifuhzskbdciuayteofiuyasljkdhflkjawhlkdfyas872fjgashdjfbqmwhlakshdltyaowtydrflkgsadfkjgawehfrklawyd
+            EncodeKey = DataConnectionClass.EncodeString;
             using (OdbcConnection c = new OdbcConnection())
             {
                 c.ConnectionString = ConnString;
@@ -452,7 +540,7 @@ namespace shipapp.Connections
                     {
                         cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id FROM users WHERE users.user_name = ?;";
                     }
-                    cmd.Parameters.Add(new OdbcParameter("userName", username));
+                    cmd.Parameters.AddWithValue("userName", username);
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
                         User u = new User();

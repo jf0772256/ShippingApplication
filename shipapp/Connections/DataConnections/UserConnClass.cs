@@ -24,6 +24,10 @@ namespace shipapp.Connections.DataConnections
         {
             Write_User_To_Database(user);
         }
+        public void Update1User(long id, string newPassword)
+        {
+
+        }
         public BindingList<User> GetManyUsers()
         {
             throw new NotImplementedException();
