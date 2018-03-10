@@ -527,8 +527,7 @@ namespace shipapp.Connections
             {
                 c.ConnectionString = ConnString;
                 c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
                     if (DBType == SQLHelperClass.DatabaseType.MSSQL)
                     {
@@ -554,6 +553,70 @@ namespace shipapp.Connections
                             u.Level = Convert.ToInt64(reader[5].ToString());
                         }
                     return u;
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// returns all users to dataconnection classes datalists class users binding list
+        /// </summary>
+        protected void GetUserList()
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("",c))
+                {
+                    if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+                    {
+                        cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
+                        cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id FROM users;";
+                        cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                User u = new User()
+                                {
+                                    Id = Convert.ToInt64(reader[0].ToString()),
+                                    FirstName = reader[1].ToString(),
+                                    LastName = reader[2].ToString(),
+                                    Username = reader[3].ToString(),
+                                    PassWord = reader[4].ToString(),
+                                    Level = Convert.ToInt64(reader[5].ToString())
+                                };
+                                DataConnectionClass.DataLists.UsersList.Add(u);
+                            }
+                        }
+                    }
+                    else if (DBType == SQLHelperClass.DatabaseType.MySQL)
+                    {
+                        cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id FROM users;";
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                User u = new User()
+                                {
+                                    Id = Convert.ToInt64(reader[0].ToString()),
+                                    FirstName = reader[1].ToString(),
+                                    LastName = reader[2].ToString(),
+                                    Username = reader[3].ToString(),
+                                    PassWord = reader[4].ToString(),
+                                    Level = Convert.ToInt64(reader[5].ToString())
+                                };
+                                DataConnectionClass.DataLists.UsersList.Add(u);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        DatabaseConnectionException e = new DatabaseConnectionException("You Must select a valid database type", new Exception());
                     }
                 }
             }

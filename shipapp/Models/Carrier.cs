@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace shipapp.Models
 {
-    class Carrier
+    public class Carrier
     {
         // Class level variables
         private int carrierId;

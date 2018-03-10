@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace shipapp.Models
 {
-    class Faculty
+    public class Faculty
     {
         // Class level variable
         private int id;

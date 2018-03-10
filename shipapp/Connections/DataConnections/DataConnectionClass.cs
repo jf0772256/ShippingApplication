@@ -20,17 +20,17 @@ namespace shipapp.Connections.DataConnections
         public static string EncodeString { get; set; }
         public static TestConnClass TestConn { get; set; }
         public static UserConnClass UserConn { get; set; }
-        public static Dictionary<string,BindingList<object>> DataList { get; set; }
+        public static Lists DataLists { get; set; }
         public static bool SuccessAuthenticating { get; set; }
         public static User AuthenticatedUser { get; set; }
 
         static DataConnectionClass()
         {
-            DataList = new Dictionary<string, BindingList<object>>() { };
             Serialization = new Serialize();
             SQLHelper = new SQLHelperClass();
             TestConn = new TestConnClass();
             UserConn = new UserConnClass();
+            DataLists = new Lists();
         }
         public DataConnectionClass()
         {
@@ -137,6 +137,25 @@ namespace shipapp.Connections.DataConnections
             SuccessAuthenticating = false;
             UserConn.Authenticate.Password = "";
             UserConn.Authenticate.UserName = "";
+        }
+    }
+    public class Lists
+    {
+        public BindingList<User> UsersList { get; set; }
+        public BindingList<Carrier> CarriersList { get; set; }
+        public BindingList<Building> BuildingsList { get; set; }
+        public BindingList<Faculty> FacultyList { get; set; }
+        public BindingList<Room> RoomsList { get; set; }
+        static Lists()
+        {
+        }
+        public Lists()
+        {
+            UsersList = new BindingList<User>() { };
+            CarriersList = new BindingList<Carrier>() { };
+            BuildingsList = new BindingList<Building>() { };
+            FacultyList = new BindingList<Faculty>() { };
+            RoomsList = new BindingList<Room>() { };
         }
     }
 }

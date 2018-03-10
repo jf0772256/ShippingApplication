@@ -24,9 +24,9 @@ namespace shipapp.Connections.DataConnections
         {
             Write_User_To_Database(user);
         }
-        public void Update1User(long id, string newPassword)
+        public void Update1User(long id, string[] columnNames, string[] newValues)
         {
-
+            Update_User(id, columnNames, newValues);
         }
         public BindingList<User> GetManyUsers()
         {
