@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using shipapp.Connections;
 
-namespace shipapp.Connections.DataConnections
+namespace shipapp.Connections.DataConnections.Classes
 {
     class TestConnClass:DatabaseConnection
     {

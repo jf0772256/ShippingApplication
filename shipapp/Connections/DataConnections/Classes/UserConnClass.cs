@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using shipapp.Models;
 
-namespace shipapp.Connections.DataConnections
+namespace shipapp.Connections.DataConnections.Classes
 {
     class UserConnClass:DatabaseConnection
     {

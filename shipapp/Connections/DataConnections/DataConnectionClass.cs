@@ -9,6 +9,7 @@ using System.Resources;
 using System.Xml.Linq;
 using shipapp.Models;
 using shipapp.Models.ModelData;
+using shipapp.Connections.DataConnections.Classes;
 
 namespace shipapp.Connections.DataConnections
 {
@@ -19,10 +20,25 @@ namespace shipapp.Connections.DataConnections
         public static Serialize Serialization { get; set; }
         public static string ConnectionString { get; set; }
         public static string EncodeString { get; set; }
+        /// <summary>
+        /// Tester connection class and its methods amd properties
+        /// </summary>
         public static TestConnClass TestConn { get; set; }
+        /// <summary>
+        /// Users connection class and its methods amd properties
+        /// </summary>
         public static UserConnClass UserConn { get; set; }
+        /// <summary>
+        /// A collection of bindable lists of used classes especially for use with datagridviews and the database
+        /// </summary>
         public static Lists DataLists { get; set; }
+        /// <summary>
+        /// User successfully authenticated
+        /// </summary>
         public static bool SuccessAuthenticating { get; set; }
+        /// <summary>
+        /// Successfully athenticated user object for use with in the application
+        /// </summary>
         public static User AuthenticatedUser { get; set; }
 
         static DataConnectionClass()
@@ -37,6 +53,10 @@ namespace shipapp.Connections.DataConnections
         {
 
         }
+        /// <summary>
+        /// Used to update database connection with a new connection string, this new value is saved.
+        /// </summary>
+        /// <param name="value">Saveable connectionstring in an asrray</param>
         public static void SaveDatabaseData(string[] value)
         {
             try
@@ -76,6 +96,9 @@ namespace shipapp.Connections.DataConnections
             //now I need to replace the values in doc to the new values...
             doc.Save(Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml");
         }
+        /// <summary>
+        /// Recovers connectionstring during application load to be used while the application is in operation.
+        /// </summary>
         public static void GetDatabaseData()
         {
             XDocument doc = new XDocument();
@@ -132,6 +155,9 @@ namespace shipapp.Connections.DataConnections
                 EncodeString = Properties.Resources.backupstring;
             }
         }
+        /// <summary>
+        /// Processes user logout
+        /// </summary>
         public static void LogUserOut()
         {
             AuthenticatedUser = null;
@@ -140,21 +166,41 @@ namespace shipapp.Connections.DataConnections
             UserConn.Authenticate.UserName = "";
         }
     }
+    /// <summary>
+    /// Data lists for classes used by application.
+    /// </summary>
     class Lists
     {
+        /// <summary>
+        /// List of Users (or in other words receiving employees)
+        /// </summary>
         public BindingList<User> UsersList { get; set; }
+        /// <summary>
+        /// List of Carriers
+        /// </summary>
         public BindingList<Carrier> CarriersList { get; set; }
-        public BindingList<PhysicalAddress> BuildingsList { get; set; }
+        /// <summary>
+        /// List of Faculty
+        /// </summary>
         public BindingList<Faculty> FacultyList { get; set; }
-        static Lists()
-        {
-        }
+        /// <summary>
+        /// List of Vendors
+        /// </summary>
+        public BindingList<Vendor> Vendors { get; set; }
+        /// <summary>
+        /// List of Packages expected /or/ all
+        /// </summary>
+        public BindingList<Package> Packages { get; set; }
+        /// <summary>
+        /// Lists of all used classes (not including sub models or model helpers)
+        /// </summary>
         public Lists()
         {
             UsersList = new BindingList<User>() { };
             CarriersList = new BindingList<Carrier>() { };
-            BuildingsList = new BindingList<PhysicalAddress>() { };
             FacultyList = new BindingList<Faculty>() { };
+            Packages = new BindingList<Package>() { };
+            Vendors = new BindingList<Vendor>() { };
         }
     }
 }
