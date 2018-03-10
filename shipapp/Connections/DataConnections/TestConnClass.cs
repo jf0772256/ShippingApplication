@@ -24,8 +24,9 @@ namespace shipapp.Connections.DataConnections
             //Test_Connection();
             Drop_Tables(true, null);
             Create_Tables();
-            Models.User JesseF = new Models.User() { FirstName = "Jesse", LastName = "Fender", Username = "test_User1", PassWord = "tadaaa!", Level = 10 };
-            Write_User_To_Database(JesseF);
+            //the below lines which is now commented out would fail if it ever was run as there is no role_id 10
+            //Models.User JesseF = new Models.User() { FirstName = "Jesse", LastName = "Fender", Username = "test_User1", PassWord = "tadaaa!", Level = new Models.ModelData.Role() { Role_id = 10, Role_Title = "godmode" } };
+            //Write_User_To_Database(JesseF);
             shipapp.Models.User me = GetUser(1);
             System.Windows.Forms.MessageBox.Show(me.FirstName + " " + me.LastName + ": " + me.Username + ", " + me.PassWord, "did i work?");
         }

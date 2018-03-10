@@ -325,7 +325,16 @@ namespace shipapp.Connections
                         cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
                         cmd.CommandText += "INSERT INTO users (user_fname,user_lname,user_name,user_password,user_role_id) VALUES (?,?,?,EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)),?);";
                         cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
-                        cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("firstname", u.FirstName), new OdbcParameter("lastname", u.LastName), new OdbcParameter("username", u.Username), new OdbcParameter("password", u.PassWord), new OdbcParameter("role", u.Level) });
+                        cmd.Parameters.AddRange(
+                            new OdbcParameter[] 
+                            {
+                                new OdbcParameter("firstname", u.FirstName),
+                                new OdbcParameter("lastname", u.LastName),
+                                new OdbcParameter("username", u.Username),
+                                new OdbcParameter("password", u.PassWord),
+                                new OdbcParameter("role", u.Level.Role_id)
+                            }
+                        );
                         try
                         {
                             cmd.ExecuteNonQuery();
@@ -354,16 +363,16 @@ namespace shipapp.Connections
                     using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                     {
                         cmd.CommandText = "INSERT INTO " + Tables.users.ToString() + " (user_fname,user_lname,user_name,user_password,user_role_id)VALUES(?,?,?,AES_ENCRYPT(?,'"+EncodeKey+"'),?);";
-                        OdbcParameter p1 = new OdbcParameter("user_fname", u.FirstName);
-                        OdbcParameter p2 = new OdbcParameter("user_lname", u.LastName);
-                        OdbcParameter p3 = new OdbcParameter("user_name", u.Username);
-                        OdbcParameter p4 = new OdbcParameter("user_password",u.PassWord);
-                        OdbcParameter p5 = new OdbcParameter("user_role_id", u.Level);
-                        cmd.Parameters.Add(p1);
-                        cmd.Parameters.Add(p2);
-                        cmd.Parameters.Add(p3);
-                        cmd.Parameters.Add(p4);
-                        cmd.Parameters.Add(p5);
+                        cmd.Parameters.AddRange(
+                            new OdbcParameter[]
+                            {
+                                new OdbcParameter("user_fname", u.FirstName),
+                                new OdbcParameter("user_lname", u.LastName),
+                                new OdbcParameter("user_name", u.Username),
+                                new OdbcParameter("user_password", u.PassWord),
+                                new OdbcParameter("user_role_id", u.Level.Role_id)
+                            }
+                        );
                         try
                         {
                             cmd.ExecuteNonQuery();
@@ -384,7 +393,92 @@ namespace shipapp.Connections
         }
         protected void Write_User_To_Database(BindingList<User> users)
         {
-            throw new NotImplementedException();
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+            {
+                using (OdbcConnection c = new OdbcConnection())
+                {
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    OdbcTransaction tr = c.BeginTransaction();
+                    using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                    {
+                        foreach (User u in users)
+                        {
+                            //open key
+                            cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
+                            cmd.CommandText += "INSERT INTO users (user_fname,user_lname,user_name,user_password,user_role_id) VALUES (?,?,?,EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)),?);";
+                            cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
+                            cmd.Parameters.AddRange(
+                                new OdbcParameter[]
+                                {
+                                new OdbcParameter("firstname", u.FirstName),
+                                new OdbcParameter("lastname", u.LastName),
+                                new OdbcParameter("username", u.Username),
+                                new OdbcParameter("password", u.PassWord),
+                                new OdbcParameter("role", u.Level.Role_id)
+                                }
+                            );
+                            try
+                            {
+                                cmd.ExecuteNonQuery();
+                                cmd.CommandText = "";
+                                cmd.Parameters.Clear();
+                            }
+                            catch (Exception e)
+                            {
+                                cmd.Transaction.Rollback();
+                                DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                            }
+                        }
+                        cmd.Transaction.Commit();
+                    }
+                }
+            }
+            else if (DBType == SQLHelperClass.DatabaseType.MySQL)
+            {
+                using (OdbcConnection c = new OdbcConnection())
+                {
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    OdbcTransaction tr = c.BeginTransaction();
+                    using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                    {
+                        foreach (User u in users)
+                        {
+                            cmd.CommandText = "INSERT INTO " + Tables.users.ToString() + " (user_fname,user_lname,user_name,user_password,user_role_id)VALUES(?,?,?,AES_ENCRYPT(?,'" + EncodeKey + "'),?);";
+                            cmd.Parameters.AddRange(
+                                new OdbcParameter[]
+                                {
+                                new OdbcParameter("user_fname", u.FirstName),
+                                new OdbcParameter("user_lname", u.LastName),
+                                new OdbcParameter("user_name", u.Username),
+                                new OdbcParameter("user_password", u.PassWord),
+                                new OdbcParameter("user_role_id", u.Level.Role_id)
+                                }
+                            );
+                            try
+                            {
+                                cmd.ExecuteNonQuery();
+                                cmd.Parameters.Clear();
+                                cmd.CommandText = "";
+                            }
+                            catch (Exception e)
+                            {
+                                cmd.Transaction.Rollback();
+                                DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                            }
+                        }
+                        cmd.Transaction.Commit();
+                    }
+                }
+            }
+            else
+            {
+                DatabaseConnectionException exc = new DatabaseConnectionException("You Must select a valid database type.", new ArgumentException(DBType.ToString() + " is invalid."));
+            }
         }
         protected void Update_User(long id,string[] columns, string[] values)
         {
@@ -500,9 +594,10 @@ namespace shipapp.Connections
                         cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id FROM users WHERE users.user_id = ?;";
                     }
                     cmd.Parameters.AddWithValue("userId", id);
+                    User u = new User();
+                    long rid = 0;
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
-                        User u = new User();
                         while (reader.Read())
                         {
                             u.Id = Convert.ToInt64(reader[0].ToString());
@@ -510,10 +605,24 @@ namespace shipapp.Connections
                             u.LastName = reader[2].ToString();
                             u.Username = reader[3].ToString();
                             u.PassWord = reader[4].ToString();
-                            u.Level = Convert.ToInt64(reader[5].ToString());
+                            rid = Convert.ToInt64(reader[5].ToString());
                         }
-                        return u;
                     }
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?";
+                    cmd.Parameters.AddWithValue("role_id", rid);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            u.Level = new Models.ModelData.Role()
+                            {
+                                Role_id = Convert.ToInt64(reader[0].ToString()),
+                                Role_Title = reader[1].ToString()
+                            };
+                        }
+                    }
+                    return u;
                 }
             }
         }
@@ -544,9 +653,10 @@ namespace shipapp.Connections
                         cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id FROM users WHERE users.user_name = ?;";
                     }
                     cmd.Parameters.AddWithValue("userName", username);
+                    User u = new User();
+                    long rid = 0;
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
-                        User u = new User();
                         while (reader.Read())
                         {
                             u.Id = Convert.ToInt64(reader[0].ToString());
@@ -554,10 +664,24 @@ namespace shipapp.Connections
                             u.LastName = reader[2].ToString();
                             u.Username = reader[3].ToString();
                             u.PassWord = reader[4].ToString();
-                            u.Level = Convert.ToInt64(reader[5].ToString());
+                            rid = Convert.ToInt64(reader[5].ToString());
                         }
-                    return u;
                     }
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?";
+                    cmd.Parameters.AddWithValue("role_id", rid);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            u.Level = new Models.ModelData.Role()
+                            {
+                                Role_id = Convert.ToInt64(reader[0].ToString()),
+                                Role_Title = reader[1].ToString()
+                            };
+                        }
+                    }
+                    return u;
                 }
             }
         }
@@ -581,6 +705,7 @@ namespace shipapp.Connections
                         cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
                         cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id FROM users;";
                         cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
+                        List<long> rids = new List<long>() { };
                         using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -592,14 +717,34 @@ namespace shipapp.Connections
                                     LastName = reader[2].ToString(),
                                     Username = reader[3].ToString(),
                                     PassWord = reader[4].ToString(),
-                                    Level = Convert.ToInt64(reader[5].ToString())
                                 };
+                                rids.Add(Convert.ToInt64(reader[5].ToString()));
                                 DataConnectionClass.DataLists.UsersList.Add(u);
                             }
+                        }
+                        int cnt = 0;
+                        foreach (User u in DataConnectionClass.DataLists.UsersList)
+                        {
+                            cmd.Parameters.Clear();
+                            cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?;";
+                            cmd.Parameters.AddWithValue("role_id", rids[cnt]);
+                            using (OdbcDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    u.Level = new Models.ModelData.Role()
+                                    {
+                                        Role_id = Convert.ToInt64(reader[0].ToString()),
+                                        Role_Title = reader[1].ToString()
+                                    };
+                                }
+                            }
+                            cnt++;
                         }
                     }
                     else if (DBType == SQLHelperClass.DatabaseType.MySQL)
                     {
+                        List<long> rids = new List<long>() { };
                         cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id FROM users;";
                         using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
@@ -612,10 +757,29 @@ namespace shipapp.Connections
                                     LastName = reader[2].ToString(),
                                     Username = reader[3].ToString(),
                                     PassWord = reader[4].ToString(),
-                                    Level = Convert.ToInt64(reader[5].ToString())
                                 };
+                                rids.Add(Convert.ToInt64(reader[5].ToString()));
                                 DataConnectionClass.DataLists.UsersList.Add(u);
                             }
+                        }
+                        int cnt = 0;
+                        foreach (User u in DataConnectionClass.DataLists.UsersList)
+                        {
+                            cmd.Parameters.Clear();
+                            cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?;";
+                            cmd.Parameters.AddWithValue("role_id", rids[cnt]);
+                            using (OdbcDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    u.Level = new Models.ModelData.Role()
+                                    {
+                                        Role_id = Convert.ToInt64(reader[0].ToString()),
+                                        Role_Title = reader[1].ToString()
+                                    };
+                                }
+                            }
+                            cnt++;
                         }
                     }
                     else

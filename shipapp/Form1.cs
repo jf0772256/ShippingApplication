@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using shipapp.Connections.DataConnections;
 
 namespace shipapp
 {
@@ -27,6 +28,7 @@ namespace shipapp
         public MainMenu()
         {
             InitializeComponent();
+            lblUser.Text = DataConnectionClass.AuthenticatedUser.FirstName + " " + DataConnectionClass.AuthenticatedUser.LastName + " (" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + ")";
         }
 
         /// <summary>
@@ -46,6 +48,7 @@ namespace shipapp
         /// <param name="e"></param>
         private void lblUser_Click(object sender, EventArgs e)
         {
+            Connections.DataConnections.DataConnectionClass.LogUserOut();
             GoToLogIn();
         }
 

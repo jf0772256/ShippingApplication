@@ -82,6 +82,16 @@ namespace shipapp
             {
                 if (txtBxPassword.Text == testPassword)
                 {
+                    DataConnectionClass.AuthenticatedUser = new User()
+                    {
+                        FirstName = "Super",
+                        LastName = "Admin",
+                        Level = new Models.ModelData.Role()
+                        {
+                            Role_id = 0,
+                            Role_Title = "Super Admin"
+                        }
+                    };
                     OnLoginSucceed();
                 }
                 else
