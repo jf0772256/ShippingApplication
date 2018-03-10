@@ -118,12 +118,11 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox txtBxUsername;
-        private System.Windows.Forms.TextBox txtBxPassword;
         private System.Windows.Forms.Button btnLogIn;
         private System.Windows.Forms.Label lblUserName;
         private System.Windows.Forms.Label lblPasswrod;
         private System.Windows.Forms.Label lblPromt;
+        internal System.Windows.Forms.TextBox txtBxUsername;
+        internal System.Windows.Forms.TextBox txtBxPassword;
     }
 }

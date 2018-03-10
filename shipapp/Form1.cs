@@ -23,11 +23,12 @@ namespace shipapp
     {
         // Class level variables
         bool isLoggedIn = false;
+        LogIn LogInForm { get; set; }
 
-
-        public MainMenu()
+        public MainMenu(LogIn lif)
         {
             InitializeComponent();
+            LogInForm = lif;
             lblUser.Text = DataConnectionClass.AuthenticatedUser.FirstName + " " + DataConnectionClass.AuthenticatedUser.LastName + " (" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + ")";
         }
 
@@ -48,7 +49,7 @@ namespace shipapp
         /// <param name="e"></param>
         private void lblUser_Click(object sender, EventArgs e)
         {
-            Connections.DataConnections.DataConnectionClass.LogUserOut();
+            DataConnectionClass.LogUserOut();
             GoToLogIn();
         }
 
@@ -180,7 +181,11 @@ namespace shipapp
         /// </summary>
         public void GoToLogIn()
         {
-
+            LogInForm.txtBxUsername.Text = "";
+            LogInForm.txtBxPassword.Text = "";
+            this.Hide();
+            LogInForm.Show();
+            LogInForm.txtBxUsername.Focus();
         }
         #endregion
 

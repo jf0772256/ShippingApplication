@@ -118,7 +118,7 @@ namespace shipapp
 
         public void OnLoginSucceed()
         {
-            MainMenu mainMenu = new MainMenu();
+            MainMenu mainMenu = new MainMenu(this);
             mainMenu.Show();
             this.Hide();
         }
