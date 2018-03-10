@@ -15,7 +15,10 @@ namespace shipapp.Connections.DataConnections.Classes
         public VendorConnClass() { }
         public Vendors GetVendor(long id)
         {
-            return new Vendors() {  };
+            return new Vendors()
+            {
+                //
+            };
         }
         public void GetVendorList() { }
         public void AddVendor(Vendors value) { }

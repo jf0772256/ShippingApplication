@@ -119,6 +119,7 @@ namespace shipapp
         public void OnLoginSucceed()
         {
             Main = new MainMenu(this);
+            GC.Collect();
             Main.Show();
             this.Hide();
         }
