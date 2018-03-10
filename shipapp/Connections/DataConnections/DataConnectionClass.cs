@@ -8,6 +8,7 @@ using shipapp.Connections.HelperClasses;
 using System.Resources;
 using System.Xml.Linq;
 using shipapp.Models;
+using shipapp.Models.ModelData;
 
 namespace shipapp.Connections.DataConnections
 {
@@ -139,13 +140,12 @@ namespace shipapp.Connections.DataConnections
             UserConn.Authenticate.UserName = "";
         }
     }
-    public class Lists
+    class Lists
     {
         public BindingList<User> UsersList { get; set; }
         public BindingList<Carrier> CarriersList { get; set; }
-        public BindingList<Building> BuildingsList { get; set; }
+        public BindingList<PhysicalAddress> BuildingsList { get; set; }
         public BindingList<Faculty> FacultyList { get; set; }
-        public BindingList<Room> RoomsList { get; set; }
         static Lists()
         {
         }
@@ -153,9 +153,8 @@ namespace shipapp.Connections.DataConnections
         {
             UsersList = new BindingList<User>() { };
             CarriersList = new BindingList<Carrier>() { };
-            BuildingsList = new BindingList<Building>() { };
+            BuildingsList = new BindingList<PhysicalAddress>() { };
             FacultyList = new BindingList<Faculty>() { };
-            RoomsList = new BindingList<Room>() { };
         }
     }
 }
