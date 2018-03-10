@@ -21,6 +21,10 @@ namespace shipapp.Models
         /// </summary>
         public PurchaseOrder PackagePurchaseOrder { get; set; }
         /// <summary>
+        /// Identifyer in supplement tables, as string, max value 1000 bits and MUST be unique across all primary models
+        /// </summary>
+        public string Package_PersonId { get; set; }
+        /// <summary>
         /// Package Carrier as Carrier
         /// </summary>
         public Carrier PackageCarrier { get; set; }

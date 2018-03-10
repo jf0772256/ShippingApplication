@@ -20,6 +20,10 @@ namespace shipapp.Models
         /// </summary>
         public string PONumber { get; set; }
         /// <summary>
+        /// Identifyer in supplement tables, as string, max value 1000 bits and MUST be unique across all primary models
+        /// </summary>
+        public string PurchaseOrder_PersonId { get; set; }
+        /// <summary>
         /// Number of packages to be expected on po as integer
         /// </summary>
         public int PackageCount { get; set; }

@@ -17,6 +17,10 @@ namespace shipapp.Models
         /// </summary>
         public long Id { get; set; }
         /// <summary>
+        /// Identifyer in supplement tables, as string, max value 1000 bits and MUST be unique across all primary models
+        /// </summary>
+        public string Faculty_PersonId { get; set; }
+        /// <summary>
         /// Faculty First Name as string
         /// </summary>
         public string FirstName { get; set; }

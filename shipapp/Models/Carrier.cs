@@ -21,6 +21,10 @@ namespace shipapp.Models
         /// </summary>
         public string CarrierName { get; set; }
         /// <summary>
+        /// Identifyer in supplement tables, as string, max value 1000 bits and MUST be unique across all primary models
+        /// </summary>
+        public string Carrier_PersonId { get; set; }
+        /// <summary>
         /// Carrier Phone Number as PhoneNumber
         /// </summary>
         public PhoneNumber PhoneNumber { get; set; }
