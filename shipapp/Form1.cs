@@ -122,6 +122,9 @@ namespace shipapp
 
         void receive_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Receiving r = (Receiving)sender;
+            r.Dispose();
+            GC.Collect();
             this.Show();
         }
 
@@ -139,6 +142,9 @@ namespace shipapp
 
         void report_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Reports r = (Reports)sender;
+            r.Dispose();
+            GC.Collect();
             this.Show();
         }
 
@@ -156,6 +162,9 @@ namespace shipapp
 
         void manage_FormClosed(object sender, FormClosedEventArgs e)
         {
+            Manage m = (Manage)sender;
+            m.Dispose();
+            GC.Collect();
             this.Show();
         }
 
@@ -173,6 +182,10 @@ namespace shipapp
 
         void settings_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //to avoid memory leak, which was detected through the log in out process... all forms created must be disposed and resources freed
+            Settings s = (Settings)sender;
+            s.Dispose();
+            GC.Collect();
             this.Show();
         }
 
@@ -183,12 +196,12 @@ namespace shipapp
         {
             LogInForm.txtBxUsername.Text = "";
             LogInForm.txtBxPassword.Text = "";
-            this.Hide();
             LogInForm.Show();
             LogInForm.txtBxUsername.Focus();
+            this.Dispose(true);
+            GC.Collect();
         }
         #endregion
-
         public void TestLoginTrue()
         {
             if (isLoggedIn)

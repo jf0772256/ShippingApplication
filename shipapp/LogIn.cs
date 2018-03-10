@@ -20,13 +20,13 @@ namespace shipapp
         // Class level variables
         private string testUsername = "admin";
         private string testPassword = "admin";
-
+        private MainMenu Main { get; set; }
 
         public LogIn()
         {
             InitializeComponent();
             DataConnectionClass.GetDatabaseData();
-            DataConnectionClass.TestConn.ResetAllDatabaseTables();
+            //DataConnectionClass.TestConn.ResetAllDatabaseTables();
         }
 
         /// <summary>
@@ -118,8 +118,8 @@ namespace shipapp
 
         public void OnLoginSucceed()
         {
-            MainMenu mainMenu = new MainMenu(this);
-            mainMenu.Show();
+            Main = new MainMenu(this);
+            Main.Show();
             this.Hide();
         }
     }
