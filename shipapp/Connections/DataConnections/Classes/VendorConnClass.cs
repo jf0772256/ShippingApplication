@@ -10,19 +10,28 @@ namespace shipapp.Connections.DataConnections.Classes
     /// <summary>
     /// Vendor connection interface access only through DataConnectionClass
     /// </summary>
-    class VendorConnClass
+    class VendorConnClass:DatabaseConnection()
     {
-        public VendorConnClass() { }
+        public VendorConnClass():base() { }
         public Vendors GetVendor(long id)
         {
-            return new Vendors()
-            {
-                //
-            };
+            return GetVendor_From_Database(id);
         }
-        public void GetVendorList() { }
-        public void AddVendor(Vendors value) { }
+        public void GetVendorList()
+        {
+            GetVendorsList();
+        }
+        public void AddVendor(Vendors value)
+        {
+            Write_Vendor_To_Database(value);
+        }
+        /// <summary>
+        /// do not use yet.
+        /// </summary>
         public void WriteAllVendors() { }
-        public void UpdateVendor(long id) { }
+        public void UpdateVendor(Vendors value)
+        {
+            Update_Vendor(value);
+        }
     }
 }

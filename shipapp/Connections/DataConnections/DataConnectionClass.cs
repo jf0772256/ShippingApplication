@@ -33,6 +33,10 @@ namespace shipapp.Connections.DataConnections
         /// </summary>
         public static VendorConnClass VendorConn { get; set; }
         /// <summary>
+        /// Role Connection Class and its Methods Handle the add and update of roles
+        /// </summary>
+        public static RoleConnClass RoleConn { get; set; }
+        /// <summary>
         /// A collection of bindable lists of used classes especially for use with datagridviews and the database
         /// </summary>
         public static Lists DataLists { get; set; }

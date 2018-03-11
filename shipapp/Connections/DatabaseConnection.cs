@@ -11,6 +11,7 @@ using System.IO;
 using shipapp.Connections.HelperClasses;
 using shipapp.Connections.DataConnections;
 using shipapp.Models;
+using shipapp.Models.ModelData;
 
 namespace shipapp.Connections
 {
@@ -667,6 +668,61 @@ namespace shipapp.Connections
                 }
             }
         }
+        protected void Add_Role(Role value)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("",c,tr))
+                {
+                    cmd.CommandText = "INSERT INTO roles(role_title)VALUES(?);";
+                    cmd.Parameters.AddWithValue("title", value.Role_Title);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                    }
+                }
+            }
+        }
+        protected void Update_Role(Role value)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "UPDATE roles SET role_title = ? WHERE role_id = ?;";
+                    cmd.Parameters.AddWithValue("title", value.Role_Title);
+                    cmd.Parameters.AddWithValue("id", value.Role_id);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                    }
+                }
+            }
+        }
         #endregion
         #region Get Data From Database
         /// <summary>
@@ -896,7 +952,7 @@ namespace shipapp.Connections
         /// Gets selected vendor from list by id
         /// </summary>
         /// <returns></returns>
-        protected Vendors GetVendor(long id)
+        protected Vendors GetVendor_From_Database(long id)
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
