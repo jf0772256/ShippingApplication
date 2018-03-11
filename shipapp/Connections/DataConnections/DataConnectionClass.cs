@@ -41,6 +41,10 @@ namespace shipapp.Connections.DataConnections
         /// </summary>
         public static CarrierConnClass CarrierConn { get; set; }
         /// <summary>
+        /// Employee(faculty) connection class and its methods and properties
+        /// </summary>
+        public static EmployeeConnClass EmployeeConn { get; set; }
+        /// <summary>
         /// A collection of bindable lists of used classes especially for use with datagridviews and the database
         /// </summary>
         public static Lists DataLists { get; set; }
@@ -62,6 +66,7 @@ namespace shipapp.Connections.DataConnections
             VendorConn = new VendorConnClass();
             RoleConn = new RoleConnClass();
             CarrierConn = new CarrierConnClass();
+            EmployeeConn = new EmployeeConnClass();
             DataLists = new Lists();
         }
         public DataConnectionClass()
@@ -215,7 +220,7 @@ namespace shipapp.Connections.DataConnections
             CarriersList = new BindingList<Carrier>() { };
             FacultyList = new BindingList<Faculty>() { };
             Packages = new BindingList<Package>() { };
-            Vendors = new BindingList<Vendor>() { };
+            Vendors = new BindingList<Vendors>() { };
         }
     }
 }

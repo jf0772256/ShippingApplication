@@ -16,13 +16,21 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             return new Faculty() { };
         }
+        /// <summary>
+        /// Adds new faculty to the database
+        /// </summary>
+        /// <param name="f">Faculty object</param>
         public void AddFaculty(Faculty f)
         {
-            //
+            Write_Faculty_To_Database(f);
         }
+        /// <summary>
+        /// Updates currect faculty in the database, DO NOT MODIFY OR CHANGE THE IDS OR PERSION ID!!!
+        /// </summary>
+        /// <param name="f">Modified faculty object</param>
         public void UpdateFaculty(Faculty f)
         {
-            //
+            Update_Faculty(f);
         }
         public void GetAllAfaculty()
         {

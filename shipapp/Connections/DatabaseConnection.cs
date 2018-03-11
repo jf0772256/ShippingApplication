@@ -820,6 +820,166 @@ namespace shipapp.Connections
                 }
             }
         }
+        protected void Write_Faculty_To_Database(Faculty f)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "INSERT INTO employees (first_name,last_name,person_id)VALUES(?,?,?);";
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("fname",f.FirstName),
+                        new OdbcParameter("lname",f.LastName),
+                        new OdbcParameter("person_id",f.Faculty_PersonId)
+                    });
+                    foreach (PhoneNumber phone in f.Phone)
+                    {
+                        cmd.CommandText += "INSERT INTO phone_numbers(phone_number,person_id)VALUES(?,?);";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("phone",phone.Phone_Number),
+                            new OdbcParameter("person_id",f.Faculty_PersonId)
+                        });
+                    }
+                    foreach (EmailAddress email in f.Email)
+                    {
+                        cmd.CommandText += "INSERT INTO email_addresses(email_address,person_id)VALUES(?,?);";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("email",email.Email_Address),
+                            new OdbcParameter("person_id",f.Faculty_PersonId)
+                        });
+                    }
+                    foreach (Note note in f.Notes)
+                    {
+                        cmd.CommandText += "INSERT INTO notes(note_value,note_id)VALUES(?,?);";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("note",note.Note_Value),
+                            new OdbcParameter("person_id",f.Faculty_PersonId)
+                        });
+                    }
+                    foreach (PhysicalAddress paddr in f.Address)
+                    {
+                        cmd.CommandText += "INSERT INTO physical_addr(person_id,building_long_name,building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,addr_note_id)VALUES(?,?,?,?,?,?,?,?,?,?,?);";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("person_id",f.Faculty_PersonId),
+                            new OdbcParameter("bln",paddr.BuildingLongName),
+                            new OdbcParameter("bsn",paddr.BuildingShortName),
+                            new OdbcParameter("brn",paddr.BuildingRoomNumber),
+                            new OdbcParameter("ln1",paddr.Line1),
+                            new OdbcParameter("ln2",paddr.Line2),
+                            new OdbcParameter("cty",paddr.City),
+                            new OdbcParameter("state",paddr.State),
+                            new OdbcParameter("zip",paddr.ZipCode),
+                            new OdbcParameter("ctry",paddr.Country),
+                            new OdbcParameter("noteid",f.Faculty_PersonId)
+                        });
+                    }
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failure to process data, please review inner exception for further detail.", e);
+                    }
+                }
+            }
+        }
+        protected void Update_Faculty(Faculty f)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "UPDATE employees SET first_name=?,last_name=? WHERE person_id = ? AND empl_id = ?;";
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("fname",f.FirstName),
+                        new OdbcParameter("lname",f.LastName),
+                        new OdbcParameter("person_id",f.Faculty_PersonId),
+                        new OdbcParameter("empl_id", f.Id)
+                    });
+                    foreach (PhoneNumber phone in f.Phone)
+                    {
+                        cmd.CommandText += "UPDATE phone_numbers SET phone_number = ? WHERE person_id = ? AND phone_id = ?;";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("phone",phone.Phone_Number),
+                            new OdbcParameter("person_id",f.Faculty_PersonId),
+                            new OdbcParameter("pid",phone.PhoneId)
+                        });
+                    }
+                    foreach (EmailAddress email in f.Email)
+                    {
+                        cmd.CommandText += "UPDATE email_addresses SET email_address = ? WHERE person_id = ? AND email_id = ?;";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("email",email.Email_Address),
+                            new OdbcParameter("person_id",f.Faculty_PersonId),
+                            new OdbcParameter("eid",email.Email_Id)
+                        });
+                    }
+                    foreach (Note note in f.Notes)
+                    {
+                        if (note.Note_Id <= 0)
+                        {
+                            cmd.CommandText += "INSERT INTO notes(note_value,note_id)VALUES(?,?);";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
+                                new OdbcParameter("note",note.Note_Value),
+                                new OdbcParameter("person_id",f.Faculty_PersonId)
+                            });
+                        }
+                    }
+                    foreach (PhysicalAddress paddr in f.Address)
+                    {
+                        cmd.CommandText += "UPDATE physical_addr SET building_long_name = ?,building_short_name = ?,room_number = ?,addr_line1 = ?,addr_line2 = ?,addr_city = ?,addr_state = ?,addr_zip = ?,addr_cntry = ? WHERE person_id = ? AND address_id = ?;";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("bln",paddr.BuildingLongName),
+                            new OdbcParameter("bsn",paddr.BuildingShortName),
+                            new OdbcParameter("brn",paddr.BuildingRoomNumber),
+                            new OdbcParameter("ln1",paddr.Line1),
+                            new OdbcParameter("ln2",paddr.Line2),
+                            new OdbcParameter("cty",paddr.City),
+                            new OdbcParameter("state",paddr.State),
+                            new OdbcParameter("zip",paddr.ZipCode),
+                            new OdbcParameter("ctry",paddr.Country),
+                            new OdbcParameter("person_id",f.Faculty_PersonId),
+                            new OdbcParameter("address_id", paddr.AddressId)
+                        });
+                    }
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failure to process data, please review inner exception for further detail.", e);
+                    }
+                }
+            }
+        }
         #endregion
         #region Get Data From Database
         /// <summary>
@@ -1346,6 +1506,14 @@ namespace shipapp.Connections
                     DataConnectionClass.DataLists.CarriersList = carList;
                 }
             }
+        }
+        protected Faculty Get_Faculty(long id)
+        {
+            return new Faculty() { };
+        }
+        protected void Get_Faculty_List()
+        {
+            //
         }
         #endregion
         #region Enums
