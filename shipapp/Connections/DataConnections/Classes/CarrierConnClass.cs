@@ -14,21 +14,37 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             //
         }
+        /// <summary>
+        /// Creates a new carrier
+        /// </summary>
+        /// <param name="value">New Carrier to be added remember to assign an unique person id</param>
         public void AddCarrier(Carrier value)
         {
-            //
+            Write_Carrier_To_Database(value);
         }
+        /// <summary>
+        /// Updates some/all values of a carrier, beit the name or just adding a note. Include the carrier object that was modified.
+        /// </summary>
+        /// <param name="value">Modified carrier object</param>
         public void UpdateCarrier(Carrier value)
         {
-            //
+            Update_Carrier(value);
         }
+        /// <summary>
+        /// collects all carriers from database - returns to dataconnectionclass.datalists.carriers list
+        /// </summary>
         public void GetCarrierList()
         {
-            //
+            GetCarrierList();
         }
+        /// <summary>
+        /// Collects a single specific carrier from the database - this is important, You must include a valid database id as long.
+        /// </summary>
+        /// <param name="id">ID of the master carrier, from there we will get the rest of the data.</param>
+        /// <returns></returns>
         public Carrier GetCarrier(long id)
         {
-            return new Carrier() { };
+            return Get_Carrier(id);
         }
     }
 }

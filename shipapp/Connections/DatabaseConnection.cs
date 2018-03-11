@@ -118,7 +118,7 @@ namespace shipapp.Connections
             else
             {
                 cmdTxt = new List<string>() { };
-                DatabaseConnectionException exc = new DatabaseConnectionException("You have not set a correct database type.");
+                throw new DatabaseConnectionException("You have not set a correct database type.");
             }
             using (OdbcConnection c = new OdbcConnection())
             {
@@ -153,7 +153,7 @@ namespace shipapp.Connections
                     catch (Exception e)
                     {
                         cmd.Transaction.Rollback();
-                        DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                     }
                 }
             }
@@ -198,7 +198,7 @@ namespace shipapp.Connections
                         catch (Exception e)
                         {
                             cmd.Transaction.Rollback();
-                            DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                            throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                         }
                     }
                     else if (DBType == SQLHelperClass.DatabaseType.MySQL)
@@ -220,12 +220,12 @@ namespace shipapp.Connections
                         catch (Exception e)
                         {
                             cmd.Transaction.Rollback();
-                            DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                            throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                         }
                     }
                     else
                     {
-                        DatabaseConnectionException exc = new DatabaseConnectionException("Not Authorized.");
+                        throw new DatabaseConnectionException("Not Authorized.");
                     }
                 }
             }
@@ -314,7 +314,7 @@ namespace shipapp.Connections
             }
             else
             {
-                DatabaseConnectionException exc = new DatabaseConnectionException("You Must select a valid database type.", new ArgumentException(DBType.ToString() + " is invalid."));
+                throw new DatabaseConnectionException("You Must select a valid database type.", new ArgumentException(DBType.ToString() + " is invalid."));
             }
         }
         protected void Write_User_To_Database(BindingList<User> users)
@@ -356,7 +356,7 @@ namespace shipapp.Connections
                             catch (Exception e)
                             {
                                 cmd.Transaction.Rollback();
-                                DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                                throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                             }
                         }
                         cmd.Transaction.Commit();
@@ -394,7 +394,7 @@ namespace shipapp.Connections
                             catch (Exception e)
                             {
                                 cmd.Transaction.Rollback();
-                                DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                                throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                             }
                         }
                         cmd.Transaction.Commit();
@@ -403,7 +403,7 @@ namespace shipapp.Connections
             }
             else
             {
-                DatabaseConnectionException exc = new DatabaseConnectionException("You Must select a valid database type.", new ArgumentException(DBType.ToString() + " is invalid."));
+                throw new DatabaseConnectionException("You Must select a valid database type.", new ArgumentException(DBType.ToString() + " is invalid."));
             }
         }
         protected void Update_User(long id,string[] columns, string[] values)
@@ -448,10 +448,10 @@ namespace shipapp.Connections
                             cmd.ExecuteNonQuery();
                             cmd.Transaction.Commit();
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
                             cmd.Transaction.Rollback();
-                            throw;
+                            throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                         }
                     }
                     else if (DBType == SQLHelperClass.DatabaseType.MySQL)
@@ -477,15 +477,15 @@ namespace shipapp.Connections
                             cmd.ExecuteNonQuery();
                             cmd.Transaction.Commit();
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
                             cmd.Transaction.Rollback();
-                            throw;
+                            throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                         }
                     }
                     else
                     {
-                        DatabaseConnectionException e = new DatabaseConnectionException("Select a valid database type.", new Exception());
+                        throw new DatabaseConnectionException("Select a valid database type.", new Exception());
                     }
                 }
             }
@@ -565,7 +565,7 @@ namespace shipapp.Connections
                     catch (Exception e)
                     {
                         cmd.Transaction.Rollback();
-                        DatabaseConnectionException except = new DatabaseConnectionException("", e);
+                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                     }
                 }
             }
@@ -660,10 +660,10 @@ namespace shipapp.Connections
                         cmd.ExecuteNonQuery();
                         cmd.Transaction.Commit();
                     }
-                    catch (Exception ex)
+                    catch (Exception e)
                     {
                         cmd.Transaction.Rollback();
-                        DatabaseConnectionException e = new DatabaseConnectionException("", ex);
+                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                     }
                 }
             }
@@ -690,7 +690,7 @@ namespace shipapp.Connections
                     catch (Exception e)
                     {
                         cmd.Transaction.Rollback();
-                        DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                     }
                 }
             }
@@ -718,7 +718,7 @@ namespace shipapp.Connections
                     catch (Exception e)
                     {
                         cmd.Transaction.Rollback();
-                        DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                     }
                 }
             }
@@ -764,7 +764,7 @@ namespace shipapp.Connections
                     catch (Exception e)
                     {
                         cmd.Transaction.Rollback();
-                        DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                     }
                 }
             }
@@ -815,7 +815,7 @@ namespace shipapp.Connections
                     catch (Exception e)
                     {
                         cmd.Transaction.Rollback();
-                        DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                     }
                 }
             }
@@ -1295,7 +1295,7 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
                     Carrier car = null;
-                    List<Carrier> carList = new List<Carrier>() { };
+                    BindingList<Carrier> carList = new BindingList<Carrier>() { };
                     cmd.CommandText = "SELECT carrier_id, carrier_name, person_id FROM carriers;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
@@ -1343,7 +1343,7 @@ namespace shipapp.Connections
                             }
                         }
                     }
-                    DataConnectionClass.DataLists.CarriersList.Add(car);
+                    DataConnectionClass.DataLists.CarriersList = carList;
                 }
             }
         }
@@ -1408,51 +1408,28 @@ namespace shipapp.Connections
     /// <summary>
     /// Database Ecxeption Class
     /// </summary>
-    internal class DatabaseConnectionException
+    internal class DatabaseConnectionException:Exception
     {
-        private string Message { get; set; }
-        private Exception Inner { get; set; }
         /// <summary>
         /// Default Constructor
         /// </summary>
-        public DatabaseConnectionException()
+        public DatabaseConnectionException():base()
         {
-            ThrowException();
         }
         /// <summary>
         /// exception with message
         /// </summary>
         /// <param name="message">Exception message for outer exception</param>
-        public DatabaseConnectionException(string message)
+        public DatabaseConnectionException(string message):base(message)
         {
-            Message = message;
-            ThrowException();
         }
         /// <summary>
         /// Exception with outer exception message and inner exception class
         /// </summary>
         /// <param name="message"></param>
         /// <param name="insideException"></param>
-        public DatabaseConnectionException(string message,Exception insideException)
+        public DatabaseConnectionException(string message, Exception insideException) : base(message, insideException)
         {
-            Message = message;
-            Inner = insideException;
-            ThrowException();
-        }
-        public void ThrowException()
-        {
-            if (String.IsNullOrWhiteSpace(Message))
-            {
-                Message = "An error has occured at some point. Please accept our appologies.";
-            }
-            if (Inner is null)
-            {
-                throw new Exception(Message);
-            }
-            else
-            {
-                throw new Exception(Message, Inner);
-            }
         }
     }
 }
