@@ -723,6 +723,14 @@ namespace shipapp.Connections
                 }
             }
         }
+        protected void Write_Carrier_To_Database(Carrier value)
+        {
+            //
+        }
+        protected void Update_Carrier(Carrier value)
+        {
+            //
+        }
         #endregion
         #region Get Data From Database
         /// <summary>
@@ -1123,6 +1131,14 @@ namespace shipapp.Connections
                     
                 }
             }
+        }
+        protected Carrier GetCarrier(long id)
+        {
+            return new Carrier() { };
+        }
+        protected void GetCarrierList()
+        {
+            //
         }
         #endregion
         #region Enums

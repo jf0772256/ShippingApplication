@@ -37,6 +37,10 @@ namespace shipapp.Connections.DataConnections
         /// </summary>
         public static RoleConnClass RoleConn { get; set; }
         /// <summary>
+        /// Carrier Connection Class and its Methods Handle the add and update of roles
+        /// </summary>
+        public static CarrierConnClass CarrierConn { get; set; }
+        /// <summary>
         /// A collection of bindable lists of used classes especially for use with datagridviews and the database
         /// </summary>
         public static Lists DataLists { get; set; }
@@ -56,6 +60,8 @@ namespace shipapp.Connections.DataConnections
             TestConn = new TestConnClass();
             UserConn = new UserConnClass();
             VendorConn = new VendorConnClass();
+            RoleConn = new RoleConnClass();
+            CarrierConn = new CarrierConnClass();
             DataLists = new Lists();
         }
         public DataConnectionClass()
