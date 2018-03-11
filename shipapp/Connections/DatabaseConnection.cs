@@ -1132,11 +1132,11 @@ namespace shipapp.Connections
                 }
             }
         }
-        protected Carrier GetCarrier(long id)
+        protected Carrier Get_Carrier(long id)
         {
             return new Carrier() { };
         }
-        protected void GetCarrierList()
+        protected void Get_Carrier_List()
         {
             //
         }

@@ -26,5 +26,9 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             //
         }
+        public Carrier GetCarrier(long id)
+        {
+            return new Carrier() { };
+        }
     }
 }
