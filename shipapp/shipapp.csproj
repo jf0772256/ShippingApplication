@@ -51,6 +51,8 @@
     <Compile Include="AddNote.Designer.cs">
       <DependentUpon>AddNote.cs</DependentUpon>
     </Compile>
+    <Compile Include="Connections\DataConnections\Classes\CarrierConnClass.cs" />
+    <Compile Include="Connections\DataConnections\Classes\RoleConnClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\VendorConnClass.cs" />
     <Compile Include="Connections\DataConnections\DataConnectionClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\TestConnClass.cs" />

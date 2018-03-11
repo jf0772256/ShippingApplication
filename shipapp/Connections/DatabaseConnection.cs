@@ -725,11 +725,100 @@ namespace shipapp.Connections
         }
         protected void Write_Carrier_To_Database(Carrier value)
         {
-            //
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "INSERT INTO carriers (carrier_name,person_id)VALUES(?,?);";
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("carrierN",value.CarrierName),
+                        new OdbcParameter("personid",value.Carrier_PersonId)
+                    });
+                    cmd.CommandText += "INSERT INTO phone_numbers (phone_number,person_id)VALUES(?,?);";
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("phone",value.PhoneNumber.Phone_Number),
+                        new OdbcParameter("personid",value.Carrier_PersonId)
+                    });
+                    foreach (Note note in value.Notes)
+                    {
+                        cmd.CommandText += "INSERT INTO notes (note_id,not_value)VALUES(?,?);";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                        new OdbcParameter("id",value.Carrier_PersonId),
+                        new OdbcParameter("text",note.Note_Value)
+                        });
+                    }
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                    }
+                }
+            }
         }
         protected void Update_Carrier(Carrier value)
         {
-            //
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "UPDATE carriers SET carrier_name=? WHERE person_id = ? AND carrier_id =?;";
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("carrierN",value.CarrierName),
+                        new OdbcParameter("personid",value.Carrier_PersonId),
+                        new OdbcParameter("carrierid",value.CarrierId)
+                    });
+                    cmd.CommandText += "UPDATE phone_numbers SET phone_number=? WHERE person_id = ? AND phone_id = ?;";
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("phone",value.PhoneNumber.Phone_Number),
+                        new OdbcParameter("personid",value.Carrier_PersonId),
+                        new OdbcParameter("phoneid",value.PhoneNumber.PhoneId)
+                    });
+                    foreach (Note note in value.Notes)
+                    {
+                        if (note.Note_Id <= 0)
+                        {
+                            cmd.CommandText += "INSERT INTO notes (note_id,not_value)VALUES(?,?);";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
+                                new OdbcParameter("id",value.Carrier_PersonId),
+                                new OdbcParameter("text",note.Note_Value)
+                            });
+                        }
+                    }
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        DatabaseConnectionException exc = new DatabaseConnectionException("", e);
+                    }
+                }
+            }
         }
         #endregion
         #region Get Data From Database
@@ -1134,11 +1223,129 @@ namespace shipapp.Connections
         }
         protected Carrier Get_Carrier(long id)
         {
-            return new Carrier() { };
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    Carrier car = null;
+                    cmd.CommandText = "SELECT carrier_id, carrier_name, person_id FROM carriers WHERE carrier_id = ?;";
+                    cmd.Parameters.Add(new OdbcParameter("carid", id));
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            car = new Carrier()
+                            {
+                                CarrierId = Convert.ToInt64(reader[0].ToString()),
+                                CarrierName = reader[1].ToString(),
+                                Carrier_PersonId = reader[2].ToString()
+                            };
+                        }
+                    }
+                    //clear params::
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
+                    cmd.Parameters.Add(new OdbcParameter("personid", car.Carrier_PersonId));
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            car.PhoneNumber = new PhoneNumber()
+                            {
+                                PhoneId = Convert.ToInt64(reader[0].ToString()),
+                                Phone_Number = reader[1].ToString()
+                            };
+                        }
+                    }
+                    //clear params::
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
+                    cmd.Parameters.Add(new OdbcParameter("personid", car.Carrier_PersonId));
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            car.Notes.Add(new Note()
+                            {
+                                Note_Id = Convert.ToInt64(reader[0].ToString()),
+                                Note_Value = reader[1].ToString()
+                            });
+                        }
+                    }
+                    return car;
+                }
+            }
         }
         protected void Get_Carrier_List()
         {
-            //
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    Carrier car = null;
+                    List<Carrier> carList = new List<Carrier>() { };
+                    cmd.CommandText = "SELECT carrier_id, carrier_name, person_id FROM carriers;";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            car = new Carrier()
+                            {
+                                CarrierId = Convert.ToInt64(reader[0].ToString()),
+                                CarrierName = reader[1].ToString(),
+                                Carrier_PersonId = reader[2].ToString()
+                            };
+                            carList.Add(car);
+                        }
+                    }
+                    foreach (Carrier carrier in carList)
+                    {
+                        //clear params::
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
+                        cmd.Parameters.Add(new OdbcParameter("personid", carrier.Carrier_PersonId));
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                carrier.PhoneNumber = new PhoneNumber()
+                                {
+                                    PhoneId = Convert.ToInt64(reader[0].ToString()),
+                                    Phone_Number = reader[1].ToString()
+                                };
+                            }
+                        }
+                        //clear params::
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
+                        cmd.Parameters.Add(new OdbcParameter("personid", carrier.Carrier_PersonId));
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                carrier.Notes.Add(new Note()
+                                {
+                                    Note_Id = Convert.ToInt64(reader[0].ToString()),
+                                    Note_Value = reader[1].ToString()
+                                });
+                            }
+                        }
+                    }
+                    DataConnectionClass.DataLists.CarriersList.Add(car);
+                }
+            }
         }
         #endregion
         #region Enums
