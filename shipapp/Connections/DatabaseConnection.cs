@@ -489,6 +489,242 @@ namespace shipapp.Connections
                 }
             }
         }
+        protected void Write_Vendor_To_Database(Vendors v)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand())
+                {
+                    cmd.CommandText = "INSERT INTO vendors(vendor_name,vendor_poc_name,person_id)VALUES(?,?,?);";
+                    cmd.Parameters.AddRange(new OdbcParameter[]{
+                        new OdbcParameter("vend_name",v.VendorName),
+                        new OdbcParameter("vend_poc_name",v.VendorPointOfContactName),
+                        new OdbcParameter("person_id",v.Vendor_PersonId)
+                    });
+                    if (!(v.VendorPhone is null))
+                    {
+                        cmd.CommandText += "INSERT INTO phone_numbers (phone_number, person_id)VALUES(?,?);";
+                        cmd.Parameters.AddRange(new OdbcParameter[]{
+                            new OdbcParameter("phone",v.VendorPhone.Phone_Number),
+                            new OdbcParameter("personid",v.Vendor_PersonId)
+                        });
+                    }
+                    if (!(v.VendorAddress is null))
+                    {
+                        cmd.CommandText += "INSERT INTO physical_addr(person_id,building_long_name,building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,address_note_id)VALUES(?,?,?,?,?,?,?,?,?,?,?);";
+                        cmd.Parameters.AddRange(new OdbcParameter[]{
+                            new OdbcParameter("person_id",v.Vendor_PersonId),
+                            new OdbcParameter("buildinglname",v.VendorAddress.BuildingLongName),
+                            new OdbcParameter("buildingsname",v.VendorAddress.BuildingShortName),
+                            new OdbcParameter("buildingroom",v.VendorAddress.BuildingRoomNumber),
+                            new OdbcParameter("line1",v.VendorAddress.Line1),
+                            new OdbcParameter("line2",v.VendorAddress.Line2),
+                            new OdbcParameter("city",v.VendorAddress.City),
+                            new OdbcParameter("state",v.VendorAddress.State),
+                            new OdbcParameter("zip",v.VendorAddress.ZipCode),
+                            new OdbcParameter("country",v.VendorAddress.Country),
+                            new OdbcParameter("addressNoteId",v.Vendor_PersonId)
+                        });
+                    }
+                    if (v.Notes.Count > 0)
+                    {
+                        foreach (Models.ModelData.Note notes in v.Notes)
+                        {
+                            cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?);";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
+                                new OdbcParameter("id",v.Vendor_PersonId),
+                                new OdbcParameter("value",notes.Note_Value)
+                            });
+                        }
+                    }
+                    if (v.VendorAddress.Notes.Count > 0)
+                    {
+                        foreach (Models.ModelData.Note note in v.VendorAddress.Notes)
+                        {
+                            cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUE(?,?);";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
+                                new OdbcParameter("id",v.Vendor_PersonId),
+                                new OdbcParameter("value",note.Note_Value)
+                            });
+                        }
+                    }
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        DatabaseConnectionException except = new DatabaseConnectionException("", e);
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Not used Do Not Use
+        /// </summary>
+        protected void Write_Vendor_List_To_Database()
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+        }
+        protected void Update_Vendor(Vendors v)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("",c,tr))
+                {
+                    cmd.CommandText = "UPDATE vendors SET ";
+                    cmd.CommandText += "vendor_name = ?, vendor_poc_name = ? ";
+                    cmd.CommandText += "WHERE vend_id = ?;";
+                    cmd.Parameters.AddRange
+                        (
+                            new OdbcParameter[]
+                            {
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "vendorname",
+                                    Value = v.VendorName
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "vendorPOCname",
+                                    Value = v.VendorPointOfContactName
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "vendorID",
+                                    Value = v.VendorId
+                                }
+                            }
+                        );
+                    cmd.CommandText += "UPDATE phone_numbers SET phone_number WHERE person_id = ? AND phone_id = ?;";
+                    cmd.Parameters.AddRange
+                        (
+                            new OdbcParameter[]
+                            {
+                                new OdbcParameter()
+                                {
+                                    ParameterName="phoneNumber",
+                                    Value=v.VendorPhone.Phone_Number
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "personID",
+                                    Value = v.Vendor_PersonId
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "phoneID",
+                                    Value=v.VendorPhone.PhoneId
+                                }
+                            }
+                        );
+                    cmd.CommandText += "UPDATE physical_addr SET ";
+                    cmd.CommandText += "building_long_name = ?, building_short_name = ?, room_number = ?, ";
+                    cmd.CommandText += "addr_line1 = ?, addr_line2 = ?, addr_city = ?, addr_state = ?, ";
+                    cmd.CommandText += "addr_zip = ?, addr_cntry = ? WHERE person_id = ? AND address_id = ?;";
+                    cmd.Parameters.AddRange
+                        (
+                            new OdbcParameter[]
+                            {
+                                new OdbcParameter()
+                                {
+                                    ParameterName="blongname",
+                                    Value=v.VendorAddress.BuildingLongName
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "bshortname",
+                                    Value = v.VendorAddress.BuildingShortName
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "broomnumber",
+                                    Value=v.VendorAddress.BuildingRoomNumber
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "line1",
+                                    Value = v.VendorAddress.Line1
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "line2",
+                                    Value=v.VendorAddress.Line2
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "city",
+                                    Value = v.VendorAddress.City
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "state",
+                                    Value=v.VendorAddress.State
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "zip",
+                                    Value = v.VendorAddress.ZipCode
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "country",
+                                    Value=v.VendorAddress.Country
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "personid",
+                                    Value = v.Vendor_PersonId
+                                },
+                                new OdbcParameter()
+                                {
+                                    ParameterName = "addrId",
+                                    Value=v.VendorAddress.AddressId
+                                }
+                            }
+                        );
+                    //look for new notes and insert them into the database
+                    foreach (Models.ModelData.Note note in v.VendorAddress.Notes)
+                    {
+                        if (note.Note_Id == 0)
+                        {
+                            //new note was added
+                            cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?);";
+                            cmd.Parameters.AddWithValue("personId", v.Vendor_PersonId);
+                            cmd.Parameters.AddWithValue("note_text", note.Note_Value);
+                        }
+                    }
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        cmd.Transaction.Rollback();
+                        DatabaseConnectionException e = new DatabaseConnectionException("", ex);
+                    }
+                }
+            }
+        }
         #endregion
         #region Get Data From Database
         /// <summary>
@@ -809,7 +1045,6 @@ namespace shipapp.Connections
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;
-            Vendors v = new Vendors() { };
             using (OdbcConnection c = new OdbcConnection())
             {
                 c.ConnectionString = ConnString;
@@ -821,67 +1056,73 @@ namespace shipapp.Connections
                     {
                         while (reader.Read())
                         {
+                            Vendors v = new Vendors() { };
                             v.VendorId = Convert.ToInt64(reader[0].ToString());
                             v.Vendor_PersonId = reader[1].ToString();
                             v.VendorName = reader[2].ToString();
                             v.VendorPointOfContactName = reader[3].ToString();
+                            DataConnectionClass.DataLists.Vendors.Add(v);
                         }
                     }
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
-                    cmd.Parameters.AddWithValue("person_id", v.Vendor_PersonId);
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    foreach (Vendors vend in DataConnectionClass.DataLists.Vendors)
                     {
-                        while (reader.Read())
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
+                        cmd.Parameters.AddWithValue("person_id", vend.Vendor_PersonId);
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            v.VendorPhone = new Models.ModelData.PhoneNumber()
+                            while (reader.Read())
                             {
-                                PhoneId = Convert.ToInt64(reader[0].ToString()),
-                                Phone_Number = reader[1].ToString()
-                            };
-                        }
-                    }
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT address_id, building_long_name, building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,address_note_id FROM physical_addr WHERE person_id = ?;";
-                    cmd.Parameters.AddWithValue("person_id", v.Vendor_PersonId);
-                    string noteid = "";
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            v.VendorAddress = new Models.ModelData.PhysicalAddress()
-                            {
-                                AddressId = Convert.ToInt64(reader[0].ToString()),
-                                BuildingLongName = reader[1].ToString(),
-                                BuildingShortName = reader[2].ToString(),
-                                BuildingRoomNumber = reader[3].ToString(),
-                                Line1 = reader[4].ToString(),
-                                Line2 = reader[5].ToString(),
-                                City = reader[6].ToString(),
-                                State = reader[7].ToString(),
-                                ZipCode = reader[8].ToString(),
-                                Country = reader[9].ToString()
-                            };
-                            noteid = reader[10].ToString();
-                        }
-                    }
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT id, note_value FROM notes WHERE note_id = ?;";
-                    cmd.Parameters.AddWithValue("note_id", v.Vendor_PersonId);
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            v.Notes.Add
-                            (
-                                new Models.ModelData.Note()
+                                vend.VendorPhone = new Models.ModelData.PhoneNumber()
                                 {
-                                    Note_Id = Convert.ToInt64(reader[0].ToString()),
-                                    Note_Value = reader[1].ToString()
-                                }
-                            );
+                                    PhoneId = Convert.ToInt64(reader[0].ToString()),
+                                    Phone_Number = reader[1].ToString()
+                                };
+                            }
+                        }
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "SELECT address_id, building_long_name, building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,address_note_id FROM physical_addr WHERE person_id = ?;";
+                        cmd.Parameters.AddWithValue("person_id", vend.Vendor_PersonId);
+                        string noteid = "";
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                vend.VendorAddress = new Models.ModelData.PhysicalAddress()
+                                {
+                                    AddressId = Convert.ToInt64(reader[0].ToString()),
+                                    BuildingLongName = reader[1].ToString(),
+                                    BuildingShortName = reader[2].ToString(),
+                                    BuildingRoomNumber = reader[3].ToString(),
+                                    Line1 = reader[4].ToString(),
+                                    Line2 = reader[5].ToString(),
+                                    City = reader[6].ToString(),
+                                    State = reader[7].ToString(),
+                                    ZipCode = reader[8].ToString(),
+                                    Country = reader[9].ToString()
+                                };
+                                noteid = reader[10].ToString();
+                            }
+                        }
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "SELECT id, note_value FROM notes WHERE note_id = ?;";
+                        cmd.Parameters.AddWithValue("note_id", vend.Vendor_PersonId);
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                vend.Notes.Add
+                                (
+                                    new Models.ModelData.Note()
+                                    {
+                                        Note_Id = Convert.ToInt64(reader[0].ToString()),
+                                        Note_Value = reader[1].ToString()
+                                    }
+                                );
+                            }
                         }
                     }
+                    
                 }
             }
         }

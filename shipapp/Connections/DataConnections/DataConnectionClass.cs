@@ -191,7 +191,7 @@ namespace shipapp.Connections.DataConnections
         /// <summary>
         /// List of Vendors
         /// </summary>
-        public BindingList<Vendor> Vendors { get; set; }
+        public BindingList<Vendors> Vendors { get; set; }
         /// <summary>
         /// List of Packages expected /or/ all
         /// </summary>
