@@ -14,7 +14,7 @@ namespace shipapp.Connections.DataConnections.Classes
 
         public Faculty GetFaculty(long id)
         {
-            return new Faculty() { };
+            return Get_Faculty(id);
         }
         /// <summary>
         /// Adds new faculty to the database
@@ -34,7 +34,7 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public void GetAllAfaculty()
         {
-            //
+            Get_Faculty_List();
         }
     }
 }
