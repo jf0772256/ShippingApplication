@@ -714,6 +714,177 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Gets selected vendor from list by id
+        /// </summary>
+        /// <returns></returns>
+        protected Vendors GetVendor(long id)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            Vendors v = new Vendors() { };
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    cmd.CommandText = "SELECT vend_id, person_id, vendor_name, vendor_poc_name FROM vendors WHERE vend_id = ?;";
+                    cmd.Parameters.AddWithValue("vend_id", id);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            v.VendorId = Convert.ToInt64(reader[0].ToString());
+                            v.Vendor_PersonId = reader[1].ToString();
+                            v.VendorName = reader[2].ToString();
+                            v.VendorPointOfContactName = reader[3].ToString();
+                        }
+                    }
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
+                    cmd.Parameters.AddWithValue("person_id", v.Vendor_PersonId);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            v.VendorPhone = new Models.ModelData.PhoneNumber()
+                            {
+                                PhoneId = Convert.ToInt64(reader[0].ToString()),
+                                Phone_Number = reader[1].ToString()
+                            };
+                        }
+                    }
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "SELECT address_id, building_long_name, building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,address_note_id FROM physical_addr WHERE person_id = ?;";
+                    cmd.Parameters.AddWithValue("person_id", v.Vendor_PersonId);
+                    string noteid = "";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            v.VendorAddress = new Models.ModelData.PhysicalAddress()
+                            {
+                                AddressId = Convert.ToInt64(reader[0].ToString()),
+                                BuildingLongName = reader[1].ToString(),
+                                BuildingShortName = reader[2].ToString(),
+                                BuildingRoomNumber = reader[3].ToString(),
+                                Line1 = reader[4].ToString(),
+                                Line2 = reader[5].ToString(),
+                                City = reader[6].ToString(),
+                                State = reader[7].ToString(),
+                                ZipCode = reader[8].ToString(),
+                                Country = reader[9].ToString()
+                            };
+                            noteid = reader[10].ToString();
+                        }
+                    }
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "SELECT id, note_value FROM notes WHERE note_id = ?;";
+                    cmd.Parameters.AddWithValue("note_id", v.Vendor_PersonId);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            v.Notes.Add
+                            (
+                                new Models.ModelData.Note()
+                                {
+                                    Note_Id = Convert.ToInt64(reader[0].ToString()),
+                                    Note_Value = reader[1].ToString()
+                                }
+                            );
+                        }
+                    }
+                }
+            }
+            return v;
+        }
+        /// <summary>
+        /// Gets all vendors from the database
+        /// </summary>
+        protected void GetVendorsList()
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            Vendors v = new Vendors() { };
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    cmd.CommandText = "SELECT vend_id, person_id, vendor_name, vendor_poc_name FROM vendors;";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            v.VendorId = Convert.ToInt64(reader[0].ToString());
+                            v.Vendor_PersonId = reader[1].ToString();
+                            v.VendorName = reader[2].ToString();
+                            v.VendorPointOfContactName = reader[3].ToString();
+                        }
+                    }
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
+                    cmd.Parameters.AddWithValue("person_id", v.Vendor_PersonId);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            v.VendorPhone = new Models.ModelData.PhoneNumber()
+                            {
+                                PhoneId = Convert.ToInt64(reader[0].ToString()),
+                                Phone_Number = reader[1].ToString()
+                            };
+                        }
+                    }
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "SELECT address_id, building_long_name, building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,address_note_id FROM physical_addr WHERE person_id = ?;";
+                    cmd.Parameters.AddWithValue("person_id", v.Vendor_PersonId);
+                    string noteid = "";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            v.VendorAddress = new Models.ModelData.PhysicalAddress()
+                            {
+                                AddressId = Convert.ToInt64(reader[0].ToString()),
+                                BuildingLongName = reader[1].ToString(),
+                                BuildingShortName = reader[2].ToString(),
+                                BuildingRoomNumber = reader[3].ToString(),
+                                Line1 = reader[4].ToString(),
+                                Line2 = reader[5].ToString(),
+                                City = reader[6].ToString(),
+                                State = reader[7].ToString(),
+                                ZipCode = reader[8].ToString(),
+                                Country = reader[9].ToString()
+                            };
+                            noteid = reader[10].ToString();
+                        }
+                    }
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "SELECT id, note_value FROM notes WHERE note_id = ?;";
+                    cmd.Parameters.AddWithValue("note_id", v.Vendor_PersonId);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            v.Notes.Add
+                            (
+                                new Models.ModelData.Note()
+                                {
+                                    Note_Id = Convert.ToInt64(reader[0].ToString()),
+                                    Note_Value = reader[1].ToString()
+                                }
+                            );
+                        }
+                    }
+                }
+            }
+        }
         #endregion
         #region Enums
         /// <summary>

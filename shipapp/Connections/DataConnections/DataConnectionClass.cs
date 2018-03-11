@@ -29,6 +29,10 @@ namespace shipapp.Connections.DataConnections
         /// </summary>
         public static UserConnClass UserConn { get; set; }
         /// <summary>
+        /// Vendors connection class and its methods and properties
+        /// </summary>
+        public static VendorConnClass VendorConn { get; set; }
+        /// <summary>
         /// A collection of bindable lists of used classes especially for use with datagridviews and the database
         /// </summary>
         public static Lists DataLists { get; set; }
@@ -47,6 +51,7 @@ namespace shipapp.Connections.DataConnections
             SQLHelper = new SQLHelperClass();
             TestConn = new TestConnClass();
             UserConn = new UserConnClass();
+            VendorConn = new VendorConnClass();
             DataLists = new Lists();
         }
         public DataConnectionClass()
