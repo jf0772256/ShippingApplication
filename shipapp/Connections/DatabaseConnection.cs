@@ -597,21 +597,9 @@ namespace shipapp.Connections
                         (
                             new OdbcParameter[]
                             {
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "vendorname",
-                                    Value = v.VendorName
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "vendorPOCname",
-                                    Value = v.VendorPointOfContactName
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "vendorID",
-                                    Value = v.VendorId
-                                }
+                                new OdbcParameter("vendorname",v.VendorName),
+                                new OdbcParameter("vendorPOCname",v.VendorPointOfContactName),
+                                new OdbcParameter("vendorID",v.VendorId)
                             }
                         );
                     cmd.CommandText += "UPDATE phone_numbers SET phone_number WHERE person_id = ? AND phone_id = ?;";
@@ -619,21 +607,9 @@ namespace shipapp.Connections
                         (
                             new OdbcParameter[]
                             {
-                                new OdbcParameter()
-                                {
-                                    ParameterName="phoneNumber",
-                                    Value=v.VendorPhone.Phone_Number
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "personID",
-                                    Value = v.Vendor_PersonId
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "phoneID",
-                                    Value=v.VendorPhone.PhoneId
-                                }
+                                new OdbcParameter("phoneNumber",v.VendorPhone.Phone_Number),
+                                new OdbcParameter("personID",v.Vendor_PersonId),
+                                new OdbcParameter("phoneID",v.VendorPhone.PhoneId)
                             }
                         );
                     cmd.CommandText += "UPDATE physical_addr SET ";
@@ -644,65 +620,31 @@ namespace shipapp.Connections
                         (
                             new OdbcParameter[]
                             {
-                                new OdbcParameter()
-                                {
-                                    ParameterName="blongname",
-                                    Value=v.VendorAddress.BuildingLongName
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "bshortname",
-                                    Value = v.VendorAddress.BuildingShortName
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "broomnumber",
-                                    Value=v.VendorAddress.BuildingRoomNumber
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "line1",
-                                    Value = v.VendorAddress.Line1
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "line2",
-                                    Value=v.VendorAddress.Line2
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "city",
-                                    Value = v.VendorAddress.City
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "state",
-                                    Value=v.VendorAddress.State
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "zip",
-                                    Value = v.VendorAddress.ZipCode
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "country",
-                                    Value=v.VendorAddress.Country
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "personid",
-                                    Value = v.Vendor_PersonId
-                                },
-                                new OdbcParameter()
-                                {
-                                    ParameterName = "addrId",
-                                    Value=v.VendorAddress.AddressId
-                                }
+                                new OdbcParameter("blongname",v.VendorAddress.BuildingLongName),
+                                new OdbcParameter("bshortname",v.VendorAddress.BuildingShortName),
+                                new OdbcParameter("broomnumber",v.VendorAddress.BuildingRoomNumber),
+                                new OdbcParameter("line1",v.VendorAddress.Line1),
+                                new OdbcParameter("line2",v.VendorAddress.Line2),
+                                new OdbcParameter("city",v.VendorAddress.City),
+                                new OdbcParameter("state",v.VendorAddress.State),
+                                new OdbcParameter("zip",v.VendorAddress.ZipCode),
+                                new OdbcParameter("country",v.VendorAddress.Country),
+                                new OdbcParameter("personid",v.Vendor_PersonId),
+                                new OdbcParameter("addrId",v.VendorAddress.AddressId)
                             }
                         );
                     //look for new notes and insert them into the database
                     foreach (Models.ModelData.Note note in v.VendorAddress.Notes)
+                    {
+                        if (note.Note_Id == 0)
+                        {
+                            //new note was added
+                            cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?);";
+                            cmd.Parameters.AddWithValue("personId", v.Vendor_PersonId);
+                            cmd.Parameters.AddWithValue("note_text", note.Note_Value);
+                        }
+                    }
+                    foreach (Models.ModelData.Note note in v.Notes)
                     {
                         if (note.Note_Id == 0)
                         {
