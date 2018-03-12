@@ -980,6 +980,75 @@ namespace shipapp.Connections
                 }
             }
         }
+        protected void Write_PurchaseOrder_ToDatabase(PurchaseOrder p)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "INSERT INTO purchase_order(po_number,po_package_count,po_created_on,po_created_by,po_approved_by)VALUES(?,?,?,?,?);";
+                    cmd.Parameters.Add(new OdbcParameter[]
+                    {
+                        new OdbcParameter("ponumber",p.PONumber),
+                        new OdbcParameter("popackagecount",p.PackageCount),
+                        new OdbcParameter("pocreatedon",p.POCreatedOn),
+                        new OdbcParameter("pocreatedby",p.CreatedBy.Id),
+                        new OdbcParameter("poapprovedby",p.ApprovedBy.Id)
+                    });
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed to process data, please review the inner exception for further details", e);
+                    }
+                }
+            }
+        }
+        protected void Update_PurchaseOrder(PurchaseOrder p)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "UPDATE purchase_order SET po_number = ?,po_package_count = ?,po_created_on = ?,po_created_by = ?,po_approved_by = ? WHERE po_id = ?;";
+                    cmd.Parameters.Add(new OdbcParameter[]
+                    {
+                        new OdbcParameter("ponumber",p.PONumber),
+                        new OdbcParameter("popackagecount",p.PackageCount),
+                        new OdbcParameter("pocreatedon",p.POCreatedOn),
+                        new OdbcParameter("pocreatedby",p.CreatedBy.Id),
+                        new OdbcParameter("poapprovedby",p.ApprovedBy.Id),
+                        new OdbcParameter("POID",p.PO_Id)
+                    });
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed to process data, please review the inner exception for further details", e);
+                    }
+                }
+            }
+        }
         #endregion
         #region Get Data From Database
         /// <summary>
@@ -1699,6 +1768,37 @@ namespace shipapp.Connections
                     }
                     DataConnectionClass.DataLists.FacultyList = f;
                 }
+            }
+        }
+        protected PurchaseOrder Get_PurchaseOrder(long id)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            PurchaseOrder p = null;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                p = new PurchaseOrder() { };
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    cmd.CommandText = "SELECT po_id,po_number,po_package_count,po_created_on,po_created_by,po_approved_by FROM purchase_order WHERE po_id = ?;";
+                    cmd.Parameters.Add(new OdbcParameter("poid",id));
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            p.PO_Id = Convert.ToInt64(reader[0].ToString());
+                            p.PONumber = reader[1].ToString();
+                            p.PackageCount = Convert.ToInt32(reader[2].ToString());
+                            p.POCreatedOn = reader[3].ToString();
+                            p.CreatedBy = new Faculty() { Id = Convert.ToInt64(reader[4].ToString()) };
+                            p.ApprovedBy = new Faculty() { Id = Convert.ToInt64(reader[5].ToString()) };
+                        }
+                    }
+                }
+                return p;
             }
         }
         #endregion
