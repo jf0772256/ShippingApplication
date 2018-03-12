@@ -31,7 +31,7 @@ namespace shipapp.Models
         /// <summary>
         /// Package Vendor as Vendor
         /// </summary>
-        public Vendor PackageVendor { get; set; }
+        public Vendors PackageVendor { get; set; }
         /// <summary>
         /// Package deliver to as Faculty
         /// </summary>

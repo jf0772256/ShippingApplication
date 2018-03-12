@@ -10,7 +10,7 @@ namespace shipapp.Connections.DataConnections.Classes
     /// <summary>
     /// Vendor connection interface access only through DataConnectionClass
     /// </summary>
-    class VendorConnClass:DatabaseConnection()
+    class VendorConnClass:DatabaseConnection
     {
         public VendorConnClass():base() { }
         public Vendors GetVendor(long id)
