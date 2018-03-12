@@ -49,6 +49,10 @@ namespace shipapp.Connections.DataConnections
         /// </summary>
         public static PurchaseOrderConnectionClass POConnClass { get; set; }
         /// <summary>
+        /// Package connection class and its methods and properties
+        /// </summary>
+        public static PackageConnectionClass PackageConnClass { get; set; }
+        /// <summary>
         /// A collection of bindable lists of used classes especially for use with datagridviews and the database
         /// </summary>
         public static Lists DataLists { get; set; }
@@ -72,6 +76,7 @@ namespace shipapp.Connections.DataConnections
             CarrierConn = new CarrierConnClass();
             EmployeeConn = new EmployeeConnClass();
             POConnClass = new PurchaseOrderConnectionClass();
+            PackageConnClass = new PackageConnectionClass();
             DataLists = new Lists();
         }
         public DataConnectionClass()

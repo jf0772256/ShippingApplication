@@ -1049,6 +1049,14 @@ namespace shipapp.Connections
                 }
             }
         }
+        protected void Write_Package_To_Database(Package p)
+        {
+            //
+        }
+        protected void Update_Package(Package p)
+        {
+            //
+        }
         #endregion
         #region Get Data From Database
         /// <summary>
@@ -1800,6 +1808,14 @@ namespace shipapp.Connections
                 }
                 return p;
             }
+        }
+        protected Package Get_Package(long id)
+        {
+            return new Package() { };
+        }
+        protected void Get_Package_List()
+        {
+            //
         }
         #endregion
         #region Enums
