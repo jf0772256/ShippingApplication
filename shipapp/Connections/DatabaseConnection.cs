@@ -1690,7 +1690,6 @@ namespace shipapp.Connections
             {
                 c.ConnectionString = ConnString;
                 c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
                     cmd.CommandText = "SELECT empl_id, empl_fname, empl_lname, person_id FROM employees;";
