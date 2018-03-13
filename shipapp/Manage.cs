@@ -13,6 +13,7 @@ namespace shipapp
     public partial class Manage : Form
     {
         // Class level variables
+        private int currentTable = 0;
         
 
 
@@ -28,6 +29,8 @@ namespace shipapp
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
+            currentTable = 3;
+
             var list = new BindingList<Models.Faculty> { };
             list.Add(new Models.Faculty(0,"0","kalin", "bowden"));
             list.Add(new Models.Faculty(0, "1", "jesse", "fender"));
