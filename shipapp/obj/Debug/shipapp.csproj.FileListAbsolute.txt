@@ -81,3 +81,21 @@ C:\Users\Jesse Fender\Desktop\ShippingApp\shipapp\bin\Debug\Connections\Assets\s
 C:\Users\jf0772256\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.Form2.resources
 C:\Users\jf0772256\Desktop\ShippingApplication\shipapp\bin\Debug\Connections\Assets\settings.xml
 C:\Users\Jesse Fender\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.Form2.resources
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\bin\Debug\Connections\Assets\settings.xml
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\bin\Debug\shipapp.exe.config
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\bin\Debug\shipapp.exe
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\bin\Debug\shipapp.pdb
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.csprojResolveAssemblyReference.cache
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.AddNote.resources
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.MainMenu.resources
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.Form2.resources
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.LogIn.resources
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.Manage.resources
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.Properties.Resources.resources
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.Receiving.resources
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.Reports.resources
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.Settings.resources
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.csproj.GenerateResource.Cache
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.csproj.CoreCompileInputs.cache
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.exe
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.pdb

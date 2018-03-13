@@ -82,24 +82,27 @@
             this.dbhost.Name = "dbhost";
             this.dbhost.Size = new System.Drawing.Size(189, 26);
             this.dbhost.TabIndex = 4;
+            this.dbhost.Text = "stusql.ckwia8qkgyyj.us-east-1.rds.amazonaws.com";
             this.toolTip1.SetToolTip(this.dbhost, "Database host urls are what teslls the application to look at a certian server fo" +
         "r your database. It may be a local database, or a remote database.");
             // 
             // dbname
             // 
             this.dbname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dbname.Location = new System.Drawing.Point(73, 101);
+            this.dbname.Location = new System.Drawing.Point(73, 102);
             this.dbname.Name = "dbname";
             this.dbname.Size = new System.Drawing.Size(189, 26);
             this.dbname.TabIndex = 5;
+            this.dbname.Text = "otcshipping";
             // 
             // dbuser
             // 
             this.dbuser.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dbuser.Location = new System.Drawing.Point(73, 154);
+            this.dbuser.Location = new System.Drawing.Point(73, 156);
             this.dbuser.Name = "dbuser";
             this.dbuser.Size = new System.Drawing.Size(189, 26);
             this.dbuser.TabIndex = 6;
+            this.dbuser.Text = "otcshippingadmin";
             // 
             // dbpass
             // 
@@ -109,6 +112,7 @@
             this.dbpass.PasswordChar = '*';
             this.dbpass.Size = new System.Drawing.Size(189, 26);
             this.dbpass.TabIndex = 7;
+            this.dbpass.Text = "cis260SP18Ship";
             // 
             // dbport
             // 
@@ -198,10 +202,11 @@
             "Select Database Type",
             "MySQL",
             "MS SQL Server"});
-            this.comboBox1.Location = new System.Drawing.Point(73, 318);
+            this.comboBox1.Location = new System.Drawing.Point(73, 317);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(189, 28);
             this.comboBox1.TabIndex = 16;
+            this.comboBox1.Text = "MSSQL";
             this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
             // 
             // Settings
