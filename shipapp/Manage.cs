@@ -12,6 +12,10 @@ namespace shipapp
 {
     public partial class Manage : Form
     {
+        // Class level variables
+        
+
+
         public Manage()
         {
             InitializeComponent();
@@ -24,7 +28,17 @@ namespace shipapp
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
+            var list = new BindingList<Models.Faculty> { };
+            list.Add(new Models.Faculty(0,"0","kalin", "bowden"));
+            list.Add(new Models.Faculty(0, "1", "jesse", "fender"));
+            list.Add(new Models.Faculty(0, "2", "tiffany", "ford"));
 
+            dataGridView1.DataSource = list;
+
+            AddFaculty addFaculty = new AddFaculty();
+            addFaculty.ShowDialog();
+
+            list.Add(addFaculty.NewFaculty);
         }
 
         private void pictureBox7_Click(object sender, EventArgs e)
@@ -40,6 +54,11 @@ namespace shipapp
         private void Manage_Load(object sender, EventArgs e)
         {
             this.CenterToParent();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddFaculty.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddFaculty.Designer.cs">
+      <DependentUpon>AddFaculty.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddNote.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,7 +63,7 @@
     <Compile Include="Connections\DataConnections\Classes\PurchaseOrderConnectionClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\RoleConnClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\VendorConnClass.cs" />
-    <Compile Include="Connections\DataConnections\DataConnectionClass.cs" />
+    <Compile Include="Connections\DataConnections\Classes\DataConnectionClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\TestConnClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\UserConnClass.cs" />
     <Compile Include="Connections\HelperClasses\Serialize.cs" />
@@ -119,6 +125,9 @@
     </Compile>
     <Compile Include="Models\User.cs" />
     <Compile Include="Connections\HelperClasses\XMLConnection.cs" />
+    <EmbeddedResource Include="AddFaculty.resx">
+      <DependentUpon>AddFaculty.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddNote.resx">
       <DependentUpon>AddNote.cs</DependentUpon>
     </EmbeddedResource>

@@ -99,3 +99,4 @@ C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.csproj.Gene
 C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.csproj.CoreCompileInputs.cache
 C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.exe
 C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.pdb
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.AddFaculty.resources

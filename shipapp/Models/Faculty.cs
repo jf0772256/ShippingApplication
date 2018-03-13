@@ -54,5 +54,17 @@ namespace shipapp.Models
             Email = new List<EmailAddress>() { };
             Address = new List<PhysicalAddress>() { };
         }
+
+        public Faculty(long id, string Faculty_PersonId, string firstName, string lastName)
+        {
+            this.Id = id;
+            this.Faculty_PersonId = Faculty_PersonId;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            Notes = new List<Note>() { };
+            Phone = new List<PhoneNumber>() { };
+            Email = new List<EmailAddress>() { };
+            Address = new List<PhysicalAddress>() { };
+        }
     }
 }
