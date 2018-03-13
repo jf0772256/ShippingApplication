@@ -64,7 +64,8 @@ namespace shipapp
         {
             currentTable = 3;
             //TODO Fill list with query from Database
-            dataGridView1.DataSource = facultyList;
+            Connections.DataConnections.DataConnectionClass.EmployeeConn.GetAllAfaculty();
+            dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.FacultyList;
 
             //var list = new BindingList<Models.Faculty> { };
             //list.Add(new Models.Faculty(0,"0","kalin", "bowden"));
