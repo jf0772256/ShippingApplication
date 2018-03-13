@@ -47,16 +47,12 @@ namespace shipapp
         #region Table Buttons
         private void btnUsers_Click(object sender, EventArgs e)
         {
-            currentTable = 1;
-            //TODO Fill list with query from Database
-            dataGridView1.DataSource = userList;
+            
         }
 
         private void btnVendors_Click(object sender, EventArgs e)
         {
-            currentTable = 2;
-            //TODO Fill list with query from Database
-            dataGridView1.DataSource = vendorList;
+            
         }
 
         /// <summary>
@@ -84,21 +80,17 @@ namespace shipapp
 
         private void btnBuildings_Click(object sender, EventArgs e)
         {
-            currentTable = 4;
-            //TODO Fill list with query from Database
-            //dataGridView1.DataSource = buildingList;
+            
         }
 
         private void btnCarriers_Click(object sender, EventArgs e)
         {
-            currentTable = 5;
-            //TODO Fill list with query from Database
-            dataGridView1.DataSource = carrierList;
+            
         }
 
         private void btnOther_Click(object sender, EventArgs e)
         {
-            currentTable = 6;
+            
         }
         #endregion // When the user clicks one of these button they will assign the active table and fiil the grid with data.
 
@@ -152,8 +144,38 @@ namespace shipapp
 
         }
 
+        private void btnUsers_Click_1(object sender, EventArgs e)
+        {
+            currentTable = 1;
+            //TODO Fill list with query from Database
+            dataGridView1.DataSource = userList;
+        }
 
+        private void btnVendors_Click_1(object sender, EventArgs e)
+        {
+            currentTable = 2;
+            //TODO Fill list with query from Database
+            dataGridView1.DataSource = vendorList;
+        }
 
+        private void btnBuildings_Click_1(object sender, EventArgs e)
+        {
+            currentTable = 4;
+            //TODO Fill list with query from Database
+            //dataGridView1.DataSource = buildingList;
+        }
+
+        private void btnCarriers_Click_1(object sender, EventArgs e)
+        {
+            currentTable = 5;
+            //TODO Fill list with query from Database
+            dataGridView1.DataSource = carrierList;
+        }
+
+        private void btnOther_Click_1(object sender, EventArgs e)
+        {
+            currentTable = 6;
+        }
     }
 }
 

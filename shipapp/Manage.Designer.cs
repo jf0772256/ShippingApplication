@@ -68,6 +68,7 @@
             this.btnUsers.TabIndex = 0;
             this.btnUsers.Text = "Users";
             this.btnUsers.UseVisualStyleBackColor = true;
+            this.btnUsers.Click += new System.EventHandler(this.btnUsers_Click_1);
             // 
             // btnVendors
             // 
@@ -78,6 +79,7 @@
             this.btnVendors.TabIndex = 1;
             this.btnVendors.Text = "Vendors";
             this.btnVendors.UseVisualStyleBackColor = true;
+            this.btnVendors.Click += new System.EventHandler(this.btnVendors_Click_1);
             // 
             // btnFaculty
             // 
@@ -99,6 +101,7 @@
             this.btnBuildings.TabIndex = 3;
             this.btnBuildings.Text = "Buildings";
             this.btnBuildings.UseVisualStyleBackColor = true;
+            this.btnBuildings.Click += new System.EventHandler(this.btnBuildings_Click_1);
             // 
             // btnCarriers
             // 
@@ -109,6 +112,7 @@
             this.btnCarriers.TabIndex = 4;
             this.btnCarriers.Text = "Carriers";
             this.btnCarriers.UseVisualStyleBackColor = true;
+            this.btnCarriers.Click += new System.EventHandler(this.btnCarriers_Click_1);
             // 
             // btnOther
             // 
@@ -119,6 +123,7 @@
             this.btnOther.TabIndex = 5;
             this.btnOther.Text = "Other";
             this.btnOther.UseVisualStyleBackColor = true;
+            this.btnOther.Click += new System.EventHandler(this.btnOther_Click_1);
             // 
             // groupBox1
             // 
