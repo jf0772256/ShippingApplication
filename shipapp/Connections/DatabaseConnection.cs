@@ -278,9 +278,6 @@ namespace shipapp.Connections
             {
                 Serialize s = new Serialize();
                 User u = newU;
-                u.FirstName = u.FirstName;
-                u.LastName = u.LastName;
-                u.Username = u.Username;
                 using (OdbcConnection c = new OdbcConnection())
                 {
                     c.ConnectionString = ConnString;
