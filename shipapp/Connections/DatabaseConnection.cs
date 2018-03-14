@@ -79,7 +79,7 @@ namespace shipapp.Connections
                     "CREATE TABLE IF NOT EXISTS notes(id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, note_id VARCHAR(1000) NOT NULL, note_value VARCHAR(5000) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE INDEX idx_note_ids ON notes(note_id);",
 
-                    "CREATE TABLE IF NOT EXISTS users(user_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_fname VARCHAR(100) NOT NULL, user_lname VARCHAR(100) NOT NULL, user_name VARCHAR(100) NOT NULL UNIQUE, user_password VARBINARY(500) NOT NULL, user_role_id BIGINT, FOREIGN KEY (user_role_id) REFERENCES roles(role_id) ON DELETE NO ACTION ON UPDATE NO ACTION)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS users(user_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_fname VARCHAR(100) NOT NULL, user_lname VARCHAR(100) NOT NULL, user_name VARCHAR(100) NOT NULL UNIQUE, user_password VARBINARY(500) NOT NULL, user_role_id BIGINT, person_id VARCHAR(1000) NOT NULL UNIQUE, FOREIGN KEY (user_role_id) REFERENCES roles(role_id) ON DELETE NO ACTION ON UPDATE NO ACTION)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS employees(empl_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, empl_fname VARCHAR(100) NOT NULL, empl_lname VARCHAR(100), person_id VARCHAR(1000) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS vendors(vend_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,vendor_name VARCHAR(100) NOT NULL UNIQUE, vendor_poc_name VARCHAR(100) DEFAULT NULL, person_id VARCHAR(1000) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS carriers(carrier_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, carrier_name VARCHAR(100) NOT NULL UNIQUE, person_id VARCHAR(1000) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
@@ -102,7 +102,7 @@ namespace shipapp.Connections
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'physical_addr')CREATE TABLE physical_addr(address_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id VARCHAR(1000) NOT NULL,building_long_name VARCHAR(100),building_short_name VARCHAR(10),room_number VARCHAR(10), addr_line1 VARCHAR(50) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(50) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US', address_note_id BIGINT);CREATE INDEX idx_addr_ids ON physical_addr(person_id);",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'notes')CREATE TABLE notes(id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, note_id BIGINT NOT NULL, note_value VARBINARY(8000) NOT NULL);CREATE INDEX idx_note_ids ON notes(note_id);",
 
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'users')CREATE TABLE users(user_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, user_fname VARCHAR(2000) NOT NULL, user_lname VARCHAR(2000) NOT NULL, user_name VARCHAR(1000) NOT NULL, user_password VARBINARY(8000) NOT NULL, user_role_id BIGINT FOREIGN KEY REFERENCES roles(role_id), CONSTRAINT UC_UserName UNIQUE(user_name));",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'users')CREATE TABLE users(user_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, user_fname VARCHAR(2000) NOT NULL, user_lname VARCHAR(2000) NOT NULL, user_name VARCHAR(1000) NOT NULL, user_password VARBINARY(8000) NOT NULL, user_role_id BIGINT FOREIGN KEY REFERENCES roles(role_id), person_id VARCHAR(1000) NOT NULL, CONSTRAINT UC_UserName UNIQUE(user_name), CONSTRAINT UC_PID5 UNIQUE(person_id));",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'employees')CREATE TABLE employees(empl_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, empl_fname VARCHAR(50) NOT NULL, empl_lname VARCHAR(50), person_id VARCHAR(1000) NOT NULL, CONSTRAINT UC_PID_0 UNIQUE(person_id));",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'vendors')CREATE TABLE vendors(vend_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, vendor_name VARCHAR(50) NOT NULL UNIQUE, vendor_poc_name VARCHAR(50) DEFAULT NULL, person_id VARCHAR(1000) NOT NULL, CONSTRAINT UC_PID_1 UNIQUE(person_id));",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'carriers')CREATE TABLE carriers(carrier_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, carrier_name VARCHAR(50) NOT NULL UNIQUE, person_id VARCHAR(1000) NOT NULL, CONSTRAINT UC_PID_2 UNIQUE(person_id));",
@@ -249,7 +249,7 @@ namespace shipapp.Connections
                     {
                         //open key
                         cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
-                        cmd.CommandText += "INSERT INTO users (user_fname,user_lname,user_name,user_password,user_role_id) VALUES (?,?,?,EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)),?);";
+                        cmd.CommandText += "INSERT INTO users (user_fname,user_lname,user_name,user_password,user_role_id,person_id) VALUES (?,?,?,EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)),?,?);";
                         cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
                         cmd.Parameters.AddRange(
                             new OdbcParameter[] 
@@ -258,7 +258,8 @@ namespace shipapp.Connections
                                 new OdbcParameter("lastname", u.LastName),
                                 new OdbcParameter("username", u.Username),
                                 new OdbcParameter("password", u.PassWord),
-                                new OdbcParameter("role", u.Level.Role_id)
+                                new OdbcParameter("role", u.Level.Role_id),
+                                new OdbcParameter("personid", u.Person_Id)
                             }
                         );
                         try
@@ -285,7 +286,7 @@ namespace shipapp.Connections
                     OdbcTransaction tr = c.BeginTransaction();
                     using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                     {
-                        cmd.CommandText = "INSERT INTO " + Tables.users.ToString() + " (user_fname,user_lname,user_name,user_password,user_role_id)VALUES(?,?,?,AES_ENCRYPT(?,'"+EncodeKey+"'),?);";
+                        cmd.CommandText = "INSERT INTO " + Tables.users.ToString() + " (user_fname,user_lname,user_name,user_password,user_role_id,person_id)VALUES(?,?,?,AES_ENCRYPT(?,'"+EncodeKey+"'),?,?);";
                         cmd.Parameters.AddRange(
                             new OdbcParameter[]
                             {
@@ -293,7 +294,8 @@ namespace shipapp.Connections
                                 new OdbcParameter("user_lname", u.LastName),
                                 new OdbcParameter("user_name", u.Username),
                                 new OdbcParameter("user_password", u.PassWord),
-                                new OdbcParameter("user_role_id", u.Level.Role_id)
+                                new OdbcParameter("user_role_id", u.Level.Role_id),
+                                new OdbcParameter("personid", u.Person_Id),
                             }
                         );
                         try
@@ -332,7 +334,7 @@ namespace shipapp.Connections
                         {
                             //open key
                             cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
-                            cmd.CommandText += "INSERT INTO users (user_fname,user_lname,user_name,user_password,user_role_id) VALUES (?,?,?,EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)),?);";
+                            cmd.CommandText += "INSERT INTO users (user_fname,user_lname,user_name,user_password,user_role_id,person_id) VALUES (?,?,?,EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)),?,?);";
                             cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
                             cmd.Parameters.AddRange(
                                 new OdbcParameter[]
@@ -341,7 +343,8 @@ namespace shipapp.Connections
                                 new OdbcParameter("lastname", u.LastName),
                                 new OdbcParameter("username", u.Username),
                                 new OdbcParameter("password", u.PassWord),
-                                new OdbcParameter("role", u.Level.Role_id)
+                                new OdbcParameter("role", u.Level.Role_id),
+                                new OdbcParameter("personid", u.Person_Id),
                                 }
                             );
                             try
@@ -371,7 +374,7 @@ namespace shipapp.Connections
                     {
                         foreach (User u in users)
                         {
-                            cmd.CommandText = "INSERT INTO " + Tables.users.ToString() + " (user_fname,user_lname,user_name,user_password,user_role_id)VALUES(?,?,?,AES_ENCRYPT(?,'" + EncodeKey + "'),?);";
+                            cmd.CommandText = "INSERT INTO " + Tables.users.ToString() + " (user_fname,user_lname,user_name,user_password,user_role_id)VALUES(?,?,?,AES_ENCRYPT(?,'" + EncodeKey + "'),?,?);";
                             cmd.Parameters.AddRange(
                                 new OdbcParameter[]
                                 {
@@ -379,7 +382,8 @@ namespace shipapp.Connections
                                 new OdbcParameter("user_lname", u.LastName),
                                 new OdbcParameter("user_name", u.Username),
                                 new OdbcParameter("user_password", u.PassWord),
-                                new OdbcParameter("user_role_id", u.Level.Role_id)
+                                new OdbcParameter("user_role_id", u.Level.Role_id),
+                                new OdbcParameter("personid", u.Person_Id),
                                 }
                             );
                             try
@@ -440,6 +444,9 @@ namespace shipapp.Connections
                             cmd.Parameters.AddWithValue(columns[i], values[i]);
                         }
                         cmd.Parameters.AddWithValue("user_id", id);
+                        /**
+                         *   TODO:: Add add notes with person_id as note_id
+                         */
                         try
                         {
                             cmd.ExecuteNonQuery();
@@ -469,6 +476,9 @@ namespace shipapp.Connections
                             cmd.Parameters.AddWithValue(columns[i], values[i]);
                         }
                         cmd.Parameters.AddWithValue("user_id", id);
+                        /**
+                         * TODO: Add updates to notes (add niote to table if not exists)
+                         */
                         try
                         {
                             cmd.ExecuteNonQuery();
@@ -1076,12 +1086,12 @@ namespace shipapp.Connections
                     if (DBType == SQLHelperClass.DatabaseType.MSSQL)
                     {
                         cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
-                        cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id FROM users WHERE users.user_id = ?;";
+                        cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id,person_id FROM users WHERE users.user_id = ?;";
                         cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
                     }
                     else if (DBType == SQLHelperClass.DatabaseType.MySQL)
                     {
-                        cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id FROM users WHERE users.user_id = ?;";
+                        cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id,person_id FROM users WHERE users.user_id = ?;";
                     }
                     cmd.Parameters.AddWithValue("userId", id);
                     User u = new User();
@@ -1096,6 +1106,7 @@ namespace shipapp.Connections
                             u.Username = reader[3].ToString();
                             u.PassWord = reader[4].ToString();
                             rid = Convert.ToInt64(reader[5].ToString());
+                            u.Person_Id = reader[6].ToString();
                         }
                     }
                     cmd.Parameters.Clear();
@@ -1135,12 +1146,12 @@ namespace shipapp.Connections
                     if (DBType == SQLHelperClass.DatabaseType.MSSQL)
                     {
                         cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
-                        cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id FROM users WHERE users.user_name = ?;";
+                        cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id,person_id FROM users WHERE users.user_name = ?;";
                         cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
                     }
                     else if (DBType == SQLHelperClass.DatabaseType.MySQL)
                     {
-                        cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id FROM users WHERE users.user_name = ?;";
+                        cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id,person_id FROM users WHERE users.user_name = ?;";
                     }
                     cmd.Parameters.AddWithValue("userName", username);
                     User u = new User();
@@ -1155,6 +1166,7 @@ namespace shipapp.Connections
                             u.Username = reader[3].ToString();
                             u.PassWord = reader[4].ToString();
                             rid = Convert.ToInt64(reader[5].ToString());
+                            u.Person_Id = reader[6].ToString();
                         }
                     }
                     cmd.Parameters.Clear();
@@ -1194,7 +1206,7 @@ namespace shipapp.Connections
                     if (DBType == SQLHelperClass.DatabaseType.MSSQL)
                     {
                         cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
-                        cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id FROM users;";
+                        cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id,person_id FROM users;";
                         cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
                         List<long> rids = new List<long>() { };
                         using (OdbcDataReader reader = cmd.ExecuteReader())
@@ -1208,6 +1220,7 @@ namespace shipapp.Connections
                                     LastName = reader[2].ToString(),
                                     Username = reader[3].ToString(),
                                     PassWord = reader[4].ToString(),
+                                    Person_Id = reader[6].ToString()
                                 };
                                 rids.Add(Convert.ToInt64(reader[5].ToString()));
                                 DataConnectionClass.DataLists.UsersList.Add(u);
@@ -1236,7 +1249,7 @@ namespace shipapp.Connections
                     else if (DBType == SQLHelperClass.DatabaseType.MySQL)
                     {
                         List<long> rids = new List<long>() { };
-                        cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id FROM users;";
+                        cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id,person_id FROM users;";
                         using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -1248,6 +1261,7 @@ namespace shipapp.Connections
                                     LastName = reader[2].ToString(),
                                     Username = reader[3].ToString(),
                                     PassWord = reader[4].ToString(),
+                                    Person_Id = reader[6].ToString()
                                 };
                                 rids.Add(Convert.ToInt64(reader[5].ToString()));
                                 DataConnectionClass.DataLists.UsersList.Add(u);

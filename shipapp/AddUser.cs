@@ -36,6 +36,7 @@ namespace shipapp
             newUser.Level = new Models.ModelData.Role() {Role_id = 1};
             newUser.Username = txtUsername.Text;
             newUser.PassWord = txtPassword.Text;
+            newUser.Person_Id = txtBoxPersonId.Text;
 
             Connections.DataConnections.DataConnectionClass.UserConn.Write1User(newUser);
         }

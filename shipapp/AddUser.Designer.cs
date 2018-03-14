@@ -41,6 +41,8 @@
             this.lbl3 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.txtBoxPersonId = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtId
@@ -149,7 +151,7 @@
             // btnAdd
             // 
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(95, 174);
+            this.btnAdd.Location = new System.Drawing.Point(95, 199);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(100, 36);
             this.btnAdd.TabIndex = 12;
@@ -157,12 +159,31 @@
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
+            // txtBoxPersonId
+            // 
+            this.txtBoxPersonId.Location = new System.Drawing.Point(95, 174);
+            this.txtBoxPersonId.Name = "txtBoxPersonId";
+            this.txtBoxPersonId.Size = new System.Drawing.Size(100, 22);
+            this.txtBoxPersonId.TabIndex = 13;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(12, 177);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(76, 16);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Unique ID";
+            // 
             // AddUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.ClientSize = new System.Drawing.Size(212, 219);
+            this.ClientSize = new System.Drawing.Size(212, 247);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtBoxPersonId);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.lbl3);
             this.Controls.Add(this.txtPassword);
@@ -201,5 +222,7 @@
         private System.Windows.Forms.Label lbl3;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.TextBox txtBoxPersonId;
+        private System.Windows.Forms.Label label3;
     }
 }

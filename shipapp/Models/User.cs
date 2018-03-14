@@ -41,6 +41,10 @@ namespace shipapp.Models
         /// </summary>
         public List<Note> Notes { get; set; }
         /// <summary>
+        /// Id value unique across all main tables to reference support tables AS String
+        /// </summary>
+        public string Person_Id { get; set; }
+        /// <summary>
         /// constructor
         /// </summary>
         public User() { }
