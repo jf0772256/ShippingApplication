@@ -1751,7 +1751,7 @@ namespace shipapp.Connections
                             }
                         }
                         cmd.Parameters.Clear();
-                        cmd.CommandText = "SELECT address_id, building_long_name, building_short_name, room_number, addr_line1, addr_line2, addr_city, addr_state, addr_zip, addr_cntry FROM notes WHERE person_id = ?;";
+                        cmd.CommandText = "SELECT address_id, building_long_name, building_short_name, room_number, addr_line1, addr_line2, addr_city, addr_state, addr_zip, addr_cntry FROM physical_addr WHERE person_id = ?;";
                         cmd.Parameters.Add(new OdbcParameter("per_id", fac.Faculty_PersonId));
                         using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
