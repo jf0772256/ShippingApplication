@@ -16,5 +16,28 @@ namespace shipapp
         {
             InitializeComponent();
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddUser_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            Models.User newUser = new Models.User();
+            newUser.Id = long.Parse(txtId.Text);
+            newUser.FirstName = txtFirstName.Text;
+            newUser.LastName = txtLastName.Text;
+            newUser.Level = new Models.ModelData.Role() {Role_id = 1};
+            newUser.Username = txtUsername.Text;
+            newUser.PassWord = txtPassword.Text;
+
+            Connections.DataConnections.DataConnectionClass.UserConn.Write1User(newUser);
+        }
     }
 }

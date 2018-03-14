@@ -1180,6 +1180,7 @@ namespace shipapp.Connections
         /// </summary>
         protected void GetUserList()
         {
+            DataConnectionClass.DataLists.UsersList.Clear();
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;

@@ -114,6 +114,8 @@ namespace shipapp
             {
                 AddUser addUser = new AddUser();
                 addUser.ShowDialog();
+                Connections.DataConnections.DataConnectionClass.UserConn.GetManyUsers();
+                dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.UsersList;
             }
             else if (currentTable == 2)
             {
@@ -124,6 +126,8 @@ namespace shipapp
             {
                 AddFaculty addFaculty = new AddFaculty();
                 addFaculty.ShowDialog();
+                Connections.DataConnections.DataConnectionClass.EmployeeConn.GetAllAfaculty();
+                dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.FacultyList;
             }
             else if (currentTable == 4)
             {
@@ -149,7 +153,8 @@ namespace shipapp
         {
             currentTable = 1;
             //TODO Fill list with query from Database
-            dataGridView1.DataSource = userList;
+            Connections.DataConnections.DataConnectionClass.UserConn.GetManyUsers();
+            dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.UsersList;
         }
 
         private void btnVendors_Click_1(object sender, EventArgs e)
