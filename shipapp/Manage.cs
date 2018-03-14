@@ -114,6 +114,8 @@ namespace shipapp
             {
                 AddUser addUser = new AddUser();
                 addUser.ShowDialog();
+                Connections.DataConnections.DataConnectionClass.UserConn.GetManyUsers();
+                dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.UsersList;
             }
             else if (currentTable == 2)
             {

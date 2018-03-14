@@ -155,6 +155,12 @@
     <EmbeddedResource Include="AddNote.resx">
       <DependentUpon>AddNote.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddUser.resx">
+      <DependentUpon>AddUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddVendor.resx">
+      <DependentUpon>AddVendor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
