@@ -36,7 +36,7 @@ namespace shipapp
             faculty.Faculty_PersonId = txtId2.Text;
             faculty.Id = long.Parse(txtId1.Text);
 
-            NewFaculty = faculty; 
+            Connections.DataConnections.DataConnectionClass.EmployeeConn.AddFaculty(faculty);
         }
     }
 }
