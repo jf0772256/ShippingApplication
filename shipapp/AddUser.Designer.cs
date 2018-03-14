@@ -32,14 +32,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtFirstName = new System.Windows.Forms.TextBox();
-            this.txtLastName = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.lbl1 = new System.Windows.Forms.Label();
+            this.txtLastName = new System.Windows.Forms.TextBox();
             this.txtLevel = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.txtUsername = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.txtPassword = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.lbl2 = new System.Windows.Forms.Label();
+            this.txtUsername = new System.Windows.Forms.TextBox();
+            this.lbl3 = new System.Windows.Forms.Label();
+            this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -78,22 +78,22 @@
             this.txtFirstName.Size = new System.Drawing.Size(100, 22);
             this.txtFirstName.TabIndex = 2;
             // 
+            // lbl1
+            // 
+            this.lbl1.AutoSize = true;
+            this.lbl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl1.Location = new System.Drawing.Point(12, 65);
+            this.lbl1.Name = "lbl1";
+            this.lbl1.Size = new System.Drawing.Size(82, 16);
+            this.lbl1.TabIndex = 5;
+            this.lbl1.Text = "Last Name";
+            // 
             // txtLastName
             // 
-            this.txtLastName.AutoSize = true;
-            this.txtLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLastName.Location = new System.Drawing.Point(12, 65);
+            this.txtLastName.Location = new System.Drawing.Point(95, 62);
             this.txtLastName.Name = "txtLastName";
-            this.txtLastName.Size = new System.Drawing.Size(82, 16);
-            this.txtLastName.TabIndex = 5;
-            this.txtLastName.Text = "Last Name";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(95, 62);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 22);
-            this.textBox3.TabIndex = 4;
+            this.txtLastName.Size = new System.Drawing.Size(100, 22);
+            this.txtLastName.TabIndex = 4;
             // 
             // txtLevel
             // 
@@ -112,39 +112,39 @@
             this.textBox4.Size = new System.Drawing.Size(100, 22);
             this.textBox4.TabIndex = 6;
             // 
+            // lbl2
+            // 
+            this.lbl2.AutoSize = true;
+            this.lbl2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl2.Location = new System.Drawing.Point(12, 121);
+            this.lbl2.Name = "lbl2";
+            this.lbl2.Size = new System.Drawing.Size(79, 16);
+            this.lbl2.TabIndex = 9;
+            this.lbl2.Text = "Username";
+            // 
             // txtUsername
             // 
-            this.txtUsername.AutoSize = true;
-            this.txtUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUsername.Location = new System.Drawing.Point(12, 121);
+            this.txtUsername.Location = new System.Drawing.Point(95, 118);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(79, 16);
-            this.txtUsername.TabIndex = 9;
-            this.txtUsername.Text = "Username";
+            this.txtUsername.Size = new System.Drawing.Size(100, 22);
+            this.txtUsername.TabIndex = 8;
             // 
-            // textBox5
+            // lbl3
             // 
-            this.textBox5.Location = new System.Drawing.Point(95, 118);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 22);
-            this.textBox5.TabIndex = 8;
+            this.lbl3.AutoSize = true;
+            this.lbl3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl3.Location = new System.Drawing.Point(12, 149);
+            this.lbl3.Name = "lbl3";
+            this.lbl3.Size = new System.Drawing.Size(76, 16);
+            this.lbl3.TabIndex = 11;
+            this.lbl3.Text = "Password";
             // 
             // txtPassword
             // 
-            this.txtPassword.AutoSize = true;
-            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPassword.Location = new System.Drawing.Point(12, 149);
+            this.txtPassword.Location = new System.Drawing.Point(95, 146);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(76, 16);
-            this.txtPassword.TabIndex = 11;
-            this.txtPassword.Text = "Password";
-            // 
-            // textBox6
-            // 
-            this.textBox6.Location = new System.Drawing.Point(95, 146);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(100, 22);
-            this.textBox6.TabIndex = 10;
+            this.txtPassword.Size = new System.Drawing.Size(100, 22);
+            this.txtPassword.TabIndex = 10;
             // 
             // btnAdd
             // 
@@ -164,14 +164,14 @@
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(212, 219);
             this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.lbl3);
             this.Controls.Add(this.txtPassword);
-            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.lbl2);
             this.Controls.Add(this.txtUsername);
-            this.Controls.Add(this.textBox5);
             this.Controls.Add(this.txtLevel);
             this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.lbl1);
             this.Controls.Add(this.txtLastName);
-            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtFirstName);
             this.Controls.Add(this.label1);
@@ -192,14 +192,14 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtFirstName;
-        private System.Windows.Forms.Label txtLastName;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label lbl1;
+        private System.Windows.Forms.TextBox txtLastName;
         private System.Windows.Forms.Label txtLevel;
         private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Label txtUsername;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Label txtPassword;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.Label lbl2;
+        private System.Windows.Forms.TextBox txtUsername;
+        private System.Windows.Forms.Label lbl3;
+        private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button btnAdd;
     }
 }
