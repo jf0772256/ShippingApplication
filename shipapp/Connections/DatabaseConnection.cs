@@ -1058,11 +1058,115 @@ namespace shipapp.Connections
         }
         protected void Write_Package_To_Database(Package p)
         {
-            //
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "INSERT INTO packages(package_po_id,package_carrier_id,package_vendor_id,package_deliv_to_id,package_devliv_by_id,package_signed_for_by_id,package_tracking_number,package_received_date,package_deliver_date,package_note_id,package_status)VALUES(?,?,?,?,?,?,?,?,?,?,?);";
+                    //most fields can be null so we need to check and make sure that if a field is empty that we set  ids to 0 or null strings
+                    //ids all will be 0 for null, strings should roll to null
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("poid", p.PackagePurchaseOrder.PO_Id),
+                        new OdbcParameter("carrierid", p.PackageCarrier.CarrierId),
+                        new OdbcParameter("vendid",p.PackageVendor.VendorId),
+                        new OdbcParameter("delivtoid",p.PackageDeliveredTo.Id),
+                        new OdbcParameter("delivbyid",p.PackageDeleveredBy.Id),
+                        new OdbcParameter("signedbyid",p.PackageSignedForBy.Id),
+                        new OdbcParameter("tracknumb",p.PackageTrackingNumber),
+                        new OdbcParameter("recieveddate",p.PackageReceivedDate),
+                        new OdbcParameter("delivDate",p.PackageDeliveredDate),
+                        new OdbcParameter("noteid",p.Package_PersonId),
+                        new OdbcParameter("packstats",p.Status.ToString())
+                    });
+                    cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?)";
+                    cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + 0, p.Notes[0].Note_Id), new OdbcParameter("n" + 0, p.Notes[0].Note_Value) });
+                    for (int i = 1; i < p.Notes.Count; i++)
+                    {
+                        if (i==p.Notes.Count-1)
+                        {
+                            cmd.CommandText = ",(?,?);";
+                            cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + i, p.Notes[i].Note_Id), new OdbcParameter("n" + i, p.Notes[i].Note_Value) });
+                        }
+                        else
+                        {
+                            cmd.CommandText = ",(?,?)";
+                            cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + i, p.Notes[i].Note_Id), new OdbcParameter("n" + i, p.Notes[i].Note_Value) });
+                        }
+                    }
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Data Processing Failed to write, view inner exceltion for details", e);
+                    }
+                }
+            }
         }
         protected void Update_Package(Package p)
         {
-            //
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "UPDATE packages SET package_po_id=?,package_carrier_id=?,package_vendor_id=?,package_deliv_to_id=?,package_devliv_by_id=?,package_signed_for_by_id=?,package_tracking_number=?,package_received_date=?,package_deliver_date=?,package_status=? WHERE package_id = ?";
+                    //most fields can be null so we need to check and make sure that if a field is empty that we set  ids to 0 or null strings
+                    //ids all will be 0 for null, strings should roll to null
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("poid", p.PackagePurchaseOrder.PO_Id),
+                        new OdbcParameter("carrierid", p.PackageCarrier.CarrierId),
+                        new OdbcParameter("vendid",p.PackageVendor.VendorId),
+                        new OdbcParameter("delivtoid",p.PackageDeliveredTo.Id),
+                        new OdbcParameter("delivbyid",p.PackageDeleveredBy.Id),
+                        new OdbcParameter("signedbyid",p.PackageSignedForBy.Id),
+                        new OdbcParameter("tracknumb",p.PackageTrackingNumber),
+                        new OdbcParameter("recieveddate",p.PackageReceivedDate),
+                        new OdbcParameter("delivDate",p.PackageDeliveredDate),
+                        new OdbcParameter("packstats",p.Status.ToString()),
+                        new OdbcParameter("packid",p.PackageId)
+                    });
+                    foreach (Note note in p.Notes)
+                    {
+                        if (note.Note_Id == 0)
+                        {
+                            //insert new note
+                            cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?);";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
+                                new OdbcParameter("pid",p.Package_PersonId),
+                                new OdbcParameter("noteval",note.Note_Value)
+                            });
+                        }
+                    }
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Data Processing Failed to write, view inner exceltion for details", e);
+                    }
+                }
+            }
         }
         #endregion
         #region Get Data From Database
@@ -1822,11 +1926,121 @@ namespace shipapp.Connections
         }
         protected Package Get_Package(long id)
         {
-            return new Package() { };
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    long a = 0, b = 0, g = 0, d = 0, i = 0, f = 0; Package p = new Package() { };
+                    cmd.CommandText = "SELECT package_po_id,package_carrier_id,package_vendor_id,package_deliv_to_id,package_devliv_by_id,package_signed_for_by_id,package_tracking_number,package_received_date,package_deliver_date,package_note_id,package_status FROM packages WHERE packageid=?;";
+                    cmd.Parameters.AddWithValue("pid", id);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            p = new Package()
+                            {
+                                PackageTrackingNumber = reader["package_tracking_number"].ToString(),
+                                PackageReceivedDate = reader["package_received_date"].ToString(),
+                                PackageDeliveredDate = reader["package_deliver_date"].ToString(),
+                                Package_PersonId = reader["package_note_id"].ToString(),
+                                Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString())
+                            };
+                            a = Convert.ToInt64(reader[0].ToString()); //po
+                            b = Convert.ToInt64(reader[1].ToString()); //carrier
+                            d = Convert.ToInt64(reader[2].ToString()); //vendor
+                            f = Convert.ToInt64(reader[3].ToString()); //fac
+                            g = Convert.ToInt64(reader[4].ToString()); //usr
+                            i = Convert.ToInt64(reader[5].ToString()); //fac
+                            p.PackagePurchaseOrder = Get_PurchaseOrder(a);
+                            p.PackageCarrier = Get_Carrier(b);
+                            p.PackageVendor = GetVendor_From_Database(d);
+                            p.PackageDeliveredTo = Get_Faculty(f);
+                            p.PackageDeleveredBy = GetUser(g);
+                            p.PackageSignedForBy = Get_Faculty(i);
+                        }
+                    }
+                    cmd.CommandText = "SELECT id,note_val FROM notes WHERE note_id = ?;";
+                    cmd.Parameters.AddWithValue("nid", p.Package_PersonId);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Note n = new Note()
+                            {
+                                Note_Id = Convert.ToInt64(reader[0].ToString()),
+                                Note_Value = reader[1].ToString()
+                            };
+                            p.Notes.Add(n);
+                        }
+                    }
+                    return p;
+                }
+            }
         }
         protected void Get_Package_List()
         {
-            //
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    long a = 0, b = 0, g = 0, d = 0, i = 0, f = 0; Package p = new Package() { };
+                    cmd.CommandText = "SELECT package_po_id,package_carrier_id,package_vendor_id,package_deliv_to_id,package_devliv_by_id,package_signed_for_by_id,package_tracking_number,package_received_date,package_deliver_date,package_note_id,package_status FROM packages;";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            p = new Package()
+                            {
+                                PackageTrackingNumber = reader["package_tracking_number"].ToString(),
+                                PackageReceivedDate = reader["package_received_date"].ToString(),
+                                PackageDeliveredDate = reader["package_deliver_date"].ToString(),
+                                Package_PersonId = reader["package_note_id"].ToString(),
+                                Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString())
+                            };
+                            a = Convert.ToInt64(reader[0].ToString()); //po
+                            b = Convert.ToInt64(reader[1].ToString()); //carrier
+                            d = Convert.ToInt64(reader[2].ToString()); //vendor
+                            f = Convert.ToInt64(reader[3].ToString()); //fac
+                            g = Convert.ToInt64(reader[4].ToString()); //usr
+                            i = Convert.ToInt64(reader[5].ToString()); //fac
+                            p.PackagePurchaseOrder = Get_PurchaseOrder(a);
+                            p.PackageCarrier = Get_Carrier(b);
+                            p.PackageVendor = GetVendor_From_Database(d);
+                            p.PackageDeliveredTo = Get_Faculty(f);
+                            p.PackageDeleveredBy = GetUser(g);
+                            p.PackageSignedForBy = Get_Faculty(i);
+                            DataConnectionClass.DataLists.Packages.Add(p);
+                        }
+                    }
+                    foreach (Package pac in DataConnectionClass.DataLists.Packages)
+                    {
+                        cmd.CommandText = "SELECT id,note_val FROM notes WHERE note_id = ?;";
+                        cmd.Parameters.AddWithValue("nid", pac.Package_PersonId);
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Note n = new Note()
+                                {
+                                    Note_Id = Convert.ToInt64(reader[0].ToString()),
+                                    Note_Value = reader[1].ToString()
+                                };
+                                pac.Notes.Add(n);
+                            }
+                        }
+                    }
+                }
+            }
         }
         #endregion
         #region Enums
