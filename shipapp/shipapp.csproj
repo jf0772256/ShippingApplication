@@ -149,6 +149,12 @@
     </Compile>
     <Compile Include="Models\User.cs" />
     <Compile Include="Connections\HelperClasses\XMLConnection.cs" />
+    <EmbeddedResource Include="AddBuilding.resx">
+      <DependentUpon>AddBuilding.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddCarrier.resx">
+      <DependentUpon>AddCarrier.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddFaculty.resx">
       <DependentUpon>AddFaculty.cs</DependentUpon>
     </EmbeddedResource>

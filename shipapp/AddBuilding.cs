@@ -16,5 +16,15 @@ namespace shipapp
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// When the user clicks this button it will check the data, add it to the DB, and close the form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

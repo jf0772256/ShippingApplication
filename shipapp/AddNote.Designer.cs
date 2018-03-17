@@ -60,6 +60,7 @@
             this.btnName.TabIndex = 2;
             this.btnName.Text = "Add";
             this.btnName.UseVisualStyleBackColor = true;
+            this.btnName.Click += new System.EventHandler(this.btnName_Click);
             // 
             // AddNote
             // 

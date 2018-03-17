@@ -16,5 +16,15 @@ namespace shipapp
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// This method will add the note to the appropriate entity
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnName_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -39,6 +39,8 @@ namespace shipapp
             newUser.Person_Id = txtBoxPersonId.Text;
 
             Connections.DataConnections.DataConnectionClass.UserConn.Write1User(newUser);
+
+            this.Close();
         }
     }
 }

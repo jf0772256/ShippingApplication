@@ -28,6 +28,11 @@ namespace shipapp
 
         }
 
+        /// <summary>
+        /// When the user clicks this button it will check the data, add it to the DB, and close the form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
             Models.Faculty faculty = new Models.Faculty();
@@ -37,6 +42,8 @@ namespace shipapp
             faculty.Id = long.Parse(txtId1.Text);
 
             Connections.DataConnections.DataConnectionClass.EmployeeConn.AddFaculty(faculty);
+
+            this.Close();
         }
     }
 }

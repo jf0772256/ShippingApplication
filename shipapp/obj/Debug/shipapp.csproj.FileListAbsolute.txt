@@ -124,3 +124,5 @@ C:\Users\Jesse Fender\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.cspr
 C:\Users\Jesse Fender\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.csproj.CoreCompileInputs.cache
 C:\Users\Jesse Fender\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.exe
 C:\Users\Jesse Fender\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.pdb
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.AddBuilding.resources
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.AddCarrier.resources
