@@ -64,7 +64,6 @@ namespace shipapp.Connections.DataConnections
         /// Successfully athenticated user object for use with in the application
         /// </summary>
         public static User AuthenticatedUser { get; set; }
-
         static DataConnectionClass()
         {
             Serialization = new Serialize();

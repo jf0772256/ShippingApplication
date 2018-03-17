@@ -37,7 +37,6 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             Test_Connection(DataConnections.DataConnectionClass.ConnectionString);
         }
-
         public void ResetAllDatabaseTables()
         {
             Drop_Tables(new List<string>() { "notes","email_addresses","physical_addr","phone_numbers", "purchase_orders", "packages", "employees","users","roles"});
