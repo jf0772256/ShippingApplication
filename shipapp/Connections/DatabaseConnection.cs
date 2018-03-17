@@ -738,23 +738,35 @@ namespace shipapp.Connections
                                 new OdbcParameter("vendorID",v.VendorId)
                             }
                         );
-                    cmd.CommandText += "UPDATE phone_numbers SET phone_number WHERE person_id = ? AND phone_id = ?;";
-                    cmd.Parameters.AddRange
-                        (
-                            new OdbcParameter[]
-                            {
-                                new OdbcParameter("phoneNumber",v.VendorPhone.Phone_Number),
-                                new OdbcParameter("personID",v.Vendor_PersonId),
-                                new OdbcParameter("phoneID",v.VendorPhone.PhoneId)
-                            }
-                        );
-                    cmd.CommandText += "UPDATE physical_addr SET ";
-                    cmd.CommandText += "building_long_name = ?, building_short_name = ?, room_number = ?, ";
-                    cmd.CommandText += "addr_line1 = ?, addr_line2 = ?, addr_city = ?, addr_state = ?, ";
-                    cmd.CommandText += "addr_zip = ?, addr_cntry = ? WHERE person_id = ? AND address_id = ?;";
-                    cmd.Parameters.AddRange
-                        (
-                            new OdbcParameter[]
+                    if (String.IsNullOrWhiteSpace(v.VendorPhone.Phone_Number))
+                    {
+                        cmd.CommandText += "DELETE * FROM phone_numbers WHERE person_id = ?;";
+                        cmd.Parameters.AddWithValue("pid", v.Vendor_PersonId);
+                    }
+                    else
+                    {
+                        cmd.CommandText += "UPDATE phone_numbers SET phone_number WHERE person_id = ? AND phone_id = ?;";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("phoneNumber",v.VendorPhone.Phone_Number),
+                            new OdbcParameter("personID",v.Vendor_PersonId),
+                            new OdbcParameter("phoneID",v.VendorPhone.PhoneId)
+                        });
+                    }
+                    if (String.IsNullOrWhiteSpace(v.VendorAddress.BuildingLongName) && String.IsNullOrWhiteSpace(v.VendorAddress.BuildingShortName))
+                    {
+                        if (String.IsNullOrWhiteSpace(v.VendorAddress.Line1) && String.IsNullOrWhiteSpace(v.VendorAddress.City))
+                        {
+                            cmd.CommandText += "DELETE * FROM physical_addr WHERE person_id = ?;";
+                            cmd.Parameters.AddWithValue("pid", v.Vendor_PersonId);
+                        }
+                        else
+                        {
+                            cmd.CommandText += "UPDATE physical_addr SET ";
+                            cmd.CommandText += "building_long_name = ?, building_short_name = ?, room_number = ?, ";
+                            cmd.CommandText += "addr_line1 = ?, addr_line2 = ?, addr_city = ?, addr_state = ?, ";
+                            cmd.CommandText += "addr_zip = ?, addr_cntry = ? WHERE person_id = ? AND address_id = ?;";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
                             {
                                 new OdbcParameter("blongname",v.VendorAddress.BuildingLongName),
                                 new OdbcParameter("bshortname",v.VendorAddress.BuildingShortName),
@@ -767,20 +779,53 @@ namespace shipapp.Connections
                                 new OdbcParameter("country",v.VendorAddress.Country),
                                 new OdbcParameter("personid",v.Vendor_PersonId),
                                 new OdbcParameter("addrId",v.VendorAddress.AddressId)
+                            });
+                            //look for new notes and insert them into the database
+                            foreach (Note note in v.VendorAddress.Notes)
+                            {
+                                if (note.Note_Id == 0)
+                                {
+                                    //new note was added
+                                    cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?);";
+                                    cmd.Parameters.AddWithValue("personId", v.Vendor_PersonId);
+                                    cmd.Parameters.AddWithValue("note_text", note.Note_Value);
+                                }
                             }
-                        );
-                    //look for new notes and insert them into the database
-                    foreach (Models.ModelData.Note note in v.VendorAddress.Notes)
-                    {
-                        if (note.Note_Id == 0)
-                        {
-                            //new note was added
-                            cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?);";
-                            cmd.Parameters.AddWithValue("personId", v.Vendor_PersonId);
-                            cmd.Parameters.AddWithValue("note_text", note.Note_Value);
                         }
                     }
-                    foreach (Models.ModelData.Note note in v.Notes)
+                    else
+                    {
+                        cmd.CommandText += "UPDATE physical_addr SET ";
+                        cmd.CommandText += "building_long_name = ?, building_short_name = ?, room_number = ?, ";
+                        cmd.CommandText += "addr_line1 = ?, addr_line2 = ?, addr_city = ?, addr_state = ?, ";
+                        cmd.CommandText += "addr_zip = ?, addr_cntry = ? WHERE person_id = ? AND address_id = ?;";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("blongname",v.VendorAddress.BuildingLongName),
+                            new OdbcParameter("bshortname",v.VendorAddress.BuildingShortName),
+                            new OdbcParameter("broomnumber",v.VendorAddress.BuildingRoomNumber),
+                            new OdbcParameter("line1",v.VendorAddress.Line1),
+                            new OdbcParameter("line2",v.VendorAddress.Line2),
+                            new OdbcParameter("city",v.VendorAddress.City),
+                            new OdbcParameter("state",v.VendorAddress.State),
+                            new OdbcParameter("zip",v.VendorAddress.ZipCode),
+                            new OdbcParameter("country",v.VendorAddress.Country),
+                            new OdbcParameter("personid",v.Vendor_PersonId),
+                            new OdbcParameter("addrId",v.VendorAddress.AddressId)
+                        });
+                        //look for new notes and insert them into the database
+                        foreach (Note note in v.VendorAddress.Notes)
+                        {
+                            if (note.Note_Id == 0)
+                            {
+                                //new note was added
+                                cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?);";
+                                cmd.Parameters.AddWithValue("personId", v.Vendor_PersonId);
+                                cmd.Parameters.AddWithValue("note_text", note.Note_Value);
+                            }
+                        }
+                    }
+                    foreach (Note note in v.Notes)
                     {
                         if (note.Note_Id == 0)
                         {
@@ -850,13 +895,21 @@ namespace shipapp.Connections
                         new OdbcParameter("personid",value.Carrier_PersonId),
                         new OdbcParameter("carrierid",value.CarrierId)
                     });
-                    cmd.CommandText += "UPDATE phone_numbers SET phone_number=? WHERE person_id = ? AND phone_id = ?;";
-                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    if (String.IsNullOrWhiteSpace(value.PhoneNumber.Phone_Number))
                     {
-                        new OdbcParameter("phone",value.PhoneNumber.Phone_Number),
-                        new OdbcParameter("personid",value.Carrier_PersonId),
-                        new OdbcParameter("phoneid",value.PhoneNumber.PhoneId)
-                    });
+                        cmd.CommandText += "DELETE * FROM phone_numbers WHERE person_id = ?;";
+                        cmd.Parameters.AddWithValue("pid", value.Carrier_PersonId);
+                    }
+                    else
+                    {
+                        cmd.CommandText += "UPDATE phone_numbers SET phone_number=? WHERE person_id = ? AND phone_id = ?;";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("phone",value.PhoneNumber.Phone_Number),
+                            new OdbcParameter("personid",value.Carrier_PersonId),
+                            new OdbcParameter("phoneid",value.PhoneNumber.PhoneId)
+                        });
+                    }
                     foreach (Note note in value.Notes)
                     {
                         if (note.Note_Id <= 0)
@@ -902,25 +955,108 @@ namespace shipapp.Connections
                         new OdbcParameter("person_id",f.Faculty_PersonId),
                         new OdbcParameter("empl_id", f.Id)
                     });
+                    List<PhoneNumber> tbm = GetPhonesById(f.Faculty_PersonId);
+                    tbm.RemoveAll(x => f.Phone.Any(y => x.PhoneId == y.PhoneId));
+                    foreach (PhoneNumber phn in tbm)
+                    {
+                        cmd.CommandText += "DELETE * FROM phone_numbers WHERE phone_id = ?;";
+                        cmd.Parameters.AddWithValue("pid", phn.PhoneId);
+                    }
                     foreach (PhoneNumber phone in f.Phone)
                     {
-                        cmd.CommandText += "UPDATE phone_numbers SET phone_number = ? WHERE person_id = ? AND phone_id = ?;";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        if (phone.PhoneId>0)
                         {
-                            new OdbcParameter("phone",phone.Phone_Number),
-                            new OdbcParameter("person_id",f.Faculty_PersonId),
-                            new OdbcParameter("pid",phone.PhoneId)
-                        });
+                            cmd.CommandText += "UPDATE phone_numbers SET phone_number = ? WHERE person_id = ? AND phone_id = ?;";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
+                                new OdbcParameter("phone",phone.Phone_Number),
+                                new OdbcParameter("person_id",f.Faculty_PersonId),
+                                new OdbcParameter("pid",phone.PhoneId)
+                            });
+                        }
+                        else
+                        {
+                            cmd.CommandText += "INSERT INTO phone_numbers (phone_number,person_id)VALUES(?,?);";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
+                                new OdbcParameter("phone",phone.Phone_Number),
+                                new OdbcParameter("person_id",f.Faculty_PersonId)
+                            });
+                        }
+                    }
+                    List<EmailAddress> etbm = GetEmailListById(f.Faculty_PersonId);
+                    etbm.RemoveAll(x => f.Email.Any(y => x.Email_Id == y.Email_Id));
+                    foreach (EmailAddress email in etbm)
+                    {
+                        cmd.CommandText += "DELETE * FROM email_addresses WHERE email_id = ?;";
+                        cmd.Parameters.AddWithValue("eid", email.Email_Id);
                     }
                     foreach (EmailAddress email in f.Email)
                     {
-                        cmd.CommandText += "UPDATE email_addresses SET email_address = ? WHERE person_id = ? AND email_id = ?;";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        if (email.Email_Id>0)
                         {
-                            new OdbcParameter("email",email.Email_Address),
-                            new OdbcParameter("person_id",f.Faculty_PersonId),
-                            new OdbcParameter("eid",email.Email_Id)
-                        });
+                            cmd.CommandText += "UPDATE email_addresses SET email_address = ? WHERE person_id = ? AND email_id = ?;";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
+                                new OdbcParameter("email",email.Email_Address),
+                                new OdbcParameter("person_id",f.Faculty_PersonId),
+                                new OdbcParameter("eid",email.Email_Id)
+                            });
+                        }
+                        else
+                        {
+                            cmd.CommandText += "INSERT INTO email_addresses (email_address,person_id)VALUES(?,?);";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
+                                new OdbcParameter("email",email.Email_Address),
+                                new OdbcParameter("person_id",f.Faculty_PersonId)
+                            });
+                        }
+                    }
+                    List<PhysicalAddress> pstbm = GetPhysAddrById(f.Faculty_PersonId);
+                    pstbm.RemoveAll(x => f.Address.All(y => x.AddressId == y.AddressId));
+                    foreach (PhysicalAddress paddr in pstbm)
+                    {
+                        cmd.CommandText += "DELETE * FROM physical_addr WHERE address_id = ?";
+                        cmd.Parameters.AddWithValue("aid", paddr.AddressId);
+                    }
+                    foreach (PhysicalAddress paddr in f.Address)
+                    {
+                        if (paddr.AddressId > 0)
+                        {
+                            cmd.CommandText += "UPDATE physical_addr SET building_long_name = ?,building_short_name = ?,room_number = ?,addr_line1 = ?,addr_line2 = ?,addr_city = ?,addr_state = ?,addr_zip = ?,addr_cntry = ? WHERE person_id = ? AND address_id = ?;";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
+                                new OdbcParameter("bln",paddr.BuildingLongName),
+                                new OdbcParameter("bsn",paddr.BuildingShortName),
+                                new OdbcParameter("brn",paddr.BuildingRoomNumber),
+                                new OdbcParameter("ln1",paddr.Line1),
+                                new OdbcParameter("ln2",paddr.Line2),
+                                new OdbcParameter("cty",paddr.City),
+                                new OdbcParameter("state",paddr.State),
+                                new OdbcParameter("zip",paddr.ZipCode),
+                                new OdbcParameter("ctry",paddr.Country),
+                                new OdbcParameter("person_id",f.Faculty_PersonId),
+                                new OdbcParameter("address_id", paddr.AddressId)
+                            });
+                        }
+                        else
+                        {
+                            cmd.CommandText += "INSERT INTO physical_addr (building_long_name,building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,person_id)VALUES(?,?,?,?,?,?,?,?,?,?);";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
+                                new OdbcParameter("bln",paddr.BuildingLongName),
+                                new OdbcParameter("bsn",paddr.BuildingShortName),
+                                new OdbcParameter("brn",paddr.BuildingRoomNumber),
+                                new OdbcParameter("ln1",paddr.Line1),
+                                new OdbcParameter("ln2",paddr.Line2),
+                                new OdbcParameter("cty",paddr.City),
+                                new OdbcParameter("state",paddr.State),
+                                new OdbcParameter("zip",paddr.ZipCode),
+                                new OdbcParameter("ctry",paddr.Country),
+                                new OdbcParameter("person_id",f.Faculty_PersonId)
+                            });
+                        }
                     }
                     foreach (Note note in f.Notes)
                     {
@@ -933,24 +1069,6 @@ namespace shipapp.Connections
                                 new OdbcParameter("person_id",f.Faculty_PersonId)
                             });
                         }
-                    }
-                    foreach (PhysicalAddress paddr in f.Address)
-                    {
-                        cmd.CommandText += "UPDATE physical_addr SET building_long_name = ?,building_short_name = ?,room_number = ?,addr_line1 = ?,addr_line2 = ?,addr_city = ?,addr_state = ?,addr_zip = ?,addr_cntry = ? WHERE person_id = ? AND address_id = ?;";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
-                        {
-                            new OdbcParameter("bln",paddr.BuildingLongName),
-                            new OdbcParameter("bsn",paddr.BuildingShortName),
-                            new OdbcParameter("brn",paddr.BuildingRoomNumber),
-                            new OdbcParameter("ln1",paddr.Line1),
-                            new OdbcParameter("ln2",paddr.Line2),
-                            new OdbcParameter("cty",paddr.City),
-                            new OdbcParameter("state",paddr.State),
-                            new OdbcParameter("zip",paddr.ZipCode),
-                            new OdbcParameter("ctry",paddr.Country),
-                            new OdbcParameter("person_id",f.Faculty_PersonId),
-                            new OdbcParameter("address_id", paddr.AddressId)
-                        });
                     }
                     try
                     {
