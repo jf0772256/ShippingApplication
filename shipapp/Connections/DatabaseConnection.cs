@@ -100,7 +100,7 @@ namespace shipapp.Connections
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'email_addresses')CREATE TABLE email_addresses(email_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id VARCHAR(1000) NOT NULL, email_address VARCHAR(100) NOT NULL, CONSTRAINT UC_Email UNIQUE(email_address));CREATE INDEX idx_email_ids ON email_addresses(person_id);",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'phone_numbers')CREATE TABLE phone_numbers(phone_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id VARCHAR(1000) NOT NULL, phone_number VARCHAR(20) NOT NULL);CREATE INDEX idx_phone_ids ON phone_numbers(person_id)",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'physical_addr')CREATE TABLE physical_addr(address_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id VARCHAR(1000) NOT NULL,building_long_name VARCHAR(100),building_short_name VARCHAR(10),room_number VARCHAR(10), addr_line1 VARCHAR(50) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(50) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US', address_note_id BIGINT);CREATE INDEX idx_addr_ids ON physical_addr(person_id);",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'notes')CREATE TABLE notes(id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, note_id BIGINT NOT NULL, note_value VARBINARY(8000) NOT NULL);CREATE INDEX idx_note_ids ON notes(note_id);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'notes')CREATE TABLE notes(id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, note_id VARCHAR(1000) NOT NULL, note_value VARCHAR(5000) NOT NULL);CREATE INDEX idx_note_ids ON notes(note_id);",
 
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'users')CREATE TABLE users(user_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, user_fname VARCHAR(2000) NOT NULL, user_lname VARCHAR(2000) NOT NULL, user_name VARCHAR(1000) NOT NULL, user_password VARBINARY(8000) NOT NULL, user_role_id BIGINT FOREIGN KEY REFERENCES roles(role_id), person_id VARCHAR(1000) NOT NULL, CONSTRAINT UC_UserName UNIQUE(user_name), CONSTRAINT UC_PID5 UNIQUE(person_id));",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'employees')CREATE TABLE employees(empl_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, empl_fname VARCHAR(50) NOT NULL, empl_lname VARCHAR(50), person_id VARCHAR(1000) NOT NULL, CONSTRAINT UC_PID_0 UNIQUE(person_id));",
@@ -1056,12 +1056,190 @@ namespace shipapp.Connections
             }
         }
 
-        protected void Delete(User v) { }
-        protected void Delete(Faculty v) { }
-        protected void Delete(Vendors v) { }
-        protected void Delete(Carrier v) { }
-        protected void Delete(PurchaseOrder v) { }
-        protected void Delete(Package v) { }
+        protected void Delete(User v)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "DELETE * FROM notes WHERE note_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", v.Person_Id);
+                    cmd.CommandText += "DELETE * FROM users WHERE user_id = ?;";
+                    cmd.Parameters.AddWithValue("uid", v.Id);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed processing request.", e);
+                    }
+                }
+            }
+        }
+        protected void Delete(Faculty v)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "DELETE * FROM notes WHERE note_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", v.Faculty_PersonId);
+                    cmd.CommandText = "DELETE * FROM phone_numbers WHERE person_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", v.Faculty_PersonId);
+                    cmd.CommandText = "DELETE * FROM email_addresses WHERE person_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", v.Faculty_PersonId);
+                    cmd.CommandText = "DELETE * FROM physical_addr WHERE person_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", v.Faculty_PersonId);
+                    cmd.CommandText += "DELETE * FROM employees WHERE empl_id = ?;";
+                    cmd.Parameters.AddWithValue("uid", v.Id);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed processing request.", e);
+                    }
+                }
+            }
+        }
+        protected void Delete(Vendors v)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "DELETE * FROM notes WHERE note_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", v.Vendor_PersonId);
+                    cmd.CommandText = "DELETE * FROM phone_numbers WHERE person_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", v.Vendor_PersonId);
+                    cmd.CommandText = "DELETE * FROM physical_addr WHERE person_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", v.Vendor_PersonId);
+                    cmd.CommandText += "DELETE * FROM vendors WHERE vendor_id = ?;";
+                    cmd.Parameters.AddWithValue("uid", v.VendorId);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed processing request.", e);
+                    }
+                }
+            }
+        }
+        protected void Delete(Carrier v)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "DELETE * FROM notes WHERE note_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", v.Carrier_PersonId);
+                    cmd.CommandText = "DELETE * FROM phone_numbers WHERE person_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", v.Carrier_PersonId);
+                    cmd.CommandText += "DELETE * FROM carriers WHERE carrier_id = ?;";
+                    cmd.Parameters.AddWithValue("uid", v.CarrierId);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed processing request.", e);
+                    }
+                }
+            }
+        }
+        protected void Delete(PurchaseOrder v)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText += "DELETE * FROM purchase_orders WHERE po_id = ?;";
+                    cmd.Parameters.AddWithValue("uid", v.PO_Id);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed processing request.", e);
+                    }
+                }
+            }
+        }
+        protected void Delete(Package v)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "DELETE * FROM notes WHERE note_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", v.Package_PersonId);
+                    cmd.CommandText += "DELETE * FROM packages WHERE package_id = ?;";
+                    cmd.Parameters.AddWithValue("uid", v.PackageId);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed processing request.", e);
+                    }
+                }
+            }
+        }
         #endregion
         #region Get Data From Database
         /// <summary>
