@@ -74,7 +74,7 @@ namespace shipapp.Connections
                     "CREATE INDEX idx_addr_ids ON email_addresses(person_id);",
                     "CREATE TABLE IF NOT EXISTS phone_numbers(phone_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id VARCHAR(1000) NOT NULL, phone_number VARCHAR(20) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE INDEX idx_phone_ids ON phone_numbers(person_id);",
-                    "CREATE TABLE IF NOT EXISTS physical_addr(address_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id VARCHAR(1000) NOT NULL,building_long_name VARCHAR(100),building_short_name VARCHAR(10),room_number VARCHAR(10), addr_line1 VARCHAR(100) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(100) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US')engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS physical_addr(address_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id VARCHAR(1000) NOT NULL,building_long_name VARCHAR(100),building_short_name VARCHAR(10),room_number VARCHAR(10), addr_line1 VARCHAR(100) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(100) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US', address_note_id VARCHAR(1000) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE INDEX idx_physaddr_ids ON physical_addr(person_id);",
                     "CREATE TABLE IF NOT EXISTS notes(id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, note_id VARCHAR(1000) NOT NULL, note_value VARCHAR(5000) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE INDEX idx_note_ids ON notes(note_id);",
@@ -99,7 +99,7 @@ namespace shipapp.Connections
 
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'email_addresses')CREATE TABLE email_addresses(email_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id VARCHAR(1000) NOT NULL, email_address VARCHAR(100) NOT NULL, CONSTRAINT UC_Email UNIQUE(email_address));CREATE INDEX idx_email_ids ON email_addresses(person_id);",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'phone_numbers')CREATE TABLE phone_numbers(phone_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id VARCHAR(1000) NOT NULL, phone_number VARCHAR(20) NOT NULL);CREATE INDEX idx_phone_ids ON phone_numbers(person_id)",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'physical_addr')CREATE TABLE physical_addr(address_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id VARCHAR(1000) NOT NULL,building_long_name VARCHAR(100),building_short_name VARCHAR(10),room_number VARCHAR(10), addr_line1 VARCHAR(50) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(50) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US', address_note_id BIGINT);CREATE INDEX idx_addr_ids ON physical_addr(person_id);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'physical_addr')CREATE TABLE physical_addr(address_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id VARCHAR(1000) NOT NULL,building_long_name VARCHAR(100),building_short_name VARCHAR(10),room_number VARCHAR(10), addr_line1 VARCHAR(50) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(50) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US', address_note_id VARCHAR(1000) NOT NULL);CREATE INDEX idx_addr_ids ON physical_addr(person_id);",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'notes')CREATE TABLE notes(id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, note_id VARCHAR(1000) NOT NULL, note_value VARCHAR(5000) NOT NULL);CREATE INDEX idx_note_ids ON notes(note_id);",
 
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'users')CREATE TABLE users(user_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, user_fname VARCHAR(2000) NOT NULL, user_lname VARCHAR(2000) NOT NULL, user_name VARCHAR(1000) NOT NULL, user_password VARBINARY(8000) NOT NULL, user_role_id BIGINT FOREIGN KEY REFERENCES roles(role_id), person_id VARCHAR(1000) NOT NULL, CONSTRAINT UC_UserName UNIQUE(user_name), CONSTRAINT UC_PID5 UNIQUE(person_id));",
@@ -232,6 +232,7 @@ namespace shipapp.Connections
         }
         #endregion
         #region Write Data To Database
+        #region Writes
         protected void Write(User newU)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -245,14 +246,14 @@ namespace shipapp.Connections
                     c.ConnectionString = ConnString;
                     c.Open();
                     OdbcTransaction tr = c.BeginTransaction();
-                    using (OdbcCommand cmd = new OdbcCommand("",c,tr))
+                    using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                     {
                         //open key
                         cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
                         cmd.CommandText += "INSERT INTO users (user_fname,user_lname,user_name,user_password,user_role_id,person_id) VALUES (?,?,?,EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)),?,?);";
                         cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
                         cmd.Parameters.AddRange(
-                            new OdbcParameter[] 
+                            new OdbcParameter[]
                             {
                                 new OdbcParameter("firstname", u.FirstName),
                                 new OdbcParameter("lastname", u.LastName),
@@ -286,7 +287,7 @@ namespace shipapp.Connections
                     OdbcTransaction tr = c.BeginTransaction();
                     using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                     {
-                        cmd.CommandText = "INSERT INTO " + Tables.users.ToString() + " (user_fname,user_lname,user_name,user_password,user_role_id,person_id)VALUES(?,?,?,AES_ENCRYPT(?,'"+EncodeKey+"'),?,?);";
+                        cmd.CommandText = "INSERT INTO " + Tables.users.ToString() + " (user_fname,user_lname,user_name,user_password,user_role_id,person_id)VALUES(?,?,?,AES_ENCRYPT(?,'" + EncodeKey + "'),?,?);";
                         cmd.Parameters.AddRange(
                             new OdbcParameter[]
                             {
@@ -417,7 +418,7 @@ namespace shipapp.Connections
                 c.ConnectionString = ConnString;
                 c.Open();
                 OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("",c,tr))
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
                     cmd.CommandText = "INSERT INTO roles(role_title)VALUES(?);";
                     cmd.Parameters.AddWithValue("title", value.Role_Title);
@@ -624,7 +625,7 @@ namespace shipapp.Connections
                     cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + 0, p.Notes[0].Note_Id), new OdbcParameter("n" + 0, p.Notes[0].Note_Value) });
                     for (int i = 1; i < p.Notes.Count; i++)
                     {
-                        if (i==p.Notes.Count-1)
+                        if (i == p.Notes.Count - 1)
                         {
                             cmd.CommandText = ",(?,?);";
                             cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + i, p.Notes[i].Note_Id), new OdbcParameter("n" + i, p.Notes[i].Note_Value) });
@@ -648,7 +649,8 @@ namespace shipapp.Connections
                 }
             }
         }
-
+        #endregion
+        #region Updates
         protected void Update(User v)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -724,7 +726,7 @@ namespace shipapp.Connections
                 c.ConnectionString = ConnString;
                 c.Open();
                 OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("",c,tr))
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
                     cmd.CommandText = "UPDATE vendors SET ";
                     cmd.CommandText += "vendor_name = ?, vendor_poc_name = ? ";
@@ -964,7 +966,7 @@ namespace shipapp.Connections
                     }
                     foreach (PhoneNumber phone in f.Phone)
                     {
-                        if (phone.PhoneId>0)
+                        if (phone.PhoneId > 0)
                         {
                             cmd.CommandText += "UPDATE phone_numbers SET phone_number = ? WHERE person_id = ? AND phone_id = ?;";
                             cmd.Parameters.AddRange(new OdbcParameter[]
@@ -993,7 +995,7 @@ namespace shipapp.Connections
                     }
                     foreach (EmailAddress email in f.Email)
                     {
-                        if (email.Email_Id>0)
+                        if (email.Email_Id > 0)
                         {
                             cmd.CommandText += "UPDATE email_addresses SET email_address = ? WHERE person_id = ? AND email_id = ?;";
                             cmd.Parameters.AddRange(new OdbcParameter[]
@@ -1173,7 +1175,8 @@ namespace shipapp.Connections
                 }
             }
         }
-
+        #endregion
+        #region Deletes
         protected void Delete(User v)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -1358,6 +1361,7 @@ namespace shipapp.Connections
                 }
             }
         }
+        #endregion
         #endregion
         #region Get Data From Database
         #region protected gets
