@@ -43,5 +43,9 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             Update_Package(p);
         }
+        public void DeletePackage(Package p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

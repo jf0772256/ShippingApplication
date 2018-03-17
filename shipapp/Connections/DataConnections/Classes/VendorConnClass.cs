@@ -33,5 +33,9 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             Update_Vendor(value);
         }
+        public void DeleteVendor(Vendors v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

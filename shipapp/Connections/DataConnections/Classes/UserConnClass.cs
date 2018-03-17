@@ -47,6 +47,10 @@ namespace shipapp.Connections.DataConnections.Classes
                 return false;
             }
         }
+        public void DeleteUser(User u)
+        {
+            throw new NotImplementedException();
+        }
     }
     class Authenticating
     {

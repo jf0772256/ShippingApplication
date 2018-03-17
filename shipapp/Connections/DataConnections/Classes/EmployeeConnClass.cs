@@ -36,5 +36,9 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             Get_Faculty_List();
         }
+        public void DeleteFaculty(Faculty f)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

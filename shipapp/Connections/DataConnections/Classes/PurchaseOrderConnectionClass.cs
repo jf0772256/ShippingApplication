@@ -42,5 +42,9 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             Update_PurchaseOrder(value);
         }
+        public void DeletePO(PurchaseOrder p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -46,5 +46,9 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             return Get_Carrier(id);
         }
+        public void DeleteCarrier(Carrier c)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
