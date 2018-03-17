@@ -298,6 +298,17 @@ namespace shipapp.Connections
                                 new OdbcParameter("personid", u.Person_Id),
                             }
                         );
+                        cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES";
+                        foreach (Note note in u.Notes)
+                        {
+                            cmd.CommandText += "(?,?),";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
+                                new OdbcParameter("pid",u.Person_Id),
+                                new OdbcParameter("note_val",note.Note_Value)
+                            });
+                        }
+                        cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1);
                         try
                         {
                             cmd.ExecuteNonQuery();
@@ -308,97 +319,6 @@ namespace shipapp.Connections
                             cmd.Transaction.Rollback();
                             DatabaseConnectionException exc = new DatabaseConnectionException("", e);
                         }
-                    }
-                }
-            }
-            else
-            {
-                throw new DatabaseConnectionException("You Must select a valid database type.", new ArgumentException(DBType.ToString() + " is invalid."));
-            }
-        }
-        protected void Write(BindingList<User> users)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            if (DBType == SQLHelperClass.DatabaseType.MSSQL)
-            {
-                using (OdbcConnection c = new OdbcConnection())
-                {
-                    c.ConnectionString = ConnString;
-                    c.Open();
-                    OdbcTransaction tr = c.BeginTransaction();
-                    using (OdbcCommand cmd = new OdbcCommand("", c, tr))
-                    {
-                        foreach (User u in users)
-                        {
-                            //open key
-                            cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
-                            cmd.CommandText += "INSERT INTO users (user_fname,user_lname,user_name,user_password,user_role_id,person_id) VALUES (?,?,?,EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)),?,?);";
-                            cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
-                            cmd.Parameters.AddRange(
-                                new OdbcParameter[]
-                                {
-                                new OdbcParameter("firstname", u.FirstName),
-                                new OdbcParameter("lastname", u.LastName),
-                                new OdbcParameter("username", u.Username),
-                                new OdbcParameter("password", u.PassWord),
-                                new OdbcParameter("role", u.Level.Role_id),
-                                new OdbcParameter("personid", u.Person_Id),
-                                }
-                            );
-                            try
-                            {
-                                cmd.ExecuteNonQuery();
-                                cmd.CommandText = "";
-                                cmd.Parameters.Clear();
-                            }
-                            catch (Exception e)
-                            {
-                                cmd.Transaction.Rollback();
-                                throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
-                            }
-                        }
-                        cmd.Transaction.Commit();
-                    }
-                }
-            }
-            else if (DBType == SQLHelperClass.DatabaseType.MySQL)
-            {
-                using (OdbcConnection c = new OdbcConnection())
-                {
-                    c.ConnectionString = ConnString;
-                    c.Open();
-                    OdbcTransaction tr = c.BeginTransaction();
-                    using (OdbcCommand cmd = new OdbcCommand("", c, tr))
-                    {
-                        foreach (User u in users)
-                        {
-                            cmd.CommandText = "INSERT INTO " + Tables.users.ToString() + " (user_fname,user_lname,user_name,user_password,user_role_id)VALUES(?,?,?,AES_ENCRYPT(?,'" + EncodeKey + "'),?,?);";
-                            cmd.Parameters.AddRange(
-                                new OdbcParameter[]
-                                {
-                                new OdbcParameter("user_fname", u.FirstName),
-                                new OdbcParameter("user_lname", u.LastName),
-                                new OdbcParameter("user_name", u.Username),
-                                new OdbcParameter("user_password", u.PassWord),
-                                new OdbcParameter("user_role_id", u.Level.Role_id),
-                                new OdbcParameter("personid", u.Person_Id),
-                                }
-                            );
-                            try
-                            {
-                                cmd.ExecuteNonQuery();
-                                cmd.Parameters.Clear();
-                                cmd.CommandText = "";
-                            }
-                            catch (Exception e)
-                            {
-                                cmd.Transaction.Rollback();
-                                throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
-                            }
-                        }
-                        cmd.Transaction.Commit();
                     }
                 }
             }
@@ -728,6 +648,7 @@ namespace shipapp.Connections
                 }
             }
         }
+
         protected void Update(User v)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -767,6 +688,18 @@ namespace shipapp.Connections
                     else
                     {
                         throw new SQLHelperException("You must have selected a valid database type. set this value and try again.");
+                    }
+                    foreach (Note note in v.Notes)
+                    {
+                        if (note.Note_Id <= 0)
+                        {
+                            cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?);";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
+                                new OdbcParameter("pid",v.Person_Id),
+                                new OdbcParameter("note_val",note.Note_Value)
+                            });
+                        }
                     }
                     try
                     {
@@ -1122,6 +1055,7 @@ namespace shipapp.Connections
                 }
             }
         }
+
         protected void Delete(User v) { }
         protected void Delete(Faculty v) { }
         protected void Delete(Vendors v) { }
