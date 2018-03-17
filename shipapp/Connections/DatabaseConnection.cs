@@ -1242,6 +1242,7 @@ namespace shipapp.Connections
         }
         #endregion
         #region Get Data From Database
+        #region protected gets
         /// <summary>
         /// Test Methos get user id 1
         /// </summary>
@@ -1257,7 +1258,7 @@ namespace shipapp.Connections
                 c.ConnectionString = ConnString;
                 c.Open();
                 OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("",c,tr))
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
                     if (DBType == SQLHelperClass.DatabaseType.MSSQL)
                     {
@@ -1299,6 +1300,7 @@ namespace shipapp.Connections
                             };
                         }
                     }
+                    u.Notes = GetNotesListById(u.Person_Id);
                     return u;
                 }
             }
@@ -1359,6 +1361,7 @@ namespace shipapp.Connections
                             };
                         }
                     }
+                    u.Notes = GetNotesListById(u.Person_Id);
                     return u;
                 }
             }
@@ -1377,7 +1380,7 @@ namespace shipapp.Connections
             {
                 c.ConnectionString = ConnString;
                 c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("",c))
+                using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
                     if (DBType == SQLHelperClass.DatabaseType.MSSQL)
                     {
@@ -1419,6 +1422,7 @@ namespace shipapp.Connections
                                     };
                                 }
                             }
+                            u.Notes = GetNotesListById(u.Person_Id);
                             cnt++;
                         }
                     }
@@ -1460,6 +1464,7 @@ namespace shipapp.Connections
                                     };
                                 }
                             }
+                            u.Notes = GetNotesListById(u.Person_Id);
                             cnt++;
                         }
                     }
@@ -1536,23 +1541,7 @@ namespace shipapp.Connections
                             noteid = reader[10].ToString();
                         }
                     }
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT id, note_value FROM notes WHERE note_id = ?;";
-                    cmd.Parameters.AddWithValue("note_id", v.Vendor_PersonId);
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            v.Notes.Add
-                            (
-                                new Models.ModelData.Note()
-                                {
-                                    Note_Id = Convert.ToInt64(reader[0].ToString()),
-                                    Note_Value = reader[1].ToString()
-                                }
-                            );
-                        }
-                    }
+                    v.Notes = GetNotesListById(v.Vendor_PersonId);
                 }
             }
             return v;
@@ -1624,25 +1613,9 @@ namespace shipapp.Connections
                                 noteid = reader[10].ToString();
                             }
                         }
-                        cmd.Parameters.Clear();
-                        cmd.CommandText = "SELECT id, note_value FROM notes WHERE note_id = ?;";
-                        cmd.Parameters.AddWithValue("note_id", vend.Vendor_PersonId);
-                        using (OdbcDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                vend.Notes.Add
-                                (
-                                    new Models.ModelData.Note()
-                                    {
-                                        Note_Id = Convert.ToInt64(reader[0].ToString()),
-                                        Note_Value = reader[1].ToString()
-                                    }
-                                );
-                            }
-                        }
+                        vend.Notes = GetNotesListById(vend.Vendor_PersonId);
                     }
-                    
+
                 }
             }
         }
@@ -1688,21 +1661,7 @@ namespace shipapp.Connections
                             };
                         }
                     }
-                    //clear params::
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
-                    cmd.Parameters.Add(new OdbcParameter("personid", car.Carrier_PersonId));
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            car.Notes.Add(new Note()
-                            {
-                                Note_Id = Convert.ToInt64(reader[0].ToString()),
-                                Note_Value = reader[1].ToString()
-                            });
-                        }
-                    }
+                    car.Notes = GetNotesListById(car.Carrier_PersonId);
                     return car;
                 }
             }
@@ -1752,21 +1711,7 @@ namespace shipapp.Connections
                                 };
                             }
                         }
-                        //clear params::
-                        cmd.Parameters.Clear();
-                        cmd.CommandText = "SELECT id, note_value FROM notes WHERE note_id = ?;";
-                        cmd.Parameters.Add(new OdbcParameter("personid", carrier.Carrier_PersonId));
-                        using (OdbcDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                carrier.Notes.Add(new Note()
-                                {
-                                    Note_Id = Convert.ToInt64(reader[0].ToString()),
-                                    Note_Value = reader[1].ToString()
-                                });
-                            }
-                        }
+                        carrier.Notes = GetNotesListById(carrier.Carrier_PersonId);
                     }
                     DataConnectionClass.DataLists.CarriersList = carList;
                 }
@@ -1800,70 +1745,10 @@ namespace shipapp.Connections
                             };
                         }
                     }
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT email_id, email_address FROM email_addresses WHERE person_id = ?;";
-                    cmd.Parameters.Add(new OdbcParameter("per_id", f.Faculty_PersonId));
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            f.Email.Add(new EmailAddress()
-                            {
-                                Email_Id = Convert.ToInt64(reader[0].ToString()),
-                                Email_Address = reader[1].ToString()
-                            });
-                        }
-                    }
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
-                    cmd.Parameters.Add(new OdbcParameter("per_id", f.Faculty_PersonId));
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            f.Phone.Add(new PhoneNumber()
-                            {
-                                PhoneId = Convert.ToInt64(reader[0].ToString()),
-                                Phone_Number = reader[1].ToString()
-                            });
-                        }
-                    }
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT id, note_value FROM notes WHERE note_id = ?;";
-                    cmd.Parameters.Add(new OdbcParameter("per_id", f.Faculty_PersonId));
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            f.Notes.Add(new Note()
-                            {
-                                Note_Id = Convert.ToInt64(reader[0].ToString()),
-                                Note_Value = reader[1].ToString()
-                            });
-                        }
-                    }
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT address_id, building_long_name, building_short_name, room_number, addr_line1, addr_line2, addr_city, addr_state, addr_zip, addr_cntry FROM physical_addr WHERE person_id = ?;";
-                    cmd.Parameters.Add(new OdbcParameter("per_id", f.Faculty_PersonId));
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            f.Address.Add(new PhysicalAddress()
-                            {
-                                AddressId = Convert.ToInt64(reader[0].ToString()),
-                                BuildingLongName = reader[1].ToString(),
-                                BuildingShortName = reader[2].ToString(),
-                                BuildingRoomNumber = reader[3].ToString(),
-                                Line1 = reader[4].ToString(),
-                                Line2 = reader[5].ToString(),
-                                City = reader[6].ToString(),
-                                State = reader[7].ToString(),
-                                ZipCode = reader[8].ToString(),
-                                Country = reader[9].ToString()
-                            });
-                        }
-                    }
+                    f.Email = GetEmailListById(f.Faculty_PersonId);
+                    f.Phone = GetPhonesById(f.Faculty_PersonId);
+                    f.Notes = GetNotesListById(f.Faculty_PersonId);
+                    f.Address = GetPhysAddrById(f.Faculty_PersonId);
                     return f;
                 }
             }
@@ -1896,70 +1781,10 @@ namespace shipapp.Connections
                     }
                     foreach (Faculty fac in f)
                     {
-                        cmd.Parameters.Clear();
-                        cmd.CommandText = "SELECT email_id, email_address FROM email_addresses WHERE person_id = ?;";
-                        cmd.Parameters.Add(new OdbcParameter("per_id", fac.Faculty_PersonId));
-                        using (OdbcDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                fac.Email.Add(new EmailAddress()
-                                {
-                                    Email_Id = Convert.ToInt64(reader[0].ToString()),
-                                    Email_Address = reader[1].ToString()
-                                });
-                            }
-                        }
-                        cmd.Parameters.Clear();
-                        cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
-                        cmd.Parameters.Add(new OdbcParameter("per_id", fac.Faculty_PersonId));
-                        using (OdbcDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                fac.Phone.Add(new PhoneNumber()
-                                {
-                                    PhoneId = Convert.ToInt64(reader[0].ToString()),
-                                    Phone_Number = reader[1].ToString()
-                                });
-                            }
-                        }
-                        cmd.Parameters.Clear();
-                        cmd.CommandText = "SELECT id, note_value FROM notes WHERE note_id = ?;";
-                        cmd.Parameters.Add(new OdbcParameter("per_id", fac.Faculty_PersonId));
-                        using (OdbcDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                fac.Notes.Add(new Note()
-                                {
-                                    Note_Id = Convert.ToInt64(reader[0].ToString()),
-                                    Note_Value = reader[1].ToString()
-                                });
-                            }
-                        }
-                        cmd.Parameters.Clear();
-                        cmd.CommandText = "SELECT address_id, building_long_name, building_short_name, room_number, addr_line1, addr_line2, addr_city, addr_state, addr_zip, addr_cntry FROM physical_addr WHERE person_id = ?;";
-                        cmd.Parameters.Add(new OdbcParameter("per_id", fac.Faculty_PersonId));
-                        using (OdbcDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                fac.Address.Add(new PhysicalAddress()
-                                {
-                                    AddressId = Convert.ToInt64(reader[0].ToString()),
-                                    BuildingLongName = reader[1].ToString(),
-                                    BuildingShortName = reader[2].ToString(),
-                                    BuildingRoomNumber = reader[3].ToString(),
-                                    Line1 = reader[4].ToString(),
-                                    Line2 = reader[5].ToString(),
-                                    City = reader[6].ToString(),
-                                    State = reader[7].ToString(),
-                                    ZipCode = reader[8].ToString(),
-                                    Country = reader[9].ToString()
-                                });
-                            }
-                        }
+                        fac.Email = GetEmailListById(fac.Faculty_PersonId);
+                        fac.Phone = GetPhonesById(fac.Faculty_PersonId);
+                        fac.Notes = GetNotesListById(fac.Faculty_PersonId);
+                        fac.Address = GetPhysAddrById(fac.Faculty_PersonId);
                     }
                     DataConnectionClass.DataLists.FacultyList = f;
                 }
@@ -1979,7 +1804,7 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
                     cmd.CommandText = "SELECT po_id,po_number,po_package_count,po_created_on,po_created_by,po_approved_by FROM purchase_order WHERE po_id = ?;";
-                    cmd.Parameters.Add(new OdbcParameter("poid",id));
+                    cmd.Parameters.Add(new OdbcParameter("poid", id));
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -2114,6 +1939,135 @@ namespace shipapp.Connections
                 }
             }
         }
+        #endregion
+        #region private gets
+        private List<PhoneNumber>GetPhonesById(string person_id)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            List<PhoneNumber> phn = new List<PhoneNumber>() { };
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("",c))
+                {
+                    cmd.CommandText = "SELECT * FROM phone_numbers WHERE person_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", person_id);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            phn.Add(new PhoneNumber()
+                            {
+                                PhoneId = Convert.ToInt64(reader[0].ToString()),
+                                Phone_Number = reader[2].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            return phn;
+        }
+        private List<PhysicalAddress>GetPhysAddrById(string person_id)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            List<PhysicalAddress> phy = new List<PhysicalAddress>() { };
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    cmd.CommandText = "SELECT * FROM physical_addr WHERE person_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", person_id);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            phy.Add(new PhysicalAddress()
+                            {
+                                AddressId = Convert.ToInt64(reader[0].ToString()),
+                                BuildingLongName = reader[2].ToString(),
+                                BuildingShortName = reader[3].ToString(),
+                                BuildingRoomNumber = reader[4].ToString(),
+                                Line1 = reader[5].ToString(),
+                                Line2 = reader[6].ToString(),
+                                City = reader[7].ToString(),
+                                State = reader[8].ToString(),
+                                ZipCode = reader[9].ToString(),
+                                Country = reader[10].ToString(),
+                                Notes = GetNotesListById(reader[11].ToString()),
+                                AddrNoteId=reader[11].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            return phy;
+        }
+        private List<Note>GetNotesListById(string person_id)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            List<Note> nte = new List<Note>() { };
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    cmd.CommandText = "SELECT * FROM notes WHERE note_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", person_id);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            nte.Add(new Note
+                            {
+                                Note_Id = Convert.ToInt64(reader[0].ToString()),
+                                Note_Value = reader[2].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            return nte;
+        }
+        private List<EmailAddress>GetEmailListById(string person_id)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            List<EmailAddress> eml = new List<EmailAddress>() { };
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    cmd.CommandText = "SELECT * FROM email_addresses WHERE person_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", person_id);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            eml.Add(new EmailAddress()
+                            {
+                                Email_Id = Convert.ToInt64(reader[0].ToString()),
+                                Email_Address = reader[2].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            return eml;
+        }
+        #endregion
         #endregion
         #region Enums
         /// <summary>

@@ -56,6 +56,10 @@ namespace shipapp.Models.ModelData
         /// </summary>
         public string Country { get; set; }
         /// <summary>
+        /// person Id for address specific notes
+        /// </summary>
+        public string AddrNoteId { get; set; }
+        /// <summary>
         /// constructor
         /// </summary>
         public PhysicalAddress()
