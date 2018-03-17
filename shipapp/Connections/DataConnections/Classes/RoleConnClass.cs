@@ -17,7 +17,7 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <param name="Value">Role to add</param>
         public void Write_Role(Role Value)
         {
-            Add_Role(Value);
+            Write(Value);
         }
         /// <summary>
         /// Update Role that exists in database
@@ -25,7 +25,7 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <param name="value">Role to use, role_id must be the id of the role that is being updated.</param>
         public void UpdateRole(Role value)
         {
-            Update_Role(value);
+            Update(value);
         }
     }
 }

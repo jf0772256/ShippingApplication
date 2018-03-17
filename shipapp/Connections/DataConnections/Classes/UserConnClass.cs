@@ -22,19 +22,15 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public void Write1User(User user)
         {
-            Write_User_To_Database(user);
+            Write(user);
         }
-        public void Update1User(long id, string[] columnNames, string[] newValues)
+        public void Update1User(User u)
         {
-            Update_User(id, columnNames, newValues);
+            Update(u);
         }
         public void GetManyUsers()
         {
             GetUserList();
-        }
-        public void WriteManyUsers(BindingList<User> users)
-        {
-            throw new NotImplementedException();
         }
         public bool CheckAuth(User tester)
         {
@@ -49,7 +45,7 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public void DeleteUser(User u)
         {
-            throw new NotImplementedException();
+            Delete(u);
         }
     }
     class Authenticating

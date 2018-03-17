@@ -33,7 +33,7 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <param name="p">New package object</param>
         public void AddPackage(Package p)
         {
-            Write_Package_To_Database(p);
+            Write(p);
         }
         /// <summary>
         /// Updates a current package.
@@ -41,11 +41,11 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <param name="p">Modified package object</param>
         public void UpdatePackage(Package p)
         {
-            Update_Package(p);
+            Update(p);
         }
         public void DeletePackage(Package p)
         {
-            throw new NotImplementedException();
+            Delete(p);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <param name="f">Faculty object</param>
         public void AddFaculty(Faculty f)
         {
-            Write_Faculty_To_Database(f);
+            Write(f);
         }
         /// <summary>
         /// Updates currect faculty in the database, DO NOT MODIFY OR CHANGE THE IDS OR PERSION ID!!!
@@ -30,7 +30,7 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <param name="f">Modified faculty object</param>
         public void UpdateFaculty(Faculty f)
         {
-            Update_Faculty(f);
+            Update(f);
         }
         public void GetAllAfaculty()
         {
@@ -38,7 +38,7 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public void DeleteFaculty(Faculty f)
         {
-            throw new NotImplementedException();
+            Delete(f);
         }
     }
 }

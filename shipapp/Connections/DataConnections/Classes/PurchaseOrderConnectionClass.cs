@@ -32,7 +32,7 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <param name="value">PO combined</param>
         public void AddPurchaseOrder(PurchaseOrder value)
         {
-            Write_PurchaseOrder_ToDatabase(value);
+            Write(value);
         }
         /// <summary>
         /// Update an existing PO
@@ -40,11 +40,11 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <param name="value">Modified PO to be updated</param>
         public void UpdatePurchaseOrder(PurchaseOrder value)
         {
-            Update_PurchaseOrder(value);
+            Update(value);
         }
         public void DeletePO(PurchaseOrder p)
         {
-            throw new NotImplementedException();
+            Delete(p);
         }
     }
 }

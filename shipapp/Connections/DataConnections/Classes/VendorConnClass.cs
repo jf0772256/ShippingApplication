@@ -23,7 +23,7 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public void AddVendor(Vendors value)
         {
-            Write_Vendor_To_Database(value);
+            Write(value);
         }
         /// <summary>
         /// do not use yet.
@@ -31,11 +31,11 @@ namespace shipapp.Connections.DataConnections.Classes
         public void WriteAllVendors() { }
         public void UpdateVendor(Vendors value)
         {
-            Update_Vendor(value);
+            Update(value);
         }
         public void DeleteVendor(Vendors v)
         {
-            throw new NotImplementedException();
+            Delete(v);
         }
     }
 }

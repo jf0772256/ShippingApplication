@@ -20,7 +20,7 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <param name="value">New Carrier to be added remember to assign an unique person id</param>
         public void AddCarrier(Carrier value)
         {
-            Write_Carrier_To_Database(value);
+            Write(value);
         }
         /// <summary>
         /// Updates some/all values of a carrier, beit the name or just adding a note. Include the carrier object that was modified.
@@ -28,7 +28,7 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <param name="value">Modified carrier object</param>
         public void UpdateCarrier(Carrier value)
         {
-            Update_Carrier(value);
+            Update(value);
         }
         /// <summary>
         /// collects all carriers from database - returns to dataconnectionclass.datalists.carriers list
@@ -48,7 +48,7 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public void DeleteCarrier(Carrier c)
         {
-            throw new NotImplementedException();
+            Delete(c);
         }
     }
 }

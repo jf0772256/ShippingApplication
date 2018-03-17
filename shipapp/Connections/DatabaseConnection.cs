@@ -232,7 +232,7 @@ namespace shipapp.Connections
         }
         #endregion
         #region Write Data To Database
-        protected void Write_User_To_Database(User newU)
+        protected void Write(User newU)
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
@@ -316,7 +316,7 @@ namespace shipapp.Connections
                 throw new DatabaseConnectionException("You Must select a valid database type.", new ArgumentException(DBType.ToString() + " is invalid."));
             }
         }
-        protected void Write_User_To_Database(BindingList<User> users)
+        protected void Write(BindingList<User> users)
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
@@ -407,97 +407,7 @@ namespace shipapp.Connections
                 throw new DatabaseConnectionException("You Must select a valid database type.", new ArgumentException(DBType.ToString() + " is invalid."));
             }
         }
-        protected void Update_User(long id,string[] columns, string[] values)
-        {
-            if (columns.Length != values.Length)
-            {
-                throw new ArgumentException("The number of values does not match the number of columns, please correct this and try again.");
-            }
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
-                {
-                    if (DBType == SQLHelperClass.DatabaseType.MSSQL)
-                    {
-                        cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD='" + EncodeKey + "';";
-                        cmd.CommandText += "UPDATE users SET ";
-                        foreach (string col in columns)
-                        {
-                            if (col == "user_password")
-                            {
-                                cmd.CommandText += col + "=EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)),";
-                                continue;
-                            }
-                            cmd.CommandText += col + "=?,";
-                        }
-                        cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1);
-                        cmd.CommandText += " WHERE user_id=?;";
-                        cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
-                        for (int i = 0; i < values.Length; i++)
-                        {
-                            cmd.Parameters.AddWithValue(columns[i], values[i]);
-                        }
-                        cmd.Parameters.AddWithValue("user_id", id);
-                        /**
-                         *   TODO:: Add add notes with person_id as note_id
-                         */
-                        try
-                        {
-                            cmd.ExecuteNonQuery();
-                            cmd.Transaction.Commit();
-                        }
-                        catch (Exception e)
-                        {
-                            cmd.Transaction.Rollback();
-                            throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
-                        }
-                    }
-                    else if (DBType == SQLHelperClass.DatabaseType.MySQL)
-                    {
-                        cmd.CommandText = "UPDATE users SET ";
-                        foreach (string col in columns)
-                        {
-                            if (col == "user_password")
-                            {
-                                cmd.CommandText += col + "=AES_ENCRYPT(?,'" + EncodeKey + "'),";
-                            }
-                            cmd.CommandText += col + "=?,";
-                        }
-                        cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1);
-                        cmd.CommandText += " WHERE user_id=?;";
-                        for (int i = 0; i < values.Length; i++)
-                        {
-                            cmd.Parameters.AddWithValue(columns[i], values[i]);
-                        }
-                        cmd.Parameters.AddWithValue("user_id", id);
-                        /**
-                         * TODO: Add updates to notes (add niote to table if not exists)
-                         */
-                        try
-                        {
-                            cmd.ExecuteNonQuery();
-                            cmd.Transaction.Commit();
-                        }
-                        catch (Exception e)
-                        {
-                            cmd.Transaction.Rollback();
-                            throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
-                        }
-                    }
-                    else
-                    {
-                        throw new DatabaseConnectionException("Select a valid database type.", new Exception());
-                    }
-                }
-            }
-        }
-        protected void Write_Vendor_To_Database(Vendors v)
+        protected void Write(Vendors v)
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
@@ -577,16 +487,301 @@ namespace shipapp.Connections
                 }
             }
         }
-        /// <summary>
-        /// Not used Do Not Use
-        /// </summary>
-        protected void Write_Vendor_List_To_Database()
+        protected void Write(Role value)
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("",c,tr))
+                {
+                    cmd.CommandText = "INSERT INTO roles(role_title)VALUES(?);";
+                    cmd.Parameters.AddWithValue("title", value.Role_Title);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
+                    }
+                }
+            }
         }
-        protected void Update_Vendor(Vendors v)
+        protected void Write(Carrier value)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "INSERT INTO carriers (carrier_name,person_id)VALUES(?,?);";
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("carrierN",value.CarrierName),
+                        new OdbcParameter("personid",value.Carrier_PersonId)
+                    });
+                    cmd.CommandText += "INSERT INTO phone_numbers (phone_number,person_id)VALUES(?,?);";
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("phone",value.PhoneNumber.Phone_Number),
+                        new OdbcParameter("personid",value.Carrier_PersonId)
+                    });
+                    foreach (Note note in value.Notes)
+                    {
+                        cmd.CommandText += "INSERT INTO notes (note_id,not_value)VALUES(?,?);";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                        new OdbcParameter("id",value.Carrier_PersonId),
+                        new OdbcParameter("text",note.Note_Value)
+                        });
+                    }
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
+                    }
+                }
+            }
+        }
+        protected void Write(Faculty f)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "INSERT INTO employees (empl_fname,empl_lname,person_id)VALUES(?,?,?);";
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("fname",f.FirstName),
+                        new OdbcParameter("lname",f.LastName),
+                        new OdbcParameter("person_id",f.Faculty_PersonId)
+                    });
+                    foreach (PhoneNumber phone in f.Phone)
+                    {
+                        cmd.CommandText += "INSERT INTO phone_numbers(phone_number,person_id)VALUES(?,?);";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("phone",phone.Phone_Number),
+                            new OdbcParameter("person_id",f.Faculty_PersonId)
+                        });
+                    }
+                    foreach (EmailAddress email in f.Email)
+                    {
+                        cmd.CommandText += "INSERT INTO email_addresses(email_address,person_id)VALUES(?,?);";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("email",email.Email_Address),
+                            new OdbcParameter("person_id",f.Faculty_PersonId)
+                        });
+                    }
+                    foreach (Note note in f.Notes)
+                    {
+                        cmd.CommandText += "INSERT INTO notes(note_value,note_id)VALUES(?,?);";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("note",note.Note_Value),
+                            new OdbcParameter("person_id",f.Faculty_PersonId)
+                        });
+                    }
+                    foreach (PhysicalAddress paddr in f.Address)
+                    {
+                        cmd.CommandText += "INSERT INTO physical_addr(person_id,building_long_name,building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,addr_note_id)VALUES(?,?,?,?,?,?,?,?,?,?,?);";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("person_id",f.Faculty_PersonId),
+                            new OdbcParameter("bln",paddr.BuildingLongName),
+                            new OdbcParameter("bsn",paddr.BuildingShortName),
+                            new OdbcParameter("brn",paddr.BuildingRoomNumber),
+                            new OdbcParameter("ln1",paddr.Line1),
+                            new OdbcParameter("ln2",paddr.Line2),
+                            new OdbcParameter("cty",paddr.City),
+                            new OdbcParameter("state",paddr.State),
+                            new OdbcParameter("zip",paddr.ZipCode),
+                            new OdbcParameter("ctry",paddr.Country),
+                            new OdbcParameter("noteid",f.Faculty_PersonId)
+                        });
+                    }
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failure to process data, please review inner exception for further detail.", e);
+                    }
+                }
+            }
+        }
+        protected void Write(PurchaseOrder p)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "INSERT INTO purchase_order(po_number,po_package_count,po_created_on,po_created_by,po_approved_by)VALUES(?,?,?,?,?);";
+                    cmd.Parameters.Add(new OdbcParameter[]
+                    {
+                        new OdbcParameter("ponumber",p.PONumber),
+                        new OdbcParameter("popackagecount",p.PackageCount),
+                        new OdbcParameter("pocreatedon",p.POCreatedOn),
+                        new OdbcParameter("pocreatedby",p.CreatedBy.Id),
+                        new OdbcParameter("poapprovedby",p.ApprovedBy.Id)
+                    });
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed to process data, please review the inner exception for further details", e);
+                    }
+                }
+            }
+        }
+        protected void Write(Package p)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "INSERT INTO packages(package_po_id,package_carrier_id,package_vendor_id,package_deliv_to_id,package_devliv_by_id,package_signed_for_by_id,package_tracking_number,package_received_date,package_deliver_date,package_note_id,package_status)VALUES(?,?,?,?,?,?,?,?,?,?,?);";
+                    //most fields can be null so we need to check and make sure that if a field is empty that we set  ids to 0 or null strings
+                    //ids all will be 0 for null, strings should roll to null
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("poid", p.PackagePurchaseOrder.PO_Id),
+                        new OdbcParameter("carrierid", p.PackageCarrier.CarrierId),
+                        new OdbcParameter("vendid",p.PackageVendor.VendorId),
+                        new OdbcParameter("delivtoid",p.PackageDeliveredTo.Id),
+                        new OdbcParameter("delivbyid",p.PackageDeleveredBy.Id),
+                        new OdbcParameter("signedbyid",p.PackageSignedForBy.Id),
+                        new OdbcParameter("tracknumb",p.PackageTrackingNumber),
+                        new OdbcParameter("recieveddate",p.PackageReceivedDate),
+                        new OdbcParameter("delivDate",p.PackageDeliveredDate),
+                        new OdbcParameter("noteid",p.Package_PersonId),
+                        new OdbcParameter("packstats",p.Status.ToString())
+                    });
+                    cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?)";
+                    cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + 0, p.Notes[0].Note_Id), new OdbcParameter("n" + 0, p.Notes[0].Note_Value) });
+                    for (int i = 1; i < p.Notes.Count; i++)
+                    {
+                        if (i==p.Notes.Count-1)
+                        {
+                            cmd.CommandText = ",(?,?);";
+                            cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + i, p.Notes[i].Note_Id), new OdbcParameter("n" + i, p.Notes[i].Note_Value) });
+                        }
+                        else
+                        {
+                            cmd.CommandText = ",(?,?)";
+                            cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + i, p.Notes[i].Note_Id), new OdbcParameter("n" + i, p.Notes[i].Note_Value) });
+                        }
+                    }
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Data Processing Failed to write, view inner exceltion for details", e);
+                    }
+                }
+            }
+        }
+        protected void Update(User v)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+                    {
+                        cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD='" + EncodeKey + "';";
+                        cmd.CommandText += "UPDATE users SET user_fname = ? , user_lname = ? , user_password = EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)), user_role_id = ? WHERE user_id = ?";
+                        cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("fname", v.FirstName),
+                            new OdbcParameter("lname",v.LastName),
+                            new OdbcParameter("pwrd",v.PassWord),
+                            new OdbcParameter("role",v.Level.Role_id)
+                        });
+                    }
+                    else if (DBType == SQLHelperClass.DatabaseType.MySQL)
+                    {
+                        cmd.CommandText = "UPDATE users SET user_fname = ? , user_lname = ? , user_password = AES_ENCRYPT(?,'" + EncodeKey + "') , user_role_id = ? WHERE user_id = ?";
+                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        {
+                            new OdbcParameter("fname", v.FirstName),
+                            new OdbcParameter("lname",v.LastName),
+                            new OdbcParameter("pwrd",v.PassWord),
+                            new OdbcParameter("role",v.Level.Role_id)
+                        });
+                    }
+                    else
+                    {
+                        throw new SQLHelperException("You must have selected a valid database type. set this value and try again.");
+                    }
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
+                    }
+                }
+            }
+        }
+        protected void Update(Vendors v)
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
@@ -675,34 +870,7 @@ namespace shipapp.Connections
                 }
             }
         }
-        protected void Add_Role(Role value)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("",c,tr))
-                {
-                    cmd.CommandText = "INSERT INTO roles(role_title)VALUES(?);";
-                    cmd.Parameters.AddWithValue("title", value.Role_Title);
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        cmd.Transaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        cmd.Transaction.Rollback();
-                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
-                    }
-                }
-            }
-        }
-        protected void Update_Role(Role value)
+        protected void Update(Role value)
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
@@ -730,53 +898,7 @@ namespace shipapp.Connections
                 }
             }
         }
-        protected void Write_Carrier_To_Database(Carrier value)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
-                {
-                    cmd.CommandText = "INSERT INTO carriers (carrier_name,person_id)VALUES(?,?);";
-                    cmd.Parameters.AddRange(new OdbcParameter[]
-                    {
-                        new OdbcParameter("carrierN",value.CarrierName),
-                        new OdbcParameter("personid",value.Carrier_PersonId)
-                    });
-                    cmd.CommandText += "INSERT INTO phone_numbers (phone_number,person_id)VALUES(?,?);";
-                    cmd.Parameters.AddRange(new OdbcParameter[]
-                    {
-                        new OdbcParameter("phone",value.PhoneNumber.Phone_Number),
-                        new OdbcParameter("personid",value.Carrier_PersonId)
-                    });
-                    foreach (Note note in value.Notes)
-                    {
-                        cmd.CommandText += "INSERT INTO notes (note_id,not_value)VALUES(?,?);";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
-                        {
-                        new OdbcParameter("id",value.Carrier_PersonId),
-                        new OdbcParameter("text",note.Note_Value)
-                        });
-                    }
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        cmd.Transaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        cmd.Transaction.Rollback();
-                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
-                    }
-                }
-            }
-        }
-        protected void Update_Carrier(Carrier value)
+        protected void Update(Carrier value)
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
@@ -827,84 +949,7 @@ namespace shipapp.Connections
                 }
             }
         }
-        protected void Write_Faculty_To_Database(Faculty f)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
-                {
-                    cmd.CommandText = "INSERT INTO employees (empl_fname,empl_lname,person_id)VALUES(?,?,?);";
-                    cmd.Parameters.AddRange(new OdbcParameter[]
-                    {
-                        new OdbcParameter("fname",f.FirstName),
-                        new OdbcParameter("lname",f.LastName),
-                        new OdbcParameter("person_id",f.Faculty_PersonId)
-                    });
-                    foreach (PhoneNumber phone in f.Phone)
-                    {
-                        cmd.CommandText += "INSERT INTO phone_numbers(phone_number,person_id)VALUES(?,?);";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
-                        {
-                            new OdbcParameter("phone",phone.Phone_Number),
-                            new OdbcParameter("person_id",f.Faculty_PersonId)
-                        });
-                    }
-                    foreach (EmailAddress email in f.Email)
-                    {
-                        cmd.CommandText += "INSERT INTO email_addresses(email_address,person_id)VALUES(?,?);";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
-                        {
-                            new OdbcParameter("email",email.Email_Address),
-                            new OdbcParameter("person_id",f.Faculty_PersonId)
-                        });
-                    }
-                    foreach (Note note in f.Notes)
-                    {
-                        cmd.CommandText += "INSERT INTO notes(note_value,note_id)VALUES(?,?);";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
-                        {
-                            new OdbcParameter("note",note.Note_Value),
-                            new OdbcParameter("person_id",f.Faculty_PersonId)
-                        });
-                    }
-                    foreach (PhysicalAddress paddr in f.Address)
-                    {
-                        cmd.CommandText += "INSERT INTO physical_addr(person_id,building_long_name,building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,addr_note_id)VALUES(?,?,?,?,?,?,?,?,?,?,?);";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
-                        {
-                            new OdbcParameter("person_id",f.Faculty_PersonId),
-                            new OdbcParameter("bln",paddr.BuildingLongName),
-                            new OdbcParameter("bsn",paddr.BuildingShortName),
-                            new OdbcParameter("brn",paddr.BuildingRoomNumber),
-                            new OdbcParameter("ln1",paddr.Line1),
-                            new OdbcParameter("ln2",paddr.Line2),
-                            new OdbcParameter("cty",paddr.City),
-                            new OdbcParameter("state",paddr.State),
-                            new OdbcParameter("zip",paddr.ZipCode),
-                            new OdbcParameter("ctry",paddr.Country),
-                            new OdbcParameter("noteid",f.Faculty_PersonId)
-                        });
-                    }
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        cmd.Transaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        cmd.Transaction.Rollback();
-                        throw new DatabaseConnectionException("Failure to process data, please review inner exception for further detail.", e);
-                    }
-                }
-            }
-        }
-        protected void Update_Faculty(Faculty f)
+        protected void Update(Faculty f)
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
@@ -987,41 +1032,7 @@ namespace shipapp.Connections
                 }
             }
         }
-        protected void Write_PurchaseOrder_ToDatabase(PurchaseOrder p)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
-                {
-                    cmd.CommandText = "INSERT INTO purchase_order(po_number,po_package_count,po_created_on,po_created_by,po_approved_by)VALUES(?,?,?,?,?);";
-                    cmd.Parameters.Add(new OdbcParameter[]
-                    {
-                        new OdbcParameter("ponumber",p.PONumber),
-                        new OdbcParameter("popackagecount",p.PackageCount),
-                        new OdbcParameter("pocreatedon",p.POCreatedOn),
-                        new OdbcParameter("pocreatedby",p.CreatedBy.Id),
-                        new OdbcParameter("poapprovedby",p.ApprovedBy.Id)
-                    });
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        cmd.Transaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        cmd.Transaction.Rollback();
-                        throw new DatabaseConnectionException("Failed to process data, please review the inner exception for further details", e);
-                    }
-                }
-            }
-        }
-        protected void Update_PurchaseOrder(PurchaseOrder p)
+        protected void Update(PurchaseOrder p)
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
@@ -1056,64 +1067,7 @@ namespace shipapp.Connections
                 }
             }
         }
-        protected void Write_Package_To_Database(Package p)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
-                {
-                    cmd.CommandText = "INSERT INTO packages(package_po_id,package_carrier_id,package_vendor_id,package_deliv_to_id,package_devliv_by_id,package_signed_for_by_id,package_tracking_number,package_received_date,package_deliver_date,package_note_id,package_status)VALUES(?,?,?,?,?,?,?,?,?,?,?);";
-                    //most fields can be null so we need to check and make sure that if a field is empty that we set  ids to 0 or null strings
-                    //ids all will be 0 for null, strings should roll to null
-                    cmd.Parameters.AddRange(new OdbcParameter[]
-                    {
-                        new OdbcParameter("poid", p.PackagePurchaseOrder.PO_Id),
-                        new OdbcParameter("carrierid", p.PackageCarrier.CarrierId),
-                        new OdbcParameter("vendid",p.PackageVendor.VendorId),
-                        new OdbcParameter("delivtoid",p.PackageDeliveredTo.Id),
-                        new OdbcParameter("delivbyid",p.PackageDeleveredBy.Id),
-                        new OdbcParameter("signedbyid",p.PackageSignedForBy.Id),
-                        new OdbcParameter("tracknumb",p.PackageTrackingNumber),
-                        new OdbcParameter("recieveddate",p.PackageReceivedDate),
-                        new OdbcParameter("delivDate",p.PackageDeliveredDate),
-                        new OdbcParameter("noteid",p.Package_PersonId),
-                        new OdbcParameter("packstats",p.Status.ToString())
-                    });
-                    cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?)";
-                    cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + 0, p.Notes[0].Note_Id), new OdbcParameter("n" + 0, p.Notes[0].Note_Value) });
-                    for (int i = 1; i < p.Notes.Count; i++)
-                    {
-                        if (i==p.Notes.Count-1)
-                        {
-                            cmd.CommandText = ",(?,?);";
-                            cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + i, p.Notes[i].Note_Id), new OdbcParameter("n" + i, p.Notes[i].Note_Value) });
-                        }
-                        else
-                        {
-                            cmd.CommandText = ",(?,?)";
-                            cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + i, p.Notes[i].Note_Id), new OdbcParameter("n" + i, p.Notes[i].Note_Value) });
-                        }
-                    }
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        cmd.Transaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        cmd.Transaction.Rollback();
-                        throw new DatabaseConnectionException("Data Processing Failed to write, view inner exceltion for details", e);
-                    }
-                }
-            }
-        }
-        protected void Update_Package(Package p)
+        protected void Update(Package p)
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
@@ -1168,6 +1122,12 @@ namespace shipapp.Connections
                 }
             }
         }
+        protected void Delete(User v) { }
+        protected void Delete(Faculty v) { }
+        protected void Delete(Vendors v) { }
+        protected void Delete(Carrier v) { }
+        protected void Delete(PurchaseOrder v) { }
+        protected void Delete(Package v) { }
         #endregion
         #region Get Data From Database
         /// <summary>
