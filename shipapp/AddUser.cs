@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace shipapp
 {
+    /// <summary>
+    /// This class allows the user to add a validated user to the database
+    /// </summary>
     public partial class AddUser : Form
     {
         public AddUser()
@@ -27,6 +30,11 @@ namespace shipapp
 
         }
 
+        /// <summary>
+        /// When the user clicks this button validate the data and write it to the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
             // Reset
@@ -44,9 +52,14 @@ namespace shipapp
                 newUser.PassWord = txtPassword.Text;
                 newUser.Person_Id = txtBoxPersonId.Text;
 
+                // Write the data to the DB
                 Connections.DataConnections.DataConnectionClass.UserConn.Write1User(newUser);
 
                 this.Close();
+            }
+            else
+            {
+                MessageBox.Show("All fields must have correct data!", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
 
@@ -64,13 +77,17 @@ namespace shipapp
             txtBoxPersonId.BackColor = Color.White;
         }
 
+        /// <summary>
+        /// Validate the data
+        /// </summary>
+        /// <returns></returns>
         private bool ValidateData()
         {
             // Method level variables
             bool pass = true;
             long num0 = 0;
 
-            // Validate Data
+            // Validate data
             if (long.TryParse(txtId.Text, out num0))
             {
                 pass = false;

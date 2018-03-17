@@ -24,7 +24,38 @@ namespace shipapp
         /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            this.Close();
+            ResetError();
+
+            if (ValidateData())
+            {
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("All fields must have correct data!", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+        }
+
+        /// <summary>
+        /// Reset the back color after an error
+        /// </summary>
+        private void ResetError()
+        {
+           
+        }
+
+        /// <summary>
+        /// Test the data before writing it to the database
+        /// </summary>
+        /// <returns></returns>
+        private bool ValidateData()
+        {
+            // Method level variables
+            bool pass = true;
+
+            // Test data
+
+            return pass;
         }
     }
 }

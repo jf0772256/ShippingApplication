@@ -11,6 +11,9 @@ using shipapp.Models;
 
 namespace shipapp
 {
+    /// <summary>
+    /// This calss allows the user to add a faculty to the database
+    /// </summary>
     public partial class AddFaculty : Form
     {
         // Class level variables
@@ -58,6 +61,10 @@ namespace shipapp
             }
         }
 
+        /// <summary>
+        /// Valiadate the data
+        /// </summary>
+        /// <returns></returns>
         private bool ValidateData()
         {
             // Method level variables
