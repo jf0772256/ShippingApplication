@@ -35,15 +35,73 @@ namespace shipapp
         /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            Models.Faculty faculty = new Models.Faculty();
-            faculty.FirstName = txtFirstName.Text;
-            faculty.LastName = txtLastName.Text;
-            faculty.Faculty_PersonId = txtId2.Text;
-            faculty.Id = long.Parse(txtId1.Text);
+            // Reset the background color
+            ResetError();
 
-            Connections.DataConnections.DataConnectionClass.EmployeeConn.AddFaculty(faculty);
+            // Check that the appropriate data exist before writing to the DB.
+            if (ValidateData())
+            {
+                Models.Faculty faculty = new Models.Faculty();
+                faculty.FirstName = txtFirstName.Text;
+                faculty.LastName = txtLastName.Text;
+                faculty.Faculty_PersonId = txtId2.Text;
+                faculty.Id = long.Parse(txtId1.Text);
 
-            this.Close();
+                // Add to DB
+                Connections.DataConnections.DataConnectionClass.EmployeeConn.AddFaculty(faculty);
+
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("All fields must have correct data!", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+        }
+
+        private bool ValidateData()
+        {
+            // Method level variables
+            bool pass = true;
+            long num0 = 0;
+            int num1 = 0;
+
+            // Test Data
+            if (txtFirstName.Text == "")
+            {
+                pass = false;
+                txtFirstName.BackColor = Color.LightPink;
+            }
+
+            if (txtLastName.Text == "")
+            {
+                pass = false;
+                txtLastName.BackColor = Color.LightPink;
+            }
+
+            if (!long.TryParse(txtId1.Text, out num0))
+            {
+                pass = false;
+                txtId1.BackColor = Color.LightPink;
+            }
+
+            if (!int.TryParse(txtId2.Text, out num1))
+            {
+                pass = false;
+                txtId2.BackColor = Color.LightPink;
+            }
+
+            return pass;
+        }
+
+        /// <summary>
+        /// Reset the backcolor after errors
+        /// </summary>
+        private void ResetError()
+        {
+            txtFirstName.BackColor = Color.White;
+            txtLastName.BackColor = Color.White;
+            txtId1.BackColor = Color.White;
+            txtId2.BackColor = Color.White;
         }
     }
 }
