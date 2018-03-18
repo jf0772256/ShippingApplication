@@ -26,6 +26,12 @@ namespace shipapp
         public Manage()
         {
             InitializeComponent();
+            dataGridView1.DataError += DataGridView1_DataError;
+        }
+
+        private void DataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            //
         }
 
         /// <summary>
@@ -155,6 +161,15 @@ namespace shipapp
             //TODO Fill list with query from Database
             Connections.DataConnections.DataConnectionClass.UserConn.GetManyUsers();
             dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.UsersList;
+            //change header text for roles
+            dataGridView1.Columns["Level"].HeaderText = "Role";
+            int i = 0;
+            // sets the value of the text to role title rather than the class namespace and name
+            // see tostring override in roles to see how this was hanled, may need to change based on what we do for other classes
+            for (i = 0; i < Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Count; i++)
+            {
+                dataGridView1.Rows[i].Cells["Level"].Value = Connections.DataConnections.DataConnectionClass.DataLists.UsersList[i].Level.ToString();
+            }
         }
 
         private void btnVendors_Click_1(object sender, EventArgs e)

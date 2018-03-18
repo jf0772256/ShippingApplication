@@ -23,5 +23,9 @@ namespace shipapp.Models.ModelData
         /// constructor
         /// </summary>
         public Role() { }
+        public override string ToString()
+        {
+            return Role_Title.ToString();
+        }
     }
 }
