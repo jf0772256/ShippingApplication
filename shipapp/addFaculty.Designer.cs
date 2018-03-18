@@ -117,14 +117,14 @@
             this.txtId1.Location = new System.Drawing.Point(114, 88);
             this.txtId1.Name = "txtId1";
             this.txtId1.Size = new System.Drawing.Size(100, 26);
-            this.txtId1.TabIndex = 5;
+            this.txtId1.TabIndex = 2;
             // 
             // txtId2
             // 
             this.txtId2.Location = new System.Drawing.Point(280, 88);
             this.txtId2.Name = "txtId2";
             this.txtId2.Size = new System.Drawing.Size(100, 26);
-            this.txtId2.TabIndex = 7;
+            this.txtId2.TabIndex = 3;
             // 
             // lblId2
             // 
@@ -142,7 +142,7 @@
             this.btnAdd.Location = new System.Drawing.Point(287, 480);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(100, 33);
-            this.btnAdd.TabIndex = 8;
+            this.btnAdd.TabIndex = 19;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -162,14 +162,14 @@
             this.txtEmail.Location = new System.Drawing.Point(135, 126);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(189, 26);
-            this.txtEmail.TabIndex = 10;
+            this.txtEmail.TabIndex = 4;
             // 
             // BtnAddEmail
             // 
             this.BtnAddEmail.Location = new System.Drawing.Point(330, 126);
             this.BtnAddEmail.Name = "BtnAddEmail";
             this.BtnAddEmail.Size = new System.Drawing.Size(50, 26);
-            this.BtnAddEmail.TabIndex = 11;
+            this.BtnAddEmail.TabIndex = 5;
             this.BtnAddEmail.Text = "Add";
             this.BtnAddEmail.UseVisualStyleBackColor = true;
             this.BtnAddEmail.Click += new System.EventHandler(this.BtnAddEmail_Click);
@@ -190,14 +190,14 @@
             this.txtPhone.Mask = "(###) ###-####";
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Size = new System.Drawing.Size(189, 26);
-            this.txtPhone.TabIndex = 13;
+            this.txtPhone.TabIndex = 6;
             // 
             // BtnAddPhone
             // 
             this.BtnAddPhone.Location = new System.Drawing.Point(331, 163);
             this.BtnAddPhone.Name = "BtnAddPhone";
             this.BtnAddPhone.Size = new System.Drawing.Size(49, 26);
-            this.BtnAddPhone.TabIndex = 14;
+            this.BtnAddPhone.TabIndex = 7;
             this.BtnAddPhone.Text = "Add";
             this.BtnAddPhone.UseVisualStyleBackColor = true;
             this.BtnAddPhone.Click += new System.EventHandler(this.BtnAddPhone_Click);
@@ -216,7 +216,7 @@
             this.txtBuildingLongName.Location = new System.Drawing.Point(170, 211);
             this.txtBuildingLongName.Name = "txtBuildingLongName";
             this.txtBuildingLongName.Size = new System.Drawing.Size(210, 26);
-            this.txtBuildingLongName.TabIndex = 16;
+            this.txtBuildingLongName.TabIndex = 8;
             // 
             // label4
             // 
@@ -232,7 +232,7 @@
             this.txtBuildingShortName.Location = new System.Drawing.Point(170, 238);
             this.txtBuildingShortName.Name = "txtBuildingShortName";
             this.txtBuildingShortName.Size = new System.Drawing.Size(210, 26);
-            this.txtBuildingShortName.TabIndex = 18;
+            this.txtBuildingShortName.TabIndex = 9;
             // 
             // label5
             // 
@@ -248,7 +248,7 @@
             this.txtBuildingRoomNumber.Location = new System.Drawing.Point(192, 265);
             this.txtBuildingRoomNumber.Name = "txtBuildingRoomNumber";
             this.txtBuildingRoomNumber.Size = new System.Drawing.Size(188, 26);
-            this.txtBuildingRoomNumber.TabIndex = 20;
+            this.txtBuildingRoomNumber.TabIndex = 10;
             // 
             // label6
             // 
@@ -264,7 +264,7 @@
             this.txtAddressLine1.Location = new System.Drawing.Point(135, 292);
             this.txtAddressLine1.Name = "txtAddressLine1";
             this.txtAddressLine1.Size = new System.Drawing.Size(245, 26);
-            this.txtAddressLine1.TabIndex = 22;
+            this.txtAddressLine1.TabIndex = 11;
             // 
             // label7
             // 
@@ -280,7 +280,7 @@
             this.txtAddressLine2.Location = new System.Drawing.Point(135, 321);
             this.txtAddressLine2.Name = "txtAddressLine2";
             this.txtAddressLine2.Size = new System.Drawing.Size(245, 26);
-            this.txtAddressLine2.TabIndex = 24;
+            this.txtAddressLine2.TabIndex = 12;
             // 
             // label8
             // 
@@ -296,7 +296,7 @@
             this.txtAddressCity.Location = new System.Drawing.Point(135, 350);
             this.txtAddressCity.Name = "txtAddressCity";
             this.txtAddressCity.Size = new System.Drawing.Size(245, 26);
-            this.txtAddressCity.TabIndex = 26;
+            this.txtAddressCity.TabIndex = 13;
             // 
             // label9
             // 
@@ -313,7 +313,7 @@
             this.txtAddressState.MaxLength = 2;
             this.txtAddressState.Name = "txtAddressState";
             this.txtAddressState.Size = new System.Drawing.Size(50, 26);
-            this.txtAddressState.TabIndex = 28;
+            this.txtAddressState.TabIndex = 14;
             // 
             // label10
             // 
@@ -330,7 +330,7 @@
             this.txtAddressZipCode.MaxLength = 10;
             this.txtAddressZipCode.Name = "txtAddressZipCode";
             this.txtAddressZipCode.Size = new System.Drawing.Size(119, 26);
-            this.txtAddressZipCode.TabIndex = 30;
+            this.txtAddressZipCode.TabIndex = 15;
             // 
             // label11
             // 
@@ -347,7 +347,7 @@
             this.txtAddressCountry.MaxLength = 2;
             this.txtAddressCountry.Name = "txtAddressCountry";
             this.txtAddressCountry.Size = new System.Drawing.Size(59, 26);
-            this.txtAddressCountry.TabIndex = 32;
+            this.txtAddressCountry.TabIndex = 16;
             // 
             // label12
             // 
@@ -364,7 +364,7 @@
             this.BtnAddAddress.Location = new System.Drawing.Point(321, 406);
             this.BtnAddAddress.Name = "BtnAddAddress";
             this.BtnAddAddress.Size = new System.Drawing.Size(59, 53);
-            this.BtnAddAddress.TabIndex = 34;
+            this.BtnAddAddress.TabIndex = 18;
             this.BtnAddAddress.Text = "Add";
             this.BtnAddAddress.UseVisualStyleBackColor = true;
             this.BtnAddAddress.Click += new System.EventHandler(this.BtnAddAddress_Click);
@@ -383,7 +383,7 @@
             this.txtAddressNoteId.Location = new System.Drawing.Point(146, 433);
             this.txtAddressNoteId.Name = "txtAddressNoteId";
             this.txtAddressNoteId.Size = new System.Drawing.Size(169, 26);
-            this.txtAddressNoteId.TabIndex = 36;
+            this.txtAddressNoteId.TabIndex = 17;
             // 
             // AddFaculty
             // 

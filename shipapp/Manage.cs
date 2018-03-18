@@ -53,12 +53,16 @@ namespace shipapp
         #region Table Buttons
         private void btnUsers_Click(object sender, EventArgs e)
         {
-            
+            dataGridView1.DataSource = null;
+            dataGridView1.Columns.Clear();
         }
 
         private void btnVendors_Click(object sender, EventArgs e)
         {
-            
+            dataGridView1.DataSource = null;
+            dataGridView1.Columns.Clear();
+            Connections.DataConnections.DataConnectionClass.VendorConn.GetVendorList();
+            dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.Vendors;
         }
 
         /// <summary>
@@ -181,6 +185,8 @@ namespace shipapp
         {
             currentTable = 1;
             //TODO Fill list with query from Database
+            dataGridView1.DataSource = null;
+            dataGridView1.Columns.Clear();
             Connections.DataConnections.DataConnectionClass.UserConn.GetManyUsers();
             dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.UsersList;
             //change header text for roles
@@ -198,6 +204,9 @@ namespace shipapp
         {
             currentTable = 2;
             //TODO Fill list with query from Database
+            dataGridView1.DataSource = null;
+            dataGridView1.Columns.Clear();
+            Connections.DataConnections.DataConnectionClass.VendorConn.GetVendorList();
             dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.Vendors;
         }
 
@@ -212,6 +221,9 @@ namespace shipapp
         {
             currentTable = 5;
             //TODO Fill list with query from Database
+            dataGridView1.DataSource = null;
+            dataGridView1.Columns.Clear();
+            Connections.DataConnections.DataConnectionClass.CarrierConn.GetCarrierList();
             dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.CarriersList;
         }
 
