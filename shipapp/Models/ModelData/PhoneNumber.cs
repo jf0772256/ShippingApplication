@@ -23,5 +23,9 @@ namespace shipapp.Models.ModelData
         /// constructor
         /// </summary>
         public PhoneNumber() { }
+        public override string ToString()
+        {
+            return Phone_Number.ToString();
+        }
     }
 }

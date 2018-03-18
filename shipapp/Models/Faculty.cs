@@ -66,5 +66,9 @@ namespace shipapp.Models
             Email = new List<EmailAddress>() { };
             Address = new List<PhysicalAddress>() { };
         }
+        public override string ToString()
+        {
+            return FirstName + " " + LastName;
+        }
     }
 }

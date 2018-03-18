@@ -66,5 +66,29 @@ namespace shipapp.Models.ModelData
         {
             Notes = new List<Note>() { };
         }
+        /// <summary>
+        /// returns string specific to the building address information
+        /// </summary>
+        /// <param name="shortName">Boolean use short or long building information</param>
+        /// <returns>string</returns>
+        public string GetBuildingDetails(bool shortName)
+        {
+            if (!shortName)
+            {
+                return BuildingLongName + " " + BuildingRoomNumber;
+            }
+            else
+            {
+                return BuildingShortName + " " + BuildingRoomNumber;
+            }
+        }
+        /// <summary>
+        /// Simular to toString() but specific addresses not including building
+        /// </summary>
+        /// <returns>String of Address</returns>
+        public string GetStreetAddressDetails()
+        {
+            return Line1 + ", " + Line2 + " " + City + " " + State + " " + ZipCode + " " + Country;
+        }
     }
 }

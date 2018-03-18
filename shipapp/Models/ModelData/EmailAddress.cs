@@ -23,5 +23,9 @@ namespace shipapp.Models.ModelData
         /// Constructor
         /// </summary>
         public EmailAddress() { }
+        public override string ToString()
+        {
+            return Email_Address.ToString();
+        }
     }
 }
