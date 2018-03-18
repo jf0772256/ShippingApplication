@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using shipapp.Connections.HelperClasses;
 
 namespace shipapp
 {
@@ -14,13 +15,10 @@ namespace shipapp
     {
         // Class level variables
         private int currentTable = 0;
+        private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
 
         // Data list for tables
-        private BindingList<Models.User> userList = new BindingList<Models.User>();
-        private BindingList<Models.Vendors> vendorList = new BindingList<Models.Vendors>();
-        private BindingList<Models.Faculty> facultyList = new BindingList<Models.Faculty>();
-        //private BindingList<Models.b> buildingList = new BindingList<Models.User>(); -- Building list
-        private BindingList<Models.Carrier> carrierList = new BindingList<Models.Carrier>();
+        //Use Connections.DataConnections.DataConnectionClass.DataLists.{Name of binding list}
 
 
         public Manage()
@@ -28,7 +26,9 @@ namespace shipapp
             InitializeComponent();
             dataGridView1.DataError += DataGridView1_DataError;
         }
-
+        /// <summary>
+        /// used to hide data conversion errors even though they are resolved through the getStrings and toStrings methods
+        /// </summary>
         private void DataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             //
@@ -72,17 +72,22 @@ namespace shipapp
             //TODO Fill list with query from Database
             Connections.DataConnections.DataConnectionClass.EmployeeConn.GetAllAfaculty();
             dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.FacultyList;
+            //adds combo columns
+            dgvch.AddCustomColumn(dataGridView1, "Phone Numbers", "phone_number", 9);
+            dgvch.AddCustomColumn(dataGridView1, "E-Mail Address", "email_address", 10);
+            dgvch.AddCustomColumn(dataGridView1, "Address", "address", 11);
+            //add values to drop downs
+            for (int i = 0; i < Connections.DataConnections.DataConnectionClass.DataLists.FacultyList.Count; i++)
+            {
+                DataGridViewComboBoxCell tcel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["phone_number"];
+                Connections.DataConnections.DataConnectionClass.DataLists.FacultyList[i].Phone.ForEach(p => tcel.Items.Add(p.Phone_Number.ToString()));
 
-            //var list = new BindingList<Models.Faculty> { };
-            //list.Add(new Models.Faculty(0,"0","kalin", "bowden"));
-            //list.Add(new Models.Faculty(0, "1", "jesse", "fender"));
-            //list.Add(new Models.Faculty(0, "2", "tiffany", "ford"));
+                DataGridViewComboBoxCell ucel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["email_address"];
+                Connections.DataConnections.DataConnectionClass.DataLists.FacultyList[i].Email.ForEach(h => ucel.Items.Add(h.Email_Address.ToString()));
 
-            //dataGridView1.DataSource = list;
-
-
-
-            //list.Add(addFaculty.NewFaculty);
+                DataGridViewComboBoxCell vcel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["address"];
+                Connections.DataConnections.DataConnectionClass.DataLists.FacultyList[i].Address.ForEach(a => vcel.Items.Add(a.GetBuildingDetails(true)));
+            }
         }
 
         private void btnBuildings_Click(object sender, EventArgs e)
@@ -176,7 +181,7 @@ namespace shipapp
         {
             currentTable = 2;
             //TODO Fill list with query from Database
-            dataGridView1.DataSource = vendorList;
+            dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.Vendors;
         }
 
         private void btnBuildings_Click_1(object sender, EventArgs e)
@@ -190,7 +195,7 @@ namespace shipapp
         {
             currentTable = 5;
             //TODO Fill list with query from Database
-            dataGridView1.DataSource = carrierList;
+            dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.CarriersList;
         }
 
         private void btnOther_Click_1(object sender, EventArgs e)

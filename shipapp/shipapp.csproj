@@ -90,6 +90,7 @@
     <Compile Include="Connections\DataConnections\Classes\TestConnClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\UserConnClass.cs" />
     <Compile Include="Connections\DataConnections\DataConnectionClass.cs" />
+    <Compile Include="Connections\HelperClasses\DataGridViewColumnHelperClass.cs" />
     <Compile Include="Connections\HelperClasses\Serialize.cs" />
     <Compile Include="Connections\HelperClasses\SQLHelperClass.cs" />
     <Compile Include="Form2.cs">
@@ -148,7 +149,6 @@
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs" />
-    <Compile Include="Connections\HelperClasses\XMLConnection.cs" />
     <EmbeddedResource Include="AddBuilding.resx">
       <DependentUpon>AddBuilding.cs</DependentUpon>
     </EmbeddedResource>
