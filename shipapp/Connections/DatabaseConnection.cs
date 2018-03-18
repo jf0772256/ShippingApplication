@@ -2230,16 +2230,23 @@ namespace shipapp.Connections
                 {
                     cmd.CommandText = "SELECT * FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", person_id);
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    try
                     {
-                        while (reader.Read())
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            nte.Add(new Note
+                            while (reader.Read())
                             {
-                                Note_Id = Convert.ToInt64(reader[0].ToString()),
-                                Note_Value = reader[2].ToString()
-                            });
+                                nte.Add(new Note
+                                {
+                                    Note_Id = Convert.ToInt64(reader[0].ToString()),
+                                    Note_Value = reader[2].ToString()
+                                });
+                            }
                         }
+                    }
+                    catch (Exception)
+                    {
+                        // do nothing
                     }
                 }
             }

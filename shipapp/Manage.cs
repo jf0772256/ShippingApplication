@@ -26,6 +26,7 @@ namespace shipapp
             InitializeComponent();
             dataGridView1.DataError += DataGridView1_DataError;
         }
+
         /// <summary>
         /// used to hide data conversion errors even though they are resolved through the getStrings and toStrings methods
         /// </summary>
