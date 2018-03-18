@@ -529,7 +529,7 @@ namespace shipapp.Connections
                     }
                     foreach (PhysicalAddress paddr in f.Address)
                     {
-                        cmd.CommandText += "INSERT INTO physical_addr(person_id,building_long_name,building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,addr_note_id)VALUES(?,?,?,?,?,?,?,?,?,?,?);";
+                        cmd.CommandText += "INSERT INTO physical_addr(person_id,building_long_name,building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,address_note_id)VALUES(?,?,?,?,?,?,?,?,?,?,?);";
                         cmd.Parameters.AddRange(new OdbcParameter[]
                         {
                             new OdbcParameter("person_id",f.Faculty_PersonId),
@@ -542,7 +542,7 @@ namespace shipapp.Connections
                             new OdbcParameter("state",paddr.State),
                             new OdbcParameter("zip",paddr.ZipCode),
                             new OdbcParameter("ctry",paddr.Country),
-                            new OdbcParameter("noteid",f.Faculty_PersonId)
+                            new OdbcParameter("noteid",paddr.AddrNoteId)
                         });
                     }
                     try

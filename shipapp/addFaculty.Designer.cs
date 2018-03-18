@@ -63,6 +63,8 @@
             this.txtAddressCountry = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.BtnAddAddress = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtAddressNoteId = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtFirstName
@@ -316,15 +318,15 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(13, 406);
+            this.label10.Location = new System.Drawing.Point(188, 381);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(136, 20);
+            this.label10.Size = new System.Drawing.Size(73, 20);
             this.label10.TabIndex = 29;
-            this.label10.Text = "Address Zip Code";
+            this.label10.Text = "Zip Code";
             // 
             // txtAddressZipCode
             // 
-            this.txtAddressZipCode.Location = new System.Drawing.Point(155, 404);
+            this.txtAddressZipCode.Location = new System.Drawing.Point(261, 378);
             this.txtAddressZipCode.MaxLength = 10;
             this.txtAddressZipCode.Name = "txtAddressZipCode";
             this.txtAddressZipCode.Size = new System.Drawing.Size(119, 26);
@@ -333,7 +335,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(13, 436);
+            this.label11.Location = new System.Drawing.Point(13, 406);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(127, 20);
             this.label11.TabIndex = 31;
@@ -341,7 +343,7 @@
             // 
             // txtAddressCountry
             // 
-            this.txtAddressCountry.Location = new System.Drawing.Point(155, 433);
+            this.txtAddressCountry.Location = new System.Drawing.Point(146, 406);
             this.txtAddressCountry.MaxLength = 2;
             this.txtAddressCountry.Name = "txtAddressCountry";
             this.txtAddressCountry.Size = new System.Drawing.Size(59, 26);
@@ -367,12 +369,30 @@
             this.BtnAddAddress.UseVisualStyleBackColor = true;
             this.BtnAddAddress.Click += new System.EventHandler(this.BtnAddAddress_Click);
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(16, 439);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(124, 20);
+            this.label13.TabIndex = 35;
+            this.label13.Text = "Address Note Id";
+            // 
+            // txtAddressNoteId
+            // 
+            this.txtAddressNoteId.Location = new System.Drawing.Point(146, 433);
+            this.txtAddressNoteId.Name = "txtAddressNoteId";
+            this.txtAddressNoteId.Size = new System.Drawing.Size(169, 26);
+            this.txtAddressNoteId.TabIndex = 36;
+            // 
             // AddFaculty
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(399, 525);
+            this.Controls.Add(this.txtAddressNoteId);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.BtnAddAddress);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.txtAddressCountry);
@@ -454,5 +474,7 @@
         private System.Windows.Forms.TextBox txtAddressCountry;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button BtnAddAddress;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txtAddressNoteId;
     }
 }

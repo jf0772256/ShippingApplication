@@ -166,7 +166,8 @@ namespace shipapp
                     City = txtAddressCity.Text,
                     State = txtAddressState.Text,
                     ZipCode = txtAddressZipCode.Text,
-                    Country = txtAddressCountry.Text
+                    Country = txtAddressCountry.Text,
+                    AddrNoteId = txtAddressNoteId.Text
                 });
                 txtBuildingLongName.Text = "";
                 txtBuildingShortName.Text = "";
