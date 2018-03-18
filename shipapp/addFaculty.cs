@@ -17,20 +17,21 @@ namespace shipapp
     public partial class AddFaculty : Form
     {
         // Class level variables
-        private Models.Faculty newFaculty;
-
-        internal Faculty NewFaculty { get => newFaculty; set => newFaculty = value; }
-
+        private Faculty newFaculty;
+        internal Faculty NewFaculty
+        {
+            get => newFaculty;
+            set => newFaculty = value;
+        }
         public AddFaculty()
         {
             InitializeComponent();
+            NewFaculty = new Faculty();
         }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
-
         /// <summary>
         /// When the user clicks this button it will check the data, add it to the DB, and close the form.
         /// </summary>
@@ -44,14 +45,13 @@ namespace shipapp
             // Check that the appropriate data exist before writing to the DB.
             if (ValidateData())
             {
-                Models.Faculty faculty = new Models.Faculty();
-                faculty.FirstName = txtFirstName.Text;
-                faculty.LastName = txtLastName.Text;
-                faculty.Faculty_PersonId = txtId2.Text;
-                faculty.Id = long.Parse(txtId1.Text);
+                NewFaculty.FirstName = txtFirstName.Text;
+                NewFaculty.LastName = txtLastName.Text;
+                NewFaculty.Faculty_PersonId = txtId2.Text;
+                NewFaculty.Id = long.Parse(txtId1.Text);
 
                 // Add to DB
-                Connections.DataConnections.DataConnectionClass.EmployeeConn.AddFaculty(faculty);
+                Connections.DataConnections.DataConnectionClass.EmployeeConn.AddFaculty(NewFaculty);
 
                 this.Close();
             }
@@ -60,7 +60,6 @@ namespace shipapp
                 MessageBox.Show("All fields must have correct data!", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
-
         /// <summary>
         /// Valiadate the data
         /// </summary>
@@ -70,7 +69,6 @@ namespace shipapp
             // Method level variables
             bool pass = true;
             long num0 = 0;
-            int num1 = 0;
 
             // Test Data
             if (txtFirstName.Text == "")
@@ -91,7 +89,7 @@ namespace shipapp
                 txtId1.BackColor = Color.LightPink;
             }
 
-            if (!int.TryParse(txtId2.Text, out num1))
+            if (String.IsNullOrWhiteSpace(txtId2.Text))
             {
                 pass = false;
                 txtId2.BackColor = Color.LightPink;
@@ -99,7 +97,6 @@ namespace shipapp
 
             return pass;
         }
-
         /// <summary>
         /// Reset the backcolor after errors
         /// </summary>
@@ -109,6 +106,79 @@ namespace shipapp
             txtLastName.BackColor = Color.White;
             txtId1.BackColor = Color.White;
             txtId2.BackColor = Color.White;
+        }
+        /// <summary>
+        /// Add email address to faculty list
+        /// </summary>
+        private void BtnAddEmail_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(txtEmail.Text))
+            {
+                return;
+            }
+            else
+            {
+                NewFaculty.Email.Add(new Models.ModelData.EmailAddress()
+                {
+                    Email_Address = txtEmail.Text
+                });
+                txtEmail.Text = "";
+                txtEmail.Focus();
+            }
+        }
+        /// <summary>
+        /// Add phone number to faculty
+        /// </summary>
+        private void BtnAddPhone_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(txtPhone.Text))
+            {
+                return;
+            }
+            else
+            {
+                NewFaculty.Phone.Add(new Models.ModelData.PhoneNumber()
+                {
+                    Phone_Number = txtPhone.Text
+                });
+                txtPhone.Text = "";
+                txtPhone.Focus();
+            }
+        }
+        /// <summary>
+        /// Adds address to faculty list
+        /// </summary>
+        private void BtnAddAddress_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(txtBuildingShortName.Text) && String.IsNullOrWhiteSpace(txtBuildingLongName.Text) && String.IsNullOrWhiteSpace(txtAddressLine1.Text))
+            {
+                return;
+            }
+            else
+            {
+                NewFaculty.Address.Add(new Models.ModelData.PhysicalAddress()
+                {
+                    BuildingLongName = txtBuildingLongName.Text,
+                    BuildingShortName = txtBuildingShortName.Text,
+                    BuildingRoomNumber = txtBuildingRoomNumber.Text,
+                    Line1 = txtAddressLine1.Text,
+                    Line2 = txtAddressLine2.Text,
+                    City = txtAddressCity.Text,
+                    State = txtAddressState.Text,
+                    ZipCode = txtAddressZipCode.Text,
+                    Country = txtAddressCountry.Text
+                });
+                txtBuildingLongName.Text = "";
+                txtBuildingShortName.Text = "";
+                txtBuildingRoomNumber.Text = "";
+                txtAddressLine1.Text = "";
+                txtAddressLine2.Text = "";
+                txtAddressCity.Text = "";
+                txtAddressState.Text = "";
+                txtAddressZipCode.Text = "";
+                txtAddressCountry.Text = "";
+                txtBuildingLongName.Focus();
+            }
         }
     }
 }

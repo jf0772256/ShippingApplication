@@ -70,6 +70,8 @@ namespace shipapp
         {
             currentTable = 3;
             //TODO Fill list with query from Database
+            dataGridView1.DataSource = null;
+            dataGridView1.Columns.Clear();
             Connections.DataConnections.DataConnectionClass.EmployeeConn.GetAllAfaculty();
             dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.FacultyList;
             //adds combo columns
@@ -89,17 +91,14 @@ namespace shipapp
                 Connections.DataConnections.DataConnectionClass.DataLists.FacultyList[i].Address.ForEach(a => vcel.Items.Add(a.GetBuildingDetails(true)));
             }
         }
-
         private void btnBuildings_Click(object sender, EventArgs e)
         {
             
         }
-
         private void btnCarriers_Click(object sender, EventArgs e)
         {
             
         }
-
         private void btnOther_Click(object sender, EventArgs e)
         {
             
@@ -137,8 +136,26 @@ namespace shipapp
             {
                 AddFaculty addFaculty = new AddFaculty();
                 addFaculty.ShowDialog();
+                dataGridView1.DataSource = null;
+                dataGridView1.Columns.Clear();
                 Connections.DataConnections.DataConnectionClass.EmployeeConn.GetAllAfaculty();
                 dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.FacultyList;
+                //adds combo columns
+                dgvch.AddCustomColumn(dataGridView1, "Phone Numbers", "phone_number", 9);
+                dgvch.AddCustomColumn(dataGridView1, "E-Mail Address", "email_address", 10);
+                dgvch.AddCustomColumn(dataGridView1, "Address", "address", 11);
+                //add values to drop downs
+                for (int i = 0; i < Connections.DataConnections.DataConnectionClass.DataLists.FacultyList.Count; i++)
+                {
+                    DataGridViewComboBoxCell tcel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["phone_number"];
+                    Connections.DataConnections.DataConnectionClass.DataLists.FacultyList[i].Phone.ForEach(p => tcel.Items.Add(p.Phone_Number.ToString()));
+
+                    DataGridViewComboBoxCell ucel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["email_address"];
+                    Connections.DataConnections.DataConnectionClass.DataLists.FacultyList[i].Email.ForEach(h => ucel.Items.Add(h.Email_Address.ToString()));
+
+                    DataGridViewComboBoxCell vcel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["address"];
+                    Connections.DataConnections.DataConnectionClass.DataLists.FacultyList[i].Address.ForEach(a => vcel.Items.Add(a.GetBuildingDetails(true)));
+                }
             }
             else if (currentTable == 4)
             {
