@@ -92,6 +92,7 @@
     <Compile Include="Connections\DataConnections\DataConnectionClass.cs" />
     <Compile Include="Connections\HelperClasses\DataGridViewColumnHelperClass.cs" />
     <Compile Include="Connections\HelperClasses\Serialize.cs" />
+    <Compile Include="Connections\HelperClasses\SortableBindingList.cs" />
     <Compile Include="Connections\HelperClasses\SQLHelperClass.cs" />
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>

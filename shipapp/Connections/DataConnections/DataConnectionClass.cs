@@ -203,33 +203,33 @@ namespace shipapp.Connections.DataConnections
         /// <summary>
         /// List of Users (or in other words receiving employees)
         /// </summary>
-        public BindingList<User> UsersList { get; set; }
+        public SortableBindingList<User> UsersList { get; set; }
         /// <summary>
         /// List of Carriers
         /// </summary>
-        public BindingList<Carrier> CarriersList { get; set; }
+        public SortableBindingList<Carrier> CarriersList { get; set; }
         /// <summary>
         /// List of Faculty
         /// </summary>
-        public BindingList<Faculty> FacultyList { get; set; }
+        public SortableBindingList<Faculty> FacultyList { get; set; }
         /// <summary>
         /// List of Vendors
         /// </summary>
-        public BindingList<Vendors> Vendors { get; set; }
+        public SortableBindingList<Vendors> Vendors { get; set; }
         /// <summary>
         /// List of Packages expected /or/ all
         /// </summary>
-        public BindingList<Package> Packages { get; set; }
+        public SortableBindingList<Package> Packages { get; set; }
         /// <summary>
         /// Lists of all used classes (not including sub models or model helpers)
         /// </summary>
         public Lists()
         {
-            UsersList = new BindingList<User>() { };
-            CarriersList = new BindingList<Carrier>() { };
-            FacultyList = new BindingList<Faculty>() { };
-            Packages = new BindingList<Package>() { };
-            Vendors = new BindingList<Vendors>() { };
+            UsersList = new SortableBindingList<User>() { };
+            CarriersList = new SortableBindingList<Carrier>() { };
+            FacultyList = new SortableBindingList<Faculty>() { };
+            Packages = new SortableBindingList<Package>() { };
+            Vendors = new SortableBindingList<Vendors>() { };
         }
     }
 }

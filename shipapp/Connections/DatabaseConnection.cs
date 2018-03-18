@@ -1886,7 +1886,7 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
                     Carrier car = null;
-                    BindingList<Carrier> carList = new BindingList<Carrier>() { };
+                    SortableBindingList<Carrier> carList = new SortableBindingList<Carrier>() { };
                     cmd.CommandText = "SELECT carrier_id, carrier_name, person_id FROM carriers;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
@@ -1965,7 +1965,7 @@ namespace shipapp.Connections
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;
-            BindingList<Faculty> f = new BindingList<Faculty>() { };
+            SortableBindingList<Faculty> f = new SortableBindingList<Faculty>() { };
             using (OdbcConnection c = new OdbcConnection())
             {
                 c.ConnectionString = ConnString;

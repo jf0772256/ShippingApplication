@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using shipapp.Connections.HelperClasses;
+using shipapp.Models;
+using shipapp.Models.ModelData;
+using shipapp.Connections.DataConnections;
 
 namespace shipapp
 {
@@ -20,11 +23,53 @@ namespace shipapp
         // Data list for tables
         //Use Connections.DataConnections.DataConnectionClass.DataLists.{Name of binding list}
 
+        private ListSortDirection[] ColumnDirection { get; set; }
 
         public Manage()
         {
             InitializeComponent();
             dataGridView1.DataError += DataGridView1_DataError;
+            dataGridView1.ColumnHeaderMouseClick += DataGridView1_ColumnHeaderMouseClick;
+
+        }
+
+        private void DataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                //data sort
+                if (ColumnDirection.Length > 0 && ColumnDirection[e.ColumnIndex] == ListSortDirection.Descending)
+                {
+                    dataGridView1.Sort(dataGridView1.Columns[e.ColumnIndex], ListSortDirection.Ascending);
+                    ColumnDirection[e.ColumnIndex] = ListSortDirection.Ascending;
+                }
+                else if (ColumnDirection.Length > 0 && ColumnDirection[e.ColumnIndex] == ListSortDirection.Ascending)
+                {
+                    dataGridView1.Sort(dataGridView1.Columns[e.ColumnIndex], ListSortDirection.Descending);
+                    ColumnDirection[e.ColumnIndex] = ListSortDirection.Descending;
+                }
+                if (currentTable == 3)
+                {
+                    for (int i = 0; i < DataConnectionClass.DataLists.FacultyList.Count; i++)
+                    {
+                        long a = Convert.ToInt64(dataGridView1.Rows[i].Cells[0].Value);
+                        Faculty res = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(m => m.Id == a);
+
+                        DataGridViewComboBoxCell tcel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["phone_number"];
+                        res.Phone.ForEach(p => tcel.Items.Add(p.Phone_Number.ToString()));
+
+                        DataGridViewComboBoxCell ucel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["email_address"];
+                        res.Email.ForEach(h => ucel.Items.Add(h.Email_Address.ToString()));
+
+                        DataGridViewComboBoxCell vcel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["address"];
+                        res.Address.ForEach(n => vcel.Items.Add(n.GetBuildingDetails(true)));
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                //do nothing but quietly handle error
+            }
         }
 
         /// <summary>
@@ -63,6 +108,7 @@ namespace shipapp
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             Connections.DataConnections.DataConnectionClass.VendorConn.GetVendorList();
+            ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.Vendors;
         }
 
@@ -76,24 +122,24 @@ namespace shipapp
             currentTable = 3;
             //TODO Fill list with query from Database
             dataGridView1.DataSource = null;
-            dataGridView1.Columns.Clear();
-            Connections.DataConnections.DataConnectionClass.EmployeeConn.GetAllAfaculty();
-            dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.FacultyList;
+            dataGridView1.Columns.Clear(); ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
+            DataConnectionClass.EmployeeConn.GetAllAfaculty();
+            dataGridView1.DataSource = DataConnectionClass.DataLists.FacultyList;
             //adds combo columns
             dgvch.AddCustomColumn(dataGridView1, "Phone Numbers", "phone_number", 9);
             dgvch.AddCustomColumn(dataGridView1, "E-Mail Address", "email_address", 10);
             dgvch.AddCustomColumn(dataGridView1, "Address", "address", 11);
             //add values to drop downs
-            for (int i = 0; i < Connections.DataConnections.DataConnectionClass.DataLists.FacultyList.Count; i++)
+            for (int i = 0; i < DataConnectionClass.DataLists.FacultyList.Count; i++)
             {
                 DataGridViewComboBoxCell tcel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["phone_number"];
-                Connections.DataConnections.DataConnectionClass.DataLists.FacultyList[i].Phone.ForEach(p => tcel.Items.Add(p.Phone_Number.ToString()));
+                DataConnectionClass.DataLists.FacultyList[i].Phone.ForEach(p => tcel.Items.Add(p.Phone_Number.ToString()));
 
                 DataGridViewComboBoxCell ucel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["email_address"];
-                Connections.DataConnections.DataConnectionClass.DataLists.FacultyList[i].Email.ForEach(h => ucel.Items.Add(h.Email_Address.ToString()));
+                DataConnectionClass.DataLists.FacultyList[i].Email.ForEach(h => ucel.Items.Add(h.Email_Address.ToString()));
 
                 DataGridViewComboBoxCell vcel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["address"];
-                Connections.DataConnections.DataConnectionClass.DataLists.FacultyList[i].Address.ForEach(a => vcel.Items.Add(a.GetBuildingDetails(true)));
+                DataConnectionClass.DataLists.FacultyList[i].Address.ForEach(a => vcel.Items.Add(a.GetBuildingDetails(true)));
             }
         }
         private void btnBuildings_Click(object sender, EventArgs e)
@@ -129,8 +175,9 @@ namespace shipapp
             {
                 AddUser addUser = new AddUser();
                 addUser.ShowDialog();
-                Connections.DataConnections.DataConnectionClass.UserConn.GetManyUsers();
-                dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.UsersList;
+                ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
+                DataConnectionClass.UserConn.GetManyUsers();
+                dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList.AsEnumerable();
             }
             else if (currentTable == 2)
             {
@@ -143,23 +190,24 @@ namespace shipapp
                 addFaculty.ShowDialog();
                 dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();
-                Connections.DataConnections.DataConnectionClass.EmployeeConn.GetAllAfaculty();
-                dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.FacultyList;
+                ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
+                DataConnectionClass.EmployeeConn.GetAllAfaculty();
+                dataGridView1.DataSource = DataConnectionClass.DataLists.FacultyList;
                 //adds combo columns
                 dgvch.AddCustomColumn(dataGridView1, "Phone Numbers", "phone_number", 9);
                 dgvch.AddCustomColumn(dataGridView1, "E-Mail Address", "email_address", 10);
                 dgvch.AddCustomColumn(dataGridView1, "Address", "address", 11);
                 //add values to drop downs
-                for (int i = 0; i < Connections.DataConnections.DataConnectionClass.DataLists.FacultyList.Count; i++)
+                for (int i = 0; i < DataConnectionClass.DataLists.FacultyList.Count; i++)
                 {
                     DataGridViewComboBoxCell tcel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["phone_number"];
-                    Connections.DataConnections.DataConnectionClass.DataLists.FacultyList[i].Phone.ForEach(p => tcel.Items.Add(p.Phone_Number.ToString()));
+                    DataConnectionClass.DataLists.FacultyList[i].Phone.ForEach(p => tcel.Items.Add(p.Phone_Number.ToString()));
 
                     DataGridViewComboBoxCell ucel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["email_address"];
-                    Connections.DataConnections.DataConnectionClass.DataLists.FacultyList[i].Email.ForEach(h => ucel.Items.Add(h.Email_Address.ToString()));
+                    DataConnectionClass.DataLists.FacultyList[i].Email.ForEach(h => ucel.Items.Add(h.Email_Address.ToString()));
 
                     DataGridViewComboBoxCell vcel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["address"];
-                    Connections.DataConnections.DataConnectionClass.DataLists.FacultyList[i].Address.ForEach(a => vcel.Items.Add(a.GetBuildingDetails(true)));
+                    DataConnectionClass.DataLists.FacultyList[i].Address.ForEach(a => vcel.Items.Add(a.GetBuildingDetails(true)));
                 }
             }
             else if (currentTable == 4)
@@ -188,16 +236,17 @@ namespace shipapp
             //TODO Fill list with query from Database
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
-            Connections.DataConnections.DataConnectionClass.UserConn.GetManyUsers();
-            dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.UsersList;
+            ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
+            DataConnectionClass.UserConn.GetManyUsers();
+            dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
             //change header text for roles
             dataGridView1.Columns["Level"].HeaderText = "Role";
             int i = 0;
             // sets the value of the text to role title rather than the class namespace and name
             // see tostring override in roles to see how this was hanled, may need to change based on what we do for other classes
-            for (i = 0; i < Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Count; i++)
+            for (i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
             {
-                dataGridView1.Rows[i].Cells["Level"].Value = Connections.DataConnections.DataConnectionClass.DataLists.UsersList[i].Level.ToString();
+                dataGridView1.Rows[i].Cells["Level"].Value = DataConnectionClass.DataLists.UsersList[i].Level.ToString();
             }
         }
 
@@ -207,8 +256,9 @@ namespace shipapp
             //TODO Fill list with query from Database
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
-            Connections.DataConnections.DataConnectionClass.VendorConn.GetVendorList();
-            dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.Vendors;
+            ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
+            DataConnectionClass.VendorConn.GetVendorList();
+            dataGridView1.DataSource = DataConnectionClass.DataLists.Vendors;
         }
 
         private void btnBuildings_Click_1(object sender, EventArgs e)
@@ -224,8 +274,9 @@ namespace shipapp
             //TODO Fill list with query from Database
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
-            Connections.DataConnections.DataConnectionClass.CarrierConn.GetCarrierList();
-            dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.CarriersList;
+            ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
+            DataConnectionClass.CarrierConn.GetCarrierList();
+            dataGridView1.DataSource = DataConnectionClass.DataLists.CarriersList;
         }
 
         private void btnOther_Click_1(object sender, EventArgs e)
