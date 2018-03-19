@@ -618,6 +618,10 @@ namespace shipapp.Connections
         }
         private void PWrite(List<PhysicalAddress> v, string personID)
         {
+            if (v.Count <= 0)
+            {
+                return;
+            }
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;
@@ -664,6 +668,10 @@ namespace shipapp.Connections
         }
         private void PWrite(List<PhoneNumber> v, string personID)
         {
+            if (v.Count <= 0)
+            {
+                return;
+            }
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;
@@ -700,6 +708,10 @@ namespace shipapp.Connections
         }
         private void PWrite(List<EmailAddress> v, string personID)
         {
+            if (v.Count <= 0)
+            {
+                return;
+            }
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;
