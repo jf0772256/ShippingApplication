@@ -48,7 +48,23 @@ namespace shipapp
                     dataGridView1.Sort(dataGridView1.Columns[e.ColumnIndex], ListSortDirection.Descending);
                     ColumnDirection[e.ColumnIndex] = ListSortDirection.Descending;
                 }
-                if (currentTable == 3)
+                // reset column values lost during sort
+                if (currentTable == 1)
+                {
+                    dataGridView1.Columns["Level"].HeaderText = "Role";
+                    for (int i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
+                    {
+                        long a = Convert.ToInt64(dataGridView1.Rows[i].Cells[0].Value);
+                        User res = DataConnectionClass.DataLists.UsersList.FirstOrDefault(m => m.Id == a);
+                        dataGridView1.Rows[i].Cells["note_count"].Value = res.Notes.Count.ToString();
+                        dataGridView1.Rows[i].Cells["Level"].Value = res.Level.ToString();
+                    }
+                }
+                else if (currentTable == 2)
+                {
+
+                }
+                else if (currentTable == 3)
                 {
                     for (int i = 0; i < DataConnectionClass.DataLists.FacultyList.Count; i++)
                     {
@@ -64,6 +80,22 @@ namespace shipapp
                         DataGridViewComboBoxCell vcel = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells["address"];
                         res.Address.ForEach(n => vcel.Items.Add(n.GetBuildingDetails(true)));
                     }
+                }
+                else if (currentTable == 4)
+                {
+
+                }
+                else if (currentTable == 5)
+                {
+
+                }
+                else if (currentTable == 6)
+                {
+
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("Current table value is out of range");
                 }
             }
             catch (Exception)
@@ -175,9 +207,16 @@ namespace shipapp
             {
                 AddUser addUser = new AddUser();
                 addUser.ShowDialog();
+                dataGridView1.DataSource = null;
+                dataGridView1.Columns.Clear();
                 ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
                 DataConnectionClass.UserConn.GetManyUsers();
-                dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList.AsEnumerable();
+                dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
+                dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
+                for (int i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
+                {
+                    dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.UsersList[i].Notes.Count.ToString();
+                }
             }
             else if (currentTable == 2)
             {
@@ -241,12 +280,14 @@ namespace shipapp
             dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
             //change header text for roles
             dataGridView1.Columns["Level"].HeaderText = "Role";
+            dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
             int i = 0;
             // sets the value of the text to role title rather than the class namespace and name
             // see tostring override in roles to see how this was hanled, may need to change based on what we do for other classes
             for (i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
             {
                 dataGridView1.Rows[i].Cells["Level"].Value = DataConnectionClass.DataLists.UsersList[i].Level.ToString();
+                dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.UsersList[i].Notes.Count.ToString();
             }
         }
 
@@ -259,6 +300,13 @@ namespace shipapp
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             DataConnectionClass.VendorConn.GetVendorList();
             dataGridView1.DataSource = DataConnectionClass.DataLists.Vendors;
+            dgvch.AddCustomColumn(dataGridView1, "Address", "address", "", 9);
+            dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
+            for (int i = 0; i < DataConnectionClass.DataLists.Vendors.Count; i++)
+            {
+                dataGridView1.Rows[i].Cells["address"].Value = DataConnectionClass.DataLists.Vendors[i].VendorAddress.GetStreetAddressDetails();
+                dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.Vendors[i].Notes.Count.ToString();
+            }
         }
 
         private void btnBuildings_Click_1(object sender, EventArgs e)
@@ -277,6 +325,13 @@ namespace shipapp
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             DataConnectionClass.CarrierConn.GetCarrierList();
             dataGridView1.DataSource = DataConnectionClass.DataLists.CarriersList;
+            dgvch.AddCustomColumn(dataGridView1, "Phone Number", "phone", "", 9);
+            dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
+            for (int i = 0; i < DataConnectionClass.DataLists.CarriersList.Count; i++)
+            {
+                dataGridView1.Rows[i].Cells["phone"].Value = DataConnectionClass.DataLists.CarriersList[i].PhoneNumber.Phone_Number.ToString();
+                dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.CarriersList[i].Notes.Count.ToString();
+            }
         }
 
         private void btnOther_Click_1(object sender, EventArgs e)
