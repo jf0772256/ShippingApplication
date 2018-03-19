@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using shipapp.Connections.HelperClasses;
+using shipapp.Models;
+using shipapp.Models.ModelData;
+using shipapp.Connections.DataConnections;
 
 namespace shipapp
 {
@@ -22,6 +26,31 @@ namespace shipapp
     {
         //Class levle variables
         private BindingList<Models.Package> packages;
+        private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
+        private ListSortDirection[] ColumnDirection { get; set; }
+
+
+        private void DataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                //data sort
+                if (ColumnDirection.Length > 0 && ColumnDirection[e.ColumnIndex] == ListSortDirection.Descending)
+                {
+                    dataGridPackages.Sort(dataGridPackages.Columns[e.ColumnIndex], ListSortDirection.Ascending);
+                    ColumnDirection[e.ColumnIndex] = ListSortDirection.Ascending;
+                }
+                else if (ColumnDirection.Length > 0 && ColumnDirection[e.ColumnIndex] == ListSortDirection.Ascending)
+                {
+                    dataGridPackages.Sort(dataGridPackages.Columns[e.ColumnIndex], ListSortDirection.Descending);
+                    ColumnDirection[e.ColumnIndex] = ListSortDirection.Descending;
+                }
+            }
+            catch (Exception)
+            {
+                //do nothing but quietly handle error
+            }
+        }
 
 
 
@@ -29,6 +58,8 @@ namespace shipapp
         {
             InitializeComponent();
         }
+
+
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -43,6 +74,8 @@ namespace shipapp
         private void Receiving_Load(object sender, EventArgs e)
         {
             this.CenterToParent();
+            packages = new BindingList<Package>();
+            GetPackages();
         }
 
         /// <summary>
@@ -66,9 +99,33 @@ namespace shipapp
             note.Show();
         }
 
-        public void AddPackage()
+        public void AddPackageToGrid()
         {
+            ////TODO Fill list with query from Database
+            //dataGridPackages.DataSource = null;
+            //dataGridPackages.Columns.Clear(); ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
+            //DataConnectionClass.EmployeeConn.GetAllAfaculty();
+            //dataGridPackages.DataSource = DataConnectionClass.DataLists.FacultyList;
+            ////adds combo columns
+            //dgvch.AddCustomColumn(dataGridPackages, "Phone Numbers", "phone_number", 9);
+            //dgvch.AddCustomColumn(dataGridPackages, "E-Mail Address", "email_address", 10);
+            //dgvch.AddCustomColumn(dataGridPackages, "Address", "address", 11);
+            ////add values to drop downs
+            //for (int i = 0; i < DataConnectionClass.DataLists.FacultyList.Count; i++)
+            //{
+            //    DataGridViewComboBoxCell tcel = (DataGridViewComboBoxCell)dataGridPackages.Rows[i].Cells["phone_number"];
+            //    DataConnectionClass.DataLists.FacultyList[i].Phone.ForEach(p => tcel.Items.Add(p.Phone_Number.ToString()));
 
+            //    DataGridViewComboBoxCell ucel = (DataGridViewComboBoxCell)dataGridPackages.Rows[i].Cells["email_address"];
+            //    DataConnectionClass.DataLists.FacultyList[i].Email.ForEach(h => ucel.Items.Add(h.Email_Address.ToString()));
+
+            //    DataGridViewComboBoxCell vcel = (DataGridViewComboBoxCell)dataGridPackages.Rows[i].Cells["address"];
+            //    DataConnectionClass.DataLists.FacultyList[i].Address.ForEach(a => vcel.Items.Add(a.GetBuildingDetails(true)));
+            //}
+
+            AddPackage addPackage = new AddPackage();
+            addPackage.ShowDialog();
+                
         }
 
         public void EditPackage()
@@ -78,7 +135,17 @@ namespace shipapp
 
         public void DeletePackage()
         {
+            
+        }
 
+        public void GetPackages()
+        {
+            dataGridPackages.DataSource = packages;
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            AddPackageToGrid();
         }
     }
 }

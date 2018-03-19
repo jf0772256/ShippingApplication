@@ -21,5 +21,10 @@ namespace shipapp
         {
 
         }
+
+        private void btnReceive_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

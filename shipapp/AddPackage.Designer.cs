@@ -268,6 +268,7 @@
             this.btnReceive.TabIndex = 29;
             this.btnReceive.Text = "Receive";
             this.btnReceive.UseVisualStyleBackColor = true;
+            this.btnReceive.Click += new System.EventHandler(this.btnReceive_Click);
             // 
             // AddPackage
             // 

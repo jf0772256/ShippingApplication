@@ -30,20 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.rowNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.carrier = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.vendor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tracking = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.po = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.recepiant = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.destination = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.addNote = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridPackages = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
@@ -51,127 +38,32 @@
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnAdd = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridPackages)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnAdd)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dataGridPackages
             // 
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.select,
-            this.rowNum,
-            this.date,
-            this.carrier,
-            this.vendor,
-            this.quantity,
-            this.tracking,
-            this.po,
-            this.recepiant,
-            this.destination,
-            this.status,
-            this.addNote,
-            this.note});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 149);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1234, 512);
-            this.dataGridView1.TabIndex = 0;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
-            // 
-            // select
-            // 
-            this.select.HeaderText = "";
-            this.select.Name = "select";
-            this.select.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.select.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.select.Width = 25;
-            // 
-            // rowNum
-            // 
-            this.rowNum.HeaderText = "#";
-            this.rowNum.Name = "rowNum";
-            this.rowNum.ReadOnly = true;
-            this.rowNum.Width = 25;
-            // 
-            // date
-            // 
-            this.date.HeaderText = "Date";
-            this.date.Name = "date";
-            this.date.Width = 50;
-            // 
-            // carrier
-            // 
-            this.carrier.HeaderText = "Carrier";
-            this.carrier.Name = "carrier";
-            // 
-            // vendor
-            // 
-            this.vendor.HeaderText = "Vendor";
-            this.vendor.Name = "vendor";
-            // 
-            // quantity
-            // 
-            this.quantity.HeaderText = "Quant";
-            this.quantity.Name = "quantity";
-            this.quantity.Width = 50;
-            // 
-            // tracking
-            // 
-            this.tracking.HeaderText = "Tracking #";
-            this.tracking.Name = "tracking";
-            this.tracking.Width = 150;
-            // 
-            // po
-            // 
-            this.po.HeaderText = "PO #";
-            this.po.Name = "po";
-            this.po.Width = 75;
-            // 
-            // recepiant
-            // 
-            this.recepiant.HeaderText = "Recepiant";
-            this.recepiant.Name = "recepiant";
-            this.recepiant.Width = 200;
-            // 
-            // destination
-            // 
-            this.destination.HeaderText = "Destination";
-            this.destination.Name = "destination";
-            this.destination.Width = 200;
-            // 
-            // status
-            // 
-            this.status.HeaderText = "Status";
-            this.status.Name = "status";
-            this.status.Width = 50;
-            // 
-            // addNote
-            // 
-            this.addNote.HeaderText = "Add Note";
-            this.addNote.Name = "addNote";
-            this.addNote.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.addNote.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.addNote.Width = 50;
-            // 
-            // note
-            // 
-            this.note.HeaderText = "Note";
-            this.note.Name = "note";
-            this.note.Width = 150;
+            this.dataGridPackages.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridPackages.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridPackages.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.dataGridPackages.Location = new System.Drawing.Point(0, 149);
+            this.dataGridPackages.Name = "dataGridPackages";
+            this.dataGridPackages.Size = new System.Drawing.Size(1234, 512);
+            this.dataGridPackages.TabIndex = 0;
+            this.dataGridPackages.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
             // 
             // label1
             // 
@@ -253,18 +145,19 @@
             this.pictureBox2.TabStop = false;
             this.toolTip1.SetToolTip(this.pictureBox2, "Edit Package");
             // 
-            // pictureBox1
+            // btnAdd
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.BackgroundImage = global::shipapp.Properties.Resources.android_add;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox1.Image = global::shipapp.Properties.Resources.android_add;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 94);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBox1, "Add Package");
+            this.btnAdd.BackColor = System.Drawing.Color.Transparent;
+            this.btnAdd.BackgroundImage = global::shipapp.Properties.Resources.android_add;
+            this.btnAdd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnAdd.Image = global::shipapp.Properties.Resources.android_add;
+            this.btnAdd.Location = new System.Drawing.Point(12, 94);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(35, 35);
+            this.btnAdd.TabIndex = 3;
+            this.btnAdd.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnAdd, "Add Package");
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // Receiving
             // 
@@ -278,20 +171,20 @@
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridPackages);
             this.Name = "Receiving";
             this.Text = "Receiving";
             this.Load += new System.EventHandler(this.Receiving_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridPackages)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnAdd)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -299,22 +192,9 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridPackages;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn select;
-        private System.Windows.Forms.DataGridViewTextBoxColumn rowNum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn carrier;
-        private System.Windows.Forms.DataGridViewTextBoxColumn vendor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn quantity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tracking;
-        private System.Windows.Forms.DataGridViewTextBoxColumn po;
-        private System.Windows.Forms.DataGridViewTextBoxColumn recepiant;
-        private System.Windows.Forms.DataGridViewTextBoxColumn destination;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status;
-        private System.Windows.Forms.DataGridViewButtonColumn addNote;
-        private System.Windows.Forms.DataGridViewTextBoxColumn note;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox btnAdd;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
