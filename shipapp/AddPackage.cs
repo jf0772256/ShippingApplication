@@ -10,8 +10,14 @@ using System.Windows.Forms;
 
 namespace shipapp
 {
+    /// <summary>
+    /// This form allows for the creation and editing of new packages
+    /// </summary>
     public partial class AddPackage : Form
     {
+        // Class level variabels
+        private Models.Package newPackage;
+
         public AddPackage()
         {
             InitializeComponent();
@@ -19,12 +25,53 @@ namespace shipapp
 
         private void AddPackage_Load(object sender, EventArgs e)
         {
-
+            // Instatiate Package
+            newPackage = new Models.Package();
         }
 
         private void btnReceive_Click(object sender, EventArgs e)
         {
-            this.Close();
+            // Reset errors messages
+            ResetError();
+
+            // Check that data is correct and then write the entity to the database
+            if (CheckData())
+            {
+                AddPackageToDB();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Please insure all fields have required and correct data!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Grab the data from the form, check for errors, create a package entity, and add it to the database
+        /// </summary>
+        public void AddPackageToDB()
+        {
+           
+        }
+
+        /// <summary>
+        /// Reset the error warnings
+        /// </summary>
+        public void ResetError()
+        {
+
+        }
+
+        /// <summary>
+        /// Check that correct and neccesary data is enetered to the form
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckData()
+        {
+            // Method level variables
+            bool pass = true;
+
+            return pass;
         }
     }
 }
