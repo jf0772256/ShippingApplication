@@ -88,7 +88,7 @@ namespace shipapp
             long num0 = 0;
 
             // Validate data
-            if (long.TryParse(txtId.Text, out num0))
+            if (!long.TryParse(txtId.Text, out num0))
             {
                 pass = false;
                 txtId.BackColor = Color.LightPink;
