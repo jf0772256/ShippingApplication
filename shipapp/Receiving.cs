@@ -20,6 +20,11 @@ namespace shipapp
     /// </summary>
     public partial class Receiving : Form
     {
+        //Class levle variables
+        private BindingList<Models.Package> packages;
+
+
+
         public Receiving()
         {
             InitializeComponent();
@@ -40,15 +45,40 @@ namespace shipapp
             this.CenterToParent();
         }
 
+        /// <summary>
+        /// When the use clicks back go back
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBox6_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// TODO: Add entity selection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
             AddNote note = new AddNote();
             note.Show();
+        }
+
+        public void AddPackage()
+        {
+
+        }
+
+        public void EditPackage()
+        {
+
+        }
+
+        public void DeletePackage()
+        {
+
         }
     }
 }
