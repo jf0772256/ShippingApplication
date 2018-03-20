@@ -47,7 +47,10 @@ namespace shipapp.Models
         /// <summary>
         /// constructor
         /// </summary>
-        public User() { }
+        public User()
+        {
+            Notes = new List<Note>() { };
+        }
         public override string ToString()
         {
             return FirstName + " " + LastName;
