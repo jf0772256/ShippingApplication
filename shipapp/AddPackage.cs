@@ -73,5 +73,14 @@ namespace shipapp
 
             return pass;
         }
+
+        /// <summary>
+        /// Fill the packge entity with data
+        /// </summary>
+        /// <returns></returns>
+        public void FillPackage()
+        {
+            //newPackage.PackageId = long.Parse();
+        }
     }
 }
