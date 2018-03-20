@@ -80,7 +80,19 @@ namespace shipapp
         /// <returns></returns>
         public void FillPackage()
         {
-            //newPackage.PackageId = long.Parse();
+            if (txtPO.Text != "" && txtPO.Text != null)
+            {
+                Models.PurchaseOrder newPO = new Models.PurchaseOrder();
+                newPO.PONumber = txtPO.Text;
+                
+            }
+
+            if (cmboCarrier.Text != null && cmboCarrier.Text != "")
+            {
+                Models.Carrier newCarier = new Models.Carrier();
+                newCarier.CarrierName = cmboCarrier.Text;
+                newPackage.PackageCarrier = newCarier;
+            }
         }
     }
 }
