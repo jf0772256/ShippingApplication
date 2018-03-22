@@ -25,18 +25,6 @@ namespace shipapp.Models
         /// </summary>
         public string VendorName { get; set; }
         /// <summary>
-        /// Vendor address as PhysicalAddress
-        /// </summary>
-        public PhysicalAddress VendorAddress { get; set; }
-        /// <summary>
-        /// Vendor point of contact as string
-        /// </summary>
-        public string VendorPointOfContactName { get; set; }
-        /// <summary>
-        /// Vendor phone as PhoneNumber
-        /// </summary>
-        public PhoneNumber VendorPhone { get; set; }
-        /// <summary>
         /// Vendor Notes as List of Note
         /// </summary>
         public List<Note> Notes { get; set; }

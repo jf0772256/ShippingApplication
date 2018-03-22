@@ -70,19 +70,15 @@ namespace shipapp.Connections
             {
                 cmdTxt = new List<string>(){
                     "CREATE TABLE IF NOT EXISTS roles(role_id BigINT NOT NULL PRIMARY KEY AUTO_INCREMENT, role_title VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS email_addresses(email_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id VARCHAR(1000) NOT NULL, email_address VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE INDEX idx_addr_ids ON email_addresses(person_id);",
-                    "CREATE TABLE IF NOT EXISTS phone_numbers(phone_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id VARCHAR(1000) NOT NULL, phone_number VARCHAR(20) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE INDEX idx_phone_ids ON phone_numbers(person_id);",
-                    "CREATE TABLE IF NOT EXISTS physical_addr(address_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, person_id VARCHAR(1000) NOT NULL,building_long_name VARCHAR(100),building_short_name VARCHAR(10),room_number VARCHAR(10), addr_line1 VARCHAR(100) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(100) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US', address_note_id VARCHAR(1000) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE INDEX idx_physaddr_ids ON physical_addr(person_id);",
+                    "CREATE TABLE IF NOT EXISTS buildings(building_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, building_long_name VARCHAR(250) NOT NULL, building_short_name VARCHAR(100) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE INDEX idx_building ON buildings(building_short_name);",
                     "CREATE TABLE IF NOT EXISTS notes(id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, note_id VARCHAR(1000) NOT NULL, note_value VARCHAR(5000) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE INDEX idx_note_ids ON notes(note_id);",
 
                     "CREATE TABLE IF NOT EXISTS users(user_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_fname VARCHAR(100) NOT NULL, user_lname VARCHAR(100) NOT NULL, user_name VARCHAR(100) NOT NULL UNIQUE, user_password VARBINARY(500) NOT NULL, user_role_id BIGINT, person_id VARCHAR(1000) NOT NULL UNIQUE, FOREIGN KEY (user_role_id) REFERENCES roles(role_id) ON DELETE NO ACTION ON UPDATE NO ACTION)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS employees(empl_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, empl_fname VARCHAR(100) NOT NULL, empl_lname VARCHAR(100), person_id VARCHAR(1000) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS vendors(vend_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,vendor_name VARCHAR(100) NOT NULL UNIQUE, vendor_poc_name VARCHAR(100) DEFAULT NULL, person_id VARCHAR(1000) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS carriers(carrier_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, carrier_name VARCHAR(100) NOT NULL UNIQUE, person_id VARCHAR(1000) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS vendors(vend_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,vendor_name VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS carriers(carrier_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, carrier_name VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
 
                     "CREATE TABLE IF NOT EXISTS purchase_orders(po_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, po_number VARCHAR(25) DEFAULT NULL,po_package_count INT DEFAULT 0, po_created_on DATETIME, po_created_by BIGINT, po_approved_by BIGINT, FOREIGN KEY (po_created_by) REFERENCES employees(empl_id) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (po_approved_by) REFERENCES employees(empl_id) ON DELETE NO ACTION ON UPDATE NO ACTION)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS packages(package_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,package_po_id BIGINT, package_carrier_id BIGINT, package_vendor_id BIGINT, package_deliv_to_id BIGINT, package_deliv_by_id BIGINT, package_signed_for_by_id BIGINT, package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date DATE, package_deliver_date DATE, package_notes_id VARCHAR(1000) NOT NULL UNIQUE,package_status INT DEFAULT 0, FOREIGN KEY (package_carrier_id) REFERENCES carriers(carrier_id) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (package_vendor_id) REFERENCES vendors(vend_id) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (package_deliv_to_id) REFERENCES employees(empl_id) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (package_deliv_by_id) REFERENCES users(user_id) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (package_signed_for_by_id) REFERENCES employees(empl_id) ON DELETE NO ACTION ON UPDATE NO ACTION)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
@@ -97,17 +93,14 @@ namespace shipapp.Connections
                     //attempt to create the first table as a test;;
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'roles')CREATE TABLE roles(role_id BigINT NOT NULL IDENTITY(1,1) PRIMARY KEY, role_title VARCHAR(50) NOT NULL, CONSTRAINT UC_Roles UNIQUE(role_title));",
 
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'email_addresses')CREATE TABLE email_addresses(email_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id VARCHAR(1000) NOT NULL, email_address VARCHAR(100) NOT NULL, CONSTRAINT UC_Email UNIQUE(email_address));CREATE INDEX idx_email_ids ON email_addresses(person_id);",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'phone_numbers')CREATE TABLE phone_numbers(phone_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id VARCHAR(1000) NOT NULL, phone_number VARCHAR(20) NOT NULL);CREATE INDEX idx_phone_ids ON phone_numbers(person_id)",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'physical_addr')CREATE TABLE physical_addr(address_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, person_id VARCHAR(1000) NOT NULL,building_long_name VARCHAR(100),building_short_name VARCHAR(10),room_number VARCHAR(10), addr_line1 VARCHAR(50) NOT NULL, addr_line2 VARCHAR(50) DEFAULT NULL, addr_city VARCHAR(50) NOT NULL, addr_state VARCHAR(2) NOT NULL, addr_zip VARCHAR(10) NOT NULL, addr_cntry VARCHAR(2) DEFAULT 'US', address_note_id VARCHAR(1000) NOT NULL);CREATE INDEX idx_addr_ids ON physical_addr(person_id);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'buildings')CREATE TABLE buildings(building_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, building_long_name VARCHAR(250) NOT NULL, building_short_name VARCHAR(100) NOT NULL;CREATE idx_bldng on buildings(building_short_name);",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'notes')CREATE TABLE notes(id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, note_id VARCHAR(1000) NOT NULL, note_value VARCHAR(5000) NOT NULL);CREATE INDEX idx_note_ids ON notes(note_id);",
 
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'users')CREATE TABLE users(user_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, user_fname VARCHAR(2000) NOT NULL, user_lname VARCHAR(2000) NOT NULL, user_name VARCHAR(1000) NOT NULL, user_password VARBINARY(8000) NOT NULL, user_role_id BIGINT FOREIGN KEY REFERENCES roles(role_id), person_id VARCHAR(1000) NOT NULL, CONSTRAINT UC_UserName UNIQUE(user_name), CONSTRAINT UC_PID5 UNIQUE(person_id));",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'employees')CREATE TABLE employees(empl_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, empl_fname VARCHAR(50) NOT NULL, empl_lname VARCHAR(50), person_id VARCHAR(1000) NOT NULL, CONSTRAINT UC_PID_0 UNIQUE(person_id));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'vendors')CREATE TABLE vendors(vend_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, vendor_name VARCHAR(50) NOT NULL UNIQUE, vendor_poc_name VARCHAR(50) DEFAULT NULL, person_id VARCHAR(1000) NOT NULL, CONSTRAINT UC_PID_1 UNIQUE(person_id));",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'carriers')CREATE TABLE carriers(carrier_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, carrier_name VARCHAR(50) NOT NULL UNIQUE, person_id VARCHAR(1000) NOT NULL, CONSTRAINT UC_PID_2 UNIQUE(person_id));",
-
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'purchase_orders')CREATE TABLE purchase_orders(po_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, po_number VARCHAR(25) DEFAULT NULL,po_package_count INT DEFAULT 0, po_created_on DATE, po_created_by BIGINT FOREIGN KEY REFERENCES employees(empl_id), po_approved_by BIGINT FOREIGN KEY REFERENCES employees(empl_id));",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'vendors')CREATE TABLE vendors(vend_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, vendor_name VARCHAR(50) NOT NULL UNIQUE);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'carriers')CREATE TABLE carriers(carrier_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, carrier_name VARCHAR(50) NOT NULL UNIQUE);",
+                    
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'packages')CREATE TABLE packages(package_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,package_po_id BIGINT, package_carrier_id BIGINT FOREIGN KEY REFERENCES carriers(carrier_id), package_vendor_id BIGINT FOREIGN KEY REFERENCES vendors(vend_id), package_deliv_to_id BIGINT FOREIGN KEY REFERENCES employees(empl_id), package_deliv_by_id BIGINT FOREIGN KEY REFERENCES users(user_id), package_signed_for_by_id BIGINT FOREIGN KEY REFERENCES employees(empl_id), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date DATE, package_deliver_date DATE, package_note_id VARCHAR(1000) NOT NULL, package_status INT DEFAULT 0, CONSTRAINT UC_NID UNIQUE(package_note_id));",
                     "IF (SELECT COUNT(*) FROM sys.symmetric_keys WHERE name = 'secure_data')=0 CREATE SYMMETRIC KEY secure_data WITH ALGORITHM = AES_128 ENCRYPTION BY PASSWORD = '" + EncodeKey +"';",
                     //create default roles;
@@ -345,41 +338,11 @@ namespace shipapp.Connections
                     cmd.CommandText = "INSERT INTO vendors(vendor_name,vendor_poc_name,person_id)VALUES(?,?,?);";
                     cmd.Parameters.AddRange(new OdbcParameter[]{
                         new OdbcParameter("vend_name",v.VendorName),
-                        new OdbcParameter("vend_poc_name",v.VendorPointOfContactName),
                         new OdbcParameter("person_id",v.Vendor_PersonId)
                     });
-                    if (!(v.VendorPhone is null))
-                    {
-                        cmd.CommandText += "INSERT INTO phone_numbers (phone_number, person_id)VALUES(?,?);";
-                        cmd.Parameters.AddRange(new OdbcParameter[]{
-                            new OdbcParameter("phone",v.VendorPhone.Phone_Number),
-                            new OdbcParameter("personid",v.Vendor_PersonId)
-                        });
-                    }
-                    if (!(v.VendorAddress is null))
-                    {
-                        cmd.CommandText += "INSERT INTO physical_addr(person_id,building_long_name,building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,address_note_id)VALUES(?,?,?,?,?,?,?,?,?,?,?);";
-                        cmd.Parameters.AddRange(new OdbcParameter[]{
-                            new OdbcParameter("person_id",v.Vendor_PersonId),
-                            new OdbcParameter("buildinglname",v.VendorAddress.BuildingLongName),
-                            new OdbcParameter("buildingsname",v.VendorAddress.BuildingShortName),
-                            new OdbcParameter("buildingroom",v.VendorAddress.BuildingRoomNumber),
-                            new OdbcParameter("line1",v.VendorAddress.Line1),
-                            new OdbcParameter("line2",v.VendorAddress.Line2),
-                            new OdbcParameter("city",v.VendorAddress.City),
-                            new OdbcParameter("state",v.VendorAddress.State),
-                            new OdbcParameter("zip",v.VendorAddress.ZipCode),
-                            new OdbcParameter("country",v.VendorAddress.Country),
-                            new OdbcParameter("addressNoteId",v.Vendor_PersonId)
-                        });
-                    }
                     if (v.Notes.Count > 0)
                     {
                         PWrite(v.Notes, v.Vendor_PersonId);
-                    }
-                    if (v.VendorAddress.Notes.Count > 0)
-                    {
-                        PWrite(v.VendorAddress.Notes, v.VendorAddress.AddrNoteId);
                     }
                     try
                     {
@@ -439,12 +402,6 @@ namespace shipapp.Connections
                         new OdbcParameter("carrierN",value.CarrierName),
                         new OdbcParameter("personid",value.Carrier_PersonId)
                     });
-                    cmd.CommandText += "INSERT INTO phone_numbers (phone_number,person_id)VALUES(?,?);";
-                    cmd.Parameters.AddRange(new OdbcParameter[]
-                    {
-                        new OdbcParameter("phone",value.PhoneNumber.Phone_Number),
-                        new OdbcParameter("personid",value.Carrier_PersonId)
-                    });
                     PWrite(value.Notes, value.Carrier_PersonId);
                     try
                     {
@@ -478,10 +435,7 @@ namespace shipapp.Connections
                         new OdbcParameter("lname",f.LastName),
                         new OdbcParameter("person_id",f.Faculty_PersonId)
                     });
-                    PWrite(f.Phone, f.Faculty_PersonId);
-                    PWrite(f.Email, f.Faculty_PersonId);
                     PWrite(f.Notes, f.Faculty_PersonId);
-                    PWrite(f.Address, f.Faculty_PersonId);
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -491,40 +445,6 @@ namespace shipapp.Connections
                     {
                         cmd.Transaction.Rollback();
                         throw new DatabaseConnectionException("Failure to process data, please review inner exception for further detail.", e);
-                    }
-                }
-            }
-        }
-        protected void Write(PurchaseOrder p)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
-                {
-                    cmd.CommandText = "INSERT INTO purchase_order(po_number,po_package_count,po_created_on,po_created_by,po_approved_by)VALUES(?,?,?,?,?);";
-                    cmd.Parameters.Add(new OdbcParameter[]
-                    {
-                        new OdbcParameter("ponumber",p.PONumber),
-                        new OdbcParameter("popackagecount",p.PackageCount),
-                        new OdbcParameter("pocreatedon",p.POCreatedOn),
-                        new OdbcParameter("pocreatedby",p.CreatedBy.Id),
-                        new OdbcParameter("poapprovedby",p.ApprovedBy.Id)
-                    });
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        cmd.Transaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        cmd.Transaction.Rollback();
-                        throw new DatabaseConnectionException("Failed to process data, please review the inner exception for further details", e);
                     }
                 }
             }
@@ -546,12 +466,12 @@ namespace shipapp.Connections
                     //ids all will be 0 for null, strings should roll to null
                     cmd.Parameters.AddRange(new OdbcParameter[]
                     {
-                        new OdbcParameter("poid", p.PackagePurchaseOrder.PO_Id),
-                        new OdbcParameter("carrierid", p.PackageCarrier.CarrierId),
-                        new OdbcParameter("vendid",p.PackageVendor.VendorId),
-                        new OdbcParameter("delivtoid",p.PackageDeliveredTo.Id),
-                        new OdbcParameter("delivbyid",p.PackageDeleveredBy.Id),
-                        new OdbcParameter("signedbyid",p.PackageSignedForBy.Id),
+                        new OdbcParameter("poid", p.PONumber),
+                        new OdbcParameter("carrierid", p.PackageCarrier),
+                        new OdbcParameter("vendid",p.PackageVendor),
+                        new OdbcParameter("delivtoid",p.PackageDeliveredTo),
+                        new OdbcParameter("delivbyid",p.PackageDeleveredBy),
+                        new OdbcParameter("signedbyid",p.PackageSignedForBy),
                         new OdbcParameter("tracknumb",p.PackageTrackingNumber),
                         new OdbcParameter("recieveddate",p.PackageReceivedDate),
                         new OdbcParameter("delivDate",p.PackageDeliveredDate),
@@ -600,136 +520,6 @@ namespace shipapp.Connections
                         {
                             new OdbcParameter("pid",personID),
                             new OdbcParameter("value",note.Note_Value)
-                        });
-                    }
-                    cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1) + ";";
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        cmd.Transaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        cmd.Transaction.Rollback();
-                        throw new DatabaseConnectionException("Failed to process request", e);
-                    }
-                }
-            }
-        }
-        private void PWrite(List<PhysicalAddress> v, string personID)
-        {
-            if (v.Count <= 0)
-            {
-                return;
-            }
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
-                {
-                    cmd.CommandText += "INSERT INTO physical_addr(person_id,building_long_name,building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,address_note_id)VALUES";
-                    foreach (PhysicalAddress ph in v)
-                    {
-                        cmd.CommandText += "(?,?,?,?,?,?,?,?,?,?,?),";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
-                        {
-                            new OdbcParameter("person_id",personID),
-                            new OdbcParameter("bln",ph.BuildingLongName),
-                            new OdbcParameter("bsn",ph.BuildingShortName),
-                            new OdbcParameter("brn",ph.BuildingRoomNumber),
-                            new OdbcParameter("ln1",ph.Line1),
-                            new OdbcParameter("ln2",ph.Line2),
-                            new OdbcParameter("cty",ph.City),
-                            new OdbcParameter("state",ph.State),
-                            new OdbcParameter("zip",ph.ZipCode),
-                            new OdbcParameter("ctry",ph.Country),
-                            new OdbcParameter("noteid",ph.AddrNoteId)
-                        });
-                        PWrite(ph.Notes, ph.AddrNoteId);
-                    }
-                    cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1) + ";";
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        cmd.Transaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        cmd.Transaction.Rollback();
-                        throw new DatabaseConnectionException("Failed to process request", e);
-                    }
-                }
-            }
-        }
-        private void PWrite(List<PhoneNumber> v, string personID)
-        {
-            if (v.Count <= 0)
-            {
-                return;
-            }
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
-                {
-                    cmd.CommandText += "INSERT INTO phone_numbers(person_id,phone_number)VALUES";
-                    foreach (PhoneNumber pa in v)
-                    {
-                        cmd.CommandText += "(?,?),";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
-                        {
-                            new OdbcParameter("pid",personID),
-                            new OdbcParameter("value",pa.Phone_Number)
-                        });
-                    }
-                    cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1) + ";";
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        cmd.Transaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        cmd.Transaction.Rollback();
-                        throw new DatabaseConnectionException("Failed to process request", e);
-                    }
-                }
-            }
-        }
-        private void PWrite(List<EmailAddress> v, string personID)
-        {
-            if (v.Count <= 0)
-            {
-                return;
-            }
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
-                {
-                    cmd.CommandText += "INSERT INTO email_addresses(person_id,email_address)VALUES";
-                    foreach (EmailAddress em in v)
-                    {
-                        cmd.CommandText += "(?,?),";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
-                        {
-                            new OdbcParameter("pid",personID),
-                            new OdbcParameter("value",em.Email_Address)
                         });
                     }
                     cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1) + ";";
@@ -827,104 +617,16 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
                     cmd.CommandText = "UPDATE vendors SET ";
-                    cmd.CommandText += "vendor_name = ?, vendor_poc_name = ? ";
+                    cmd.CommandText += "vendor_name = ?";
                     cmd.CommandText += "WHERE vend_id = ?;";
                     cmd.Parameters.AddRange
                         (
                             new OdbcParameter[]
                             {
                                 new OdbcParameter("vendorname",v.VendorName),
-                                new OdbcParameter("vendorPOCname",v.VendorPointOfContactName),
                                 new OdbcParameter("vendorID",v.VendorId)
                             }
                         );
-                    if (String.IsNullOrWhiteSpace(v.VendorPhone.Phone_Number))
-                    {
-                        cmd.CommandText += "DELETE * FROM phone_numbers WHERE person_id = ?;";
-                        cmd.Parameters.AddWithValue("pid", v.Vendor_PersonId);
-                    }
-                    else
-                    {
-                        cmd.CommandText += "UPDATE phone_numbers SET phone_number WHERE person_id = ? AND phone_id = ?;";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
-                        {
-                            new OdbcParameter("phoneNumber",v.VendorPhone.Phone_Number),
-                            new OdbcParameter("personID",v.Vendor_PersonId),
-                            new OdbcParameter("phoneID",v.VendorPhone.PhoneId)
-                        });
-                    }
-                    if (String.IsNullOrWhiteSpace(v.VendorAddress.BuildingLongName) && String.IsNullOrWhiteSpace(v.VendorAddress.BuildingShortName))
-                    {
-                        if (String.IsNullOrWhiteSpace(v.VendorAddress.Line1) && String.IsNullOrWhiteSpace(v.VendorAddress.City))
-                        {
-                            cmd.CommandText += "DELETE * FROM physical_addr WHERE person_id = ?;";
-                            cmd.Parameters.AddWithValue("pid", v.Vendor_PersonId);
-                        }
-                        else
-                        {
-                            cmd.CommandText += "UPDATE physical_addr SET ";
-                            cmd.CommandText += "building_long_name = ?, building_short_name = ?, room_number = ?, ";
-                            cmd.CommandText += "addr_line1 = ?, addr_line2 = ?, addr_city = ?, addr_state = ?, ";
-                            cmd.CommandText += "addr_zip = ?, addr_cntry = ? WHERE person_id = ? AND address_id = ?;";
-                            cmd.Parameters.AddRange(new OdbcParameter[]
-                            {
-                                new OdbcParameter("blongname",v.VendorAddress.BuildingLongName),
-                                new OdbcParameter("bshortname",v.VendorAddress.BuildingShortName),
-                                new OdbcParameter("broomnumber",v.VendorAddress.BuildingRoomNumber),
-                                new OdbcParameter("line1",v.VendorAddress.Line1),
-                                new OdbcParameter("line2",v.VendorAddress.Line2),
-                                new OdbcParameter("city",v.VendorAddress.City),
-                                new OdbcParameter("state",v.VendorAddress.State),
-                                new OdbcParameter("zip",v.VendorAddress.ZipCode),
-                                new OdbcParameter("country",v.VendorAddress.Country),
-                                new OdbcParameter("personid",v.Vendor_PersonId),
-                                new OdbcParameter("addrId",v.VendorAddress.AddressId)
-                            });
-                            //look for new notes and insert them into the database
-                            foreach (Note note in v.VendorAddress.Notes)
-                            {
-                                if (note.Note_Id == 0)
-                                {
-                                    //new note was added
-                                    cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?);";
-                                    cmd.Parameters.AddWithValue("personId", v.Vendor_PersonId);
-                                    cmd.Parameters.AddWithValue("note_text", note.Note_Value);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        cmd.CommandText += "UPDATE physical_addr SET ";
-                        cmd.CommandText += "building_long_name = ?, building_short_name = ?, room_number = ?, ";
-                        cmd.CommandText += "addr_line1 = ?, addr_line2 = ?, addr_city = ?, addr_state = ?, ";
-                        cmd.CommandText += "addr_zip = ?, addr_cntry = ? WHERE person_id = ? AND address_id = ?;";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
-                        {
-                            new OdbcParameter("blongname",v.VendorAddress.BuildingLongName),
-                            new OdbcParameter("bshortname",v.VendorAddress.BuildingShortName),
-                            new OdbcParameter("broomnumber",v.VendorAddress.BuildingRoomNumber),
-                            new OdbcParameter("line1",v.VendorAddress.Line1),
-                            new OdbcParameter("line2",v.VendorAddress.Line2),
-                            new OdbcParameter("city",v.VendorAddress.City),
-                            new OdbcParameter("state",v.VendorAddress.State),
-                            new OdbcParameter("zip",v.VendorAddress.ZipCode),
-                            new OdbcParameter("country",v.VendorAddress.Country),
-                            new OdbcParameter("personid",v.Vendor_PersonId),
-                            new OdbcParameter("addrId",v.VendorAddress.AddressId)
-                        });
-                        //look for new notes and insert them into the database
-                        foreach (Note note in v.VendorAddress.Notes)
-                        {
-                            if (note.Note_Id == 0)
-                            {
-                                //new note was added
-                                cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?);";
-                                cmd.Parameters.AddWithValue("personId", v.Vendor_PersonId);
-                                cmd.Parameters.AddWithValue("note_text", note.Note_Value);
-                            }
-                        }
-                    }
                     foreach (Note note in v.Notes)
                     {
                         if (note.Note_Id == 0)
@@ -995,21 +697,6 @@ namespace shipapp.Connections
                         new OdbcParameter("personid",value.Carrier_PersonId),
                         new OdbcParameter("carrierid",value.CarrierId)
                     });
-                    if (String.IsNullOrWhiteSpace(value.PhoneNumber.Phone_Number))
-                    {
-                        cmd.CommandText += "DELETE * FROM phone_numbers WHERE person_id = ?;";
-                        cmd.Parameters.AddWithValue("pid", value.Carrier_PersonId);
-                    }
-                    else
-                    {
-                        cmd.CommandText += "UPDATE phone_numbers SET phone_number=? WHERE person_id = ? AND phone_id = ?;";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
-                        {
-                            new OdbcParameter("phone",value.PhoneNumber.Phone_Number),
-                            new OdbcParameter("personid",value.Carrier_PersonId),
-                            new OdbcParameter("phoneid",value.PhoneNumber.PhoneId)
-                        });
-                    }
                     foreach (Note note in value.Notes)
                     {
                         if (note.Note_Id <= 0)
@@ -1183,41 +870,6 @@ namespace shipapp.Connections
                 }
             }
         }
-        protected void Update(PurchaseOrder p)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
-                {
-                    cmd.CommandText = "UPDATE purchase_order SET po_number = ?,po_package_count = ?,po_created_on = ?,po_created_by = ?,po_approved_by = ? WHERE po_id = ?;";
-                    cmd.Parameters.Add(new OdbcParameter[]
-                    {
-                        new OdbcParameter("ponumber",p.PONumber),
-                        new OdbcParameter("popackagecount",p.PackageCount),
-                        new OdbcParameter("pocreatedon",p.POCreatedOn),
-                        new OdbcParameter("pocreatedby",p.CreatedBy.Id),
-                        new OdbcParameter("poapprovedby",p.ApprovedBy.Id),
-                        new OdbcParameter("POID",p.PO_Id)
-                    });
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        cmd.Transaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        cmd.Transaction.Rollback();
-                        throw new DatabaseConnectionException("Failed to process data, please review the inner exception for further details", e);
-                    }
-                }
-            }
-        }
         protected void Update(Package p)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -1235,12 +887,12 @@ namespace shipapp.Connections
                     //ids all will be 0 for null, strings should roll to null
                     cmd.Parameters.AddRange(new OdbcParameter[]
                     {
-                        new OdbcParameter("poid", p.PackagePurchaseOrder.PO_Id),
-                        new OdbcParameter("carrierid", p.PackageCarrier.CarrierId),
-                        new OdbcParameter("vendid",p.PackageVendor.VendorId),
-                        new OdbcParameter("delivtoid",p.PackageDeliveredTo.Id),
-                        new OdbcParameter("delivbyid",p.PackageDeleveredBy.Id),
-                        new OdbcParameter("signedbyid",p.PackageSignedForBy.Id),
+                        new OdbcParameter("poid", p.PONumber),
+                        new OdbcParameter("carrierid", p.PackageCarrier),
+                        new OdbcParameter("vendid",p.PackageVendor),
+                        new OdbcParameter("delivtoid",p.PackageDeliveredTo),
+                        new OdbcParameter("delivbyid",p.PackageDeleveredBy),
+                        new OdbcParameter("signedbyid",p.PackageSignedForBy),
                         new OdbcParameter("tracknumb",p.PackageTrackingNumber),
                         new OdbcParameter("recieveddate",p.PackageReceivedDate),
                         new OdbcParameter("delivDate",p.PackageDeliveredDate),
@@ -1318,12 +970,6 @@ namespace shipapp.Connections
                 {
                     cmd.CommandText = "DELETE * FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Faculty_PersonId);
-                    cmd.CommandText = "DELETE * FROM phone_numbers WHERE person_id = ?;";
-                    cmd.Parameters.AddWithValue("pid", v.Faculty_PersonId);
-                    cmd.CommandText = "DELETE * FROM email_addresses WHERE person_id = ?;";
-                    cmd.Parameters.AddWithValue("pid", v.Faculty_PersonId);
-                    cmd.CommandText = "DELETE * FROM physical_addr WHERE person_id = ?;";
-                    cmd.Parameters.AddWithValue("pid", v.Faculty_PersonId);
                     cmd.CommandText += "DELETE * FROM employees WHERE empl_id = ?;";
                     cmd.Parameters.AddWithValue("uid", v.Id);
                     try
@@ -1352,10 +998,6 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
                     cmd.CommandText = "DELETE * FROM notes WHERE note_id = ?;";
-                    cmd.Parameters.AddWithValue("pid", v.Vendor_PersonId);
-                    cmd.CommandText = "DELETE * FROM phone_numbers WHERE person_id = ?;";
-                    cmd.Parameters.AddWithValue("pid", v.Vendor_PersonId);
-                    cmd.CommandText = "DELETE * FROM physical_addr WHERE person_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Vendor_PersonId);
                     cmd.CommandText += "DELETE * FROM vendors WHERE vendor_id = ?;";
                     cmd.Parameters.AddWithValue("uid", v.VendorId);
@@ -1386,37 +1028,8 @@ namespace shipapp.Connections
                 {
                     cmd.CommandText = "DELETE * FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Carrier_PersonId);
-                    cmd.CommandText = "DELETE * FROM phone_numbers WHERE person_id = ?;";
-                    cmd.Parameters.AddWithValue("pid", v.Carrier_PersonId);
                     cmd.CommandText += "DELETE * FROM carriers WHERE carrier_id = ?;";
                     cmd.Parameters.AddWithValue("uid", v.CarrierId);
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        cmd.Transaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        cmd.Transaction.Rollback();
-                        throw new DatabaseConnectionException("Failed processing request.", e);
-                    }
-                }
-            }
-        }
-        protected void Delete(PurchaseOrder v)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
-                {
-                    cmd.CommandText += "DELETE * FROM purchase_orders WHERE po_id = ?;";
-                    cmd.Parameters.AddWithValue("uid", v.PO_Id);
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -1711,7 +1324,7 @@ namespace shipapp.Connections
                 c.Open();
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
-                    cmd.CommandText = "SELECT vend_id, person_id, vendor_name, vendor_poc_name FROM vendors WHERE vend_id = ?;";
+                    cmd.CommandText = "SELECT vend_id, person_id, vendor_name FROM vendors WHERE vend_id = ?;";
                     cmd.Parameters.AddWithValue("vend_id", id);
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
@@ -1720,48 +1333,8 @@ namespace shipapp.Connections
                             v.VendorId = Convert.ToInt64(reader[0].ToString());
                             v.Vendor_PersonId = reader[1].ToString();
                             v.VendorName = reader[2].ToString();
-                            v.VendorPointOfContactName = reader[3].ToString();
                         }
                     }
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
-                    cmd.Parameters.AddWithValue("person_id", v.Vendor_PersonId);
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            v.VendorPhone = new Models.ModelData.PhoneNumber()
-                            {
-                                PhoneId = Convert.ToInt64(reader[0].ToString()),
-                                Phone_Number = reader[1].ToString()
-                            };
-                        }
-                    }
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT address_id, building_long_name, building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,address_note_id FROM physical_addr WHERE person_id = ?;";
-                    cmd.Parameters.AddWithValue("person_id", v.Vendor_PersonId);
-                    string noteid = "";
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            v.VendorAddress = new Models.ModelData.PhysicalAddress()
-                            {
-                                AddressId = Convert.ToInt64(reader[0].ToString()),
-                                BuildingLongName = reader[1].ToString(),
-                                BuildingShortName = reader[2].ToString(),
-                                BuildingRoomNumber = reader[3].ToString(),
-                                Line1 = reader[4].ToString(),
-                                Line2 = reader[5].ToString(),
-                                City = reader[6].ToString(),
-                                State = reader[7].ToString(),
-                                ZipCode = reader[8].ToString(),
-                                Country = reader[9].ToString()
-                            };
-                            noteid = reader[10].ToString();
-                        }
-                    }
-                    v.Notes = GetNotesListById(v.Vendor_PersonId);
                 }
             }
             return v;
@@ -1780,7 +1353,7 @@ namespace shipapp.Connections
                 c.Open();
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
-                    cmd.CommandText = "SELECT vend_id, person_id, vendor_name, vendor_poc_name FROM vendors;";
+                    cmd.CommandText = "SELECT vend_id, person_id, vendor_name FROM vendors;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -1789,50 +1362,11 @@ namespace shipapp.Connections
                             v.VendorId = Convert.ToInt64(reader[0].ToString());
                             v.Vendor_PersonId = reader[1].ToString();
                             v.VendorName = reader[2].ToString();
-                            v.VendorPointOfContactName = reader[3].ToString();
                             DataConnectionClass.DataLists.Vendors.Add(v);
                         }
                     }
                     foreach (Vendors vend in DataConnectionClass.DataLists.Vendors)
                     {
-                        cmd.Parameters.Clear();
-                        cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
-                        cmd.Parameters.AddWithValue("person_id", vend.Vendor_PersonId);
-                        using (OdbcDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                vend.VendorPhone = new Models.ModelData.PhoneNumber()
-                                {
-                                    PhoneId = Convert.ToInt64(reader[0].ToString()),
-                                    Phone_Number = reader[1].ToString()
-                                };
-                            }
-                        }
-                        cmd.Parameters.Clear();
-                        cmd.CommandText = "SELECT address_id, building_long_name, building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,address_note_id FROM physical_addr WHERE person_id = ?;";
-                        cmd.Parameters.AddWithValue("person_id", vend.Vendor_PersonId);
-                        string noteid = "";
-                        using (OdbcDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                vend.VendorAddress = new Models.ModelData.PhysicalAddress()
-                                {
-                                    AddressId = Convert.ToInt64(reader[0].ToString()),
-                                    BuildingLongName = reader[1].ToString(),
-                                    BuildingShortName = reader[2].ToString(),
-                                    BuildingRoomNumber = reader[3].ToString(),
-                                    Line1 = reader[4].ToString(),
-                                    Line2 = reader[5].ToString(),
-                                    City = reader[6].ToString(),
-                                    State = reader[7].ToString(),
-                                    ZipCode = reader[8].ToString(),
-                                    Country = reader[9].ToString()
-                                };
-                                noteid = reader[10].ToString();
-                            }
-                        }
                         vend.Notes = GetNotesListById(vend.Vendor_PersonId);
                     }
 
@@ -1863,21 +1397,6 @@ namespace shipapp.Connections
                                 CarrierId = Convert.ToInt64(reader[0].ToString()),
                                 CarrierName = reader[1].ToString(),
                                 Carrier_PersonId = reader[2].ToString()
-                            };
-                        }
-                    }
-                    //clear params::
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
-                    cmd.Parameters.Add(new OdbcParameter("personid", car.Carrier_PersonId));
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            car.PhoneNumber = new PhoneNumber()
-                            {
-                                PhoneId = Convert.ToInt64(reader[0].ToString()),
-                                Phone_Number = reader[1].ToString()
                             };
                         }
                     }
@@ -1915,21 +1434,6 @@ namespace shipapp.Connections
                     }
                     foreach (Carrier carrier in carList)
                     {
-                        //clear params::
-                        cmd.Parameters.Clear();
-                        cmd.CommandText = "SELECT phone_id, phone_number FROM phone_numbers WHERE person_id = ?;";
-                        cmd.Parameters.Add(new OdbcParameter("personid", carrier.Carrier_PersonId));
-                        using (OdbcDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                carrier.PhoneNumber = new PhoneNumber()
-                                {
-                                    PhoneId = Convert.ToInt64(reader[0].ToString()),
-                                    Phone_Number = reader[1].ToString()
-                                };
-                            }
-                        }
                         carrier.Notes = GetNotesListById(carrier.Carrier_PersonId);
                     }
                     DataConnectionClass.DataLists.CarriersList = carList;
@@ -1964,10 +1468,7 @@ namespace shipapp.Connections
                             };
                         }
                     }
-                    f.Email = GetEmailListById(f.Faculty_PersonId);
-                    f.Phone = GetPhonesById(f.Faculty_PersonId);
                     f.Notes = GetNotesListById(f.Faculty_PersonId);
-                    f.Address = GetPhysAddrById(f.Faculty_PersonId);
                     return f;
                 }
             }
@@ -2007,37 +1508,6 @@ namespace shipapp.Connections
                     }
                     DataConnectionClass.DataLists.FacultyList = f;
                 }
-            }
-        }
-        protected PurchaseOrder Get_PurchaseOrder(long id)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            PurchaseOrder p = null;
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                p = new PurchaseOrder() { };
-                using (OdbcCommand cmd = new OdbcCommand("", c))
-                {
-                    cmd.CommandText = "SELECT po_id,po_number,po_package_count,po_created_on,po_created_by,po_approved_by FROM purchase_order WHERE po_id = ?;";
-                    cmd.Parameters.Add(new OdbcParameter("poid", id));
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            p.PO_Id = Convert.ToInt64(reader[0].ToString());
-                            p.PONumber = reader[1].ToString();
-                            p.PackageCount = Convert.ToInt32(reader[2].ToString());
-                            p.POCreatedOn = reader[3].ToString();
-                            p.CreatedBy = new Faculty() { Id = Convert.ToInt64(reader[4].ToString()) };
-                            p.ApprovedBy = new Faculty() { Id = Convert.ToInt64(reader[5].ToString()) };
-                        }
-                    }
-                }
-                return p;
             }
         }
         protected Package Get_Package(long id)
@@ -2109,7 +1579,7 @@ namespace shipapp.Connections
                 c.Open();
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
-                    long a = 0, b = 0, g = 0, d = 0, i = 0, f = 0; Package p = new Package() { };
+                    Package p = new Package() { };
                     cmd.CommandText = "SELECT package_po_id,package_carrier_id,package_vendor_id,package_deliv_to_id,package_devliv_by_id,package_signed_for_by_id,package_tracking_number,package_received_date,package_deliver_date,package_note_id,package_status FROM packages;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
@@ -2122,19 +1592,11 @@ namespace shipapp.Connections
                                 PackageDeliveredDate = reader["package_deliver_date"].ToString(),
                                 Package_PersonId = reader["package_note_id"].ToString(),
                                 Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString())
+                                /***
+                                 * TODO::
+                                 * update data gets
+                                 ***/
                             };
-                            a = Convert.ToInt64(reader[0].ToString()); //po
-                            b = Convert.ToInt64(reader[1].ToString()); //carrier
-                            d = Convert.ToInt64(reader[2].ToString()); //vendor
-                            f = Convert.ToInt64(reader[3].ToString()); //fac
-                            g = Convert.ToInt64(reader[4].ToString()); //usr
-                            i = Convert.ToInt64(reader[5].ToString()); //fac
-                            p.PackagePurchaseOrder = Get_PurchaseOrder(a);
-                            p.PackageCarrier = Get_Carrier(b);
-                            p.PackageVendor = GetVendor_From_Database(d);
-                            p.PackageDeliveredTo = Get_Faculty(f);
-                            p.PackageDeleveredBy = GetUser(g);
-                            p.PackageSignedForBy = Get_Faculty(i);
                             DataConnectionClass.DataLists.Packages.Add(p);
                         }
                     }
@@ -2160,74 +1622,6 @@ namespace shipapp.Connections
         }
         #endregion
         #region private gets
-        private List<PhoneNumber>GetPhonesById(string person_id)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            List<PhoneNumber> phn = new List<PhoneNumber>() { };
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("",c))
-                {
-                    cmd.CommandText = "SELECT * FROM phone_numbers WHERE person_id = ?;";
-                    cmd.Parameters.AddWithValue("pid", person_id);
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            phn.Add(new PhoneNumber()
-                            {
-                                PhoneId = Convert.ToInt64(reader[0].ToString()),
-                                Phone_Number = reader[2].ToString()
-                            });
-                        }
-                    }
-                }
-            }
-            return phn;
-        }
-        private List<PhysicalAddress>GetPhysAddrById(string person_id)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            List<PhysicalAddress> phy = new List<PhysicalAddress>() { };
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
-                {
-                    cmd.CommandText = "SELECT * FROM physical_addr WHERE person_id = ?;";
-                    cmd.Parameters.AddWithValue("pid", person_id);
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            phy.Add(new PhysicalAddress()
-                            {
-                                AddressId = Convert.ToInt64(reader[0].ToString()),
-                                BuildingLongName = reader[2].ToString(),
-                                BuildingShortName = reader[3].ToString(),
-                                BuildingRoomNumber = reader[4].ToString(),
-                                Line1 = reader[5].ToString(),
-                                Line2 = reader[6].ToString(),
-                                City = reader[7].ToString(),
-                                State = reader[8].ToString(),
-                                ZipCode = reader[9].ToString(),
-                                Country = reader[10].ToString(),
-                                Notes = GetNotesListById(reader[11].ToString()),
-                                AddrNoteId=reader[11].ToString()
-                            });
-                        }
-                    }
-                }
-            }
-            return phy;
-        }
         private List<Note>GetNotesListById(string person_id)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -2263,35 +1657,6 @@ namespace shipapp.Connections
                 }
             }
             return nte;
-        }
-        private List<EmailAddress>GetEmailListById(string person_id)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            List<EmailAddress> eml = new List<EmailAddress>() { };
-            using (OdbcConnection c = new OdbcConnection())
-            {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
-                {
-                    cmd.CommandText = "SELECT * FROM email_addresses WHERE person_id = ?;";
-                    cmd.Parameters.AddWithValue("pid", person_id);
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            eml.Add(new EmailAddress()
-                            {
-                                Email_Id = Convert.ToInt64(reader[0].ToString()),
-                                Email_Address = reader[2].ToString()
-                            });
-                        }
-                    }
-                }
-            }
-            return eml;
         }
         #endregion
         #endregion

@@ -17,9 +17,9 @@ namespace shipapp.Models
         /// </summary>
         public long PackageId { get; set; }
         /// <summary>
-        /// Package PO association as PurchaseOrder
+        /// Purchase Order Number as string
         /// </summary>
-        public PurchaseOrder PackagePurchaseOrder { get; set; }
+        public string PONumber { get; set; }
         /// <summary>
         /// Identifyer in supplement tables, as string, max value 1000 bits and MUST be unique across all primary models
         /// </summary>
@@ -27,23 +27,23 @@ namespace shipapp.Models
         /// <summary>
         /// Package Carrier as Carrier
         /// </summary>
-        public Carrier PackageCarrier { get; set; }
+        public string PackageCarrier { get; set; }
         /// <summary>
         /// Package Vendor as Vendor
         /// </summary>
-        public Vendors PackageVendor { get; set; }
+        public string PackageVendor { get; set; }
         /// <summary>
-        /// Package deliver to as Faculty
+        /// Package deliver to as Facultys first name, and last name
         /// </summary>
-        public Faculty PackageDeliveredTo { get; set; }
+        public string PackageDeliveredTo { get; set; }
         /// <summary>
-        /// Package delivered by as User
+        /// Package delivered by as Users name(string first name, string last name)
         /// </summary>
-        public User PackageDeleveredBy { get; set; }
+        public string PackageDeleveredBy { get; set; }
         /// <summary>
         /// Package signed for by as Faculty
         /// </summary>
-        public Faculty PackageSignedForBy { get; set; }
+        public string PackageSignedForBy { get; set; }
         /// <summary>
         /// Package Tracking Number as string
         /// </summary>

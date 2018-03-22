@@ -25,10 +25,6 @@ namespace shipapp.Models
         /// </summary>
         public string Carrier_PersonId { get; set; }
         /// <summary>
-        /// Carrier Phone Number as PhoneNumber
-        /// </summary>
-        public PhoneNumber PhoneNumber { get; set; }
-        /// <summary>
         /// Carrier Notes as List of Note
         /// </summary>
         public List<Note> Notes { get; set; }

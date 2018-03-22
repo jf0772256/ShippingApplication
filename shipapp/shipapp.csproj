@@ -90,7 +90,6 @@
     <Compile Include="Connections\DataConnections\Classes\CarrierConnClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\EmployeeConnClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\PackageConnectionClass.cs" />
-    <Compile Include="Connections\DataConnections\Classes\PurchaseOrderConnectionClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\RoleConnClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\VendorConnClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\TestConnClass.cs" />
@@ -106,7 +105,6 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelData\PhysicalAddress.cs" />
     <Compile Include="Models\Carrier.cs" />
     <Compile Include="Connections\DatabaseConnection.cs" />
     <Compile Include="Models\Faculty.cs" />
@@ -128,10 +126,8 @@
     <Compile Include="Manage.Designer.cs">
       <DependentUpon>Manage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelData\EmailAddress.cs" />
+    <Compile Include="Models\ModelData\BuildingClass.cs" />
     <Compile Include="Models\ModelData\Note.cs" />
-    <Compile Include="Models\ModelData\PhoneNumber.cs" />
-    <Compile Include="Models\PurchaseOrder.cs" />
     <Compile Include="Models\ModelData\Role.cs" />
     <Compile Include="Models\Package.cs" />
     <Compile Include="Models\Vendors.cs" />
