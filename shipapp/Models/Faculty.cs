@@ -33,13 +33,31 @@ namespace shipapp.Models
         /// </summary>
         public List<Note> Notes { get; set; }
         /// <summary>
+        /// Building ID as established via Long Integer
+        /// </summary>
+        public long Building_Id { get; set; }
+        /// <summary>
+        /// String Value of building name
+        /// </summary>
+        public string Building_Name { get; set; }
+        /// <summary>
+        /// Room Number as string to allow characters in room number
+        /// </summary>
+        public string RoomNumber { get; set; }
+        /// <summary>
         /// constructor
         /// </summary>
         public Faculty()
         {
             Notes = new List<Note>() { };
         }
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="Faculty_PersonId"></param>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
         public Faculty(long id, string Faculty_PersonId, string firstName, string lastName)
         {
             this.Id = id;
