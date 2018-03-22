@@ -129,3 +129,4 @@ C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.AddCarrier.
 C:\Users\Jesse Fender\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.AddBuilding.resources
 C:\Users\Jesse Fender\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.AddCarrier.resources
 C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.AddPackage.resources
+C:\Users\Jesse Fender\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.AddPackage.resources

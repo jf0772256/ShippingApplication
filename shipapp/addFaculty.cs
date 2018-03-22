@@ -112,74 +112,21 @@ namespace shipapp
         /// </summary>
         private void BtnAddEmail_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(txtEmail.Text))
-            {
-                return;
-            }
-            else
-            {
-                NewFaculty.Email.Add(new Models.ModelData.EmailAddress()
-                {
-                    Email_Address = txtEmail.Text
-                });
-                txtEmail.Text = "";
-                txtEmail.Focus();
-            }
+            //
         }
         /// <summary>
         /// Add phone number to faculty
         /// </summary>
         private void BtnAddPhone_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(txtPhone.Text))
-            {
-                return;
-            }
-            else
-            {
-                NewFaculty.Phone.Add(new Models.ModelData.PhoneNumber()
-                {
-                    Phone_Number = txtPhone.Text
-                });
-                txtPhone.Text = "";
-                txtPhone.Focus();
-            }
+            //
         }
         /// <summary>
         /// Adds address to faculty list
         /// </summary>
         private void BtnAddAddress_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(txtBuildingShortName.Text) && String.IsNullOrWhiteSpace(txtBuildingLongName.Text) && String.IsNullOrWhiteSpace(txtAddressLine1.Text))
-            {
-                return;
-            }
-            else
-            {
-                NewFaculty.Address.Add(new Models.ModelData.PhysicalAddress()
-                {
-                    BuildingLongName = txtBuildingLongName.Text,
-                    BuildingShortName = txtBuildingShortName.Text,
-                    BuildingRoomNumber = txtBuildingRoomNumber.Text,
-                    Line1 = txtAddressLine1.Text,
-                    Line2 = txtAddressLine2.Text,
-                    City = txtAddressCity.Text,
-                    State = txtAddressState.Text,
-                    ZipCode = txtAddressZipCode.Text,
-                    Country = txtAddressCountry.Text,
-                    AddrNoteId = txtAddressNoteId.Text
-                });
-                txtBuildingLongName.Text = "";
-                txtBuildingShortName.Text = "";
-                txtBuildingRoomNumber.Text = "";
-                txtAddressLine1.Text = "";
-                txtAddressLine2.Text = "";
-                txtAddressCity.Text = "";
-                txtAddressState.Text = "";
-                txtAddressZipCode.Text = "";
-                txtAddressCountry.Text = "";
-                txtBuildingLongName.Focus();
-            }
+            //
         }
     }
 }

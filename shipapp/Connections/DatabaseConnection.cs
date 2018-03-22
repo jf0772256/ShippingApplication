@@ -93,7 +93,7 @@ namespace shipapp.Connections
                     //attempt to create the first table as a test;;
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'roles')CREATE TABLE roles(role_id BigINT NOT NULL IDENTITY(1,1) PRIMARY KEY, role_title VARCHAR(50) NOT NULL, CONSTRAINT UC_Roles UNIQUE(role_title));",
 
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'buildings')CREATE TABLE buildings(building_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, building_long_name VARCHAR(250) NOT NULL, building_short_name VARCHAR(100) NOT NULL;CREATE idx_bldng on buildings(building_short_name);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'buildings')CREATE TABLE buildings(building_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, building_long_name VARCHAR(250) NOT NULL, building_short_name VARCHAR(100) NOT NULL);CREATE INDEX idx_bldng on buildings(building_short_name);",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'notes')CREATE TABLE notes(id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, note_id VARCHAR(1000) NOT NULL, note_value VARCHAR(5000) NOT NULL);CREATE INDEX idx_note_ids ON notes(note_id);",
 
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'users')CREATE TABLE users(user_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, user_fname VARCHAR(2000) NOT NULL, user_lname VARCHAR(2000) NOT NULL, user_name VARCHAR(1000) NOT NULL, user_password VARBINARY(8000) NOT NULL, user_role_id BIGINT FOREIGN KEY REFERENCES roles(role_id), person_id VARCHAR(1000) NOT NULL, CONSTRAINT UC_UserName UNIQUE(user_name), CONSTRAINT UC_PID5 UNIQUE(person_id));",
@@ -742,109 +742,6 @@ namespace shipapp.Connections
                         new OdbcParameter("person_id",f.Faculty_PersonId),
                         new OdbcParameter("empl_id", f.Id)
                     });
-                    List<PhoneNumber> tbm = GetPhonesById(f.Faculty_PersonId);
-                    tbm.RemoveAll(x => f.Phone.Any(y => x.PhoneId == y.PhoneId));
-                    foreach (PhoneNumber phn in tbm)
-                    {
-                        cmd.CommandText += "DELETE * FROM phone_numbers WHERE phone_id = ?;";
-                        cmd.Parameters.AddWithValue("pid", phn.PhoneId);
-                    }
-                    foreach (PhoneNumber phone in f.Phone)
-                    {
-                        if (phone.PhoneId > 0)
-                        {
-                            cmd.CommandText += "UPDATE phone_numbers SET phone_number = ? WHERE person_id = ? AND phone_id = ?;";
-                            cmd.Parameters.AddRange(new OdbcParameter[]
-                            {
-                                new OdbcParameter("phone",phone.Phone_Number),
-                                new OdbcParameter("person_id",f.Faculty_PersonId),
-                                new OdbcParameter("pid",phone.PhoneId)
-                            });
-                        }
-                        else
-                        {
-                            cmd.CommandText += "INSERT INTO phone_numbers (phone_number,person_id)VALUES(?,?);";
-                            cmd.Parameters.AddRange(new OdbcParameter[]
-                            {
-                                new OdbcParameter("phone",phone.Phone_Number),
-                                new OdbcParameter("person_id",f.Faculty_PersonId)
-                            });
-                        }
-                    }
-                    List<EmailAddress> etbm = GetEmailListById(f.Faculty_PersonId);
-                    etbm.RemoveAll(x => f.Email.Any(y => x.Email_Id == y.Email_Id));
-                    foreach (EmailAddress email in etbm)
-                    {
-                        cmd.CommandText += "DELETE * FROM email_addresses WHERE email_id = ?;";
-                        cmd.Parameters.AddWithValue("eid", email.Email_Id);
-                    }
-                    foreach (EmailAddress email in f.Email)
-                    {
-                        if (email.Email_Id > 0)
-                        {
-                            cmd.CommandText += "UPDATE email_addresses SET email_address = ? WHERE person_id = ? AND email_id = ?;";
-                            cmd.Parameters.AddRange(new OdbcParameter[]
-                            {
-                                new OdbcParameter("email",email.Email_Address),
-                                new OdbcParameter("person_id",f.Faculty_PersonId),
-                                new OdbcParameter("eid",email.Email_Id)
-                            });
-                        }
-                        else
-                        {
-                            cmd.CommandText += "INSERT INTO email_addresses (email_address,person_id)VALUES(?,?);";
-                            cmd.Parameters.AddRange(new OdbcParameter[]
-                            {
-                                new OdbcParameter("email",email.Email_Address),
-                                new OdbcParameter("person_id",f.Faculty_PersonId)
-                            });
-                        }
-                    }
-                    List<PhysicalAddress> pstbm = GetPhysAddrById(f.Faculty_PersonId);
-                    pstbm.RemoveAll(x => f.Address.All(y => x.AddressId == y.AddressId));
-                    foreach (PhysicalAddress paddr in pstbm)
-                    {
-                        cmd.CommandText += "DELETE * FROM physical_addr WHERE address_id = ?";
-                        cmd.Parameters.AddWithValue("aid", paddr.AddressId);
-                    }
-                    foreach (PhysicalAddress paddr in f.Address)
-                    {
-                        if (paddr.AddressId > 0)
-                        {
-                            cmd.CommandText += "UPDATE physical_addr SET building_long_name = ?,building_short_name = ?,room_number = ?,addr_line1 = ?,addr_line2 = ?,addr_city = ?,addr_state = ?,addr_zip = ?,addr_cntry = ? WHERE person_id = ? AND address_id = ?;";
-                            cmd.Parameters.AddRange(new OdbcParameter[]
-                            {
-                                new OdbcParameter("bln",paddr.BuildingLongName),
-                                new OdbcParameter("bsn",paddr.BuildingShortName),
-                                new OdbcParameter("brn",paddr.BuildingRoomNumber),
-                                new OdbcParameter("ln1",paddr.Line1),
-                                new OdbcParameter("ln2",paddr.Line2),
-                                new OdbcParameter("cty",paddr.City),
-                                new OdbcParameter("state",paddr.State),
-                                new OdbcParameter("zip",paddr.ZipCode),
-                                new OdbcParameter("ctry",paddr.Country),
-                                new OdbcParameter("person_id",f.Faculty_PersonId),
-                                new OdbcParameter("address_id", paddr.AddressId)
-                            });
-                        }
-                        else
-                        {
-                            cmd.CommandText += "INSERT INTO physical_addr (building_long_name,building_short_name,room_number,addr_line1,addr_line2,addr_city,addr_state,addr_zip,addr_cntry,person_id)VALUES(?,?,?,?,?,?,?,?,?,?);";
-                            cmd.Parameters.AddRange(new OdbcParameter[]
-                            {
-                                new OdbcParameter("bln",paddr.BuildingLongName),
-                                new OdbcParameter("bsn",paddr.BuildingShortName),
-                                new OdbcParameter("brn",paddr.BuildingRoomNumber),
-                                new OdbcParameter("ln1",paddr.Line1),
-                                new OdbcParameter("ln2",paddr.Line2),
-                                new OdbcParameter("cty",paddr.City),
-                                new OdbcParameter("state",paddr.State),
-                                new OdbcParameter("zip",paddr.ZipCode),
-                                new OdbcParameter("ctry",paddr.Country),
-                                new OdbcParameter("person_id",f.Faculty_PersonId)
-                            });
-                        }
-                    }
                     foreach (Note note in f.Notes)
                     {
                         if (note.Note_Id <= 0)
@@ -1501,10 +1398,7 @@ namespace shipapp.Connections
                     }
                     foreach (Faculty fac in f)
                     {
-                        fac.Email = GetEmailListById(fac.Faculty_PersonId);
-                        fac.Phone = GetPhonesById(fac.Faculty_PersonId);
                         fac.Notes = GetNotesListById(fac.Faculty_PersonId);
-                        fac.Address = GetPhysAddrById(fac.Faculty_PersonId);
                     }
                     DataConnectionClass.DataLists.FacultyList = f;
                 }
@@ -1521,7 +1415,7 @@ namespace shipapp.Connections
                 c.Open();
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
-                    long a = 0, b = 0, g = 0, d = 0, i = 0, f = 0; Package p = new Package() { };
+                    Package p = new Package() { };
                     cmd.CommandText = "SELECT package_po_id,package_carrier_id,package_vendor_id,package_deliv_to_id,package_devliv_by_id,package_signed_for_by_id,package_tracking_number,package_received_date,package_deliver_date,package_note_id,package_status FROM packages WHERE packageid=?;";
                     cmd.Parameters.AddWithValue("pid", id);
                     using (OdbcDataReader reader = cmd.ExecuteReader())
@@ -1536,18 +1430,6 @@ namespace shipapp.Connections
                                 Package_PersonId = reader["package_note_id"].ToString(),
                                 Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString())
                             };
-                            a = Convert.ToInt64(reader[0].ToString()); //po
-                            b = Convert.ToInt64(reader[1].ToString()); //carrier
-                            d = Convert.ToInt64(reader[2].ToString()); //vendor
-                            f = Convert.ToInt64(reader[3].ToString()); //fac
-                            g = Convert.ToInt64(reader[4].ToString()); //usr
-                            i = Convert.ToInt64(reader[5].ToString()); //fac
-                            p.PackagePurchaseOrder = Get_PurchaseOrder(a);
-                            p.PackageCarrier = Get_Carrier(b);
-                            p.PackageVendor = GetVendor_From_Database(d);
-                            p.PackageDeliveredTo = Get_Faculty(f);
-                            p.PackageDeleveredBy = GetUser(g);
-                            p.PackageSignedForBy = Get_Faculty(i);
                         }
                     }
                     cmd.CommandText = "SELECT id,note_val FROM notes WHERE note_id = ?;";

@@ -82,8 +82,7 @@ namespace shipapp
         {
             if (txtPO.Text != "" && txtPO.Text != null)
             {
-                Models.PurchaseOrder newPO = new Models.PurchaseOrder();
-                newPO.PONumber = txtPO.Text;
+                //newPO.PONumber = txtPO.Text;
                 
             }
 
@@ -91,7 +90,7 @@ namespace shipapp
             {
                 Models.Carrier newCarier = new Models.Carrier();
                 newCarier.CarrierName = cmboCarrier.Text;
-                newPackage.PackageCarrier = newCarier;
+                //newPackage.PackageCarrier = newCarier;
             }
         }
     }
