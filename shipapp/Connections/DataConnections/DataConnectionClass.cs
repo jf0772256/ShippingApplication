@@ -49,6 +49,10 @@ namespace shipapp.Connections.DataConnections
         /// </summary>
         public static PackageConnectionClass PackageConnClass { get; set; }
         /// <summary>
+        /// A collection of available methods for buildings such as insert, delete and get lists
+        /// </summary>
+        public static BuildingConnClass buildingConn { get; set; }
+        /// <summary>
         /// A collection of bindable lists of used classes especially for use with datagridviews and the database
         /// </summary>
         public static Lists DataLists { get; set; }
@@ -71,6 +75,7 @@ namespace shipapp.Connections.DataConnections
             CarrierConn = new CarrierConnClass();
             EmployeeConn = new EmployeeConnClass();
             PackageConnClass = new PackageConnectionClass();
+            buildingConn = new BuildingConnClass();
             DataLists = new Lists();
         }
         public DataConnectionClass()
@@ -216,6 +221,10 @@ namespace shipapp.Connections.DataConnections
         /// </summary>
         public SortableBindingList<Package> Packages { get; set; }
         /// <summary>
+        /// regular List of strings representing Faculty
+        /// </summary>
+        public List<string> BuildingNames { get; set; }
+        /// <summary>
         /// Lists of all used classes (not including sub models or model helpers)
         /// </summary>
         public Lists()
@@ -225,6 +234,7 @@ namespace shipapp.Connections.DataConnections
             FacultyList = new SortableBindingList<Faculty>() { };
             Packages = new SortableBindingList<Package>() { };
             Vendors = new SortableBindingList<Vendors>() { };
+            BuildingNames = new List<string>() { };
         }
     }
 }

@@ -449,6 +449,37 @@ namespace shipapp.Connections
                 }
             }
         }
+        protected void Write(BuildingClass v)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "INSERT INTO buildings(building_long_name,building_short_name)VALUES(?,?);";
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("long",v.BuildingLongName),
+                        new OdbcParameter("short",v.BuildingShortName)
+                    });
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed Processing Request.", e);
+                    }
+                }
+            }
+        }
         protected void Write(Package p)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -956,6 +987,33 @@ namespace shipapp.Connections
                     cmd.Parameters.AddWithValue("pid", v.Package_PersonId);
                     cmd.CommandText += "DELETE * FROM packages WHERE package_id = ?;";
                     cmd.Parameters.AddWithValue("uid", v.PackageId);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed processing request.", e);
+                    }
+                }
+            }
+        }
+        protected void Delete(BuildingClass v)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText += "DELETE * FROM buildings WHERE building_id = ?;";
+                    cmd.Parameters.AddWithValue("bid", v.BuildingId);
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -1502,6 +1560,30 @@ namespace shipapp.Connections
                 }
             }
         }
+        protected void Get_Building_List()
+        {
+            List<string> bl = new List<string>() { };
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    cmd.CommandText = "SELECT building_short_name FROM buildings;";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            bl.Add(reader[0].ToString());
+                        }
+                    }
+                }
+            }
+            DataConnectionClass.DataLists.BuildingNames = bl;
+        }
         #endregion
         #region private gets
         private List<Note>GetNotesListById(string person_id)
@@ -1539,6 +1621,36 @@ namespace shipapp.Connections
                 }
             }
             return nte;
+        }
+        private BuildingClass GetBuilding(long id)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                BuildingClass b = new BuildingClass();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    cmd.CommandText = "SELECT * FROM buildings WHERE building_id = ?;";
+                    cmd.Parameters.AddWithValue("pid", id);
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            b = new BuildingClass()
+                            {
+                                BuildingId = Convert.ToInt64(reader[0].ToString()),
+                                BuildingLongName = reader[1].ToString(),
+                                BuildingShortName = reader[2].ToString()
+                            }
+                        }
+                    }
+                    return b;
+                }
+            }
         }
         #endregion
         #endregion
