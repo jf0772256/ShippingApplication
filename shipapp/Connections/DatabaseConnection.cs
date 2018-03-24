@@ -1310,15 +1310,14 @@ namespace shipapp.Connections
                 c.Open();
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
-                    cmd.CommandText = "SELECT vend_id, person_id, vendor_name FROM vendors;";
+                    cmd.CommandText = "SELECT vend_id, vendor_name FROM vendors;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             Vendors v = new Vendors() { };
                             v.VendorId = Convert.ToInt64(reader[0].ToString());
-                            v.Vendor_PersonId = reader[1].ToString();
-                            v.VendorName = reader[2].ToString();
+                            v.VendorName = reader[1].ToString();
                             DataConnectionClass.DataLists.Vendors.Add(v);
                         }
                     }
@@ -1375,7 +1374,7 @@ namespace shipapp.Connections
                 {
                     Carrier car = null;
                     SortableBindingList<Carrier> carList = new SortableBindingList<Carrier>() { };
-                    cmd.CommandText = "SELECT carrier_id, carrier_name, person_id FROM carriers;";
+                    cmd.CommandText = "SELECT carrier_id, carrier_name FROM carriers;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -1383,8 +1382,7 @@ namespace shipapp.Connections
                             car = new Carrier()
                             {
                                 CarrierId = Convert.ToInt64(reader[0].ToString()),
-                                CarrierName = reader[1].ToString(),
-                                Carrier_PersonId = reader[2].ToString()
+                                CarrierName = reader[1].ToString()
                             };
                             carList.Add(car);
                         }
