@@ -152,7 +152,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(681, 16);
+            this.label1.Location = new System.Drawing.Point(118, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 20);
             this.label1.TabIndex = 9;
@@ -164,9 +164,9 @@
             this.pictureBox8.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox8.BackgroundImage = global::shipapp.Properties.Resources.android_contact;
             this.pictureBox8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox8.Location = new System.Drawing.Point(650, 12);
+            this.pictureBox8.Location = new System.Drawing.Point(73, 11);
             this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox8.Size = new System.Drawing.Size(39, 36);
             this.pictureBox8.TabIndex = 8;
             this.pictureBox8.TabStop = false;
             // 
@@ -314,7 +314,6 @@
         private System.Windows.Forms.Button btnCarriers;
         private System.Windows.Forms.Button btnOther;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox8;
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.PictureBox pictureBox6;
@@ -325,5 +324,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolTip toolTip1;
+        internal System.Windows.Forms.Label label1;
     }
 }

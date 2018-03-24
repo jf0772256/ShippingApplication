@@ -30,6 +30,18 @@ namespace shipapp
             InitializeComponent();
             LogInForm = lif;
             lblUser.Text = DataConnectionClass.AuthenticatedUser.FirstName + " " + DataConnectionClass.AuthenticatedUser.LastName + " (" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + ")";
+            try
+            {
+                DataConnectionClass.buildingConn.GetBuildingList();
+                DataConnectionClass.CarrierConn.GetCarrierList();
+                DataConnectionClass.EmployeeConn.GetAllAfaculty();
+                DataConnectionClass.VendorConn.GetVendorList();
+                DataConnectionClass.UserConn.GetManyUsers();
+            }
+            catch (Exception)
+            {
+                // do nothing when errors but the lists will have to be pulled elsewhere
+            }
         }
 
         /// <summary>
@@ -104,8 +116,7 @@ namespace shipapp
         {
             Application.Exit();
         }
-
-
+        
         #region MainMeu ButtonFunctionality
         /// <summary>
         /// When this method fires load the receiving form.
@@ -114,8 +125,8 @@ namespace shipapp
         {
             Receiving receive = new Receiving();
             this.Hide();
+            receive.label1.Text = DataConnectionClass.AuthenticatedUser.ToString() + " (" + DataConnectionClass.AuthenticatedUser.Level.ToString() + ")"; ;
             receive.Show();
-
             receive.FormClosed += new FormClosedEventHandler(receive_FormClosed);
 
         }
@@ -135,6 +146,7 @@ namespace shipapp
         {
             Reports report = new Reports();
             this.Hide();
+            report.label1.Text = DataConnectionClass.AuthenticatedUser.ToString() + " (" + DataConnectionClass.AuthenticatedUser.Level.ToString() + ")";
             report.Show();
 
             report.FormClosed += new FormClosedEventHandler(report_FormClosed);
@@ -155,6 +167,7 @@ namespace shipapp
         {
             Manage manage = new Manage();
             this.Hide();
+            manage.label1.Text = DataConnectionClass.AuthenticatedUser.ToString() + " (" + DataConnectionClass.AuthenticatedUser.Level.ToString() + ")";
             manage.Show();
 
             manage.FormClosed += new FormClosedEventHandler(manage_FormClosed);

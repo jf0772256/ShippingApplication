@@ -27,11 +27,6 @@ namespace shipapp
             InitializeComponent();
             DataConnectionClass.GetDatabaseData();
             //DataConnectionClass.TestConn.ResetAllDatabaseTables();
-            DataConnectionClass.buildingConn.GetBuildingList();
-            DataConnectionClass.CarrierConn.GetCarrierList();
-            DataConnectionClass.EmployeeConn.GetAllAfaculty();
-            DataConnectionClass.VendorConn.GetVendorList();
-            DataConnectionClass.UserConn.GetManyUsers();
         }
 
         /// <summary>

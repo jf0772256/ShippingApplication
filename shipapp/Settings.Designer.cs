@@ -206,7 +206,6 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(189, 28);
             this.comboBox1.TabIndex = 16;
-            this.comboBox1.Text = "MSSQL";
             this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
             // 
             // Settings
