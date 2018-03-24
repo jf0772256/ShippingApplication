@@ -211,6 +211,12 @@ namespace shipapp
             else if (currentTable == 4)
             {
                 AddBuilding addbuilding = new AddBuilding();
+                DialogResult dr = addbuilding.ShowDialog();
+                if (dr == DialogResult.OK)
+                {
+                    addbuilding.Dispose();
+                    GC.Collect();
+                }
             }
             else if (currentTable == 5)
             {
@@ -269,8 +275,9 @@ namespace shipapp
         private void btnBuildings_Click_1(object sender, EventArgs e)
         {
             currentTable = 4;
+            DataConnectionClass.buildingConn.GetBuildingList();
             //TODO Fill list with query from Database
-            //dataGridView1.DataSource = buildingList;
+            dataGridView1.DataSource = DataConnectionClass.DataLists.BuildingNames;
         }
 
         private void btnCarriers_Click_1(object sender, EventArgs e)

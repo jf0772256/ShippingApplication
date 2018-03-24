@@ -428,12 +428,14 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "INSERT INTO employees (empl_fname,empl_lname,person_id)VALUES(?,?,?);";
+                    cmd.CommandText = "INSERT INTO employees (empl_fname,empl_lname,person_id,building_id,building_room_number)VALUES(?,?,?,?,?);";
                     cmd.Parameters.AddRange(new OdbcParameter[]
                     {
                         new OdbcParameter("fname",f.FirstName),
                         new OdbcParameter("lname",f.LastName),
-                        new OdbcParameter("person_id",f.Faculty_PersonId)
+                        new OdbcParameter("person_id",f.Faculty_PersonId),
+                        new OdbcParameter("bid",f.Building_Id),
+                        new OdbcParameter("brmno",f.RoomNumber)
                     });
                     PWrite(f.Notes, f.Faculty_PersonId);
                     try
@@ -1408,7 +1410,7 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
-                    cmd.CommandText = "SELECT empl_id, empl_fname, empl_lname, person_id FROM employees WHERE empl_id = ?;";
+                    cmd.CommandText = "SELECT empl_id, empl_fname, empl_lname, person_id, building_id,building_room_number FROM employees WHERE empl_id = ?;";
                     cmd.Parameters.Add(new OdbcParameter("id", id));
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
@@ -1419,7 +1421,9 @@ namespace shipapp.Connections
                                 Id = Convert.ToInt64(reader[0].ToString()),
                                 FirstName = reader[1].ToString(),
                                 LastName = reader[2].ToString(),
-                                Faculty_PersonId = reader[3].ToString()
+                                Faculty_PersonId = reader[3].ToString(),
+                                Building_Id = Convert.ToInt64(reader[4].ToString()),
+                                RoomNumber = reader[5].ToString()
                             };
                         }
                     }
@@ -1440,7 +1444,7 @@ namespace shipapp.Connections
                 c.Open();
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
-                    cmd.CommandText = "SELECT empl_id, empl_fname, empl_lname, person_id FROM employees;";
+                    cmd.CommandText = "SELECT empl_id, empl_fname, empl_lname, person_id, building_id,building_room_number FROM employees;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -1450,12 +1454,15 @@ namespace shipapp.Connections
                                 Id = Convert.ToInt64(reader[0].ToString()),
                                 FirstName = reader[1].ToString(),
                                 LastName = reader[2].ToString(),
-                                Faculty_PersonId = reader[3].ToString()
+                                Faculty_PersonId = reader[3].ToString(),
+                                Building_Id = Convert.ToInt64(reader[4].ToString()),
+                                RoomNumber = reader[5].ToString()
                             });
                         }
                     }
                     foreach (Faculty fac in f)
                     {
+                        fac.Building_Name = (GetBuilding(fac.Building_Id).ToString());
                         fac.Notes = GetNotesListById(fac.Faculty_PersonId);
                     }
                     DataConnectionClass.DataLists.FacultyList = f;

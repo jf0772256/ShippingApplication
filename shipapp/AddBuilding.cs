@@ -39,6 +39,7 @@ namespace shipapp
                 BuildingShortName = textBox2.Text
             };
             Connections.DataConnections.DataConnectionClass.buildingConn.WriteBuilding(building);
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
     }
