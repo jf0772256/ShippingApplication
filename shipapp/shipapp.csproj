@@ -87,6 +87,7 @@
     <Compile Include="AddVendor.Designer.cs">
       <DependentUpon>AddVendor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Connections\DataConnections\Classes\BuildingConnClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\CarrierConnClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\EmployeeConnClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\PackageConnectionClass.cs" />

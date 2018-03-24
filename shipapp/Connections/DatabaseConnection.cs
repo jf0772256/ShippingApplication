@@ -1562,7 +1562,7 @@ namespace shipapp.Connections
         }
         protected void Get_Building_List()
         {
-            List<string> bl = new List<string>() { };
+            List<BuildingClass> bl = new List<BuildingClass>() { };
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;
@@ -1572,12 +1572,17 @@ namespace shipapp.Connections
                 c.Open();
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
-                    cmd.CommandText = "SELECT building_short_name FROM buildings;";
+                    cmd.CommandText = "SELECT building_short_name,building_long_name,building_id FROM buildings;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            bl.Add(reader[0].ToString());
+                            bl.Add(new BuildingClass()
+                            {
+                                BuildingId = Convert.ToInt64(reader[2].ToString()),
+                                BuildingLongName = reader[1].ToString(),
+                                BuildingShortName = reader[0].ToString()
+                            });
                         }
                     }
                 }

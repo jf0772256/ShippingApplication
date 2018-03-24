@@ -223,7 +223,7 @@ namespace shipapp.Connections.DataConnections
         /// <summary>
         /// regular List of strings representing Faculty
         /// </summary>
-        public List<string> BuildingNames { get; set; }
+        public List<BuildingClass> BuildingNames { get; set; }
         /// <summary>
         /// Lists of all used classes (not including sub models or model helpers)
         /// </summary>
@@ -234,7 +234,7 @@ namespace shipapp.Connections.DataConnections
             FacultyList = new SortableBindingList<Faculty>() { };
             Packages = new SortableBindingList<Package>() { };
             Vendors = new SortableBindingList<Vendors>() { };
-            BuildingNames = new List<string>() { };
+            BuildingNames = new List<BuildingClass>() { };
         }
     }
 }

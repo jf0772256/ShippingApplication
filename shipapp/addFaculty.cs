@@ -27,6 +27,8 @@ namespace shipapp
         {
             InitializeComponent();
             NewFaculty = new Faculty();
+            Connections.DataConnections.DataConnectionClass.buildingConn.GetBuildingList();
+            Connections.DataConnections.DataConnectionClass.DataLists.BuildingNames.ForEach(b => comboBox1.Items.Add(b.BuildingLongName));
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -49,7 +51,8 @@ namespace shipapp
                 NewFaculty.LastName = txtLastName.Text;
                 NewFaculty.Faculty_PersonId = txtId2.Text;
                 NewFaculty.Id = long.Parse(txtId1.Text);
-
+                NewFaculty.Building_Name = comboBox1.SelectedItem.ToString();
+                NewFaculty.RoomNumber = textBox1.Text;
                 // Add to DB
                 Connections.DataConnections.DataConnectionClass.EmployeeConn.AddFaculty(NewFaculty);
 
@@ -106,27 +109,6 @@ namespace shipapp
             txtLastName.BackColor = Color.White;
             txtId1.BackColor = Color.White;
             txtId2.BackColor = Color.White;
-        }
-        /// <summary>
-        /// Add email address to faculty list
-        /// </summary>
-        private void BtnAddEmail_Click(object sender, EventArgs e)
-        {
-            //
-        }
-        /// <summary>
-        /// Add phone number to faculty
-        /// </summary>
-        private void BtnAddPhone_Click(object sender, EventArgs e)
-        {
-            //
-        }
-        /// <summary>
-        /// Adds address to faculty list
-        /// </summary>
-        private void BtnAddAddress_Click(object sender, EventArgs e)
-        {
-            //
         }
     }
 }
