@@ -24,7 +24,6 @@ namespace shipapp
         // Class level variables
         bool isLoggedIn = false;
         LogIn LogInForm { get; set; }
-
         public MainMenu(LogIn lif)
         {
             InitializeComponent();
@@ -43,7 +42,6 @@ namespace shipapp
                 // do nothing when errors but the lists will have to be pulled elsewhere
             }
         }
-
         /// <summary>
         /// When the Main Menu loads it will perform the folloing functions:
         /// </summary>
@@ -53,7 +51,6 @@ namespace shipapp
         {
             this.CenterToScreen();
         }
-
         /// <summary>
         /// This Label will indicate the current user who is logged in.
         /// </summary>
@@ -64,7 +61,6 @@ namespace shipapp
             DataConnectionClass.LogUserOut();
             GoToLogIn();
         }
-
         #region MainMenu Buttons
         /// <summary>
         /// When clicked switch to the Daily Receiving form.
@@ -75,7 +71,6 @@ namespace shipapp
         {
             GoToReceiving();
         }
-
         /// <summary>
         /// When clicked switch to the Report Creation form.
         /// </summary>
@@ -85,7 +80,6 @@ namespace shipapp
         {
             GoToReports();
         }
-
         /// <summary>
         /// When clicked switch to the Manage Tables form.
         /// </summary>
@@ -95,7 +89,6 @@ namespace shipapp
         {
             GoToManage();
         }
-
         /// <summary>
         /// When clciked switch to the Settings form.
         /// </summary>
@@ -106,7 +99,6 @@ namespace shipapp
             GoToSettings();
         }
         #endregion
-
         /// <summary>
         /// When the user closes the main menu exit the application.
         /// </summary>
@@ -116,7 +108,6 @@ namespace shipapp
         {
             Application.Exit();
         }
-        
         #region MainMeu ButtonFunctionality
         /// <summary>
         /// When this method fires load the receiving form.
@@ -130,7 +121,6 @@ namespace shipapp
             receive.FormClosed += new FormClosedEventHandler(receive_FormClosed);
 
         }
-
         void receive_FormClosed(object sender, FormClosedEventArgs e)
         {
             Receiving r = (Receiving)sender;
@@ -138,7 +128,6 @@ namespace shipapp
             GC.Collect();
             this.Show();
         }
-
         /// <summary>
         /// When this method fires load the reports form.
         /// </summary>
@@ -151,7 +140,6 @@ namespace shipapp
 
             report.FormClosed += new FormClosedEventHandler(report_FormClosed);
         }
-
         void report_FormClosed(object sender, FormClosedEventArgs e)
         {
             Reports r = (Reports)sender;
@@ -159,7 +147,6 @@ namespace shipapp
             GC.Collect();
             this.Show();
         }
-
         /// <summary>
         /// When this method fires load the manage form.
         /// </summary>
@@ -172,7 +159,6 @@ namespace shipapp
 
             manage.FormClosed += new FormClosedEventHandler(manage_FormClosed);
         }
-
         void manage_FormClosed(object sender, FormClosedEventArgs e)
         {
             Manage m = (Manage)sender;
@@ -180,7 +166,6 @@ namespace shipapp
             GC.Collect();
             this.Show();
         }
-
         /// <summary>
         /// When this method fires load the setting form.
         /// </summary>
@@ -192,7 +177,6 @@ namespace shipapp
 
             settings.FormClosed += new FormClosedEventHandler(settings_FormClosed);
         }
-
         void settings_FormClosed(object sender, FormClosedEventArgs e)
         {
             //to avoid memory leak, which was detected through the log in out process... all forms created must be disposed and resources freed
@@ -201,7 +185,6 @@ namespace shipapp
             GC.Collect();
             this.Show();
         }
-
         /// <summary>
         /// When this method fires load the login form.
         /// </summary>

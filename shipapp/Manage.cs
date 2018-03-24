@@ -19,12 +19,9 @@ namespace shipapp
         // Class level variables
         private int currentTable = 0;
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
-
         // Data list for tables
         //Use Connections.DataConnections.DataConnectionClass.DataLists.{Name of binding list}
-
         private ListSortDirection[] ColumnDirection { get; set; }
-
         public Manage()
         {
             InitializeComponent();
@@ -32,7 +29,6 @@ namespace shipapp
             dataGridView1.ColumnHeaderMouseClick += DataGridView1_ColumnHeaderMouseClick;
 
         }
-
         private void DataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
@@ -94,7 +90,6 @@ namespace shipapp
                 //do nothing but quietly handle error
             }
         }
-
         /// <summary>
         /// used to hide data conversion errors even though they are resolved through the getStrings and toStrings methods
         /// </summary>
@@ -102,7 +97,6 @@ namespace shipapp
         {
             //
         }
-
         /// <summary>
         /// Close the Form
         /// </summary>
@@ -112,29 +106,25 @@ namespace shipapp
         {
             this.Close();
         }
-
         private void Manage_Load(object sender, EventArgs e)
         {
             this.CenterToParent();
+            btnUsers_Click_1(this, e);
         }
-
-
         #region Table Buttons
         private void btnUsers_Click(object sender, EventArgs e)
         {
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
         }
-
         private void btnVendors_Click(object sender, EventArgs e)
         {
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
-            Connections.DataConnections.DataConnectionClass.VendorConn.GetVendorList();
+            DataConnectionClass.VendorConn.GetVendorList();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-            dataGridView1.DataSource = Connections.DataConnections.DataConnectionClass.DataLists.Vendors;
+            dataGridView1.DataSource = DataConnectionClass.DataLists.Vendors;
         }
-
         /// <summary>
         /// Faculty
         /// </summary>
@@ -146,7 +136,7 @@ namespace shipapp
             //TODO Fill list with query from Database
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear(); ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-            DataConnectionClass.EmployeeConn.GetAllAfaculty();
+            //DataConnectionClass.EmployeeConn.GetAllAfaculty();
             dataGridView1.DataSource = DataConnectionClass.DataLists.FacultyList;
         }
         private void btnBuildings_Click(object sender, EventArgs e)
@@ -162,10 +152,7 @@ namespace shipapp
             
         }
         #endregion // When the user clicks one of these button they will assign the active table and fiil the grid with data.
-
-
         #region Grid Buttons
-
         /// <summary>
         /// Allow the application to know what table to add and
         /// bring the appropriate form to the front.
@@ -197,6 +184,7 @@ namespace shipapp
             {
                 AddVendor addVendor = new AddVendor();
                 addVendor.ShowDialog();
+                btnVendors_Click_1(this, e);
             }
             else if (currentTable == 3)
             {
@@ -216,24 +204,25 @@ namespace shipapp
                 {
                     addbuilding.Dispose();
                     GC.Collect();
+                    btnBuildings_Click_1(this, e);
                 }
             }
             else if (currentTable == 5)
             {
                 AddCarrier addCarrier = new AddCarrier();
+
+                btnCarriers_Click_1(this, e);
             }
             else if (currentTable == 6)
             {
                 MessageBox.Show("This button is not set to a existing table! Please select another table.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         #endregion
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
         }
-
         private void btnUsers_Click_1(object sender, EventArgs e)
         {
             currentTable = 1;
@@ -241,7 +230,7 @@ namespace shipapp
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-            DataConnectionClass.UserConn.GetManyUsers();
+            //DataConnectionClass.UserConn.GetManyUsers();
             dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
             //change header text for roles
             dataGridView1.Columns["Level"].HeaderText = "Role";
@@ -255,7 +244,6 @@ namespace shipapp
                 dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.UsersList[i].Notes.Count.ToString();
             }
         }
-
         private void btnVendors_Click_1(object sender, EventArgs e)
         {
             currentTable = 2;
@@ -263,7 +251,7 @@ namespace shipapp
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-            DataConnectionClass.VendorConn.GetVendorList();
+            //DataConnectionClass.VendorConn.GetVendorList();
             dataGridView1.DataSource = DataConnectionClass.DataLists.Vendors;
             dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 9);
             for (int i = 0; i < DataConnectionClass.DataLists.Vendors.Count; i++)
@@ -271,15 +259,13 @@ namespace shipapp
                 dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.Vendors[i].Notes.Count.ToString();
             }
         }
-
         private void btnBuildings_Click_1(object sender, EventArgs e)
         {
             currentTable = 4;
-            DataConnectionClass.buildingConn.GetBuildingList();
+            //DataConnectionClass.buildingConn.GetBuildingList();
             //TODO Fill list with query from Database
             dataGridView1.DataSource = DataConnectionClass.DataLists.BuildingNames;
         }
-
         private void btnCarriers_Click_1(object sender, EventArgs e)
         {
             currentTable = 5;
@@ -287,7 +273,7 @@ namespace shipapp
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-            DataConnectionClass.CarrierConn.GetCarrierList();
+            //DataConnectionClass.CarrierConn.GetCarrierList();
             dataGridView1.DataSource = DataConnectionClass.DataLists.CarriersList;
             dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 9);
             for (int i = 0; i < DataConnectionClass.DataLists.CarriersList.Count; i++)
@@ -295,11 +281,9 @@ namespace shipapp
                 dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.CarriersList[i].Notes.Count.ToString();
             }
         }
-
         private void btnOther_Click_1(object sender, EventArgs e)
         {
             currentTable = 6;
         }
     }
 }
-
