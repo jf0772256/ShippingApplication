@@ -28,9 +28,9 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             Update(u);
         }
-        public async Task<bool> GetManyUsers()
+        public async void GetManyUsers()
         {
-            return await Task.Run(()=>GetUserList());
+            await Task.Run(()=>GetUserList());
         }
         public bool CheckAuth(User tester)
         {

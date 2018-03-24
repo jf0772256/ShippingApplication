@@ -1159,7 +1159,7 @@ namespace shipapp.Connections
         /// <summary>
         /// returns all users to dataconnection classes datalists class users binding list
         /// </summary>
-        protected bool GetUserList()
+        protected void GetUserList()
         {
             DataConnectionClass.DataLists.UsersList.Clear();
             ConnString = DataConnectionClass.ConnectionString;
@@ -1215,7 +1215,6 @@ namespace shipapp.Connections
                             u.Notes = GetNotesListById(u.Person_Id);
                             cnt++;
                         }
-                        return true;
                     }
                     else if (DBType == SQLHelperClass.DatabaseType.MySQL)
                     {
@@ -1258,12 +1257,10 @@ namespace shipapp.Connections
                             u.Notes = GetNotesListById(u.Person_Id);
                             cnt++;
                         }
-                        return true;
                     }
                     else
                     {
                         DatabaseConnectionException e = new DatabaseConnectionException("You Must select a valid database type", new Exception());
-                        return false;
                     }
                 }
             }
