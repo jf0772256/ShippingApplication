@@ -32,9 +32,9 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             Update(f);
         }
-        public void GetAllAfaculty()
+        public async void GetAllAfaculty()
         {
-            Get_Faculty_List();
+            await Task.Run(() => Get_Faculty_List());
         }
         public void DeleteFaculty(Faculty f)
         {

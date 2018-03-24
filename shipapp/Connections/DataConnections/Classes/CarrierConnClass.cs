@@ -33,9 +33,9 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <summary>
         /// collects all carriers from database - returns to dataconnectionclass.datalists.carriers list
         /// </summary>
-        public void GetCarrierList()
+        public async void GetCarrierList()
         {
-            Get_Carrier_List();
+            await Task.Run(() => Get_Carrier_List());
         }
         /// <summary>
         /// Collects a single specific carrier from the database - this is important, You must include a valid database id as long.

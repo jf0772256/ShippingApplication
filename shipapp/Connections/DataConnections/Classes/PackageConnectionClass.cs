@@ -23,9 +23,9 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <summary>
         /// Gets and sets Datalist.packagelist
         /// </summary>
-        public void GetPackageList()
+        public async void GetPackageList()
         {
-            Get_Package_List();
+            await Task.Run(()=>Get_Package_List());
         }
         /// <summary>
         /// Adds a package to database

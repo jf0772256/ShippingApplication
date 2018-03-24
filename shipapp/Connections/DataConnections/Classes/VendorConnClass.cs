@@ -17,9 +17,9 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             return GetVendor_From_Database(id);
         }
-        public void GetVendorList()
+        public async void GetVendorList()
         {
-            GetVendorsList();
+            await Task.Run(()=>GetVendorsList());
         }
         public void AddVendor(Vendors value)
         {
