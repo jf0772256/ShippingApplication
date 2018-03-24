@@ -51,7 +51,9 @@ namespace shipapp
                 NewFaculty.LastName = txtLastName.Text;
                 NewFaculty.Faculty_PersonId = txtId2.Text;
                 NewFaculty.Id = long.Parse(txtId1.Text);
-                NewFaculty.Building_Name = comboBox1.SelectedItem.ToString();
+                Models.ModelData.BuildingClass g = Connections.DataConnections.DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(m => m.BuildingLongName == comboBox1.SelectedItem.ToString());
+                NewFaculty.Building_Id = g.BuildingId;
+                NewFaculty.Building_Name = g.BuildingShortName;
                 NewFaculty.RoomNumber = textBox1.Text;
                 // Add to DB
                 Connections.DataConnections.DataConnectionClass.EmployeeConn.AddFaculty(NewFaculty);

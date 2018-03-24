@@ -1650,7 +1650,7 @@ namespace shipapp.Connections
                                 BuildingId = Convert.ToInt64(reader[0].ToString()),
                                 BuildingLongName = reader[1].ToString(),
                                 BuildingShortName = reader[2].ToString()
-                            }
+                            };
                         }
                     }
                     return b;
