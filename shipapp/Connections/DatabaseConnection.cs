@@ -511,8 +511,8 @@ namespace shipapp.Connections
                         new OdbcParameter("noteid",p.Package_PersonId),
                         new OdbcParameter("packstats",p.Status.ToString())
                     });
-                    cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?)";
-                    cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + 0, p.Notes[0].Note_Id), new OdbcParameter("n" + 0, p.Notes[0].Note_Value) });
+                    //cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?)";
+                    //cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + 0, p.Notes[0].Note_Id), new OdbcParameter("n" + 0, p.Notes[0].Note_Value) });
                     PWrite(p.Notes, p.Package_PersonId);
                     try
                     {

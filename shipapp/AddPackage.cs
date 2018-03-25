@@ -51,7 +51,16 @@ namespace shipapp
         /// </summary>
         public void AddPackageToDB()
         {
-           
+            newPackage.PONumber = txtPO.Text;
+            newPackage.PackageCarrier = cmboCarrier.SelectedText;
+            newPackage.PackageVendor = cmboVendor.SelectedText;
+            newPackage.PackageDeliveredTo = cmboRecipiant.SelectedText;
+            newPackage.PackageTrackingNumber = txtTracking.Text;
+            newPackage.PackageDeleveredBy = cmboDelBy.SelectedText;
+            newPackage.PackageSignedForBy = cmboSignedBy.SelectedText;
+            newPackage.PackageDeliveredDate = txtDelDate.SelectedText;
+
+            Connections.DataConnections.DataConnectionClass.PackageConnClass.AddPackage(newPackage);
         }
 
         /// <summary>
