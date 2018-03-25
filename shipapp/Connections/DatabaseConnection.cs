@@ -81,7 +81,7 @@ namespace shipapp.Connections
                     "CREATE TABLE IF NOT EXISTS carriers(carrier_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, carrier_name VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
 
                     "CREATE TABLE IF NOT EXISTS purchase_orders(po_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, po_number VARCHAR(25) DEFAULT NULL,po_package_count INT DEFAULT 0, po_created_on DATETIME, po_created_by BIGINT, po_approved_by BIGINT, FOREIGN KEY (po_created_by) REFERENCES employees(empl_id) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (po_approved_by) REFERENCES employees(empl_id) ON DELETE NO ACTION ON UPDATE NO ACTION)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS packages(package_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,package_po_id BIGINT, package_carrier_id BIGINT, package_vendor_id BIGINT, package_deliv_to_id BIGINT, package_deliv_by_id BIGINT, package_signed_for_by_id BIGINT, package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date DATE, package_deliver_date DATE, package_notes_id VARCHAR(1000) NOT NULL UNIQUE,package_status INT DEFAULT 0, FOREIGN KEY (package_carrier_id) REFERENCES carriers(carrier_id) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (package_vendor_id) REFERENCES vendors(vend_id) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (package_deliv_to_id) REFERENCES employees(empl_id) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (package_deliv_by_id) REFERENCES users(user_id) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (package_signed_for_by_id) REFERENCES employees(empl_id) ON DELETE NO ACTION ON UPDATE NO ACTION)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS packages(package_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,package_po varchar(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date DATE, package_deliver_date DATE, package_notes_id VARCHAR(1000) NOT NULL UNIQUE,package_status INT DEFAULT 0)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     //create default roles;
                     "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');"
                 };
@@ -100,8 +100,8 @@ namespace shipapp.Connections
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'employees')CREATE TABLE employees(empl_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, empl_fname VARCHAR(50) NOT NULL, empl_lname VARCHAR(50), building_id BIGINT, building_room_number VARCHAR(20), person_id VARCHAR(1000) NOT NULL, CONSTRAINT UC_PID_0 UNIQUE(person_id));",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'vendors')CREATE TABLE vendors(vend_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, vendor_name VARCHAR(50) NOT NULL UNIQUE);",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'carriers')CREATE TABLE carriers(carrier_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, carrier_name VARCHAR(50) NOT NULL UNIQUE);",
-                    
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'packages')CREATE TABLE packages(package_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,package_po_id BIGINT, package_carrier_id BIGINT FOREIGN KEY REFERENCES carriers(carrier_id), package_vendor_id BIGINT FOREIGN KEY REFERENCES vendors(vend_id), package_deliv_to_id BIGINT FOREIGN KEY REFERENCES employees(empl_id), package_deliv_by_id BIGINT FOREIGN KEY REFERENCES users(user_id), package_signed_for_by_id BIGINT FOREIGN KEY REFERENCES employees(empl_id), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date DATE, package_deliver_date DATE, package_note_id VARCHAR(1000) NOT NULL, package_status INT DEFAULT 0, CONSTRAINT UC_NID UNIQUE(package_note_id));",
+
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'packages')CREATE TABLE packages(package_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,package_po VARCHAR(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date DATE, package_deliver_date DATE, package_note_id VARCHAR(1000) NOT NULL, package_status INT DEFAULT 0, CONSTRAINT UC_NID UNIQUE(package_note_id));",
                     "IF (SELECT COUNT(*) FROM sys.symmetric_keys WHERE name = 'secure_data')=0 CREATE SYMMETRIC KEY secure_data WITH ALGORITHM = AES_128 ENCRYPTION BY PASSWORD = '" + EncodeKey +"';",
                     //create default roles;
                     "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');"
@@ -494,7 +494,7 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "INSERT INTO packages(package_po_id,package_carrier_id,package_vendor_id,package_deliv_to_id,package_devliv_by_id,package_signed_for_by_id,package_tracking_number,package_received_date,package_deliver_date,package_note_id,package_status)VALUES(?,?,?,?,?,?,?,?,?,?,?);";
+                    cmd.CommandText = "INSERT INTO packages(package_po,package_carrier,package_vendor,package_deliv_to,package_devliv_by,package_signed_for_by,package_tracking_number,package_received_date,package_deliver_date,package_note_id,package_status)VALUES(?,?,?,?,?,?,?,?,?,?,?);";
                     //most fields can be null so we need to check and make sure that if a field is empty that we set  ids to 0 or null strings
                     //ids all will be 0 for null, strings should roll to null
                     cmd.Parameters.AddRange(new OdbcParameter[]
@@ -511,8 +511,6 @@ namespace shipapp.Connections
                         new OdbcParameter("noteid",p.Package_PersonId),
                         new OdbcParameter("packstats",p.Status.ToString())
                     });
-                    //cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?)";
-                    //cmd.Parameters.AddRange(new OdbcParameter[] { new OdbcParameter("v" + 0, p.Notes[0].Note_Id), new OdbcParameter("n" + 0, p.Notes[0].Note_Value) });
                     PWrite(p.Notes, p.Package_PersonId);
                     try
                     {
@@ -546,13 +544,14 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("",c,tr))
                 {
                     cmd.CommandText = "INSERT INTO notes (note_id,note_value)VALUES";
+                    int cnt = 0;
                     foreach (Note note in v)
                     {
                         cmd.CommandText += "(?,?),";
                         cmd.Parameters.AddRange(new OdbcParameter[]
                         {
-                            new OdbcParameter("pid",personID),
-                            new OdbcParameter("value",note.Note_Value)
+                            new OdbcParameter("pid" + cnt,personID),
+                            new OdbcParameter("value"+cnt,note.Note_Value)
                         });
                     }
                     cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1) + ";";
