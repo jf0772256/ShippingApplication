@@ -70,6 +70,7 @@ namespace shipapp
             newPackage.PackageDeleveredBy = cmboDelBy.Text;
             newPackage.PackageSignedForBy = cmboSignedBy.Text;
             newPackage.PackageDeliveredDate = txtDelDate.Text;
+            newPackage.Package_PersonId = txtPersonId.Text;
 
             Connections.DataConnections.DataConnectionClass.PackageConnClass.AddPackage(newPackage);
         }

@@ -51,6 +51,8 @@
             this.btnViewNote = new System.Windows.Forms.Button();
             this.btnAddNote = new System.Windows.Forms.Button();
             this.btnReceive = new System.Windows.Forms.Button();
+            this.txtPersonId = new System.Windows.Forms.TextBox();
+            this.lblop = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblPO
@@ -149,7 +151,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(303, 80);
+            this.label7.Location = new System.Drawing.Point(303, 83);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(80, 20);
             this.label7.TabIndex = 12;
@@ -242,7 +244,7 @@
             // btnViewNote
             // 
             this.btnViewNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnViewNote.Location = new System.Drawing.Point(307, 155);
+            this.btnViewNote.Location = new System.Drawing.Point(307, 213);
             this.btnViewNote.Name = "btnViewNote";
             this.btnViewNote.Size = new System.Drawing.Size(132, 41);
             this.btnViewNote.TabIndex = 27;
@@ -252,7 +254,7 @@
             // btnAddNote
             // 
             this.btnAddNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddNote.Location = new System.Drawing.Point(445, 155);
+            this.btnAddNote.Location = new System.Drawing.Point(445, 213);
             this.btnAddNote.Name = "btnAddNote";
             this.btnAddNote.Size = new System.Drawing.Size(130, 41);
             this.btnAddNote.TabIndex = 28;
@@ -270,12 +272,32 @@
             this.btnReceive.UseVisualStyleBackColor = true;
             this.btnReceive.Click += new System.EventHandler(this.btnReceive_Click);
             // 
+            // txtPersonId
+            // 
+            this.txtPersonId.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPersonId.Location = new System.Drawing.Point(417, 143);
+            this.txtPersonId.Name = "txtPersonId";
+            this.txtPersonId.Size = new System.Drawing.Size(158, 26);
+            this.txtPersonId.TabIndex = 31;
+            // 
+            // lblop
+            // 
+            this.lblop.AutoSize = true;
+            this.lblop.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblop.Location = new System.Drawing.Point(303, 146);
+            this.lblop.Name = "lblop";
+            this.lblop.Size = new System.Drawing.Size(80, 20);
+            this.lblop.TabIndex = 30;
+            this.lblop.Text = "Date Del";
+            // 
             // AddPackage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(602, 266);
+            this.Controls.Add(this.txtPersonId);
+            this.Controls.Add(this.lblop);
             this.Controls.Add(this.btnReceive);
             this.Controls.Add(this.btnAddNote);
             this.Controls.Add(this.btnViewNote);
@@ -332,5 +354,7 @@
         private System.Windows.Forms.Button btnViewNote;
         private System.Windows.Forms.Button btnAddNote;
         private System.Windows.Forms.Button btnReceive;
+        private System.Windows.Forms.TextBox txtPersonId;
+        private System.Windows.Forms.Label lblop;
     }
 }
