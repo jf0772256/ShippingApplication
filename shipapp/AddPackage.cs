@@ -69,8 +69,10 @@ namespace shipapp
             newPackage.PackageTrackingNumber = txtTracking.Text;
             newPackage.PackageDeleveredBy = cmboDelBy.Text;
             newPackage.PackageSignedForBy = cmboSignedBy.Text;
+            newPackage.PackageReceivedDate = txtDate.Text;
             newPackage.PackageDeliveredDate = txtDelDate.Text;
             newPackage.Package_PersonId = txtPersonId.Text;
+            newPackage.Status = (Models.Package.DeliveryStatus)Convert.ToInt32(cmboStatus.Text);
 
             Connections.DataConnections.DataConnectionClass.PackageConnClass.AddPackage(newPackage);
         }

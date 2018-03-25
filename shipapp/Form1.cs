@@ -36,6 +36,7 @@ namespace shipapp
                 DataConnectionClass.EmployeeConn.GetAllAfaculty();
                 DataConnectionClass.VendorConn.GetVendorList();
                 DataConnectionClass.UserConn.GetManyUsers();
+                DataConnectionClass.PackageConnClass.GetPackageList();
             }
             catch (Exception)
             {

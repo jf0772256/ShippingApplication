@@ -25,7 +25,6 @@ namespace shipapp
     public partial class Receiving : Form
     {
         //Class levle variables
-        private BindingList<Models.Package> packages;
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
         private ListSortDirection[] ColumnDirection { get; set; }
 
@@ -74,7 +73,6 @@ namespace shipapp
         private void Receiving_Load(object sender, EventArgs e)
         {
             this.CenterToParent();
-            packages = new BindingList<Package>();
             GetPackages();
         }
 
@@ -140,7 +138,7 @@ namespace shipapp
 
         public void GetPackages()
         {
-            dataGridPackages.DataSource = packages;
+            dataGridPackages.DataSource = DataConnectionClass.DataLists.Packages;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
