@@ -50,15 +50,26 @@ namespace shipapp
         /// Grab the data from the form, check for errors, create a package entity, and add it to the database
         /// </summary>
         public void AddPackageToDB()
-        {
+        {   
+            //// Read in correctly from combo boxes
+            //newPackage.PONumber = txtPO.Text;
+            //newPackage.PackageCarrier = cmboCarrier.SelectedItem.ToString();
+            //newPackage.PackageVendor = cmboVendor.SelectedText.ToString();
+            //newPackage.PackageDeliveredTo = cmboRecipiant.SelectedText.ToString();
+            //newPackage.PackageTrackingNumber = txtTracking.Text;
+            //newPackage.PackageDeleveredBy = cmboDelBy.SelectedText.ToString();
+            //newPackage.PackageSignedForBy = cmboSignedBy.SelectedText.ToString();
+            //newPackage.PackageDeliveredDate = txtDelDate.SelectedText.ToString();
+
+            // Test expressions 
             newPackage.PONumber = txtPO.Text;
-            newPackage.PackageCarrier = cmboCarrier.SelectedText;
-            newPackage.PackageVendor = cmboVendor.SelectedText;
-            newPackage.PackageDeliveredTo = cmboRecipiant.SelectedText;
+            newPackage.PackageCarrier = cmboCarrier.Text;
+            newPackage.PackageVendor = cmboVendor.Text;
+            newPackage.PackageDeliveredTo = cmboRecipiant.Text;
             newPackage.PackageTrackingNumber = txtTracking.Text;
-            newPackage.PackageDeleveredBy = cmboDelBy.SelectedText;
-            newPackage.PackageSignedForBy = cmboSignedBy.SelectedText;
-            newPackage.PackageDeliveredDate = txtDelDate.SelectedText;
+            newPackage.PackageDeleveredBy = cmboDelBy.Text;
+            newPackage.PackageSignedForBy = cmboSignedBy.Text;
+            newPackage.PackageDeliveredDate = txtDelDate.Text;
 
             Connections.DataConnections.DataConnectionClass.PackageConnClass.AddPackage(newPackage);
         }
