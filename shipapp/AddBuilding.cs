@@ -42,5 +42,10 @@ namespace shipapp
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
+
+        private void AddBuilding_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

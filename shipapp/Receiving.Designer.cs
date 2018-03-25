@@ -132,6 +132,7 @@
             this.pictureBox3.TabIndex = 5;
             this.pictureBox3.TabStop = false;
             this.toolTip1.SetToolTip(this.pictureBox3, "Delete Package");
+            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // pictureBox2
             // 

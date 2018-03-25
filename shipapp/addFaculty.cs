@@ -112,5 +112,10 @@ namespace shipapp
             txtId1.BackColor = Color.White;
             txtId2.BackColor = Color.White;
         }
+
+        private void AddFaculty_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

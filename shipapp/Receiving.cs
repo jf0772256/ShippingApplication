@@ -131,19 +131,41 @@ namespace shipapp
 
         }
 
-        public void DeletePackage()
-        {
-            
-        }
-
         public void GetPackages()
         {
             dataGridPackages.DataSource = DataConnectionClass.DataLists.Packages;
         }
 
+        /// <summary>
+        /// When the user presses this button, open the addpackage form and add a package to the DB
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
             AddPackageToGrid();
+        }
+
+        /// <summary>
+        /// When the user presses the button, delete the selected row
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            DeletePackage();
+        }
+
+        /// <summary>
+        /// Delete a package from the database
+        /// </summary>
+        public void DeletePackage()
+        {
+            //
+            Package packageToBeRemoved = new Package();
+            packageToBeRemoved =  DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells["PackageId"]));
+            Connections.DataConnections.Classes.PackageConnectionClass.DeletePackage(packageToBeRemoved);
+
         }
     }
 }
