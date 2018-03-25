@@ -547,14 +547,24 @@ namespace shipapp.Connections
                     int cnt = 0;
                     foreach (Note note in v)
                     {
-                        cmd.CommandText += "(?,?),";
-                        cmd.Parameters.AddRange(new OdbcParameter[]
+                        if (note.Note_Id > 0)
                         {
+                            cmd.CommandText += "(?,?),";
+                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            {
                             new OdbcParameter("pid" + cnt,personID),
                             new OdbcParameter("value"+cnt,note.Note_Value)
-                        });
+                            });
+                        }
                     }
-                    cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1) + ";";
+                    if (cmd.CommandText.Length > 43)
+                    {
+                        cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1) + ";";
+                    }
+                    else
+                    {
+                        return;
+                    }
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -611,18 +621,7 @@ namespace shipapp.Connections
                     {
                         throw new SQLHelperException("You must have selected a valid database type. set this value and try again.");
                     }
-                    foreach (Note note in v.Notes)
-                    {
-                        if (note.Note_Id <= 0)
-                        {
-                            cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?);";
-                            cmd.Parameters.AddRange(new OdbcParameter[]
-                            {
-                                new OdbcParameter("pid",v.Person_Id),
-                                new OdbcParameter("note_val",note.Note_Value)
-                            });
-                        }
-                    }
+                    PWrite(v.Notes, v.Person_Id);
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -659,16 +658,7 @@ namespace shipapp.Connections
                                 new OdbcParameter("vendorID",v.VendorId)
                             }
                         );
-                    foreach (Note note in v.Notes)
-                    {
-                        if (note.Note_Id == 0)
-                        {
-                            //new note was added
-                            cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?);";
-                            cmd.Parameters.AddWithValue("personId", v.Vendor_PersonId);
-                            cmd.Parameters.AddWithValue("note_text", note.Note_Value);
-                        }
-                    }
+                    PWrite(v.Notes, v.Vendor_PersonId);
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -729,18 +719,7 @@ namespace shipapp.Connections
                         new OdbcParameter("personid",value.Carrier_PersonId),
                         new OdbcParameter("carrierid",value.CarrierId)
                     });
-                    foreach (Note note in value.Notes)
-                    {
-                        if (note.Note_Id <= 0)
-                        {
-                            cmd.CommandText += "INSERT INTO notes (note_id,not_value)VALUES(?,?);";
-                            cmd.Parameters.AddRange(new OdbcParameter[]
-                            {
-                                new OdbcParameter("id",value.Carrier_PersonId),
-                                new OdbcParameter("text",note.Note_Value)
-                            });
-                        }
-                    }
+                    PWrite(value.Notes, value.Carrier_PersonId);
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -774,18 +753,7 @@ namespace shipapp.Connections
                         new OdbcParameter("person_id",f.Faculty_PersonId),
                         new OdbcParameter("empl_id", f.Id)
                     });
-                    foreach (Note note in f.Notes)
-                    {
-                        if (note.Note_Id <= 0)
-                        {
-                            cmd.CommandText += "INSERT INTO notes(note_value,note_id)VALUES(?,?);";
-                            cmd.Parameters.AddRange(new OdbcParameter[]
-                            {
-                                new OdbcParameter("note",note.Note_Value),
-                                new OdbcParameter("person_id",f.Faculty_PersonId)
-                            });
-                        }
-                    }
+                    PWrite(f.Notes, f.Faculty_PersonId);
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -811,7 +779,7 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "UPDATE packages SET package_po_id=?,package_carrier_id=?,package_vendor_id=?,package_deliv_to_id=?,package_devliv_by_id=?,package_signed_for_by_id=?,package_tracking_number=?,package_received_date=?,package_deliver_date=?,package_status=? WHERE package_id = ?";
+                    cmd.CommandText = "UPDATE packages SET package_po=?,package_carrier=?,package_vendor=?,package_deliv_to=?,package_deliv_by=?,package_signed_for_by=?,package_tracking_number=?,package_receive_date=?,package_deliver_date=?,package_status=? WHERE package_id = ?";
                     //most fields can be null so we need to check and make sure that if a field is empty that we set  ids to 0 or null strings
                     //ids all will be 0 for null, strings should roll to null
                     cmd.Parameters.AddRange(new OdbcParameter[]
