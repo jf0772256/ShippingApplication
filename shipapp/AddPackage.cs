@@ -18,50 +18,144 @@ namespace shipapp
         // Class level variabels
         private Models.Package newPackage;
 
+        #region form basic
         public AddPackage()
         {
             InitializeComponent();
         }
+
 
         private void AddPackage_Load(object sender, EventArgs e)
         {
             // Instatiate Package
             newPackage = new Models.Package();
         }
+        #endregion
 
+        #region Form Add
+        /// <summary>
+        /// When the button is clicked attempt to add a package to the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnReceive_Click(object sender, EventArgs e)
         {
             // Reset errors messages
             ResetError();
 
-            // Check that data is correct and then write the entity to the database
+            // Check the data, then write the package to the database
             if (CheckData())
             {
                 AddPackageToDB();
                 this.Close();
             }
-            else
-            {
-                MessageBox.Show("Please insure all fields have required and correct data!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
+  
         /// <summary>
         /// Grab the data from the form, check for errors, create a package entity, and add it to the database
         /// </summary>
         public void AddPackageToDB()
-        {   
-            //// Read in correctly from combo boxes
-            //newPackage.PONumber = txtPO.Text;
-            //newPackage.PackageCarrier = cmboCarrier.SelectedItem.ToString();
-            //newPackage.PackageVendor = cmboVendor.SelectedText.ToString();
-            //newPackage.PackageDeliveredTo = cmboRecipiant.SelectedText.ToString();
-            //newPackage.PackageTrackingNumber = txtTracking.Text;
-            //newPackage.PackageDeleveredBy = cmboDelBy.SelectedText.ToString();
-            //newPackage.PackageSignedForBy = cmboSignedBy.SelectedText.ToString();
-            //newPackage.PackageDeliveredDate = txtDelDate.SelectedText.ToString();
+        {
+            // Create Package
+            FillPackage();
 
-            // Test expressions 
+            // Write Package
+            Connections.DataConnections.DataConnectionClass.PackageConnClass.AddPackage(newPackage);
+        }
+        #endregion
+
+        #region Data Integrity
+        /// <summary>
+        /// Reset the error warnings
+        /// </summary>
+        public void ResetError()
+        {
+            cmboCarrier.BackColor = Color.White;
+            cmboVendor.BackColor = Color.White;
+            cmboRecipiant.BackColor = Color.White;
+            txtTracking.BackColor = Color.White;
+            cmboDelBy.BackColor = Color.White;
+            cmboSignedBy.BackColor = Color.White;
+            txtPersonId.BackColor = Color.White;
+        }
+
+        /// <summary>
+        /// Check that correct and neccesary data is enetered to the form
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckData()
+        {
+            // Method level variables
+            bool pass = true;
+            string errorMsg = "Unable to add package.\r\nPlease insure the following items are filled with correct data.\r\n";
+
+            // Check that a carrier is selected
+            if (cmboCarrier.Text == "" || cmboCarrier.Text == null)
+            {
+                pass = false;
+                cmboCarrier.BackColor = Color.LightPink;
+                errorMsg += "\t-Must select a carrier.\r\n";
+            }
+
+            // Check that a vendor is selected
+            if (cmboVendor.Text == "" || cmboVendor.Text == null)
+            {
+                pass = false;
+                cmboVendor.BackColor = Color.LightPink;
+                errorMsg += "\t-Must slect a vendor.\r\n";
+            }
+
+            // Check that a recipiant is selected
+            if (cmboRecipiant.Text == "" || cmboRecipiant.Text == null)
+            {
+                pass = false;
+                cmboRecipiant.BackColor = Color.LightPink;
+                errorMsg += "\t-Must select a recipiant.\r\n";
+            }
+
+            // Check that the package has a tracking number
+            if (txtTracking.Text == "" || txtTracking.Text == null)
+            {
+                pass = false;
+                txtTracking.BackColor = Color.LightPink;
+                errorMsg += "\t-Must include a tracking number.\r\n";
+            }
+
+            // Check that a deliveiry person is selected
+            if (cmboDelBy.Text == "" || cmboDelBy.Text == null)
+            {
+                pass = false;
+                cmboDelBy.BackColor = Color.LightPink;
+                errorMsg += "\t-Must select a delivery person.\r\n";
+            }
+            
+            // Check that a person ID has been assigned
+            if (txtPersonId.Text == "" || txtPersonId == null)
+            {
+                pass = false;
+                cmboSignedBy.BackColor = Color.LightPink;
+                errorMsg += "\t-Must include a person ID.\r\n";
+            }
+
+            // If the data is not correct alert the user with a message
+            if (!pass)
+            {
+                MessageBox.Show(errorMsg, "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+            return pass;
+        }
+
+
+        /// <summary>
+        /// Fill the packge entity with data
+        /// </summary>
+        /// <returns></returns>
+        public void FillPackage()
+        {
+            // Create packagae
             newPackage.PONumber = txtPO.Text;
             newPackage.PackageCarrier = cmboCarrier.Text;
             newPackage.PackageVendor = cmboVendor.Text;
@@ -73,48 +167,7 @@ namespace shipapp
             newPackage.PackageDeliveredDate = txtDelDate.Text;
             newPackage.Package_PersonId = txtPersonId.Text;
             newPackage.Status = (Models.Package.DeliveryStatus)Convert.ToInt32(cmboStatus.Text);
-
-            Connections.DataConnections.DataConnectionClass.PackageConnClass.AddPackage(newPackage);
         }
-
-        /// <summary>
-        /// Reset the error warnings
-        /// </summary>
-        public void ResetError()
-        {
-
-        }
-
-        /// <summary>
-        /// Check that correct and neccesary data is enetered to the form
-        /// </summary>
-        /// <returns></returns>
-        public bool CheckData()
-        {
-            // Method level variables
-            bool pass = true;
-
-            return pass;
-        }
-
-        /// <summary>
-        /// Fill the packge entity with data
-        /// </summary>
-        /// <returns></returns>
-        public void FillPackage()
-        {
-            if (txtPO.Text != "" && txtPO.Text != null)
-            {
-                //newPO.PONumber = txtPO.Text;
-                
-            }
-
-            if (cmboCarrier.Text != null && cmboCarrier.Text != "")
-            {
-                Models.Carrier newCarier = new Models.Carrier();
-                newCarier.CarrierName = cmboCarrier.Text;
-                //newPackage.PackageCarrier = newCarier;
-            }
-        }
+        #endregion
     }
 }
