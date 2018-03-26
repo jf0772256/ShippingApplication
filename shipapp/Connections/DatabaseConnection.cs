@@ -839,7 +839,7 @@ namespace shipapp.Connections
                     cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Person_Id);
                     cmd.CommandText += "DELETE FROM users WHERE user_id = ?;";
-                    cmd.Parameters.AddWithValue("uid", v.Id);
+                    cmd.Parameters.Add("uid", OdbcType.BigInt).Value=v.Id;
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -868,7 +868,7 @@ namespace shipapp.Connections
                     cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Faculty_PersonId);
                     cmd.CommandText += "DELETE FROM employees WHERE empl_id = ?;";
-                    cmd.Parameters.AddWithValue("uid", v.Id);
+                    cmd.Parameters.Add("uid", OdbcType.BigInt).Value = v.Id;
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -897,7 +897,7 @@ namespace shipapp.Connections
                     cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Vendor_PersonId);
                     cmd.CommandText += "DELETE FROM vendors WHERE vendor_id = ?;";
-                    cmd.Parameters.AddWithValue("uid", v.VendorId);
+                    cmd.Parameters.Add("uid", OdbcType.BigInt).Value = v.VendorId;
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -926,7 +926,7 @@ namespace shipapp.Connections
                     cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Carrier_PersonId);
                     cmd.CommandText += "DELETE FROM carriers WHERE carrier_id = ?;";
-                    cmd.Parameters.AddWithValue("uid", v.CarrierId);
+                    cmd.Parameters.Add("uid", OdbcType.BigInt).Value = v.CarrierId;
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -955,7 +955,7 @@ namespace shipapp.Connections
                     cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Package_PersonId);
                     cmd.CommandText += "DELETE FROM packages WHERE package_id = ?;";
-                    cmd.Parameters.AddWithValue("uid", v.PackageId);
+                    cmd.Parameters.Add("uid", OdbcType.BigInt).Value = v.PackageId;
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -982,7 +982,7 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
                     cmd.CommandText += "DELETE FROM buildings WHERE building_id = ?;";
-                    cmd.Parameters.AddWithValue("bid", v.BuildingId);
+                    cmd.Parameters.Add("bid", OdbcType.BigInt).Value = v.BuildingId;
                     try
                     {
                         cmd.ExecuteNonQuery();
