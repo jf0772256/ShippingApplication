@@ -1126,12 +1126,13 @@ namespace shipapp.Connections
         /// <summary>
         /// returns all users to dataconnection classes datalists class users binding list
         /// </summary>
-        protected void GetUserList()
+        protected SortableBindingList<User> GetUserList()
         {
-            DataConnectionClass.DataLists.UsersList.Clear();
+            //DataConnectionClass.DataLists.UsersList.Clear();
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;
+            SortableBindingList<User> usr = new SortableBindingList<User>();
 
             using (OdbcConnection c = new OdbcConnection())
             {
@@ -1159,11 +1160,11 @@ namespace shipapp.Connections
                                     Person_Id = reader[6].ToString()
                                 };
                                 rids.Add(Convert.ToInt64(reader[5].ToString()));
-                                DataConnectionClass.DataLists.UsersList.Add(u);
+                                usr.Add(u);
                             }
                         }
                         int cnt = 0;
-                        foreach (User u in DataConnectionClass.DataLists.UsersList)
+                        foreach (User u in usr)
                         {
                             cmd.Parameters.Clear();
                             cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?;";
@@ -1172,7 +1173,7 @@ namespace shipapp.Connections
                             {
                                 while (reader.Read())
                                 {
-                                    u.Level = new Models.ModelData.Role()
+                                    u.Level = new Role()
                                     {
                                         Role_id = Convert.ToInt64(reader[0].ToString()),
                                         Role_Title = reader[1].ToString()
@@ -1201,11 +1202,11 @@ namespace shipapp.Connections
                                     Person_Id = reader[6].ToString()
                                 };
                                 rids.Add(Convert.ToInt64(reader[5].ToString()));
-                                DataConnectionClass.DataLists.UsersList.Add(u);
+                                usr.Add(u);
                             }
                         }
                         int cnt = 0;
-                        foreach (User u in DataConnectionClass.DataLists.UsersList)
+                        foreach (User u in usr)
                         {
                             cmd.Parameters.Clear();
                             cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?;";
@@ -1231,6 +1232,7 @@ namespace shipapp.Connections
                     }
                 }
             }
+            return usr;
         }
         /// <summary>
         /// Gets selected vendor from list by id
@@ -1266,11 +1268,12 @@ namespace shipapp.Connections
         /// <summary>
         /// Gets all vendors from the database
         /// </summary>
-        protected void GetVendorsList()
+        protected SortableBindingList<Vendors> GetVendorsList()
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;
+            SortableBindingList<Vendors> ven = new SortableBindingList<Vendors>();
             using (OdbcConnection c = new OdbcConnection())
             {
                 c.ConnectionString = ConnString;
@@ -1285,14 +1288,14 @@ namespace shipapp.Connections
                             Vendors v = new Vendors() { };
                             v.VendorId = Convert.ToInt64(reader[0].ToString());
                             v.VendorName = reader[1].ToString();
-                            DataConnectionClass.DataLists.Vendors.Add(v);
+                            ven.Add(v);
                         }
                     }
-                    foreach (Vendors vend in DataConnectionClass.DataLists.Vendors)
+                    foreach (Vendors vend in ven)
                     {
                         vend.Notes = GetNotesListById(vend.Vendor_PersonId);
                     }
-
+                    return ven;
                 }
             }
         }
@@ -1328,7 +1331,7 @@ namespace shipapp.Connections
                 }
             }
         }
-        protected void Get_Carrier_List()
+        protected SortableBindingList<Carrier> Get_Carrier_List()
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
@@ -1358,7 +1361,7 @@ namespace shipapp.Connections
                     {
                         carrier.Notes = GetNotesListById(carrier.Carrier_PersonId);
                     }
-                    DataConnectionClass.DataLists.CarriersList = carList;
+                    return carList;
                 }
             }
         }
@@ -1397,7 +1400,7 @@ namespace shipapp.Connections
                 }
             }
         }
-        protected void Get_Faculty_List()
+        protected SortableBindingList<Faculty> Get_Faculty_List()
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
@@ -1430,7 +1433,7 @@ namespace shipapp.Connections
                         fac.Building_Name = (GetBuilding(fac.Building_Id).ToString());
                         fac.Notes = GetNotesListById(fac.Faculty_PersonId);
                     }
-                    DataConnectionClass.DataLists.FacultyList = f;
+                    return f;
                 }
             }
         }
@@ -1473,11 +1476,12 @@ namespace shipapp.Connections
                 }
             }
         }
-        protected void Get_Package_List()
+        protected SortableBindingList<Package> Get_Package_List()
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;
+            SortableBindingList<Package> pkg = new SortableBindingList<Package>();
             using (OdbcConnection c = new OdbcConnection())
             {
                 c.ConnectionString = ConnString;
@@ -1504,17 +1508,18 @@ namespace shipapp.Connections
                                 Package_PersonId = reader["package_note_id"].ToString(),
                                 Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString())
                             };
-                            DataConnectionClass.DataLists.Packages.Add(p);
+                            pkg.Add(p);
                         }
                     }
-                    foreach (Package pac in DataConnectionClass.DataLists.Packages)
+                    foreach (Package pac in pkg)
                     {
                         pac.Notes = GetNotesListById(pac.Package_PersonId);
                     }
+                    return pkg;
                 }
             }
         }
-        protected void Get_Building_List()
+        protected List<BuildingClass> Get_Building_List()
         {
             List<BuildingClass> bl = new List<BuildingClass>() { };
             ConnString = DataConnectionClass.ConnectionString;
@@ -1541,7 +1546,7 @@ namespace shipapp.Connections
                     }
                 }
             }
-            DataConnectionClass.DataLists.BuildingNames = bl;
+            return bl;
         }
         #endregion
         #region private gets

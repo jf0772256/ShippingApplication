@@ -10,9 +10,9 @@ namespace shipapp.Connections.DataConnections.Classes
     class BuildingConnClass : DatabaseConnection
     {
         public BuildingConnClass():base() { }
-        public void GetBuildingList()
+        public async void GetBuildingList()
         {
-            Get_Building_List();
+            DataConnectionClass.DataLists.BuildingNames = await Task.Run(()=> Get_Building_List());
         }
         public void WriteBuilding(BuildingClass building)
         {

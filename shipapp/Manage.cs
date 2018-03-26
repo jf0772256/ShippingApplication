@@ -121,7 +121,7 @@ namespace shipapp
         {
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
-            DataConnectionClass.VendorConn.GetVendorList();
+            //DataConnectionClass.VendorConn.GetVendorList();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             dataGridView1.DataSource = DataConnectionClass.DataLists.Vendors;
         }
@@ -230,7 +230,7 @@ namespace shipapp
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-            //DataConnectionClass.UserConn.GetManyUsers();
+            DataConnectionClass.UserConn.GetManyUsers();
             dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
             //change header text for roles
             dataGridView1.Columns["Level"].HeaderText = "Role";

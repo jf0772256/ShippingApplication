@@ -19,7 +19,7 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public async void GetVendorList()
         {
-            await Task.Run(()=>GetVendorsList());
+            DataConnectionClass.DataLists.Vendors = await Task.Run(()=>GetVendorsList());
         }
         public void AddVendor(Vendors value)
         {

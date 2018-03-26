@@ -34,7 +34,7 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public async void GetAllAfaculty()
         {
-            await Task.Run(() => Get_Faculty_List());
+           DataConnectionClass.DataLists.FacultyList = await Task.Run(() => Get_Faculty_List());
         }
         public void DeleteFaculty(Faculty f)
         {

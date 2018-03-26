@@ -30,7 +30,7 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public async void GetManyUsers()
         {
-            await Task.Run(()=>GetUserList());
+            DataConnectionClass.DataLists.UsersList = await Task.Run(()=>GetUserList());
         }
         public bool CheckAuth(User tester)
         {

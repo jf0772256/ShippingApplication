@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace shipapp.Connections.HelperClasses
 {
-    class SortableBindingList<T> : BindingList<T> where T : class
+    internal class SortableBindingList<T> : BindingList<T> where T : class
     {
         private bool _isSorted;
         private ListSortDirection _sortDirection = ListSortDirection.Ascending;

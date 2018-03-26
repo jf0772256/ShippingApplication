@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using shipapp.Models;
 using shipapp.Models.ModelData;
+using shipapp.Connections.HelperClasses;
 
 namespace shipapp.Connections.DataConnections.Classes
 {
@@ -25,7 +26,7 @@ namespace shipapp.Connections.DataConnections.Classes
         /// </summary>
         public async void GetPackageList()
         {
-            await Task.Run(()=>Get_Package_List());
+            DataConnectionClass.DataLists.Packages = await Task.Run(()=>Get_Package_List());
         }
         /// <summary>
         /// Adds a package to database
