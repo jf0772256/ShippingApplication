@@ -14,6 +14,10 @@ using shipapp.Connections.DataConnections;
 
 namespace shipapp
 {
+    /// <summary>
+    /// This class will allow the program to track and update table information
+    /// Note 0: THe class keeps track of which table is active by testing the variable current table
+    /// </summary>
     public partial class Manage : Form
     {
         // Class level variables
@@ -287,6 +291,56 @@ namespace shipapp
         private void btnOther_Click_1(object sender, EventArgs e)
         {
             currentTable = 6;
+        }
+
+
+        /// <summary>
+        /// Delete an object from the designated table
+        /// </summary>
+        public void DeleteEntity()
+        {
+            // Use the proper delete for the table
+            if (currentTable == 1)// Delete User
+            {
+                //
+                User userToBeDeleted = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.UserConn.DeleteUser(userToBeDeleted); 
+            }
+            else if (currentTable == 2)
+            {
+
+            }
+            else if (currentTable == 3)
+            {
+
+            }
+            else if (currentTable == 4)
+            {
+
+            }
+            else if (currentTable == 5)
+            {
+
+            }
+            else if (currentTable == 6)
+            {
+
+            }
+            else// Provide an error message if no table is selected
+            {
+                MessageBox.Show("You must select a table before you can delete an item.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        /// <summary>
+        /// When this event fires, delete the currently selected entity from the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pcBxDelete_Click(object sender, EventArgs e)
+        {
+            DeleteEntity();
         }
     }
 }
