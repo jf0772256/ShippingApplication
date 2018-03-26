@@ -162,7 +162,7 @@ namespace shipapp
         public void DeletePackage()
         {
             //
-            Package packageToBeRemoved = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells["PackageId"]));
+            Package packageToBeRemoved = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0]));
             DataConnectionClass.PackageConnClass.DeletePackage(packageToBeRemoved);
         }
     }
