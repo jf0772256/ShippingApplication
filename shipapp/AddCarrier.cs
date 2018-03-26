@@ -24,6 +24,10 @@ namespace shipapp
         /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
+
+            /***
+             * TODO add carrier, add carrier to db, add carrier directly to data list for carrier
+             **/
             this.Close();
         }
     }

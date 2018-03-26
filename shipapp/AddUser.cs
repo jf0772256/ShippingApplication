@@ -54,7 +54,7 @@ namespace shipapp
 
                 // Write the data to the DB
                 Connections.DataConnections.DataConnectionClass.UserConn.Write1User(newUser);
-
+                Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Add(newUser);
                 this.Close();
             }
             else

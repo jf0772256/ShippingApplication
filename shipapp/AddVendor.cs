@@ -28,6 +28,9 @@ namespace shipapp
 
             if (ValidateData())
             {
+                /***
+                 * TODO add vendor, add vendor to db, add vendor directly to data list for vendors
+                 **/
                 this.Close();
             }
             else

@@ -62,6 +62,7 @@ namespace shipapp
 
             // Write Package
             Connections.DataConnections.DataConnectionClass.PackageConnClass.AddPackage(newPackage);
+            Connections.DataConnections.DataConnectionClass.DataLists.Packages.Add(newPackage);
         }
         #endregion
 

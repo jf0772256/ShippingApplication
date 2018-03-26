@@ -57,7 +57,7 @@ namespace shipapp
                 NewFaculty.RoomNumber = textBox1.Text;
                 // Add to DB
                 Connections.DataConnections.DataConnectionClass.EmployeeConn.AddFaculty(NewFaculty);
-
+                Connections.DataConnections.DataConnectionClass.DataLists.FacultyList.Add(NewFaculty);
                 this.Close();
             }
             else

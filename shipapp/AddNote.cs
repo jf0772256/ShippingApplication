@@ -24,7 +24,9 @@ namespace shipapp
         /// <param name="e"></param>
         private void btnName_Click(object sender, EventArgs e)
         {
-
+            /***
+             * TODO add note to enity then add note to list with in entity datalist for the perticular enitity
+             **/
         }
     }
 }
