@@ -114,8 +114,9 @@ namespace shipapp
         #region Table Buttons
         private void btnUsers_Click(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
+            dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
+            dataGridView1.Update();
         }
         private void btnVendors_Click(object sender, EventArgs e)
         {
@@ -179,6 +180,7 @@ namespace shipapp
                 {
                     dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.UsersList[i].Notes.Count.ToString();
                 }
+                dataGridView1.Update();
             }
             else if (currentTable == 2)
             {
@@ -243,6 +245,7 @@ namespace shipapp
                 dataGridView1.Rows[i].Cells["Level"].Value = DataConnectionClass.DataLists.UsersList[i].Level.ToString();
                 dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.UsersList[i].Notes.Count.ToString();
             }
+            dataGridView1.Update();
         }
         private void btnVendors_Click_1(object sender, EventArgs e)
         {

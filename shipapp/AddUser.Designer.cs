@@ -34,8 +34,8 @@
             this.txtFirstName = new System.Windows.Forms.TextBox();
             this.lbl1 = new System.Windows.Forms.Label();
             this.txtLastName = new System.Windows.Forms.TextBox();
-            this.txtLevel = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.lblLevel = new System.Windows.Forms.Label();
+            this.txtLevel = new System.Windows.Forms.TextBox();
             this.lbl2 = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.lbl3 = new System.Windows.Forms.Label();
@@ -97,22 +97,22 @@
             this.txtLastName.Size = new System.Drawing.Size(100, 22);
             this.txtLastName.TabIndex = 4;
             // 
+            // lblLevel
+            // 
+            this.lblLevel.AutoSize = true;
+            this.lblLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLevel.Location = new System.Drawing.Point(12, 93);
+            this.lblLevel.Name = "lblLevel";
+            this.lblLevel.Size = new System.Drawing.Size(46, 16);
+            this.lblLevel.TabIndex = 7;
+            this.lblLevel.Text = "Level";
+            // 
             // txtLevel
             // 
-            this.txtLevel.AutoSize = true;
-            this.txtLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLevel.Location = new System.Drawing.Point(12, 93);
+            this.txtLevel.Location = new System.Drawing.Point(95, 90);
             this.txtLevel.Name = "txtLevel";
-            this.txtLevel.Size = new System.Drawing.Size(46, 16);
-            this.txtLevel.TabIndex = 7;
-            this.txtLevel.Text = "Level";
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(95, 90);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 22);
-            this.textBox4.TabIndex = 6;
+            this.txtLevel.Size = new System.Drawing.Size(100, 22);
+            this.txtLevel.TabIndex = 6;
             // 
             // lbl2
             // 
@@ -189,8 +189,8 @@
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.lbl2);
             this.Controls.Add(this.txtUsername);
+            this.Controls.Add(this.lblLevel);
             this.Controls.Add(this.txtLevel);
-            this.Controls.Add(this.textBox4);
             this.Controls.Add(this.lbl1);
             this.Controls.Add(this.txtLastName);
             this.Controls.Add(this.label2);
@@ -215,8 +215,8 @@
         private System.Windows.Forms.TextBox txtFirstName;
         private System.Windows.Forms.Label lbl1;
         private System.Windows.Forms.TextBox txtLastName;
-        private System.Windows.Forms.Label txtLevel;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Label lblLevel;
+        private System.Windows.Forms.TextBox txtLevel;
         private System.Windows.Forms.Label lbl2;
         private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.Label lbl3;

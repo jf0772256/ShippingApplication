@@ -47,14 +47,14 @@ namespace shipapp
                 newUser.Id = long.Parse(txtId.Text);
                 newUser.FirstName = txtFirstName.Text;
                 newUser.LastName = txtLastName.Text;
-                newUser.Level = new Models.ModelData.Role() { Role_id = 1 };
+                newUser.Level = new Models.ModelData.Role() { Role_id = Convert.ToInt64(txtLevel.Text)};
                 newUser.Username = txtUsername.Text;
                 newUser.PassWord = txtPassword.Text;
                 newUser.Person_Id = txtBoxPersonId.Text;
 
                 // Write the data to the DB
                 Connections.DataConnections.DataConnectionClass.UserConn.Write1User(newUser);
-                Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Add(newUser);
+                Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Add(Connections.DataConnections.DataConnectionClass.UserConn.Get1User(newUser.Username));
                 this.Close();
             }
             else
@@ -71,7 +71,7 @@ namespace shipapp
             txtFirstName.BackColor = Color.White;
             txtLastName.BackColor = Color.White;
             txtId.BackColor = Color.White;
-            txtLevel.BackColor = Color.White;
+            lblLevel.BackColor = Color.White;
             txtUsername.BackColor = Color.White;
             txtPassword.BackColor = Color.White;
             txtBoxPersonId.BackColor = Color.White;
@@ -106,10 +106,10 @@ namespace shipapp
                 txtLastName.BackColor = Color.LightPink;
             }
 
-            if (txtLevel.Text == "")
+            if (lblLevel.Text == "")
             {
                 pass = false;
-                txtLevel.BackColor = Color.LightPink;
+                lblLevel.BackColor = Color.LightPink;
             }
 
             if (txtUsername.Text == "")
