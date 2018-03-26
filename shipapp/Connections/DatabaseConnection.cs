@@ -836,9 +836,9 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "DELETE * FROM notes WHERE note_id = ?;";
+                    cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Person_Id);
-                    cmd.CommandText += "DELETE * FROM users WHERE user_id = ?;";
+                    cmd.CommandText += "DELETE FROM users WHERE user_id = ?;";
                     cmd.Parameters.AddWithValue("uid", v.Id);
                     try
                     {
@@ -865,9 +865,9 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "DELETE * FROM notes WHERE note_id = ?;";
+                    cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Faculty_PersonId);
-                    cmd.CommandText += "DELETE * FROM employees WHERE empl_id = ?;";
+                    cmd.CommandText += "DELETE FROM employees WHERE empl_id = ?;";
                     cmd.Parameters.AddWithValue("uid", v.Id);
                     try
                     {
@@ -894,9 +894,9 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "DELETE * FROM notes WHERE note_id = ?;";
+                    cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Vendor_PersonId);
-                    cmd.CommandText += "DELETE * FROM vendors WHERE vendor_id = ?;";
+                    cmd.CommandText += "DELETE FROM vendors WHERE vendor_id = ?;";
                     cmd.Parameters.AddWithValue("uid", v.VendorId);
                     try
                     {
@@ -923,9 +923,9 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "DELETE * FROM notes WHERE note_id = ?;";
+                    cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Carrier_PersonId);
-                    cmd.CommandText += "DELETE * FROM carriers WHERE carrier_id = ?;";
+                    cmd.CommandText += "DELETE FROM carriers WHERE carrier_id = ?;";
                     cmd.Parameters.AddWithValue("uid", v.CarrierId);
                     try
                     {
@@ -952,9 +952,9 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "DELETE * FROM notes WHERE note_id = ?;";
+                    cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Package_PersonId);
-                    cmd.CommandText += "DELETE * FROM packages WHERE package_id = ?;";
+                    cmd.CommandText += "DELETE FROM packages WHERE package_id = ?;";
                     cmd.Parameters.AddWithValue("uid", v.PackageId);
                     try
                     {
@@ -981,7 +981,7 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText += "DELETE * FROM buildings WHERE building_id = ?;";
+                    cmd.CommandText += "DELETE FROM buildings WHERE building_id = ?;";
                     cmd.Parameters.AddWithValue("bid", v.BuildingId);
                     try
                     {
