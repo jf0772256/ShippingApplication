@@ -300,15 +300,17 @@ namespace shipapp
         public void DeleteEntity()
         {
             // Use the proper delete for the table
-            if (currentTable == 1)// Delete User
+            if (currentTable == 1)
             {
-                //
+                // Delete selected user
                 User userToBeDeleted = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
                 DataConnectionClass.UserConn.DeleteUser(userToBeDeleted); 
             }
             else if (currentTable == 2)
             {
-
+                // Delete selected vendor
+                Vendors vendorToBeDeleted = DataConnectionClass.DataLists.Vendors.FirstOrDefault(vid => vid.VendorId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.VendorConn.DeleteVendor(vendorToBeDeleted);
             }
             else if (currentTable == 3)
             {

@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace shipapp
 {
+    /// <summary>
+    /// This class will allow the users to add edit users
+    /// </summary>
     public partial class AddVendor : Form
     {
         public AddVendor()
@@ -28,9 +31,7 @@ namespace shipapp
 
             if (ValidateData())
             {
-                /***
-                 * TODO add vendor, add vendor to db, add vendor directly to data list for vendors
-                 **/
+                AddVendorToDB();
                 this.Close();
             }
             else
@@ -44,7 +45,9 @@ namespace shipapp
         /// </summary>
         private void ResetError()
         {
-           
+            txtId.BackColor = Color.White;
+            txtName.BackColor = Color.White;
+            txtPersonId.BackColor = Color.White;
         }
 
         /// <summary>
@@ -55,10 +58,56 @@ namespace shipapp
         {
             // Method level variables
             bool pass = true;
+            string errorMsg = "Check that all fields have correct data.\r\n";
 
             // Test data
+            if (txtId.Text == "" || txtId.Text == null)
+            {
+                txtId.BackColor = Color.LightPink;
+                pass = false;
+                errorMsg += "\t-Must provide a ID.\r\n";
+            }
+
+            if (txtName.Text == "" || txtName.Text == null)
+            {
+                txtId.BackColor = Color.LightPink;
+                pass = false;
+                errorMsg += "\t-Must provide a name.\r\n";
+            }
+
+            if (txtPersonId.Text == "" || txtPersonId.Text == null)
+            {
+                txtPersonId.BackColor = Color.LightPink;
+                pass = false;
+                errorMsg += "\t-Must provide a PersonId.\r\n";
+            }
+
+            // If pass fails provide the user with a n error message
+            if (!pass)
+            {
+                MessageBox.Show(errorMsg, "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             return pass;
+        }
+
+
+        /// <summary>
+        /// Add vendor to the database
+        /// </summary>
+        public void AddVendorToDB()
+        {
+            // Create a vendor object
+            Models.Vendors vendorToBeAdded = new Models.Vendors();
+
+            // Fill vendor object
+            vendorToBeAdded.VendorId = long.Parse(txtId.Text);
+            vendorToBeAdded.VendorName = txtName.Text;
+            vendorToBeAdded.Vendor_PersonId = txtPersonId.Text;
+
+            // Write the data to the DB
+            Connections.DataConnections.DataConnectionClass.VendorConn.AddVendor(vendorToBeAdded);
+            Connections.DataConnections.DataConnectionClass.DataLists.Vendors.Add(Connections.DataConnections.DataConnectionClass.VendorConn.GetVendor(vendorToBeAdded.VendorId));
         }
     }
 }
