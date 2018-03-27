@@ -10,12 +10,26 @@ using System.Windows.Forms;
 
 namespace shipapp
 {
+    /// <summary>
+    /// Allow the addition and editing of buildings
+    /// </summary>
     public partial class AddBuilding : Form
     {
+        // Class level variables
+        private string message;
+
+
         public AddBuilding()
         {
             InitializeComponent();
         }
+
+
+        private void AddBuilding_Load(object sender, EventArgs e)
+        {
+
+        }
+
 
         /// <summary>
         /// When the user clicks this button it will check the data, add it to the DB, and close the form.
@@ -42,11 +56,6 @@ namespace shipapp
             Connections.DataConnections.DataConnectionClass.DataLists.BuildingNames.Add(building);
             this.DialogResult = DialogResult.OK;
             this.Close();
-        }
-
-        private void AddBuilding_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

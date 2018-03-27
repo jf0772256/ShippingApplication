@@ -15,20 +15,21 @@ namespace shipapp
     /// </summary>
     public partial class AddUser : Form
     {
+        // Class level variables
+        private string message;
+
+
         public AddUser()
         {
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void AddUser_Load(object sender, EventArgs e)
         {
 
         }
+
 
         /// <summary>
         /// When the user clicks this button validate the data and write it to the database
@@ -43,11 +44,33 @@ namespace shipapp
             // Test data before writing to the DB
             if (ValidateData())
             {
+                // Create usedr entity
                 Models.User newUser = new Models.User();
+
+                // Fill entity
                 newUser.Id = long.Parse(txtId.Text);
                 newUser.FirstName = txtFirstName.Text;
                 newUser.LastName = txtLastName.Text;
                 newUser.Level = new Models.ModelData.Role() { Role_id = Convert.ToInt64(txtLevel.Text)};
+                newUser.Username = txtUsername.Text;
+                newUser.PassWord = txtPassword.Text;
+                newUser.Person_Id = txtBoxPersonId.Text;
+
+                // Write the data to the DB
+                Connections.DataConnections.DataConnectionClass.UserConn.Write1User(newUser);
+                Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Add(Connections.DataConnections.DataConnectionClass.UserConn.Get1User(newUser.Username));
+                this.Close();
+            }
+            else if (ValidateData() && message == "EDIT")
+            {
+                // Create user entity
+                Models.User newUser = new Models.User();
+
+                // Fill entity
+                newUser.Id = long.Parse(txtId.Text);
+                newUser.FirstName = txtFirstName.Text;
+                newUser.LastName = txtLastName.Text;
+                newUser.Level = new Models.ModelData.Role() { Role_id = Convert.ToInt64(txtLevel.Text) };
                 newUser.Username = txtUsername.Text;
                 newUser.PassWord = txtPassword.Text;
                 newUser.Person_Id = txtBoxPersonId.Text;
@@ -63,6 +86,7 @@ namespace shipapp
             }
         }
 
+
         /// <summary>
         /// Reset the back color after errors
         /// </summary>
@@ -76,6 +100,7 @@ namespace shipapp
             txtPassword.BackColor = Color.White;
             txtBoxPersonId.BackColor = Color.White;
         }
+
 
         /// <summary>
         /// Validate the data

@@ -15,15 +15,21 @@ namespace shipapp
     /// </summary>
     public partial class AddVendor : Form
     {
+        // Class level variables
+        private string message;
+
+
         public AddVendor()
         {
             InitializeComponent();
         }
 
+
         private void AddVendor_Load(object sender, EventArgs e)
         {
 
         }
+
 
         /// <summary>
         /// Whene the user clicks this button it will check the data, add it to the DB, and close the form.

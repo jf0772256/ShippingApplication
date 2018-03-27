@@ -376,36 +376,37 @@ namespace shipapp
             if (currentTable == 1)
             {
                 // Edit user object
-                User userToBeDeleted = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                DataConnectionClass.UserConn.DeleteUser(userToBeDeleted);
+                User userToBeEdited = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.UserConn.Update1User(userToBeEdited);
             }
             else if (currentTable == 2)
             {
                 // Edit vendor object
-                Vendors vendorToBeDeleted = DataConnectionClass.DataLists.Vendors.FirstOrDefault(vid => vid.VendorId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                DataConnectionClass.VendorConn.DeleteVendor(vendorToBeDeleted);
+                Vendors vendorToBeEdited = DataConnectionClass.DataLists.Vendors.FirstOrDefault(vid => vid.VendorId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.VendorConn.UpdateVendor(vendorToBeEdited);
             }
             else if (currentTable == 3)
             {
                 // Edit faculty object
-                Faculty facultyToBeDeleted = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(fid => fid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                DataConnectionClass.EmployeeConn.DeleteFaculty(facultyToBeDeleted);
+                Faculty facultyToBeEdited = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(fid => fid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.EmployeeConn.UpdateFaculty(facultyToBeEdited);
             }
             else if (currentTable == 4)
             {
                 // Edit building object
-                BuildingClass buildingToBeDeleted = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(bid => bid.BuildingId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                DataConnectionClass.buildingConn.RemoveBuilding(buildingToBeDeleted);
+                BuildingClass buildingToBeEdited = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(bid => bid.BuildingId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.buildingConn.WriteBuilding(buildingToBeEdited);// TODO: Need edit option in connection class
             }
             else if (currentTable == 5)
             {
                 // Edit carrier object
-                Carrier carrierToBeDeleted = DataConnectionClass.DataLists.CarriersList.FirstOrDefault(cid => cid.CarrierId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                DataConnectionClass.CarrierConn.DeleteCarrier(carrierToBeDeleted);
+                Carrier carrierToBeEdited = DataConnectionClass.DataLists.CarriersList.FirstOrDefault(cid => cid.CarrierId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.CarrierConn.UpdateCarrier(carrierToBeEdited);
             }
             else if (currentTable == 6)
             {
                 // Edit other object
+                MessageBox.Show("This table is not setup yet", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {

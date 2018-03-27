@@ -18,6 +18,7 @@ namespace shipapp
     {
         // Class level variables
         private Faculty newFaculty;
+        private string message;
 
 
         internal Faculty NewFaculty

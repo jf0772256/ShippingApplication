@@ -15,6 +15,10 @@ namespace shipapp
     /// </summary>
     public partial class AddCarrier : Form
     {
+        // Class level variables
+        private string message;
+
+
         public AddCarrier()
         {
             InitializeComponent();
