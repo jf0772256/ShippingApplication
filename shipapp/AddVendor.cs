@@ -20,6 +20,11 @@ namespace shipapp
             InitializeComponent();
         }
 
+        private void AddVendor_Load(object sender, EventArgs e)
+        {
+
+        }
+
         /// <summary>
         /// Whene the user clicks this button it will check the data, add it to the DB, and close the form.
         /// </summary>
@@ -40,6 +45,7 @@ namespace shipapp
             }
         }
 
+
         /// <summary>
         /// Reset the back color after an error
         /// </summary>
@@ -48,6 +54,7 @@ namespace shipapp
             txtId.BackColor = Color.White;
             txtName.BackColor = Color.White;
         }
+
 
         /// <summary>
         /// Test the data before writing it to the database
@@ -99,11 +106,6 @@ namespace shipapp
             // Write the data to the DB
             Connections.DataConnections.DataConnectionClass.VendorConn.AddVendor(vendorToBeAdded);
             Connections.DataConnections.DataConnectionClass.DataLists.Vendors.Add(Connections.DataConnections.DataConnectionClass.VendorConn.GetVendor(vendorToBeAdded.VendorId));
-        }
-
-        private void AddVendor_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

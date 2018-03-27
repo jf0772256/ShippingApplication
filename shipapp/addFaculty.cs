@@ -18,11 +18,24 @@ namespace shipapp
     {
         // Class level variables
         private Faculty newFaculty;
+
+
         internal Faculty NewFaculty
         {
             get => newFaculty;
             set => newFaculty = value;
         }
+
+
+        private void AddFaculty_Load(object sender, EventArgs e)
+        {
+
+        }
+
+
+        /// <summary>
+        /// Add a fauctly to the database
+        /// </summary>
         public AddFaculty()
         {
             InitializeComponent();
@@ -30,10 +43,8 @@ namespace shipapp
             Connections.DataConnections.DataConnectionClass.buildingConn.GetBuildingList();
             Connections.DataConnections.DataConnectionClass.DataLists.BuildingNames.ForEach(b => comboBox1.Items.Add(b.BuildingLongName));
         }
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
 
-        }
+
         /// <summary>
         /// When the user clicks this button it will check the data, add it to the DB, and close the form.
         /// </summary>
@@ -55,6 +66,7 @@ namespace shipapp
                 NewFaculty.Building_Id = g.BuildingId;
                 NewFaculty.Building_Name = g.BuildingShortName;
                 NewFaculty.RoomNumber = textBox1.Text;
+                
                 // Add to DB
                 Connections.DataConnections.DataConnectionClass.EmployeeConn.AddFaculty(NewFaculty);
                 Connections.DataConnections.DataConnectionClass.DataLists.FacultyList.Add(NewFaculty);
@@ -65,6 +77,8 @@ namespace shipapp
                 MessageBox.Show("All fields must have correct data!", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
+
+
         /// <summary>
         /// Valiadate the data
         /// </summary>
@@ -100,8 +114,16 @@ namespace shipapp
                 txtId2.BackColor = Color.LightPink;
             }
 
+            //// TODO: add combobox selection checking
+            //if (comboBox1.SelectedItem )
+            //{
+
+            //}
+
             return pass;
         }
+
+
         /// <summary>
         /// Reset the backcolor after errors
         /// </summary>
@@ -111,11 +133,6 @@ namespace shipapp
             txtLastName.BackColor = Color.White;
             txtId1.BackColor = Color.White;
             txtId2.BackColor = Color.White;
-        }
-
-        private void AddFaculty_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

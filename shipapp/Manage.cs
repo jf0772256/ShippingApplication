@@ -304,26 +304,33 @@ namespace shipapp
             }
             else if (currentTable == 3)
             {
-
+                // Delete selected faculty
+                Faculty facultyToBeDeleted = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(fid => fid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.EmployeeConn.DeleteFaculty(facultyToBeDeleted);
             }
             else if (currentTable == 4)
             {
-
+                // Delete selected building
+                BuildingClass buildingToBeDeleted = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(bid => bid.BuildingId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.buildingConn.RemoveBuilding(buildingToBeDeleted);
             }
             else if (currentTable == 5)
             {
-
+                // Delete selected carrier
+                Carrier carrierToBeDeleted = DataConnectionClass.DataLists.CarriersList.FirstOrDefault(cid => cid.CarrierId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.CarrierConn.DeleteCarrier(carrierToBeDeleted);
             }
             else if (currentTable == 6)
             {
-
+                // TODO: 
+                MessageBox.Show("This button does not yet have a function", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             else// Provide an error message if no table is selected
             {
                 MessageBox.Show("You must select a table before you can delete an item.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
+
 
         /// <summary>
         /// When this event fires, delete the currently selected entity from the database
