@@ -17,20 +17,11 @@ namespace shipapp.Models
         /// </summary>
         public long VendorId { get; set; }
         /// <summary>
-        /// Identifyer in supplement tables, as string, max value 1000 bits and MUST be unique across all primary models
-        /// </summary>
-        public string Vendor_PersonId { get; set; }
-        /// <summary>
         /// Vendor Name as string
         /// </summary>
         public string VendorName { get; set; }
-        /// <summary>
-        /// Vendor Notes as List of Note
-        /// </summary>
-        public List<Note> Notes { get; set; }
         public Vendors()
         {
-            Notes = new List<Note>() { };
         }
     }
 }

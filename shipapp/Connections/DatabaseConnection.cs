@@ -333,17 +333,12 @@ namespace shipapp.Connections
                 c.ConnectionString = ConnString;
                 c.Open();
                 OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand())
+                using (OdbcCommand cmd = new OdbcCommand("",c,tr))
                 {
-                    cmd.CommandText = "INSERT INTO vendors(vendor_name,person_id)VALUES(?,?);";
+                    cmd.CommandText = "INSERT INTO vendors(vendor_name)VALUES(?);";
                     cmd.Parameters.AddRange(new OdbcParameter[]{
-                        new OdbcParameter("vend_name",v.VendorName),
-                        new OdbcParameter("person_id",v.Vendor_PersonId)
+                        new OdbcParameter("vend_name",v.VendorName)
                     });
-                    if (v.Notes.Count > 0)
-                    {
-                        PWrite(v.Notes, v.Vendor_PersonId);
-                    }
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -396,13 +391,11 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "INSERT INTO carriers (carrier_name,person_id)VALUES(?,?);";
+                    cmd.CommandText = "INSERT INTO carriers (carrier_name)VALUES(?);";
                     cmd.Parameters.AddRange(new OdbcParameter[]
                     {
-                        new OdbcParameter("carrierN",value.CarrierName),
-                        new OdbcParameter("personid",value.Carrier_PersonId)
+                        new OdbcParameter("carrierN",value.CarrierName)
                     });
-                    PWrite(value.Notes, value.Carrier_PersonId);
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -658,7 +651,6 @@ namespace shipapp.Connections
                                 new OdbcParameter("vendorID",v.VendorId)
                             }
                         );
-                    PWrite(v.Notes, v.Vendor_PersonId);
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -712,14 +704,12 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "UPDATE carriers SET carrier_name=? WHERE person_id = ? AND carrier_id =?;";
+                    cmd.CommandText = "UPDATE carriers SET carrier_name=? WHERE carrier_id =?;";
                     cmd.Parameters.AddRange(new OdbcParameter[]
                     {
                         new OdbcParameter("carrierN",value.CarrierName),
-                        new OdbcParameter("personid",value.Carrier_PersonId),
                         new OdbcParameter("carrierid",value.CarrierId)
                     });
-                    PWrite(value.Notes, value.Carrier_PersonId);
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -894,8 +884,6 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
-                    cmd.Parameters.AddWithValue("pid", v.Vendor_PersonId);
                     cmd.CommandText += "DELETE FROM vendors WHERE vendor_id = ?;";
                     cmd.Parameters.Add("uid", OdbcType.BigInt).Value = v.VendorId;
                     try
@@ -923,8 +911,6 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
-                    cmd.Parameters.AddWithValue("pid", v.Carrier_PersonId);
                     cmd.CommandText += "DELETE FROM carriers WHERE carrier_id = ?;";
                     cmd.Parameters.Add("uid", OdbcType.BigInt).Value = v.CarrierId;
                     try
