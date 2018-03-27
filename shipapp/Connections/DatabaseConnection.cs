@@ -335,7 +335,7 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand())
                 {
-                    cmd.CommandText = "INSERT INTO vendors(vendor_name,vendor_poc_name,person_id)VALUES(?,?,?);";
+                    cmd.CommandText = "INSERT INTO vendors(vendor_name,person_id)VALUES(?,?);";
                     cmd.Parameters.AddRange(new OdbcParameter[]{
                         new OdbcParameter("vend_name",v.VendorName),
                         new OdbcParameter("person_id",v.Vendor_PersonId)
