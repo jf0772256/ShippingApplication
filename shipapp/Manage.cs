@@ -260,11 +260,6 @@ namespace shipapp
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             //DataConnectionClass.VendorConn.GetVendorList();
             dataGridView1.DataSource = DataConnectionClass.DataLists.Vendors;
-            dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 9);
-            for (int i = 0; i < DataConnectionClass.DataLists.Vendors.Count; i++)
-            {
-                dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.Vendors[i].Notes.Count.ToString();
-            }
         }
         private void btnBuildings_Click_1(object sender, EventArgs e)
         {
@@ -282,11 +277,6 @@ namespace shipapp
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             //DataConnectionClass.CarrierConn.GetCarrierList();
             dataGridView1.DataSource = DataConnectionClass.DataLists.CarriersList;
-            dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 9);
-            for (int i = 0; i < DataConnectionClass.DataLists.CarriersList.Count; i++)
-            {
-                dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.CarriersList[i].Notes.Count.ToString();
-            }
         }
         private void btnOther_Click_1(object sender, EventArgs e)
         {

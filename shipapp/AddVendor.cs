@@ -103,7 +103,6 @@ namespace shipapp
             // Fill vendor object
             vendorToBeAdded.VendorId = long.Parse(txtId.Text);
             vendorToBeAdded.VendorName = txtName.Text;
-            vendorToBeAdded.Vendor_PersonId = txtPersonId.Text;
 
             // Write the data to the DB
             Connections.DataConnections.DataConnectionClass.VendorConn.AddVendor(vendorToBeAdded);

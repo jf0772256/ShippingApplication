@@ -1243,7 +1243,6 @@ namespace shipapp.Connections
                         while (reader.Read())
                         {
                             v.VendorId = Convert.ToInt64(reader[0].ToString());
-                            v.Vendor_PersonId = reader[1].ToString();
                             v.VendorName = reader[2].ToString();
                         }
                     }
@@ -1277,10 +1276,6 @@ namespace shipapp.Connections
                             ven.Add(v);
                         }
                     }
-                    foreach (Vendors vend in ven)
-                    {
-                        vend.Notes = GetNotesListById(vend.Vendor_PersonId);
-                    }
                     return ven;
                 }
             }
@@ -1307,12 +1302,10 @@ namespace shipapp.Connections
                             car = new Carrier()
                             {
                                 CarrierId = Convert.ToInt64(reader[0].ToString()),
-                                CarrierName = reader[1].ToString(),
-                                Carrier_PersonId = reader[2].ToString()
+                                CarrierName = reader[1].ToString()
                             };
                         }
                     }
-                    car.Notes = GetNotesListById(car.Carrier_PersonId);
                     return car;
                 }
             }
@@ -1342,10 +1335,6 @@ namespace shipapp.Connections
                             };
                             carList.Add(car);
                         }
-                    }
-                    foreach (Carrier carrier in carList)
-                    {
-                        carrier.Notes = GetNotesListById(carrier.Carrier_PersonId);
                     }
                     return carList;
                 }
