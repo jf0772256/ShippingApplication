@@ -47,7 +47,6 @@ namespace shipapp
         {
             txtId.BackColor = Color.White;
             txtName.BackColor = Color.White;
-            txtPersonId.BackColor = Color.White;
         }
 
         /// <summary>
@@ -75,13 +74,6 @@ namespace shipapp
                 errorMsg += "\t-Must provide a name.\r\n";
             }
 
-            if (txtPersonId.Text == "" || txtPersonId.Text == null)
-            {
-                txtPersonId.BackColor = Color.LightPink;
-                pass = false;
-                errorMsg += "\t-Must provide a PersonId.\r\n";
-            }
-
             // If pass fails provide the user with a n error message
             if (!pass)
             {
@@ -107,6 +99,11 @@ namespace shipapp
             // Write the data to the DB
             Connections.DataConnections.DataConnectionClass.VendorConn.AddVendor(vendorToBeAdded);
             Connections.DataConnections.DataConnectionClass.DataLists.Vendors.Add(Connections.DataConnections.DataConnectionClass.VendorConn.GetVendor(vendorToBeAdded.VendorId));
+        }
+
+        private void AddVendor_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
