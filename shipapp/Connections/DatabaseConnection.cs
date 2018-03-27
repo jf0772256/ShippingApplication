@@ -1243,7 +1243,7 @@ namespace shipapp.Connections
                         while (reader.Read())
                         {
                             v.VendorId = Convert.ToInt64(reader[0].ToString());
-                            v.VendorName = reader[2].ToString();
+                            v.VendorName = reader[1].ToString();
                         }
                     }
                 }
