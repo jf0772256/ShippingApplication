@@ -1236,7 +1236,7 @@ namespace shipapp.Connections
                 c.Open();
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
-                    cmd.CommandText = "SELECT vend_id, person_id, vendor_name FROM vendors WHERE vend_id = ?;";
+                    cmd.CommandText = "SELECT vend_id, vendor_name FROM vendors WHERE vend_id = ?;";
                     cmd.Parameters.AddWithValue("vend_id", id);
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
@@ -1293,7 +1293,7 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
                     Carrier car = null;
-                    cmd.CommandText = "SELECT carrier_id, carrier_name, person_id FROM carriers WHERE carrier_id = ?;";
+                    cmd.CommandText = "SELECT carrier_id, carrier_name FROM carriers WHERE carrier_id = ?;";
                     cmd.Parameters.Add(new OdbcParameter("carid", id));
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
