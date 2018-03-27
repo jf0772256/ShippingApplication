@@ -369,7 +369,49 @@ namespace shipapp
 
         public void EditEntity()
         {
+            // Set the message to edit
             message = "EDIT";
+
+            // Edit the correct object
+            if (currentTable == 1)
+            {
+                // Edit user object
+                User userToBeDeleted = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.UserConn.DeleteUser(userToBeDeleted);
+            }
+            else if (currentTable == 2)
+            {
+                // Edit vendor object
+                Vendors vendorToBeDeleted = DataConnectionClass.DataLists.Vendors.FirstOrDefault(vid => vid.VendorId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.VendorConn.DeleteVendor(vendorToBeDeleted);
+            }
+            else if (currentTable == 3)
+            {
+                // Edit faculty object
+                Faculty facultyToBeDeleted = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(fid => fid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.EmployeeConn.DeleteFaculty(facultyToBeDeleted);
+            }
+            else if (currentTable == 4)
+            {
+                // Edit building object
+                BuildingClass buildingToBeDeleted = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(bid => bid.BuildingId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.buildingConn.RemoveBuilding(buildingToBeDeleted);
+            }
+            else if (currentTable == 5)
+            {
+                // Edit carrier object
+                Carrier carrierToBeDeleted = DataConnectionClass.DataLists.CarriersList.FirstOrDefault(cid => cid.CarrierId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                DataConnectionClass.CarrierConn.DeleteCarrier(carrierToBeDeleted);
+            }
+            else if (currentTable == 6)
+            {
+                // Edit other object
+            }
+            else
+            {
+                // Alert user that a table must be selected
+                MessageBox.Show("Please select a table", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
