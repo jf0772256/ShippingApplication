@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridPackages = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
@@ -37,7 +37,7 @@
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pcBxEdit = new System.Windows.Forms.PictureBox();
             this.btnAdd = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridPackages)).BeginInit();
@@ -46,17 +46,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcBxEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnAdd)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridPackages
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.dataGridPackages.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            this.dataGridPackages.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridPackages.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridPackages.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dataGridPackages.Location = new System.Drawing.Point(0, 149);
@@ -134,17 +134,18 @@
             this.toolTip1.SetToolTip(this.pictureBox3, "Delete Package");
             this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
-            // pictureBox2
+            // pcBxEdit
             // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.BackgroundImage = global::shipapp.Properties.Resources.compose;
-            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox2.Location = new System.Drawing.Point(53, 94);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox2.TabIndex = 4;
-            this.pictureBox2.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBox2, "Edit Package");
+            this.pcBxEdit.BackColor = System.Drawing.Color.Transparent;
+            this.pcBxEdit.BackgroundImage = global::shipapp.Properties.Resources.compose;
+            this.pcBxEdit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pcBxEdit.Location = new System.Drawing.Point(53, 94);
+            this.pcBxEdit.Name = "pcBxEdit";
+            this.pcBxEdit.Size = new System.Drawing.Size(35, 35);
+            this.pcBxEdit.TabIndex = 4;
+            this.pcBxEdit.TabStop = false;
+            this.toolTip1.SetToolTip(this.pcBxEdit, "Edit Package");
+            this.pcBxEdit.Click += new System.EventHandler(this.pcBxEdit_Click);
             // 
             // btnAdd
             // 
@@ -171,7 +172,7 @@
             this.Controls.Add(this.pictureBox5);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox3);
-            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.pcBxEdit);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridPackages);
@@ -184,7 +185,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcBxEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnAdd)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -195,7 +196,7 @@
 
         private System.Windows.Forms.DataGridView dataGridPackages;
         private System.Windows.Forms.PictureBox btnAdd;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pcBxEdit;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox5;

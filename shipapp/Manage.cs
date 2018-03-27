@@ -22,10 +22,15 @@ namespace shipapp
     {
         // Class level variables
         private int currentTable = 0;
+        private string message = "";
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
+
+
         // Data list for tables
         //Use Connections.DataConnections.DataConnectionClass.DataLists.{Name of binding list}
         private ListSortDirection[] ColumnDirection { get; set; }
+
+
         public Manage()
         {
             InitializeComponent();
@@ -33,6 +38,8 @@ namespace shipapp
             dataGridView1.ColumnHeaderMouseClick += DataGridView1_ColumnHeaderMouseClick;
 
         }
+
+
         private void DataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
@@ -94,6 +101,8 @@ namespace shipapp
                 //do nothing but quietly handle error
             }
         }
+        
+        
         /// <summary>
         /// used to hide data conversion errors even though they are resolved through the getStrings and toStrings methods
         /// </summary>
@@ -101,6 +110,8 @@ namespace shipapp
         {
             //
         }
+        
+        
         /// <summary>
         /// Close the Form
         /// </summary>
@@ -110,6 +121,8 @@ namespace shipapp
         {
             this.Close();
         }
+
+
         private void Manage_Load(object sender, EventArgs e)
         {
             this.CenterToParent();
@@ -216,7 +229,7 @@ namespace shipapp
             else if (currentTable == 5)
             {
                 AddCarrier addCarrier = new AddCarrier();
-
+                addCarrier.ShowDialog();
                 btnCarriers_Click_1(this, e);
             }
             else if (currentTable == 6)
@@ -225,10 +238,14 @@ namespace shipapp
             }
         }
         #endregion
+
+
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
         }
+
+
         private void btnUsers_Click_1(object sender, EventArgs e)
         {
             currentTable = 1;
@@ -251,6 +268,8 @@ namespace shipapp
             }
             dataGridView1.Update();
         }
+
+
         private void btnVendors_Click_1(object sender, EventArgs e)
         {
             currentTable = 2;
@@ -261,6 +280,8 @@ namespace shipapp
             //DataConnectionClass.VendorConn.GetVendorList();
             dataGridView1.DataSource = DataConnectionClass.DataLists.Vendors;
         }
+
+
         private void btnBuildings_Click_1(object sender, EventArgs e)
         {
             currentTable = 4;
@@ -268,6 +289,8 @@ namespace shipapp
             //TODO Fill list with query from Database
             dataGridView1.DataSource = DataConnectionClass.DataLists.BuildingNames;
         }
+
+
         private void btnCarriers_Click_1(object sender, EventArgs e)
         {
             currentTable = 5;
@@ -278,6 +301,8 @@ namespace shipapp
             //DataConnectionClass.CarrierConn.GetCarrierList();
             dataGridView1.DataSource = DataConnectionClass.DataLists.CarriersList;
         }
+
+
         private void btnOther_Click_1(object sender, EventArgs e)
         {
             currentTable = 6;
@@ -340,6 +365,11 @@ namespace shipapp
         private void pcBxDelete_Click(object sender, EventArgs e)
         {
             DeleteEntity();
+        }
+
+        public void EditEntity()
+        {
+            message = "EDIT";
         }
     }
 }

@@ -24,11 +24,52 @@ namespace shipapp
     /// </summary>
     public partial class Receiving : Form
     {
-        //Class levle variables
+        //Class level variables
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
+        private string message = "";
         private ListSortDirection[] ColumnDirection { get; set; }
 
 
+        public Receiving()
+        {
+            InitializeComponent();
+        }
+
+
+        private void Receiving_Load(object sender, EventArgs e)
+        {
+            this.CenterToParent();
+            GetPackages();
+        }
+
+
+        /// <summary>
+        /// When the user presses this button, open the addpackage form and add a package to the DB
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            AddPackageToGrid();
+        }
+
+
+        /// <summary>
+        /// When the user presses the button, delete the selected row
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            DeletePackage();
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
@@ -53,39 +94,6 @@ namespace shipapp
 
 
 
-        public Receiving()
-        {
-            InitializeComponent();
-        }
-
-
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Receiving_Load(object sender, EventArgs e)
-        {
-            this.CenterToParent();
-            GetPackages();
-        }
-
-        /// <summary>
-        /// When the use clicks back go back
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pictureBox6_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         /// <summary>
         /// TODO: Add entity selection
         /// </summary>
@@ -96,6 +104,7 @@ namespace shipapp
             AddNote note = new AddNote();
             note.Show();
         }
+
 
         public void AddPackageToGrid()
         {
@@ -120,50 +129,53 @@ namespace shipapp
             //    DataGridViewComboBoxCell vcel = (DataGridViewComboBoxCell)dataGridPackages.Rows[i].Cells["address"];
             //    DataConnectionClass.DataLists.FacultyList[i].Address.ForEach(a => vcel.Items.Add(a.GetBuildingDetails(true)));
             //}
-
+            message = "ADD";
             AddPackage addPackage = new AddPackage();
             addPackage.ShowDialog();
                 
         }
 
-        public void EditPackage()
-        {
-
-        }
 
         public void GetPackages()
         {
             dataGridPackages.DataSource = DataConnectionClass.DataLists.Packages;
         }
 
-        /// <summary>
-        /// When the user presses this button, open the addpackage form and add a package to the DB
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            AddPackageToGrid();
-        }
-
-        /// <summary>
-        /// When the user presses the button, delete the selected row
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-            DeletePackage();
-        }
 
         /// <summary>
         /// Delete a package from the database
         /// </summary>
         public void DeletePackage()
         {
-            //
             Package packageToBeRemoved = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0].Value));
             DataConnectionClass.PackageConnClass.DeletePackage(packageToBeRemoved);
+        }
+
+
+        /// <summary>
+        /// When the use clicks back go back
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        /// <summary>
+        /// When this event fires, send a mssege to edit not add a package
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pcBxEdit_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        public void EditPackage()
+        {
+            message = "EDIT";
         }
     }
 }
