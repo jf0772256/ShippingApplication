@@ -884,7 +884,7 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText += "DELETE FROM vendors WHERE vendor_id = ?;";
+                    cmd.CommandText += "DELETE FROM vendors WHERE vend_id = ?;";
                     cmd.Parameters.Add("uid", OdbcType.BigInt).Value = v.VendorId;
                     try
                     {
