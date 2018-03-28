@@ -190,8 +190,8 @@ namespace shipapp
                 dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();
                 ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-                DataConnectionClass.UserConn.GetManyUsers();
-                dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
+                DataConnectionClass.UserConn.GetManyUsers(this);
+                //dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
                 dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
                 for (int i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
                 {
@@ -203,6 +203,7 @@ namespace shipapp
             {
                 AddVendor addVendor = new AddVendor();
                 addVendor.ShowDialog();
+                //DataConnectionClass.VendorConn.GetVendorList(this);
                 btnVendors_Click_1(this, e);
             }
             else if (currentTable == 3)
@@ -212,8 +213,8 @@ namespace shipapp
                 dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();
                 ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-                DataConnectionClass.EmployeeConn.GetAllAfaculty();
-                dataGridView1.DataSource = DataConnectionClass.DataLists.FacultyList;
+                //DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
+                //dataGridView1.DataSource = DataConnectionClass.DataLists.FacultyList;
             }
             else if (currentTable == 4)
             {
@@ -253,20 +254,30 @@ namespace shipapp
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-            DataConnectionClass.UserConn.GetManyUsers();
-            dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
+            DataConnectionClass.UserConn.GetManyUsers(this);
+            //dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
             //change header text for roles
-            dataGridView1.Columns["Level"].HeaderText = "Role";
-            dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
-            int i = 0;
-            // sets the value of the text to role title rather than the class namespace and name
-            // see tostring override in roles to see how this was hanled, may need to change based on what we do for other classes
-            for (i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
+            try
             {
-                dataGridView1.Rows[i].Cells["Level"].Value = DataConnectionClass.DataLists.UsersList[i].Level.ToString();
-                dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.UsersList[i].Notes.Count.ToString();
+                dataGridView1.Columns["Level"].HeaderText = "Role";
+                dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
+                int i = 0;
+                // sets the value of the text to role title rather than the class namespace and name
+                // see tostring override in roles to see how this was hanled, may need to change based on what we do for other classes
+                for (i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
+                {
+                    dataGridView1.Rows[i].Cells["Level"].Value = DataConnectionClass.DataLists.UsersList[i].Level.ToString();
+                    dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.UsersList[i].Notes.Count.ToString();
+                }
             }
-            dataGridView1.Update();
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                dataGridView1.Update();
+            }
         }
 
 
@@ -277,17 +288,17 @@ namespace shipapp
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-            //DataConnectionClass.VendorConn.GetVendorList();
-            dataGridView1.DataSource = DataConnectionClass.DataLists.Vendors;
+            DataConnectionClass.VendorConn.GetVendorList(this);
+            //dataGridView1.DataSource = DataConnectionClass.DataLists.Vendors;
         }
 
 
         private void btnBuildings_Click_1(object sender, EventArgs e)
         {
             currentTable = 4;
-            //DataConnectionClass.buildingConn.GetBuildingList();
+            DataConnectionClass.buildingConn.GetBuildingList(this);
             //TODO Fill list with query from Database
-            dataGridView1.DataSource = DataConnectionClass.DataLists.BuildingNames;
+            //dataGridView1.DataSource = DataConnectionClass.DataLists.BuildingNames;
         }
 
 
@@ -298,8 +309,8 @@ namespace shipapp
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-            //DataConnectionClass.CarrierConn.GetCarrierList();
-            dataGridView1.DataSource = DataConnectionClass.DataLists.CarriersList;
+            DataConnectionClass.CarrierConn.GetCarrierList(this);
+            //dataGridView1.DataSource = DataConnectionClass.DataLists.CarriersList;
         }
 
 

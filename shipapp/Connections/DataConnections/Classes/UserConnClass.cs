@@ -5,11 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using shipapp.Models;
+using System.Windows.Forms;
+using shipapp.Connections.HelperClasses;
 
 namespace shipapp.Connections.DataConnections.Classes
 {
     class UserConnClass:DatabaseConnection
     {
+        object Sender { get; set; }
         public Authenticating Authenticate { get; set; }
         public UserConnClass():base() { Authenticate = new Authenticating(); }
         public User Get1User(long id)
@@ -28,9 +31,20 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             Update(u);
         }
-        public async void GetManyUsers()
+        public async void GetManyUsers(object sender = null)
         {
-            DataConnectionClass.DataLists.UsersList = await Task.Run(()=>GetUserList());
+            Sender = sender;
+            SortableBindingList<User> users = await Task.Run(() => GetUserList());
+            if (!((Manage)Sender is null))
+            {
+                Manage t = (Manage)Sender;
+                DataConnectionClass.DataLists.UsersList = users;
+                BindingSource bs = new BindingSource
+                {
+                    DataSource = DataConnectionClass.DataLists.UsersList
+                };
+                t.dataGridView1.DataSource = bs;
+            }
         }
         public bool CheckAuth(User tester)
         {

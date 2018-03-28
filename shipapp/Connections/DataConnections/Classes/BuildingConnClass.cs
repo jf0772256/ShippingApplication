@@ -4,15 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using shipapp.Models.ModelData;
+using System.Windows.Forms;
 
 namespace shipapp.Connections.DataConnections.Classes
 {
     class BuildingConnClass : DatabaseConnection
     {
+        object Sender { get; set; }
         public BuildingConnClass():base() { }
-        public async void GetBuildingList()
+        public async void GetBuildingList(object sender = null)
         {
-            DataConnectionClass.DataLists.BuildingNames = await Task.Run(()=> Get_Building_List());
+            Sender = sender;
+            List<BuildingClass> b = await Task.Run(() => Get_Building_List());
+            if (!((Manage)Sender is null))
+            {
+                Manage t = (Manage)Sender;
+                DataConnectionClass.DataLists.BuildingNames = b;
+                BindingSource bs = new BindingSource
+                {
+                    DataSource = DataConnectionClass.DataLists.BuildingNames
+                };
+                t.dataGridView1.DataSource = bs;
+            }
         }
         public void WriteBuilding(BuildingClass building)
         {

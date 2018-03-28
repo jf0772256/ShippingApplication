@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using shipapp.Models;
 using shipapp.Models.ModelData;
+using System.Windows.Forms;
+using shipapp.Connections.HelperClasses;
 
 namespace shipapp.Connections.DataConnections.Classes
 {
     class CarrierConnClass:DatabaseConnection
     {
+        object Sender { get; set; }
         public CarrierConnClass() : base()
         {
             //
@@ -33,9 +36,20 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <summary>
         /// collects all carriers from database - returns to dataconnectionclass.datalists.carriers list
         /// </summary>
-        public async void GetCarrierList()
+        public async void GetCarrierList(object sender = null)
         {
-            DataConnectionClass.DataLists.CarriersList = await Task.Run(() => Get_Carrier_List());
+            Sender = sender;
+            SortableBindingList<Carrier> carr = await Task.Run(() => Get_Carrier_List());
+            if (!((Manage)Sender is null))
+            {
+                Manage t = (Manage)Sender;
+                DataConnectionClass.DataLists.CarriersList = carr;
+                BindingSource bs = new BindingSource
+                {
+                    DataSource = DataConnectionClass.DataLists.CarriersList
+                };
+                t.dataGridView1.DataSource = bs;
+            }
         }
         /// <summary>
         /// Collects a single specific carrier from the database - this is important, You must include a valid database id as long.

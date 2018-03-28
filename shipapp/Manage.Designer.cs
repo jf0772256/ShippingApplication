@@ -323,8 +323,8 @@
         private System.Windows.Forms.PictureBox pcBxDelete;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolTip toolTip1;
         internal System.Windows.Forms.Label label1;
+        internal System.Windows.Forms.DataGridView dataGridView1;
     }
 }

@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using shipapp.Models;
 using shipapp.Models.ModelData;
+using System.Windows.Forms;
+using shipapp.Connections.HelperClasses;
 
 namespace shipapp.Connections.DataConnections.Classes
 {
     class EmployeeConnClass:DatabaseConnection
     {
+        object Sender { get; set; }
         public EmployeeConnClass() : base() { }
 
         public Faculty GetFaculty(long id)
@@ -32,9 +35,20 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             Update(f);
         }
-        public async void GetAllAfaculty()
+        public async void GetAllAfaculty(object sender = null)
         {
-           DataConnectionClass.DataLists.FacultyList = await Task.Run(() => Get_Faculty_List());
+            Sender = sender;
+            SortableBindingList<Faculty> users = await Task.Run(() => Get_Faculty_List());
+            if (!((Manage)Sender is null))
+            {
+                Manage t = (Manage)Sender;
+                DataConnectionClass.DataLists.FacultyList = users;
+                BindingSource bs = new BindingSource
+                {
+                    DataSource = DataConnectionClass.DataLists.FacultyList
+                };
+                t.dataGridView1.DataSource = bs;
+            }
         }
         public void DeleteFaculty(Faculty f)
         {

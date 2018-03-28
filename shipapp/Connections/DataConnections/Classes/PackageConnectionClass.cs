@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using shipapp.Models;
 using shipapp.Models.ModelData;
+using System.Windows.Forms;
 using shipapp.Connections.HelperClasses;
 
 namespace shipapp.Connections.DataConnections.Classes
 {
     class PackageConnectionClass:DatabaseConnection
     {
+        object Sender { get; set; }
         public PackageConnectionClass() : base() { }
         /// <summary>
         /// Gets specified package by id 
@@ -24,9 +26,20 @@ namespace shipapp.Connections.DataConnections.Classes
         /// <summary>
         /// Gets and sets Datalist.packagelist
         /// </summary>
-        public async void GetPackageList()
+        public async void GetPackageList(object sender = null)
         {
-            DataConnectionClass.DataLists.Packages = await Task.Run(()=>Get_Package_List());
+            Sender = sender;
+            SortableBindingList<Package> pack = await Task.Run(() => Get_Package_List());
+            if (!((Manage)Sender is null))
+            {
+                Manage t = (Manage)Sender;
+                DataConnectionClass.DataLists.Packages = pack;
+                BindingSource bs = new BindingSource
+                {
+                    DataSource = DataConnectionClass.DataLists.Packages
+                };
+                t.dataGridView1.DataSource = bs;
+            }
         }
         /// <summary>
         /// Adds a package to database

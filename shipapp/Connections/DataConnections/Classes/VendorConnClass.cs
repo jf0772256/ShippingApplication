@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using shipapp.Models;
+using System.Windows.Forms;
+using shipapp.Connections.HelperClasses;
 
 namespace shipapp.Connections.DataConnections.Classes
 {
@@ -12,14 +14,26 @@ namespace shipapp.Connections.DataConnections.Classes
     /// </summary>
     class VendorConnClass:DatabaseConnection
     {
+        object Sender { get; set; }
         public VendorConnClass():base() { }
         public Vendors GetVendor(long id)
         {
             return GetVendor_From_Database(id);
         }
-        public async void GetVendorList()
+        public async void GetVendorList(object sender = null)
         {
-            DataConnectionClass.DataLists.Vendors = await Task.Run(()=>GetVendorsList());
+            Sender = sender;
+            SortableBindingList<Vendors> vend = await Task.Run(() => GetVendorsList());
+            if (!((Manage)Sender is null))
+            {
+                Manage t = (Manage)Sender;
+                DataConnectionClass.DataLists.Vendors = vend;
+                BindingSource bs = new BindingSource
+                {
+                    DataSource = DataConnectionClass.DataLists.Vendors
+                };
+                t.dataGridView1.DataSource = bs;
+            }
         }
         public void AddVendor(Vendors value)
         {
