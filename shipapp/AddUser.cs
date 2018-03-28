@@ -17,17 +17,53 @@ namespace shipapp
     {
         // Class level variables
         private string message;
+        private Models.User userToBeEdited;
 
 
-        public AddUser()
+        /// <summary>
+        /// Form constructor for adding
+        /// </summary>
+        /// <param name="message"></param>
+        public AddUser(string message)
         {
             InitializeComponent();
+            this.message = message;
         }
 
 
+        /// <summary>
+        /// Form constructer for editing
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="objectToBeEditied"></param>
+        public AddUser(string message, Object objectToBeEditied)
+        {
+            InitializeComponent();
+            this.message = message;
+            this.userToBeEdited = (Models.User)objectToBeEditied;
+        }
+
+
+        /// <summary>
+        /// Fill the form with the information of the object and change the button to edit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddUser_Load(object sender, EventArgs e)
         {
+            if (message == "EDIT")
+            {
+                // Fill Textbox
+                txtBoxPersonId.Text = userToBeEdited.Id.ToString();
+                txtFirstName.Text = userToBeEdited.FirstName;
+                txtLastName.Text = userToBeEdited.LastName;
+                txtLevel.Text = userToBeEdited.Level.ToString();
+                txtUsername.Text = userToBeEdited.Username;
+                txtPassword.Text = userToBeEdited.PassWord;
 
+                // Change Button Text
+                btnAdd.Text = "EDIT";
+            }
         }
 
 
@@ -42,28 +78,9 @@ namespace shipapp
             ResetError();
 
             // Test data before writing to the DB
-            if (ValidateData())
+            if (ValidateData() && message == "ADD") // If adding a user
             {
                 // Create usedr entity
-                Models.User newUser = new Models.User();
-
-                // Fill entity
-                newUser.Id = long.Parse(txtId.Text);
-                newUser.FirstName = txtFirstName.Text;
-                newUser.LastName = txtLastName.Text;
-                newUser.Level = new Models.ModelData.Role() { Role_id = Convert.ToInt64(txtLevel.Text)};
-                newUser.Username = txtUsername.Text;
-                newUser.PassWord = txtPassword.Text;
-                newUser.Person_Id = txtBoxPersonId.Text;
-
-                // Write the data to the DB
-                Connections.DataConnections.DataConnectionClass.UserConn.Write1User(newUser);
-                Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Add(Connections.DataConnections.DataConnectionClass.UserConn.Get1User(newUser.Username));
-                this.Close();
-            }
-            else if (ValidateData() && message == "EDIT")
-            {
-                // Create user entity
                 Models.User newUser = new Models.User();
 
                 // Fill entity
@@ -80,7 +97,31 @@ namespace shipapp
                 Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Add(Connections.DataConnections.DataConnectionClass.UserConn.Get1User(newUser.Username));
                 this.Close();
             }
-            else
+            else if (ValidateData() && message == "EDIT") // If editing the user
+            {
+                // Create usedr entity
+                Models.User newUser = new Models.User();
+
+                // Fill entity
+                newUser.Id = long.Parse(txtId.Text);
+                newUser.FirstName = txtFirstName.Text;
+                newUser.LastName = txtLastName.Text;
+                newUser.Level = new Models.ModelData.Role() { Role_id = returnRoleId() };
+                newUser.Username = txtUsername.Text;
+                newUser.PassWord = txtPassword.Text;
+                newUser.Person_Id = txtBoxPersonId.Text;
+
+                // Write the data to the DB
+                Connections.DataConnections.DataConnectionClass.UserConn.Update1User(newUser);
+                Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Add(Connections.DataConnections.DataConnectionClass.UserConn.Get1User(newUser.Username));
+                this.Close();
+            }
+            else if (message != "ADD" && message != "EDIT") // If the message is empty
+            {
+                MessageBox.Show("It seems there was an error with the form.\r\n\r\nTry Again!", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                this.Close();
+            }
+            else // If there is bad data
             {
                 MessageBox.Show("All fields must have correct data!", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
@@ -156,6 +197,37 @@ namespace shipapp
             }
 
             return pass;
+        }
+
+
+        /// <summary>
+        /// When editing the form return the correct int for the role
+        /// </summary>
+        /// <returns></returns>
+        public int returnRoleId()
+        {
+            // Method levele varables
+            int roleId;
+
+            // Find role Id
+            if (txtLevel.Text == "Administrator")
+            {
+                roleId = 1;
+            }
+            else if (txtLevel.Text == "Supervisor")
+            {
+                roleId = 2;
+            }
+            else if(txtLevel.Text == "User")
+            {
+                roleId = 3;
+            }
+            else
+            {
+                roleId = 0;
+            }
+
+            return roleId;
         }
     }
 }

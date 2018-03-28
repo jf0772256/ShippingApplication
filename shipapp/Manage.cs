@@ -22,14 +22,15 @@ namespace shipapp
     {
         // Class level variables
         private int currentTable = 0;
-        private string message = "";
+        private string message = "REST";
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
+        private Object objectToBeEditied;
 
 
         // Data list for tables
         //Use Connections.DataConnections.DataConnectionClass.DataLists.{Name of binding list}
         private ListSortDirection[] ColumnDirection { get; set; }
-
+        public object ObjectToBeEditied { get => objectToBeEditied; set => objectToBeEditied = value; }
 
         public Manage()
         {
@@ -185,7 +186,7 @@ namespace shipapp
             }
             else if (currentTable == 1)
             {
-                AddUser addUser = new AddUser();
+                AddUser addUser = new AddUser(message = "ADD");
                 addUser.ShowDialog();
                 dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();
@@ -378,6 +379,10 @@ namespace shipapp
             DeleteEntity();
         }
 
+
+        /// <summary>
+        /// Send a user to the edit form then edit the user
+        /// </summary>
         public void EditEntity()
         {
             // Set the message to edit
@@ -386,9 +391,13 @@ namespace shipapp
             // Edit the correct object
             if (currentTable == 1)
             {
-                // Edit user object
+                /// Edit user object
+                // Create user object from id 
                 User userToBeEdited = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                DataConnectionClass.UserConn.Update1User(userToBeEdited);
+
+                // Create a form and set it to edit the object sent
+                AddUser addUser = new AddUser(message = "EDIT", userToBeEdited);
+                addUser.ShowDialog();
             }
             else if (currentTable == 2)
             {
@@ -424,6 +433,19 @@ namespace shipapp
                 // Alert user that a table must be selected
                 MessageBox.Show("Please select a table", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            message = "REST";
+        }
+
+
+        /// <summary>
+        /// When this button fires grab the correct entity and edit it to the DB
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pcBxEdit_Click(object sender, EventArgs e)
+        {
+            EditEntity();
         }
     }
 }
