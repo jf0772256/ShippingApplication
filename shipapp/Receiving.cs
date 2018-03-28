@@ -169,13 +169,21 @@ namespace shipapp
         /// <param name="e"></param>
         private void pcBxEdit_Click(object sender, EventArgs e)
         {
-
+            EditPackage();
         }
 
 
+        /// <summary>
+        /// Edit a packge
+        /// </summary>
         public void EditPackage()
         {
+            // Set message to Edit
             message = "EDIT";
+
+            // Create package form and set it to edit
+            AddPackage addPackage = new AddPackage();
+            addPackage.ShowDialog();
         }
     }
 }

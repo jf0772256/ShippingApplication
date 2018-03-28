@@ -17,6 +17,8 @@ namespace shipapp
     {
         // Class level variabels
         private Models.Package newPackage;
+        private string message = "NONE";
+
 
         #region form basic
         public AddPackage()
@@ -24,13 +26,37 @@ namespace shipapp
             InitializeComponent();
         }
 
+        public AddPackage(string message, Object packageToBeEdited)
+        {
+            InitializeComponent();
+            newPackage = (Models.Package)packageToBeEdited;
+        }
+
 
         private void AddPackage_Load(object sender, EventArgs e)
         {
             // Instatiate Package
             newPackage = new Models.Package();
+
+            // If edit, fill form with the pakcage info
+            if (message == "EDIT")
+            {
+                // TODO: Filter ComboBoxe with correct info
+                txtDate.Text = newPackage.PackageReceivedDate;
+                txtDelDate.Text = newPackage.PackageDeliveredDate;
+                txtPersonId.Text = newPackage.Package_PersonId;
+                txtPO.Text = newPackage.PONumber;
+                txtTracking.Text = newPackage.PackageTrackingNumber;
+                cmboCarrier.Text = newPackage.PackageCarrier;
+                cmboVendor.Text = newPackage.PackageVendor;
+                cmboRecipiant.Text = newPackage.PackageDeliveredTo;
+                cmboSignedBy.Text = newPackage.PackageSignedForBy;
+                cmboDelBy.Text = newPackage.PackageDeleveredBy;
+                cmboStatus.Text = newPackage.Status.ToString();
+            }
         }
         #endregion
+
 
         #region Form Add
         /// <summary>
@@ -49,6 +75,11 @@ namespace shipapp
                 AddPackageToDB();
                 this.Close();
             }
+            else if (CheckData() && message == "EDIT")
+            {
+                EditPackageInDb();
+                this.Close();
+            }
         }
 
   
@@ -64,7 +95,22 @@ namespace shipapp
             Connections.DataConnections.DataConnectionClass.PackageConnClass.AddPackage(newPackage);
             Connections.DataConnections.DataConnectionClass.DataLists.Packages.Add(newPackage);
         }
+
+
+        /// <summary>
+        /// Fill the object
+        /// </summary>
+        public void EditPackageInDb()
+        {
+            // Create Package
+            FillPackage();
+
+            // Edit Package
+            Connections.DataConnections.DataConnectionClass.PackageConnClass.UpdatePackage(newPackage);
+            Connections.DataConnections.DataConnectionClass.DataLists.Packages.Add(newPackage);
+        }
         #endregion
+
 
         #region Data Integrity
         /// <summary>
@@ -80,6 +126,7 @@ namespace shipapp
             cmboSignedBy.BackColor = Color.White;
             txtPersonId.BackColor = Color.White;
         }
+
 
         /// <summary>
         /// Check that correct and neccesary data is enetered to the form
@@ -144,7 +191,6 @@ namespace shipapp
             {
                 MessageBox.Show(errorMsg, "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
 
             return pass;
         }
