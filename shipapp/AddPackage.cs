@@ -26,6 +26,7 @@ namespace shipapp
         {
             ParentForm = parent;
             InitializeComponent();
+            this.message = message;
         }
 
         public AddPackage(string message, object packageToBeEdited, Receiving parent)
@@ -33,6 +34,7 @@ namespace shipapp
             InitializeComponent();
             newPackage = (Models.Package)packageToBeEdited;
             ParentForm = parent;
+            this.message = message;
         }
 
 
