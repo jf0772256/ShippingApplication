@@ -54,7 +54,6 @@ namespace shipapp
             Models.Carrier carrierToBeAdded = new Models.Carrier();
 
             // Fill entity
-            carrierToBeAdded.CarrierId = long.Parse(txtId.Text);
             carrierToBeAdded.CarrierName = txtName.Text;
 
             // Write the data to the DB
@@ -68,7 +67,6 @@ namespace shipapp
         /// </summary>
         public void ResetErrors()
         {
-            txtId.BackColor = Color.White;
             txtName.BackColor = Color.White;
         }
 
@@ -82,15 +80,6 @@ namespace shipapp
             // Method level variables
             bool pass = true;
             string errorMsg = "Please make sure all flieds have correct data";
-            long num0 = 0;
-
-            // Check Id is a number
-            if (!long.TryParse(txtId.Text, out num0))
-            {
-                pass = false;
-                txtName.BackColor = Color.LightPink;
-                errorMsg += "\t-Id must contain only numbers\r\n";
-            }
 
             // Check that there is a name
             if (String.IsNullOrWhiteSpace(txtName.Text))

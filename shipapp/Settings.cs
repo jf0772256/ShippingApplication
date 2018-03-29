@@ -54,9 +54,10 @@ namespace shipapp
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             Connections.DataConnections.DataConnectionClass.SaveDatabaseData(new string[] { Connections.DataConnections.DataConnectionClass.DBType.ToString(), Connections.DataConnections.DataConnectionClass.ConnectionString, Connections.DataConnections.DataConnectionClass.EncodeString });
-            MessageBox.Show("Connection has been saved. Changes will not be in effect until the next application restart.", "Database Connection Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("The new Connection has been saved!\r\n You must restart the application for the new connection to take effect.\r\n The application will now Exit", "Database Connection Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
             DialogResult = DialogResult.OK;
             this.Close();
+            Application.Exit();
         }
     }
 }

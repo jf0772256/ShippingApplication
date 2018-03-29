@@ -84,7 +84,6 @@ namespace shipapp
                 Models.User newUser = new Models.User();
 
                 // Fill entity
-                newUser.Id = long.Parse(txtId.Text);
                 newUser.FirstName = txtFirstName.Text;
                 newUser.LastName = txtLastName.Text;
                 newUser.Level = new Models.ModelData.Role() { Role_id = Convert.ToInt64(txtLevel.Text) };
@@ -103,7 +102,6 @@ namespace shipapp
                 Models.User newUser = new Models.User();
 
                 // Fill entity
-                newUser.Id = long.Parse(txtId.Text);
                 newUser.FirstName = txtFirstName.Text;
                 newUser.LastName = txtLastName.Text;
                 newUser.Level = new Models.ModelData.Role() { Role_id = returnRoleId() };
@@ -135,7 +133,6 @@ namespace shipapp
         {
             txtFirstName.BackColor = Color.White;
             txtLastName.BackColor = Color.White;
-            txtId.BackColor = Color.White;
             lblLevel.BackColor = Color.White;
             txtUsername.BackColor = Color.White;
             txtPassword.BackColor = Color.White;
@@ -154,12 +151,6 @@ namespace shipapp
             long num0 = 0;
 
             // Validate data
-            if (!long.TryParse(txtId.Text, out num0))
-            {
-                pass = false;
-                txtId.BackColor = Color.LightPink;
-            }
-
             if (txtFirstName.Text == "")
             {
                 pass = false;

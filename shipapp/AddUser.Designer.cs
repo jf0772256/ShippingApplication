@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtId = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtFirstName = new System.Windows.Forms.TextBox();
             this.lbl1 = new System.Windows.Forms.Label();
@@ -45,28 +43,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // txtId
-            // 
-            this.txtId.Location = new System.Drawing.Point(95, 6);
-            this.txtId.Name = "txtId";
-            this.txtId.Size = new System.Drawing.Size(100, 22);
-            this.txtId.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(23, 16);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "ID";
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 37);
+            this.label2.Location = new System.Drawing.Point(17, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 16);
             this.label2.TabIndex = 3;
@@ -74,7 +55,7 @@
             // 
             // txtFirstName
             // 
-            this.txtFirstName.Location = new System.Drawing.Point(95, 34);
+            this.txtFirstName.Location = new System.Drawing.Point(100, 8);
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(100, 22);
             this.txtFirstName.TabIndex = 2;
@@ -83,7 +64,7 @@
             // 
             this.lbl1.AutoSize = true;
             this.lbl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl1.Location = new System.Drawing.Point(12, 65);
+            this.lbl1.Location = new System.Drawing.Point(17, 39);
             this.lbl1.Name = "lbl1";
             this.lbl1.Size = new System.Drawing.Size(82, 16);
             this.lbl1.TabIndex = 5;
@@ -91,7 +72,7 @@
             // 
             // txtLastName
             // 
-            this.txtLastName.Location = new System.Drawing.Point(95, 62);
+            this.txtLastName.Location = new System.Drawing.Point(100, 36);
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(100, 22);
             this.txtLastName.TabIndex = 4;
@@ -100,15 +81,15 @@
             // 
             this.lblLevel.AutoSize = true;
             this.lblLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLevel.Location = new System.Drawing.Point(12, 93);
+            this.lblLevel.Location = new System.Drawing.Point(17, 67);
             this.lblLevel.Name = "lblLevel";
-            this.lblLevel.Size = new System.Drawing.Size(46, 16);
+            this.lblLevel.Size = new System.Drawing.Size(41, 16);
             this.lblLevel.TabIndex = 7;
-            this.lblLevel.Text = "Level";
+            this.lblLevel.Text = "Role";
             // 
             // txtLevel
             // 
-            this.txtLevel.Location = new System.Drawing.Point(95, 90);
+            this.txtLevel.Location = new System.Drawing.Point(100, 64);
             this.txtLevel.Name = "txtLevel";
             this.txtLevel.Size = new System.Drawing.Size(100, 22);
             this.txtLevel.TabIndex = 6;
@@ -117,7 +98,7 @@
             // 
             this.lbl2.AutoSize = true;
             this.lbl2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl2.Location = new System.Drawing.Point(12, 121);
+            this.lbl2.Location = new System.Drawing.Point(17, 95);
             this.lbl2.Name = "lbl2";
             this.lbl2.Size = new System.Drawing.Size(79, 16);
             this.lbl2.TabIndex = 9;
@@ -125,7 +106,7 @@
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(95, 118);
+            this.txtUsername.Location = new System.Drawing.Point(100, 92);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(100, 22);
             this.txtUsername.TabIndex = 8;
@@ -134,7 +115,7 @@
             // 
             this.lbl3.AutoSize = true;
             this.lbl3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl3.Location = new System.Drawing.Point(12, 149);
+            this.lbl3.Location = new System.Drawing.Point(17, 123);
             this.lbl3.Name = "lbl3";
             this.lbl3.Size = new System.Drawing.Size(76, 16);
             this.lbl3.TabIndex = 11;
@@ -142,7 +123,7 @@
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(95, 146);
+            this.txtPassword.Location = new System.Drawing.Point(100, 120);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(100, 22);
             this.txtPassword.TabIndex = 10;
@@ -150,7 +131,7 @@
             // btnAdd
             // 
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(95, 199);
+            this.btnAdd.Location = new System.Drawing.Point(100, 173);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(100, 36);
             this.btnAdd.TabIndex = 12;
@@ -160,7 +141,7 @@
             // 
             // txtBoxPersonId
             // 
-            this.txtBoxPersonId.Location = new System.Drawing.Point(95, 174);
+            this.txtBoxPersonId.Location = new System.Drawing.Point(100, 148);
             this.txtBoxPersonId.Name = "txtBoxPersonId";
             this.txtBoxPersonId.Size = new System.Drawing.Size(100, 22);
             this.txtBoxPersonId.TabIndex = 13;
@@ -169,7 +150,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 177);
+            this.label3.Location = new System.Drawing.Point(17, 151);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(76, 16);
             this.label3.TabIndex = 14;
@@ -194,8 +175,6 @@
             this.Controls.Add(this.txtLastName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtFirstName);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtId);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AddUser";
@@ -207,9 +186,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox txtId;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtFirstName;
         private System.Windows.Forms.Label lbl1;

@@ -38,7 +38,6 @@ namespace shipapp
         {
             if (message == "EDIT")
             {
-                txtId.Text = vendorToBeEdited.VendorId.ToString();
                 txtName.Text = vendorToBeEdited.VendorName;
                 btnAdd.Text = "EDIT";
             }
@@ -81,7 +80,6 @@ namespace shipapp
         /// </summary>
         private void ResetError()
         {
-            txtId.BackColor = Color.White;
             txtName.BackColor = Color.White;
         }
 
@@ -97,16 +95,9 @@ namespace shipapp
             string errorMsg = "Check that all fields have correct data.\r\n";
 
             // Test data
-            if (txtId.Text == "" || txtId.Text == null)
-            {
-                txtId.BackColor = Color.LightPink;
-                pass = false;
-                errorMsg += "\t-Must provide a ID.\r\n";
-            }
-
             if (txtName.Text == "" || txtName.Text == null)
             {
-                txtId.BackColor = Color.LightPink;
+                txtName.BackColor = Color.LightPink;
                 pass = false;
                 errorMsg += "\t-Must provide a name.\r\n";
             }
@@ -130,7 +121,6 @@ namespace shipapp
             Models.Vendors vendorToBeAdded = new Models.Vendors();
 
             // Fill vendor object
-            vendorToBeAdded.VendorId = long.Parse(txtId.Text);
             vendorToBeAdded.VendorName = txtName.Text;
 
             // Write the data to the DB
