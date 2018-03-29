@@ -117,7 +117,8 @@ namespace shipapp
         {
             Receiving receive = new Receiving();
             this.Hide();
-            receive.label1.Text = DataConnectionClass.AuthenticatedUser.ToString() + " (" + DataConnectionClass.AuthenticatedUser.Level.ToString() + ")"; ;
+            receive.label1.Text = DataConnectionClass.AuthenticatedUser.ToString() + " (" + DataConnectionClass.AuthenticatedUser.Level.ToString() + ")";
+            Connections.DataConnections.DataConnectionClass.PackageConnClass.GetPackageList(receive);
             receive.Show();
             receive.FormClosed += new FormClosedEventHandler(receive_FormClosed);
 

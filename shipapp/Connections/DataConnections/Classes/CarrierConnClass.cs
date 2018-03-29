@@ -44,7 +44,7 @@ namespace shipapp.Connections.DataConnections.Classes
             }
             Sender = sender;
             SortableBindingList<Carrier> carr = await Task.Run(() => Get_Carrier_List());
-            if (!((Manage)Sender is null))
+            if (Sender is Manage)
             {
                 Manage t = (Manage)Sender;
                 DataConnectionClass.DataLists.CarriersList = carr;

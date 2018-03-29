@@ -18,11 +18,13 @@ namespace shipapp
         // Class level variabels
         private Models.Package newPackage;
         private string message = "NONE";
+        private new Receiving ParentForm { get; set; }
 
 
         #region form basic
-        public AddPackage(string message)
+        public AddPackage(string message, Receiving parent)
         {
+            ParentForm = parent;
             InitializeComponent();
         }
 
@@ -93,7 +95,8 @@ namespace shipapp
 
             // Write Package
             Connections.DataConnections.DataConnectionClass.PackageConnClass.AddPackage(newPackage);
-            Connections.DataConnections.DataConnectionClass.DataLists.Packages.Add(newPackage);
+            //Connections.DataConnections.DataConnectionClass.DataLists.Packages.Add(newPackage);
+            Connections.DataConnections.DataConnectionClass.PackageConnClass.GetPackageList(this.ParentForm);
         }
 
 
@@ -107,7 +110,8 @@ namespace shipapp
 
             // Edit Package
             Connections.DataConnections.DataConnectionClass.PackageConnClass.UpdatePackage(newPackage);
-            Connections.DataConnections.DataConnectionClass.DataLists.Packages.Add(newPackage);
+            //Connections.DataConnections.DataConnectionClass.DataLists.Packages.Add(newPackage);
+            Connections.DataConnections.DataConnectionClass.PackageConnClass.GetPackageList(this.ParentForm);
         }
         #endregion
 

@@ -28,7 +28,7 @@ namespace shipapp.Connections.DataConnections.Classes
             }
             Sender = sender;
             SortableBindingList<Vendors> vend = await Task.Run(() => GetVendorsList());
-            if (!((Manage)Sender is null))
+            if (Sender is Manage)
             {
                 Manage t = (Manage)Sender;
                 DataConnectionClass.DataLists.Vendors = vend;

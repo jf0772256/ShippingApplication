@@ -34,7 +34,7 @@ namespace shipapp.Connections.DataConnections.Classes
             }
             Sender = sender;
             SortableBindingList<Package> pack = await Task.Run(() => Get_Package_List());
-            if (!((Manage)Sender is null))
+            if (Sender is Manage)
             {
                 Manage t = (Manage)Sender;
                 DataConnectionClass.DataLists.Packages = pack;
@@ -43,6 +43,16 @@ namespace shipapp.Connections.DataConnections.Classes
                     DataSource = DataConnectionClass.DataLists.Packages
                 };
                 t.dataGridView1.DataSource = bs;
+            }
+            else if (sender is Receiving)
+            {
+                Receiving t = (Receiving)Sender;
+                DataConnectionClass.DataLists.Packages = pack;
+                BindingSource bs = new BindingSource
+                {
+                    DataSource = DataConnectionClass.DataLists.Packages
+                };
+                t.dataGridPackages.DataSource = bs;
             }
         }
         /// <summary>

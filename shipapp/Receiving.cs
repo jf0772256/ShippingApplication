@@ -130,7 +130,7 @@ namespace shipapp
             //    DataConnectionClass.DataLists.FacultyList[i].Address.ForEach(a => vcel.Items.Add(a.GetBuildingDetails(true)));
             //}
             message = "ADD";
-            AddPackage addPackage = new AddPackage(message);
+            AddPackage addPackage = new AddPackage(message,this);
             addPackage.ShowDialog();
                 
         }
@@ -138,7 +138,7 @@ namespace shipapp
 
         public void GetPackages()
         {
-            dataGridPackages.DataSource = DataConnectionClass.DataLists.Packages;
+            DataConnectionClass.PackageConnClass.GetPackageList(this);
         }
 
 

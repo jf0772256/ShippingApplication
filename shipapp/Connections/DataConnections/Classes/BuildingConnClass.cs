@@ -20,7 +20,7 @@ namespace shipapp.Connections.DataConnections.Classes
             }
             Sender = sender;
             List<BuildingClass> b = await Task.Run(() => Get_Building_List());
-            if (!((Manage)Sender is null))
+            if (Sender is Manage)
             {
                 Manage t = (Manage)Sender;
                 DataConnectionClass.DataLists.BuildingNames = b;

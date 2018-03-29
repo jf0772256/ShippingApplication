@@ -39,7 +39,7 @@ namespace shipapp.Connections.DataConnections.Classes
             }
             Sender = sender;
             SortableBindingList<User> users = await Task.Run(() => GetUserList());
-            if (!((Manage)Sender is null))
+            if (Sender is Manage)
             {
                 Manage t = (Manage)Sender;
                 DataConnectionClass.DataLists.UsersList = users;

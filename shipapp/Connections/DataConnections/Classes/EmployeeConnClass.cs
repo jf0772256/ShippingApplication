@@ -37,9 +37,13 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public async void GetAllAfaculty(object sender = null)
         {
+            if (String.IsNullOrWhiteSpace(DataConnectionClass.ConnectionString))
+            {
+                return;
+            }
             Sender = sender;
             SortableBindingList<Faculty> users = await Task.Run(() => Get_Faculty_List());
-            if (!((Manage)Sender is null))
+            if (Sender is Manage)
             {
                 Manage t = (Manage)Sender;
                 DataConnectionClass.DataLists.FacultyList = users;
