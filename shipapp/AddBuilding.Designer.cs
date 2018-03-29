@@ -99,7 +99,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "AddBuilding";
-            this.Text = "AddBuilding";
+            this.Text = "git fet";
             this.Load += new System.EventHandler(this.AddBuilding_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
