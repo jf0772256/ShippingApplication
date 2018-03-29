@@ -21,7 +21,7 @@ namespace shipapp
 
 
         #region form basic
-        public AddPackage()
+        public AddPackage(string message)
         {
             InitializeComponent();
         }
@@ -41,7 +41,7 @@ namespace shipapp
             // If edit, fill form with the pakcage info
             if (message == "EDIT")
             {
-                // TODO: Filter ComboBoxe with correct info
+                // TODO: Filter ComboBoxe with correct info  
                 txtDate.Text = newPackage.PackageReceivedDate;
                 txtDelDate.Text = newPackage.PackageDeliveredDate;
                 txtPersonId.Text = newPackage.Package_PersonId;

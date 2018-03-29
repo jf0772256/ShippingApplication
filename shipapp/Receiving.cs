@@ -130,7 +130,7 @@ namespace shipapp
             //    DataConnectionClass.DataLists.FacultyList[i].Address.ForEach(a => vcel.Items.Add(a.GetBuildingDetails(true)));
             //}
             message = "ADD";
-            AddPackage addPackage = new AddPackage();
+            AddPackage addPackage = new AddPackage(message);
             addPackage.ShowDialog();
                 
         }
@@ -182,7 +182,8 @@ namespace shipapp
             message = "EDIT";
 
             // Create package form and set it to edit
-            AddPackage addPackage = new AddPackage();
+            Package packageToBeEdited = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0].Value));
+            AddPackage addPackage = new AddPackage(message, packageToBeEdited);
             addPackage.ShowDialog();
         }
     }

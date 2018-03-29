@@ -202,7 +202,7 @@ namespace shipapp
             }
             else if (currentTable == 2)
             {
-                AddVendor addVendor = new AddVendor();
+                AddVendor addVendor = new AddVendor(message = "ADD");
                 addVendor.ShowDialog();
                 //DataConnectionClass.VendorConn.GetVendorList(this);
                 btnVendors_Click_1(this, e);
@@ -238,6 +238,9 @@ namespace shipapp
             {
                 MessageBox.Show("This button is not set to a existing table! Please select another table.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            // Reset message
+            message = "REST";
         }
         #endregion
 

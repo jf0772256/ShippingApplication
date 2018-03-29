@@ -17,17 +17,31 @@ namespace shipapp
     {
         // Class level variables
         private string message;
+        private Models.Vendors vendorToBeEdited;
 
 
-        public AddVendor()
+        public AddVendor(string message)
         {
             InitializeComponent();
+            this.message = message;
+        }
+
+        public AddVendor(string message, object vendorToBeEdited)
+        {
+            InitializeComponent();
+            this.message = message;
+            this.vendorToBeEdited = (Models.Vendors)vendorToBeEdited;
         }
 
 
         private void AddVendor_Load(object sender, EventArgs e)
         {
-
+            if (message == "EDIT")
+            {
+                txtId.Text = vendorToBeEdited.VendorId.ToString();
+                txtName.Text = vendorToBeEdited.VendorName;
+                btnAdd.Text = "EDIT";
+            }
         }
 
 
@@ -40,9 +54,19 @@ namespace shipapp
         {
             ResetError();
 
-            if (ValidateData())
+            if (ValidateData() && message == "ADD")
             {
                 AddVendorToDB();
+                this.Close();
+            }
+            else if (ValidateData() && message == "EDIT")
+            {
+                EditVendor();
+                this.Close();
+            }
+            else if(message != "ADD" && message != "EDIT")
+            {
+                MessageBox.Show("Their was a problem with the form loading./r/Try Again.", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 this.Close();
             }
             else
@@ -112,6 +136,16 @@ namespace shipapp
             // Write the data to the DB
             Connections.DataConnections.DataConnectionClass.VendorConn.AddVendor(vendorToBeAdded);
             Connections.DataConnections.DataConnectionClass.DataLists.Vendors.Add(Connections.DataConnections.DataConnectionClass.VendorConn.GetVendor(vendorToBeAdded.VendorId));
+        }
+
+        
+        /// <summary>
+        /// Edit a vendor
+        /// </summary>
+        public void EditVendor()
+        {
+            vendorToBeEdited.VendorName = txtName.Text;
+            Connections.DataConnections.DataConnectionClass.VendorConn.UpdateVendor(vendorToBeEdited);
         }
     }
 }

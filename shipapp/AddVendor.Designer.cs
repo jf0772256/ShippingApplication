@@ -39,7 +39,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 30);
+            this.label1.Location = new System.Drawing.Point(12, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(28, 20);
             this.label1.TabIndex = 0;
@@ -47,14 +47,14 @@
             // 
             // txtId
             // 
-            this.txtId.Location = new System.Drawing.Point(102, 24);
+            this.txtId.Location = new System.Drawing.Point(102, 12);
             this.txtId.Name = "txtId";
             this.txtId.Size = new System.Drawing.Size(100, 26);
             this.txtId.TabIndex = 1;
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(102, 59);
+            this.txtName.Location = new System.Drawing.Point(102, 44);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(100, 26);
             this.txtName.TabIndex = 5;
@@ -63,7 +63,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 62);
+            this.label3.Location = new System.Drawing.Point(12, 47);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 20);
             this.label3.TabIndex = 4;
@@ -71,7 +71,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(102, 91);
+            this.btnAdd.Location = new System.Drawing.Point(102, 76);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(100, 34);
             this.btnAdd.TabIndex = 16;
@@ -84,7 +84,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.ClientSize = new System.Drawing.Size(210, 159);
+            this.ClientSize = new System.Drawing.Size(210, 118);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label3);

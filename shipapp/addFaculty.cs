@@ -47,6 +47,18 @@ namespace shipapp
 
 
         /// <summary>
+        /// Add a fauctly to the database
+        /// </summary>
+        //public AddFaculty()
+        //{
+        //    InitializeComponent();
+        //    NewFaculty = new Faculty();
+        //    Connections.DataConnections.DataConnectionClass.buildingConn.GetBuildingList();
+        //    Connections.DataConnections.DataConnectionClass.DataLists.BuildingNames.ForEach(b => comboBox1.Items.Add(b.BuildingLongName));
+        //}
+
+
+        /// <summary>
         /// When the user clicks this button it will check the data, add it to the DB, and close the form.
         /// </summary>
         /// <param name="sender"></param>
