@@ -28,6 +28,10 @@ namespace shipapp.Connections.DataConnections.Classes
         /// </summary>
         public async void GetPackageList(object sender = null)
         {
+            if (String.IsNullOrWhiteSpace(DataConnectionClass.ConnectionString))
+            {
+                return;
+            }
             Sender = sender;
             SortableBindingList<Package> pack = await Task.Run(() => Get_Package_List());
             if (!((Manage)Sender is null))

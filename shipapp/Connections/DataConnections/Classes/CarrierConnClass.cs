@@ -38,6 +38,10 @@ namespace shipapp.Connections.DataConnections.Classes
         /// </summary>
         public async void GetCarrierList(object sender = null)
         {
+            if (String.IsNullOrWhiteSpace(DataConnectionClass.ConnectionString))
+            {
+                return;
+            }
             Sender = sender;
             SortableBindingList<Carrier> carr = await Task.Run(() => Get_Carrier_List());
             if (!((Manage)Sender is null))

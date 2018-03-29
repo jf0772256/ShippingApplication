@@ -22,6 +22,10 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public async void GetVendorList(object sender = null)
         {
+            if (String.IsNullOrWhiteSpace(DataConnectionClass.ConnectionString))
+            {
+                return;
+            }
             Sender = sender;
             SortableBindingList<Vendors> vend = await Task.Run(() => GetVendorsList());
             if (!((Manage)Sender is null))

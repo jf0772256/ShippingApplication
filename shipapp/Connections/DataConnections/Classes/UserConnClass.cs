@@ -33,6 +33,10 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public async void GetManyUsers(object sender = null)
         {
+            if (String.IsNullOrWhiteSpace(DataConnectionClass.ConnectionString))
+            {
+                return;
+            }
             Sender = sender;
             SortableBindingList<User> users = await Task.Run(() => GetUserList());
             if (!((Manage)Sender is null))

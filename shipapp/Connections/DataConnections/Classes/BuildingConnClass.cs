@@ -14,6 +14,10 @@ namespace shipapp.Connections.DataConnections.Classes
         public BuildingConnClass():base() { }
         public async void GetBuildingList(object sender = null)
         {
+            if (String.IsNullOrWhiteSpace(DataConnectionClass.ConnectionString))
+            {
+                return;
+            }
             Sender = sender;
             List<BuildingClass> b = await Task.Run(() => Get_Building_List());
             if (!((Manage)Sender is null))
