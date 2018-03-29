@@ -28,18 +28,16 @@ namespace shipapp
             InitializeComponent();
         }
 
-        public AddPackage(string message, Object packageToBeEdited)
+        public AddPackage(string message, object packageToBeEdited, Receiving parent)
         {
             InitializeComponent();
             newPackage = (Models.Package)packageToBeEdited;
+            ParentForm = parent;
         }
 
 
         private void AddPackage_Load(object sender, EventArgs e)
         {
-            // Instatiate Package
-            newPackage = new Models.Package();
-
             // If edit, fill form with the pakcage info
             if (message == "EDIT")
             {
@@ -55,6 +53,11 @@ namespace shipapp
                 cmboSignedBy.Text = newPackage.PackageSignedForBy;
                 cmboDelBy.Text = newPackage.PackageDeleveredBy;
                 cmboStatus.Text = newPackage.Status.ToString();
+            }
+            else if (message == "ADD")
+            {
+                // Instatiate Package
+                newPackage = new Models.Package();
             }
         }
         #endregion

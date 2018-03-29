@@ -149,6 +149,7 @@ namespace shipapp
         {
             Package packageToBeRemoved = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0].Value));
             DataConnectionClass.PackageConnClass.DeletePackage(packageToBeRemoved);
+            DataConnectionClass.PackageConnClass.GetPackageList();
         }
 
 
@@ -183,7 +184,7 @@ namespace shipapp
 
             // Create package form and set it to edit
             Package packageToBeEdited = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0].Value));
-            AddPackage addPackage = new AddPackage(message, packageToBeEdited);
+            AddPackage addPackage = new AddPackage(message, packageToBeEdited,this);
             addPackage.ShowDialog();
         }
     }
