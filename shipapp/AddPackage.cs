@@ -148,7 +148,7 @@ namespace shipapp
             string errorMsg = "Unable to add package.\r\nPlease insure the following items are filled with correct data.\r\n";
 
             // Check that a carrier is selected
-            if (cmboCarrier.Text == "" || cmboCarrier.Text == null)
+            if (String.IsNullOrWhiteSpace(cmboCarrier.Text))
             {
                 pass = false;
                 cmboCarrier.BackColor = Color.LightPink;
@@ -156,7 +156,7 @@ namespace shipapp
             }
 
             // Check that a vendor is selected
-            if (cmboVendor.Text == "" || cmboVendor.Text == null)
+            if (String.IsNullOrWhiteSpace(cmboVendor.Text))
             {
                 pass = false;
                 cmboVendor.BackColor = Color.LightPink;
@@ -164,7 +164,7 @@ namespace shipapp
             }
 
             // Check that a recipiant is selected
-            if (cmboRecipiant.Text == "" || cmboRecipiant.Text == null)
+            if (String.IsNullOrWhiteSpace(cmboRecipiant.Text))
             {
                 pass = false;
                 cmboRecipiant.BackColor = Color.LightPink;
@@ -172,7 +172,7 @@ namespace shipapp
             }
 
             // Check that the package has a tracking number
-            if (txtTracking.Text == "" || txtTracking.Text == null)
+            if (String.IsNullOrWhiteSpace(txtTracking.Text))
             {
                 pass = false;
                 txtTracking.BackColor = Color.LightPink;
@@ -180,7 +180,7 @@ namespace shipapp
             }
 
             // Check that a deliveiry person is selected
-            if (cmboDelBy.Text == "" || cmboDelBy.Text == null)
+            if (String.IsNullOrWhiteSpace(cmboDelBy.Text))
             {
                 pass = false;
                 cmboDelBy.BackColor = Color.LightPink;
