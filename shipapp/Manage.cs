@@ -24,7 +24,7 @@ namespace shipapp
         private int currentTable = 0;
         private string message = "REST";
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
-        private Object objectToBeEditied;
+        private object objectToBeEditied;
 
 
         // Data list for tables
@@ -153,10 +153,11 @@ namespace shipapp
         {
             currentTable = 3;
             //TODO Fill list with query from Database
-            dataGridView1.DataSource = null;
-            dataGridView1.Columns.Clear(); ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-            //DataConnectionClass.EmployeeConn.GetAllAfaculty();
-            dataGridView1.DataSource = DataConnectionClass.DataLists.FacultyList;
+            //dataGridView1.DataSource = null;
+            //dataGridView1.Columns.Clear();
+            ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
+            DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
+            //dataGridView1.DataSource = DataConnectionClass.DataLists.FacultyList;
         }
         private void btnBuildings_Click(object sender, EventArgs e)
         {

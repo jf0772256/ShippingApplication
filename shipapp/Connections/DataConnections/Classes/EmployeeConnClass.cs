@@ -42,11 +42,11 @@ namespace shipapp.Connections.DataConnections.Classes
                 return;
             }
             Sender = sender;
-            SortableBindingList<Faculty> users = await Task.Run(() => Get_Faculty_List());
+            SortableBindingList<Faculty> fac = await Task.Run(() => Get_Faculty_List());
             if (Sender is Manage)
             {
                 Manage t = (Manage)Sender;
-                DataConnectionClass.DataLists.FacultyList = users;
+                DataConnectionClass.DataLists.FacultyList = fac;
                 BindingSource bs = new BindingSource
                 {
                     DataSource = DataConnectionClass.DataLists.FacultyList
