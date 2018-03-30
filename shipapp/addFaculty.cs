@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using shipapp.Models;
+using shipapp.Models.ModelData;
+using shipapp.Connections.DataConnections;
 
 namespace shipapp
 {
@@ -38,8 +40,11 @@ namespace shipapp
         {
             InitializeComponent();
             NewFaculty = new Faculty();
-            Connections.DataConnections.DataConnectionClass.buildingConn.GetBuildingList();
-            Connections.DataConnections.DataConnectionClass.DataLists.BuildingNames.ForEach(b => comboBox1.Items.Add(b.BuildingLongName));
+            DataConnectionClass.buildingConn.GetBuildingList();
+            foreach (BuildingClass b in DataConnectionClass.DataLists.BuildingNames)
+            {
+                comboBox1.Items.Add(b.BuildingLongName);
+            }
         }
 
 
@@ -72,14 +77,14 @@ namespace shipapp
                 NewFaculty.LastName = txtLastName.Text;
                 NewFaculty.Faculty_PersonId = txtId2.Text;
                 NewFaculty.Id = long.Parse(txtId1.Text);
-                Models.ModelData.BuildingClass g = Connections.DataConnections.DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(m => m.BuildingLongName == comboBox1.SelectedItem.ToString());
+                BuildingClass g = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(m => m.BuildingLongName == comboBox1.SelectedItem.ToString());
                 NewFaculty.Building_Id = g.BuildingId;
                 NewFaculty.Building_Name = g.BuildingShortName;
                 NewFaculty.RoomNumber = textBox1.Text;
                 
                 // Add to DB
-                Connections.DataConnections.DataConnectionClass.EmployeeConn.AddFaculty(NewFaculty);
-                Connections.DataConnections.DataConnectionClass.DataLists.FacultyList.Add(NewFaculty);
+                DataConnectionClass.EmployeeConn.AddFaculty(NewFaculty);
+                DataConnectionClass.DataLists.FacultyList.Add(NewFaculty);
                 this.Close();
             }
             else

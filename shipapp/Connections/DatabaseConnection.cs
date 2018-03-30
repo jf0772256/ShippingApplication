@@ -1508,7 +1508,7 @@ namespace shipapp.Connections
                 c.Open();
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
-                    cmd.CommandText = "SELECT building_short_name,building_long_name,building_id FROM buildings;";
+                    cmd.CommandText = "SELECT building_short_name,building_long_name,building_id FROM buildings ORDER BY building_long_name ASC;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
