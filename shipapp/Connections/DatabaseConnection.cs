@@ -1433,6 +1433,7 @@ namespace shipapp.Connections
                             p = new Package()
                             {
                                 PackageId = Convert.ToInt64(reader["package_id"].ToString()),
+                                PONumber = reader["package_po"].ToString(),
                                 PackageTrackingNumber = reader["package_tracking_number"].ToString(),
                                 PackageCarrier = reader["package_carrier"].ToString(),
                                 PackageVendor = reader["package_vendor"].ToString(),
@@ -1473,6 +1474,7 @@ namespace shipapp.Connections
                             {
                                 PackageId = Convert.ToInt64(reader["package_id"].ToString()),
                                 PackageTrackingNumber = reader["package_tracking_number"].ToString(),
+                                PONumber = reader["package_po"].ToString(),
                                 PackageCarrier = reader["package_carrier"].ToString(),
                                 PackageVendor = reader["package_vendor"].ToString(),
                                 PackageDeleveredBy = reader["package_deliv_by"].ToString(),
@@ -1494,9 +1496,9 @@ namespace shipapp.Connections
                 }
             }
         }
-        protected List<BuildingClass> Get_Building_List()
+        protected SortableBindingList<BuildingClass> Get_Building_List()
         {
-            List<BuildingClass> bl = new List<BuildingClass>() { };
+            SortableBindingList<BuildingClass> bl = new SortableBindingList<BuildingClass>() { };
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;

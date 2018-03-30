@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using shipapp.Models.ModelData;
 using System.Windows.Forms;
+using shipapp.Connections.HelperClasses;
 
 namespace shipapp.Connections.DataConnections.Classes
 {
@@ -19,7 +20,7 @@ namespace shipapp.Connections.DataConnections.Classes
                 return;
             }
             Sender = sender;
-            List<BuildingClass> b = await Task.Run(() => Get_Building_List());
+            SortableBindingList<BuildingClass> b = await Task.Run(() => Get_Building_List());
             if (Sender is Manage)
             {
                 Manage t = (Manage)Sender;
