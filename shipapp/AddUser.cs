@@ -51,6 +51,7 @@ namespace shipapp
         /// <param name="e"></param>
         private void AddUser_Load(object sender, EventArgs e)
         {
+            // If EDIT set form to edit mode
             if (message == "EDIT")
             {
                 // Fill Textbox

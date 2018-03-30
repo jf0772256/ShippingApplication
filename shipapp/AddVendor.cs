@@ -26,6 +26,7 @@ namespace shipapp
             this.message = message;
         }
 
+
         public AddVendor(string message, object vendorToBeEdited)
         {
             InitializeComponent();
@@ -34,11 +35,20 @@ namespace shipapp
         }
 
 
+        /// <summary>
+        /// IF the user trys to edit a vendor set the form to edit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddVendor_Load(object sender, EventArgs e)
         {
+            // If EDIT set to edit mode
             if (message == "EDIT")
             {
+                // Set textbox
                 txtName.Text = vendorToBeEdited.VendorName;
+
+                // Set button
                 btnAdd.Text = "EDIT";
             }
         }
@@ -51,25 +61,31 @@ namespace shipapp
         /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            // Reset any errors on the form
             ResetError();
 
+            // Call the correct method depeding on validation and the message
             if (ValidateData() && message == "ADD")
             {
+                // Add a vendor
                 AddVendorToDB();
                 this.Close();
             }
             else if (ValidateData() && message == "EDIT")
             {
+                // Edit a vendor
                 EditVendor();
                 this.Close();
             }
             else if(message != "ADD" && message != "EDIT")
             {
+                // If something is wrong with the message
                 MessageBox.Show("Their was a problem with the form loading./r/Try Again.", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 this.Close();
             }
             else
             {
+                // If the form does not validate
                 MessageBox.Show("All fields must have correct data!", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
@@ -130,11 +146,14 @@ namespace shipapp
 
         
         /// <summary>
-        /// Edit a vendor
+        /// Edit a vendor in the DB
         /// </summary>
         public void EditVendor()
         {
+            // Set new info
             vendorToBeEdited.VendorName = txtName.Text;
+
+            // Edit the vendor
             Connections.DataConnections.DataConnectionClass.VendorConn.UpdateVendor(vendorToBeEdited);
         }
     }

@@ -21,16 +21,13 @@ namespace shipapp
         private string message;
 
 
+        /// <summary>
+        /// Public property for faculty
+        /// </summary>
         internal Faculty NewFaculty
         {
             get => newFaculty;
             set => newFaculty = value;
-        }
-
-
-        private void AddFaculty_Load(object sender, EventArgs e)
-        {
-
         }
 
 
