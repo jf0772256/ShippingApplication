@@ -23,7 +23,12 @@ namespace shipapp
     {
         // Class level variables
         bool isLoggedIn = false;
+        int role = 0;
+
+
         LogIn LogInForm { get; set; }
+
+
         public MainMenu(LogIn lif)
         {
             InitializeComponent();
@@ -43,6 +48,8 @@ namespace shipapp
                 // do nothing when errors but the lists will have to be pulled elsewhere
             }
         }
+
+
         /// <summary>
         /// When the Main Menu loads it will perform the folloing functions:
         /// </summary>
@@ -51,6 +58,34 @@ namespace shipapp
         private void MainMenu_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
+
+            // If Setup Admin
+            if (role == 0)
+            {
+                btnDailyReceiving.Enabled = false;
+                btnManage.Enabled = false;
+                btnReports.Enabled = false;
+            }
+
+
+            // If Danny
+            if (role == 1)
+            {
+                // Do nothing
+            }
+
+            // If Supervisor
+            if (role == 2)
+            {
+                btnSettings.Enabled = false;
+            }
+
+            // If Crew
+            if (role == 2)
+            {
+                btnSettings.Enabled = false;
+                
+            }
         }
         /// <summary>
         /// This Label will indicate the current user who is logged in.

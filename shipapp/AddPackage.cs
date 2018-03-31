@@ -74,7 +74,7 @@ namespace shipapp
             ResetError();
 
             // Check the data, then write the package to the database
-            if (CheckData())
+            if (CheckData() && message == "ADD")
             {
                 AddPackageToDB();
                 this.Close();
@@ -217,13 +217,34 @@ namespace shipapp
             newPackage.PackageTrackingNumber = txtTracking.Text;
             newPackage.PackageDeleveredBy = cmboDelBy.Text;
             newPackage.PackageSignedForBy = cmboSignedBy.Text;
-            newPackage.Status = (Models.Package.DeliveryStatus)Convert.ToInt32(cmboStatus.Text);
+            newPackage.PackageReceivedDate = dTRec.Value.ToShortDateString();
+            newPackage.PackageDeliveredDate = dTDel.Value.ToShortDateString();
+            newPackage.Status = (Models.Package.DeliveryStatus)FormatStatus(cmboStatus.Text);
         }
         #endregion
+        
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Set status to proper int
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public int FormatStatus(string status)
         {
+            if (status == "Received")
+            {
+                return 1;
+            }
+            else if (status == "OutForDelivery")
+            {
+                return 2;
+            }
+            else if (status == "Delivered")
+            {
+                return 3;
+            }
 
+            return 0;
         }
     }
 }

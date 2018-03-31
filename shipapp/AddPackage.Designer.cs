@@ -265,7 +265,6 @@
             this.dTRec.Size = new System.Drawing.Size(169, 26);
             this.dTRec.TabIndex = 32;
             this.dTRec.Value = new System.DateTime(2018, 3, 30, 0, 0, 0, 0);
-            this.dTRec.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // dTDel
             // 
