@@ -61,8 +61,8 @@ namespace shipapp
                 pcBxEdit.Show();
                 pictureBox3.Enabled = true;
                 pictureBox3.Show();
-                pictureBox4.Enabled = true;
-                pictureBox4.Show();
+                pcBxPrint.Enabled = true;
+                pcBxPrint.Show();
             }
             else if (role == 2)
             {
@@ -72,8 +72,8 @@ namespace shipapp
                 pcBxEdit.Show();
                 pictureBox3.Enabled = true;
                 pictureBox3.Show();
-                pictureBox4.Enabled = true;
-                pictureBox4.Show();
+                pcBxPrint.Enabled = true;
+                pcBxPrint.Show();
             }
             else if (role == 3)
             {
@@ -83,8 +83,8 @@ namespace shipapp
                 pcBxEdit.Hide();
                 pictureBox3.Enabled = false;
                 pictureBox3.Hide();
-                pictureBox4.Enabled = false;
-                pictureBox4.Hide();
+                pcBxPrint.Enabled = false;
+                pcBxPrint.Hide();
             }
         }
 
@@ -291,6 +291,26 @@ namespace shipapp
         public void SignOut()
         {
             MessageBox.Show(DataConnectionClass.AuthenticatedUser.LastName + ", " + DataConnectionClass.AuthenticatedUser.FirstName + "\r\n" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + "\r\n\r\nTo Logout exit to the Main Menu." );
+        }
+
+
+        /// <summary>
+        /// Print the selected packages
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pcBxPrint_Click(object sender, EventArgs e)
+        {
+            PrintLog();
+        }
+
+
+        /// <summary>
+        /// Print the selected packages
+        /// </summary>
+        public void PrintLog()
+        {
+
         }
     }
 }
