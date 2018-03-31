@@ -27,6 +27,10 @@ namespace shipapp
             ParentForm = parent;
             InitializeComponent();
             this.message = message;
+            cmboStatus.Items.Add("Not_Recieved");
+            cmboStatus.Items.Add("Received");
+            cmboStatus.Items.Add("OutForDelivery");
+            cmboStatus.Items.Add("Delivered");
         }
 
         public AddPackage(string message, object packageToBeEdited, Receiving parent)
@@ -35,6 +39,10 @@ namespace shipapp
             newPackage = (Models.Package)packageToBeEdited;
             ParentForm = parent;
             this.message = message;
+            cmboStatus.Items.Add("Not_Recieved");
+            cmboStatus.Items.Add("Received");
+            cmboStatus.Items.Add("OutForDelivery");
+            cmboStatus.Items.Add("Delivered");
         }
 
 
@@ -247,6 +255,56 @@ namespace shipapp
             }
 
             return 0;
+        }
+
+        private void cmboStatus_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            string selText = cmboStatus.SelectedItem.ToString();
+            if (selText == "Not Recieved")
+            {
+                newPackage.Status = Models.Package.DeliveryStatus.Not_Received;
+            }
+            else if (selText == "Recieved")
+            {
+                newPackage.Status = Models.Package.DeliveryStatus.Received;
+            }
+            else if (selText == "Out For Delivery")
+            {
+                newPackage.Status = Models.Package.DeliveryStatus.OutForDelivery;
+            }
+            else if (selText == "Delivered")
+            {
+                newPackage.Status = Models.Package.DeliveryStatus.Delivered;
+            }
+            else
+            {
+                newPackage.Status = Models.Package.DeliveryStatus.Not_Received;
+            }
+        }
+
+        private void cmboStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selText = cmboStatus.SelectedItem.ToString();
+            if (selText == "Not Recieved")
+            {
+                newPackage.Status = Models.Package.DeliveryStatus.Not_Received;
+            }
+            else if (selText == "Recieved")
+            {
+                newPackage.Status = Models.Package.DeliveryStatus.Received;
+            }
+            else if (selText == "Out For Delivery")
+            {
+                newPackage.Status = Models.Package.DeliveryStatus.OutForDelivery;
+            }
+            else if (selText == "Delivered")
+            {
+                newPackage.Status = Models.Package.DeliveryStatus.Delivered;
+            }
+            else
+            {
+                newPackage.Status = Models.Package.DeliveryStatus.Not_Received;
+            }
         }
     }
 }

@@ -783,7 +783,7 @@ namespace shipapp.Connections
                         new OdbcParameter("tracknumb",p.PackageTrackingNumber),
                         new OdbcParameter("recieveddate",p.PackageReceivedDate),
                         new OdbcParameter("delivDate",p.PackageDeliveredDate),
-                        new OdbcParameter("packstats",p.Status.ToString()),
+                        new OdbcParameter("packstats",Convert.ToInt32(p.Status)),
                         new OdbcParameter("packid",p.PackageId)
                     });
                     foreach (Note note in p.Notes)

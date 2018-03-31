@@ -224,6 +224,8 @@
             this.cmboStatus.Name = "cmboStatus";
             this.cmboStatus.Size = new System.Drawing.Size(158, 28);
             this.cmboStatus.TabIndex = 26;
+            this.cmboStatus.SelectedIndexChanged += new System.EventHandler(this.cmboStatus_SelectedIndexChanged);
+            this.cmboStatus.SelectionChangeCommitted += new System.EventHandler(this.cmboStatus_SelectionChangeCommitted);
             // 
             // btnViewNote
             // 
