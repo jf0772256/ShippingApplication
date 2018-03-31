@@ -81,7 +81,7 @@ namespace shipapp.Connections
                     "CREATE TABLE IF NOT EXISTS carriers(carrier_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, carrier_name VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
 
                     "CREATE TABLE IF NOT EXISTS purchase_orders(po_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, po_number VARCHAR(25) DEFAULT NULL,po_package_count INT DEFAULT 0, po_created_on DATETIME, po_created_by BIGINT, po_approved_by BIGINT, FOREIGN KEY (po_created_by) REFERENCES employees(empl_id) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (po_approved_by) REFERENCES employees(empl_id) ON DELETE NO ACTION ON UPDATE NO ACTION)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS packages(package_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,package_po varchar(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date VARCHAR(50), package_deliver_date VARCHAR(50), package_notes_id VARCHAR(1000) NOT NULL UNIQUE,package_status INT DEFAULT 0)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS packages(package_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,package_po varchar(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date VARCHAR(50),package_deliv_bldg VARCHAR(100), package_deliver_date VARCHAR(50), package_notes_id VARCHAR(1000) NOT NULL UNIQUE,package_status INT DEFAULT 0)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     //create default roles;
                     "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');"
                 };
@@ -101,7 +101,7 @@ namespace shipapp.Connections
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'vendors')CREATE TABLE vendors(vend_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, vendor_name VARCHAR(50) NOT NULL UNIQUE);",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'carriers')CREATE TABLE carriers(carrier_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, carrier_name VARCHAR(50) NOT NULL UNIQUE);",
 
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'packages')CREATE TABLE packages(package_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,package_po VARCHAR(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date VARCHAR(50), package_deliver_date VARCHAR(50), package_note_id VARCHAR(1000) NOT NULL, package_status INT DEFAULT 0, CONSTRAINT UC_NID UNIQUE(package_note_id));",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'packages')CREATE TABLE packages(package_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,package_po VARCHAR(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date VARCHAR(50),package_deliv_bldg VARCHAR(100), package_deliver_date VARCHAR(50), package_note_id VARCHAR(1000) NOT NULL, package_status INT DEFAULT 0, CONSTRAINT UC_NID UNIQUE(package_note_id));",
                     "IF (SELECT COUNT(*) FROM sys.symmetric_keys WHERE name = 'secure_data')=0 CREATE SYMMETRIC KEY secure_data WITH ALGORITHM = AES_128 ENCRYPTION BY PASSWORD = '" + EncodeKey +"';",
                     //create default roles;
                     "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');"
@@ -487,7 +487,7 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "INSERT INTO packages(package_po,package_carrier,package_vendor,package_deliv_to,package_deliv_by,package_signed_for_by,package_tracking_number,package_receive_date,package_deliver_date,package_note_id,package_status)VALUES(?,?,?,?,?,?,?,?,?,?,?);";
+                    cmd.CommandText = "INSERT INTO packages(package_po,package_carrier,package_vendor,package_deliv_to,package_deliv_by,package_signed_for_by,package_tracking_number,package_receive_date,package_deliver_date,package_note_id,package_status,package_deliv_bldg)VALUES(?,?,?,?,?,?,?,?,?,?,?,?);";
                     //most fields can be null so we need to check and make sure that if a field is empty that we set  ids to 0 or null strings
                     //ids all will be 0 for null, strings should roll to null
                     cmd.Parameters.AddRange(new OdbcParameter[]
@@ -502,7 +502,8 @@ namespace shipapp.Connections
                         new OdbcParameter("recieveddate",p.PackageReceivedDate),
                         new OdbcParameter("delivDate",p.PackageDeliveredDate),
                         new OdbcParameter("noteid",p.Package_PersonId),
-                        new OdbcParameter("packstats",Convert.ToInt32(p.Status))
+                        new OdbcParameter("packstats",Convert.ToInt32(p.Status)),
+                        new OdbcParameter("BuildingShortName", p.DelivBuildingShortName)
                     });
                     PWrite(p.Notes, p.Package_PersonId);
                     try
@@ -769,7 +770,7 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "UPDATE packages SET package_po=?,package_carrier=?,package_vendor=?,package_deliv_to=?,package_deliv_by=?,package_signed_for_by=?,package_tracking_number=?,package_receive_date=?,package_deliver_date=?,package_status=? WHERE package_id = ?";
+                    cmd.CommandText = "UPDATE packages SET package_po=?,package_carrier=?,package_vendor=?,package_deliv_to=?,package_deliv_by=?,package_signed_for_by=?,package_tracking_number=?,package_receive_date=?,package_deliver_date=?,package_status=?,package_deliv_bldg=? WHERE package_id = ?";
                     //most fields can be null so we need to check and make sure that if a field is empty that we set  ids to 0 or null strings
                     //ids all will be 0 for null, strings should roll to null
                     cmd.Parameters.AddRange(new OdbcParameter[]
@@ -784,6 +785,7 @@ namespace shipapp.Connections
                         new OdbcParameter("recieveddate",p.PackageReceivedDate),
                         new OdbcParameter("delivDate",p.PackageDeliveredDate),
                         new OdbcParameter("packstats",Convert.ToInt32(p.Status)),
+                        new OdbcParameter("bldgshortname",p.DelivBuildingShortName),
                         new OdbcParameter("packid",p.PackageId)
                     });
                     foreach (Note note in p.Notes)
@@ -1424,7 +1426,7 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
                     Package p = new Package() { };
-                    cmd.CommandText = "SELECT package_id,package_po,package_carrier,package_vendor,package_deliv_to,package_devliv_by,package_signed_for_by,package_tracking_number,package_receive_date,package_deliver_date,package_note_id,package_status FROM packages WHERE package_id=?;";
+                    cmd.CommandText = "SELECT package_id,package_po,package_carrier,package_vendor,package_deliv_to,package_devliv_by,package_signed_for_by,package_tracking_number,package_receive_date,package_deliver_date,package_note_id,package_status,package_deliv_bldg FROM packages WHERE package_id=?;";
                     cmd.Parameters.AddWithValue("pid", id);
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
@@ -1443,7 +1445,8 @@ namespace shipapp.Connections
                                 PackageReceivedDate = reader["package_receive_date"].ToString(),
                                 PackageDeliveredDate = reader["package_deliver_date"].ToString(),
                                 Package_PersonId = reader["package_note_id"].ToString(),
-                                Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString())
+                                Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString()),
+                                DelivBuildingShortName = reader["package_deliv_bldg"].ToString()
                             };
                         }
                     }
@@ -1483,7 +1486,8 @@ namespace shipapp.Connections
                                 PackageReceivedDate = reader["package_receive_date"].ToString(),
                                 PackageDeliveredDate = reader["package_deliver_date"].ToString(),
                                 Package_PersonId = reader["package_note_id"].ToString(),
-                                Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString())
+                                Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString()),
+                                DelivBuildingShortName = reader["package_deliv_bldg"].ToString()
                             };
                             pkg.Add(p);
                         }

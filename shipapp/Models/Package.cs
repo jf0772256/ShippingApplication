@@ -64,6 +64,7 @@ namespace shipapp.Models
         /// Package Status as either int or string(enum)
         /// </summary>
         public DeliveryStatus Status { get; set; }
+        public string DelivBuildingShortName { get; set; }
         /// <summary>
         /// constructor
         /// </summary>
