@@ -256,6 +256,8 @@
     <Content Include="Connections\Assets\settings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\social-dropbox.png" />
+    <None Include="Resources\loop.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

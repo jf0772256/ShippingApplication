@@ -95,7 +95,7 @@
             // btnDailyReceiving
             // 
             this.btnDailyReceiving.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnDailyReceiving.BackgroundImage = global::shipapp.Properties.Resources.cube;
+            this.btnDailyReceiving.BackgroundImage = global::shipapp.Properties.Resources.social_dropbox;
             this.btnDailyReceiving.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnDailyReceiving.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDailyReceiving.Location = new System.Drawing.Point(15, 46);

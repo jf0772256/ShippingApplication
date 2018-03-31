@@ -41,19 +41,16 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pcBxPrint = new System.Windows.Forms.PictureBox();
             this.pcBxDelete = new System.Windows.Forms.PictureBox();
             this.pcBxEdit = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.txtSearch = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxPrint)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxEdit)).BeginInit();
@@ -123,7 +120,7 @@
             this.btnOther.Name = "btnOther";
             this.btnOther.Size = new System.Drawing.Size(212, 136);
             this.btnOther.TabIndex = 5;
-            this.btnOther.Text = "Other";
+            this.btnOther.Text = "History";
             this.btnOther.UseVisualStyleBackColor = true;
             this.btnOther.Click += new System.EventHandler(this.btnOther_Click_1);
             // 
@@ -132,11 +129,10 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox1.Controls.Add(this.txtSearch);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.pictureBox8);
             this.groupBox1.Controls.Add(this.pictureBox7);
-            this.groupBox1.Controls.Add(this.pictureBox6);
-            this.groupBox1.Controls.Add(this.pictureBox5);
             this.groupBox1.Controls.Add(this.pcBxPrint);
             this.groupBox1.Controls.Add(this.pcBxDelete);
             this.groupBox1.Controls.Add(this.pcBxEdit);
@@ -185,24 +181,6 @@
             this.pictureBox7.TabStop = false;
             this.toolTip1.SetToolTip(this.pictureBox7, "Back");
             this.pictureBox7.Click += new System.EventHandler(this.pictureBox7_Click);
-            // 
-            // pictureBox6
-            // 
-            this.pictureBox6.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.pictureBox6.Location = new System.Drawing.Point(688, 81);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox6.TabIndex = 6;
-            this.pictureBox6.TabStop = false;
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.pictureBox5.Location = new System.Drawing.Point(729, 81);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox5.TabIndex = 5;
-            this.pictureBox5.TabStop = false;
             // 
             // pcBxPrint
             // 
@@ -285,6 +263,15 @@
             this.dataGridView1.Size = new System.Drawing.Size(769, 341);
             this.dataGridView1.TabIndex = 0;
             // 
+            // txtSearch
+            // 
+            this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Location = new System.Drawing.Point(245, 90);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(170, 26);
+            this.txtSearch.TabIndex = 10;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            // 
             // Manage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -305,8 +292,6 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxPrint)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxDelete)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxEdit)).EndInit();
@@ -327,8 +312,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.PictureBox pictureBox8;
         private System.Windows.Forms.PictureBox pictureBox7;
-        private System.Windows.Forms.PictureBox pictureBox6;
-        private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.PictureBox pcBxPrint;
         private System.Windows.Forms.PictureBox pcBxDelete;
         private System.Windows.Forms.PictureBox pcBxEdit;
@@ -336,5 +319,6 @@
         private System.Windows.Forms.ToolTip toolTip1;
         internal System.Windows.Forms.Label label1;
         internal System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.TextBox txtSearch;
     }
 }

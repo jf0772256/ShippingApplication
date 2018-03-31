@@ -552,7 +552,26 @@ namespace shipapp
         /// </summary>
         public void PrintReport()
         {
+            MessageBox.Show("Hey look, Im printing!");
+        }
 
+
+        /// <summary>
+        /// Display a list of objects that match the text in the search bar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            SearchData();
+        }
+
+
+        public void SearchData()
+        {
+            // Determine Table
+            // -- If column selected and search bar not equal null or whitespace, else do nothing
+            // -- -- Query database and return results
         }
     }
 }
