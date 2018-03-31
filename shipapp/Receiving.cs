@@ -31,18 +31,28 @@ namespace shipapp
         private ListSortDirection[] ColumnDirection { get; set; }
 
 
+        /// <summary>
+        /// Form constructor
+        /// </summary>
         public Receiving()
         {
             InitializeComponent();
         }
 
 
+        /// <summary>
+        /// When the form loads Center it, Set the role, and fill the grid with packages
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Receiving_Load(object sender, EventArgs e)
         {
+
             this.CenterToParent();
             SetRole();
             GetPackages();
 
+            // Set form to match role
             if (role == 1)
             {
                 btnAdd.Enabled = true;
@@ -129,7 +139,6 @@ namespace shipapp
         }
 
 
-
         /// <summary>
         /// TODO: Add entity selection
         /// </summary>
@@ -142,6 +151,9 @@ namespace shipapp
         }
 
 
+        /// <summary>
+        /// Add a pacvkage to the DB and add it to the list
+        /// </summary>
         public void AddPackageToGrid()
         {
             ////TODO Fill list with query from Database
@@ -167,11 +179,13 @@ namespace shipapp
             //}
             message = "ADD";
             AddPackage addPackage = new AddPackage(message,this);
-            addPackage.ShowDialog();
-                
+            addPackage.ShowDialog(); 
         }
 
 
+        /// <summary>
+        /// Fill the lsit with packages
+        /// </summary>
         public void GetPackages()
         {
             DataConnectionClass.PackageConnClass.GetPackageList(this);
@@ -225,6 +239,9 @@ namespace shipapp
         }
 
 
+        /// <summary>
+        /// Set role to match the user
+        /// </summary>
         public void SetRole()
         {
             if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Administrator")
@@ -245,16 +262,32 @@ namespace shipapp
             }
         }
 
+
+        /// <summary>
+        /// Alert the user on an atempt to signout 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void label1_Click(object sender, EventArgs e)
         {
             SignOut();
         }
 
+
+        /// <summary>
+        /// Alert the user on an atempt to signout
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBox8_Click(object sender, EventArgs e)
         {
             SignOut();
         }
 
+
+        /// <summary>
+        /// Alert the user on an atempt to signout
+        /// </summary>
         public void SignOut()
         {
             MessageBox.Show(DataConnectionClass.AuthenticatedUser.LastName + ", " + DataConnectionClass.AuthenticatedUser.FirstName + "\r\n" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + "\r\n\r\nTo Logout exit to the Main Menu." );
