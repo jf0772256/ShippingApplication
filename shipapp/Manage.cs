@@ -194,11 +194,18 @@ namespace shipapp
                 ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
                 DataConnectionClass.UserConn.GetManyUsers(this);
                 //dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
-                dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
-                for (int i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
-                {
-                    dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.UsersList[i].Notes.Count.ToString();
-                }
+                //dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
+                //for (int i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
+                //{
+                //    if (DataConnectionClass.DataLists.UsersList[i].Notes is null || DataConnectionClass.DataLists.UsersList[i].Notes.Count <= 0)
+                //    {
+                //        dataGridView1.Rows[i].Cells["note_count"].Value = 0;
+                //    }
+                //    else
+                //    {
+                //        dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.UsersList[i].Notes.Count.ToString();
+                //    }
+                //}
                 dataGridView1.Update();
             }
             else if (currentTable == 2)
@@ -265,14 +272,21 @@ namespace shipapp
             try
             {
                 dataGridView1.Columns["Level"].HeaderText = "Role";
-                dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
+                //dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
                 int i = 0;
                 // sets the value of the text to role title rather than the class namespace and name
                 // see tostring override in roles to see how this was hanled, may need to change based on what we do for other classes
                 for (i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
                 {
                     dataGridView1.Rows[i].Cells["Level"].Value = DataConnectionClass.DataLists.UsersList[i].Level.ToString();
-                    dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.UsersList[i].Notes.Count.ToString();
+                    //if (DataConnectionClass.DataLists.UsersList[i].Notes is null || DataConnectionClass.DataLists.UsersList[i].Notes.Count <= 0)
+                    //{
+                    //    dataGridView1.Rows[i].Cells["note_count"].Value = 0;
+                    //}
+                    //else
+                    //{
+                    //    dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.UsersList[i].Notes.Count.ToString();
+                    //}
                 }
             }
             catch (Exception)
