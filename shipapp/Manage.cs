@@ -138,6 +138,11 @@ namespace shipapp
                 pcBxEdit.Enabled = true;
                 pictureBox1.Enabled = true;
                 pcBxPrint.Enabled = true;
+
+                pcBxDelete.BackColor = Color.Transparent;
+                pcBxEdit.BackColor = Color.Transparent;
+                pictureBox1.BackColor = Color.Transparent;
+                pcBxPrint.BackColor = Color.Transparent;
             }
             else if (role == 2)
             {
@@ -145,6 +150,11 @@ namespace shipapp
                 pcBxEdit.Enabled = false;
                 pictureBox1.Enabled = false;
                 pcBxPrint.Enabled = false;
+
+                pcBxDelete.BackColor = Color.LightPink;
+                pcBxEdit.BackColor = Color.LightPink;
+                pictureBox1.BackColor = Color.LightPink;
+                pcBxPrint.BackColor = Color.LightPink;
                 // TODO: Restrict view of password
             }
         }

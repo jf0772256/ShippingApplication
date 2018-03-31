@@ -47,6 +47,9 @@ namespace shipapp
             {
                 // do nothing when errors but the lists will have to be pulled elsewhere
             }
+
+            MessageBox.Show(DataConnectionClass.AuthenticatedUser.Level.Role_Title);
+            SetRole();
         }
 
 
@@ -66,6 +69,10 @@ namespace shipapp
                 btnManage.Enabled = false;
                 btnReports.Enabled = false;
                 btnSettings.Enabled = true;
+                btnDailyReceiving.BackColor = Color.LightPink;
+                btnManage.BackColor = Color.LightPink;
+                btnReports.BackColor = Color.LightPink;
+                btnSettings.BackColor = Color.White;
             }
 
 
@@ -77,6 +84,10 @@ namespace shipapp
                 btnManage.Enabled = true;
                 btnReports.Enabled = true;
                 btnSettings.Enabled = true;
+                btnDailyReceiving.BackColor = Color.White;
+                btnManage.BackColor = Color.White;
+                btnReports.BackColor = Color.White;
+                btnSettings.BackColor = Color.White;
             }
 
             // If Supervisor
@@ -86,6 +97,10 @@ namespace shipapp
                 btnManage.Enabled = true;
                 btnReports.Enabled = true;
                 btnSettings.Enabled = false;
+                btnDailyReceiving.BackColor = Color.White;
+                btnManage.BackColor = Color.White;
+                btnReports.BackColor = Color.White;
+                btnSettings.BackColor = Color.LightPink;
             }
 
             // If Crew
@@ -95,8 +110,14 @@ namespace shipapp
                 btnManage.Enabled = false;
                 btnReports.Enabled = false;
                 btnSettings.Enabled = false;
+                btnDailyReceiving.BackColor = Color.White;
+                btnManage.BackColor = Color.LightPink;
+                btnReports.BackColor = Color.LightPink;
+                btnSettings.BackColor = Color.LightPink;
             }
         }
+
+
         /// <summary>
         /// This Label will indicate the current user who is logged in.
         /// </summary>
@@ -107,6 +128,8 @@ namespace shipapp
             DataConnectionClass.LogUserOut();
             GoToLogIn();
         }
+        
+        
         #region MainMenu Buttons
         /// <summary>
         /// When clicked switch to the Daily Receiving form.
@@ -117,6 +140,8 @@ namespace shipapp
         {
             GoToReceiving();
         }
+        
+        
         /// <summary>
         /// When clicked switch to the Report Creation form.
         /// </summary>
@@ -126,6 +151,8 @@ namespace shipapp
         {
             GoToReports();
         }
+        
+        
         /// <summary>
         /// When clicked switch to the Manage Tables form.
         /// </summary>
@@ -135,6 +162,8 @@ namespace shipapp
         {
             GoToManage();
         }
+        
+        
         /// <summary>
         /// When clciked switch to the Settings form.
         /// </summary>
@@ -145,6 +174,8 @@ namespace shipapp
             GoToSettings();
         }
         #endregion
+        
+        
         /// <summary>
         /// When the user closes the main menu exit the application.
         /// </summary>
@@ -155,6 +186,8 @@ namespace shipapp
             Application.Exit();
         }
         #region MainMeu ButtonFunctionality
+        
+        
         /// <summary>
         /// When this method fires load the receiving form.
         /// </summary>
@@ -168,6 +201,8 @@ namespace shipapp
             receive.FormClosed += new FormClosedEventHandler(receive_FormClosed);
 
         }
+
+
         void receive_FormClosed(object sender, FormClosedEventArgs e)
         {
             Receiving r = (Receiving)sender;
@@ -175,6 +210,8 @@ namespace shipapp
             GC.Collect();
             this.Show();
         }
+        
+        
         /// <summary>
         /// When this method fires load the reports form.
         /// </summary>
@@ -187,6 +224,8 @@ namespace shipapp
 
             report.FormClosed += new FormClosedEventHandler(report_FormClosed);
         }
+
+
         void report_FormClosed(object sender, FormClosedEventArgs e)
         {
             Reports r = (Reports)sender;
@@ -194,6 +233,8 @@ namespace shipapp
             GC.Collect();
             this.Show();
         }
+        
+        
         /// <summary>
         /// When this method fires load the manage form.
         /// </summary>
@@ -206,6 +247,8 @@ namespace shipapp
 
             manage.FormClosed += new FormClosedEventHandler(manage_FormClosed);
         }
+
+
         void manage_FormClosed(object sender, FormClosedEventArgs e)
         {
             Manage m = (Manage)sender;
@@ -213,6 +256,8 @@ namespace shipapp
             GC.Collect();
             this.Show();
         }
+        
+        
         /// <summary>
         /// When this method fires load the setting form.
         /// </summary>
@@ -224,6 +269,8 @@ namespace shipapp
 
             settings.FormClosed += new FormClosedEventHandler(settings_FormClosed);
         }
+
+
         void settings_FormClosed(object sender, FormClosedEventArgs e)
         {
             //to avoid memory leak, which was detected through the log in out process... all forms created must be disposed and resources freed
@@ -232,6 +279,8 @@ namespace shipapp
             GC.Collect();
             this.Show();
         }
+       
+        
         /// <summary>
         /// When this method fires load the login form.
         /// </summary>
@@ -245,11 +294,34 @@ namespace shipapp
             GC.Collect();
         }
         #endregion
+
+
         public void TestLoginTrue()
         {
             if (isLoggedIn)
             {
 
+            }
+        }
+
+
+        public void SetRole()
+        {
+            if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Administrator")
+            {
+                this.role = 1;
+            }
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Supervisor")
+            {
+                role = 2;
+            }
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Clerk")
+            {
+                role = 3;
+            }
+            else
+            {
+                role = 0;
             }
         }
     }

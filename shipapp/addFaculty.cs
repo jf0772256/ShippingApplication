@@ -60,7 +60,6 @@ namespace shipapp
                 txtId1.Text = newFaculty.Id.ToString();
                 txtId2.Text = newFaculty.Faculty_PersonId;
                 //comboBox1.SelectedIndex = (int)newFaculty.Building_Id;
-
             }
         }
 
@@ -126,7 +125,6 @@ namespace shipapp
                 txtId2.BackColor = Color.LightPink;
             }
 
-
             return pass;
         }
 
@@ -141,6 +139,7 @@ namespace shipapp
             txtId1.BackColor = Color.White;
             txtId2.BackColor = Color.White;
         }
+
 
         private void AddFaculty_Load(object sender, EventArgs e)
         {
