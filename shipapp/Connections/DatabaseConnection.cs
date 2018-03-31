@@ -1291,7 +1291,6 @@ namespace shipapp.Connections
             {
                 c.ConnectionString = ConnString;
                 c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
                     Carrier car = null;
