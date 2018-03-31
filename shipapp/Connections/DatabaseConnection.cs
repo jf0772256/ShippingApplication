@@ -642,7 +642,7 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
                     cmd.CommandText = "UPDATE vendors SET ";
-                    cmd.CommandText += "vendor_name = ?";
+                    cmd.CommandText += "vendor_name = ? ";
                     cmd.CommandText += "WHERE vend_id = ?;";
                     cmd.Parameters.AddRange
                         (
