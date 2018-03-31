@@ -23,7 +23,7 @@ namespace shipapp
     {
         // Class level variables
         bool isLoggedIn = false;
-        int role = 1;
+        int role;
 
 
         LogIn LogInForm { get; set; }
@@ -315,7 +315,7 @@ namespace shipapp
             {
                 role = 2;
             }
-            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Clerk")
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "User")
             {
                 role = 3;
             }

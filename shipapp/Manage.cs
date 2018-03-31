@@ -129,7 +129,8 @@ namespace shipapp
         {
             this.CenterToParent();
             btnUsers_Click_1(this, e);
-            
+            SetRole();
+
             //
             if (role == 1)
             {
@@ -142,7 +143,7 @@ namespace shipapp
                 pcBxDelete.BackColor = Color.Transparent;
                 pcBxEdit.BackColor = Color.Transparent;
                 pictureBox1.BackColor = Color.Transparent;
-                pcBxPrint.BackColor = Color.Transparent;
+                pcBxPrint.Show();
             }
             else if (role == 2)
             {
@@ -154,7 +155,7 @@ namespace shipapp
                 pcBxDelete.BackColor = Color.LightPink;
                 pcBxEdit.BackColor = Color.LightPink;
                 pictureBox1.BackColor = Color.LightPink;
-                pcBxPrint.BackColor = Color.LightPink;
+                pcBxPrint.Hide();
                 // TODO: Restrict view of password
             }
         }
@@ -492,6 +493,27 @@ namespace shipapp
         private void pcBxEdit_Click(object sender, EventArgs e)
         {
             EditEntity();
+        }
+
+
+        public void SetRole()
+        {
+            if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Administrator")
+            {
+                this.role = 1;
+            }
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Supervisor")
+            {
+                role = 2;
+            }
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "User")
+            {
+                role = 3;
+            }
+            else
+            {
+                role = 0;
+            }
         }
     }
 }

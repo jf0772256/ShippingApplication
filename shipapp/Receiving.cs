@@ -27,6 +27,7 @@ namespace shipapp
         //Class level variables
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
         private string message = "";
+        private int role;
         private ListSortDirection[] ColumnDirection { get; set; }
 
 
@@ -39,7 +40,42 @@ namespace shipapp
         private void Receiving_Load(object sender, EventArgs e)
         {
             this.CenterToParent();
+            SetRole();
             GetPackages();
+
+            if (role == 1)
+            {
+                btnAdd.Enabled = true;
+                btnAdd.Show();
+                pcBxEdit.Enabled = true;
+                pcBxEdit.Show();
+                pictureBox3.Enabled = true;
+                pictureBox3.Show();
+                pictureBox4.Enabled = true;
+                pictureBox4.Show();
+            }
+            else if (role == 2)
+            {
+                btnAdd.Enabled = true;
+                btnAdd.Show();
+                pcBxEdit.Enabled = true;
+                pcBxEdit.Show();
+                pictureBox3.Enabled = true;
+                pictureBox3.Show();
+                pictureBox4.Enabled = true;
+                pictureBox4.Show();
+            }
+            else if (role == 3)
+            {
+                btnAdd.Enabled = false;
+                btnAdd.Hide();
+                pcBxEdit.Enabled = false;
+                pcBxEdit.Hide();
+                pictureBox3.Enabled = false;
+                pictureBox3.Hide();
+                pictureBox4.Enabled = false;
+                pictureBox4.Hide();
+            }
         }
 
 
@@ -186,6 +222,27 @@ namespace shipapp
             Package packageToBeEdited = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0].Value));
             AddPackage addPackage = new AddPackage(message, packageToBeEdited,this);
             addPackage.ShowDialog();
+        }
+
+
+        public void SetRole()
+        {
+            if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Administrator")
+            {
+                this.role = 1;
+            }
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Supervisor")
+            {
+                role = 2;
+            }
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "User")
+            {
+                role = 3;
+            }
+            else
+            {
+                role = 0;
+            }
         }
     }
 }
