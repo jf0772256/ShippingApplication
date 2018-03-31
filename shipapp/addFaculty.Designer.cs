@@ -40,7 +40,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtRoomNumber = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtFirstName
@@ -150,12 +150,12 @@
             this.label2.TabIndex = 22;
             this.label2.Text = "Room Number";
             // 
-            // textBox1
+            // txtRoomNumber
             // 
-            this.textBox1.Location = new System.Drawing.Point(145, 151);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(235, 26);
-            this.textBox1.TabIndex = 23;
+            this.txtRoomNumber.Location = new System.Drawing.Point(145, 151);
+            this.txtRoomNumber.Name = "txtRoomNumber";
+            this.txtRoomNumber.Size = new System.Drawing.Size(235, 26);
+            this.txtRoomNumber.TabIndex = 23;
             // 
             // AddFaculty
             // 
@@ -163,7 +163,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(399, 227);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtRoomNumber);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label1);
@@ -199,7 +199,7 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtRoomNumber;
         internal System.Windows.Forms.ComboBox comboBox1;
     }
 }

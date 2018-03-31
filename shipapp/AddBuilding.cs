@@ -17,17 +17,31 @@ namespace shipapp
     {
         // Class level variables
         private string message;
+        private Models.ModelData.BuildingClass newBuilding;
 
 
-        public AddBuilding()
+        public AddBuilding(string message)
         {
             InitializeComponent();
+            this.message = message;
+        }
+
+
+        public AddBuilding(string message, Object buildingToBeEdited)
+        {
+            InitializeComponent();
+            this.message = message;
+            newBuilding = (Models.ModelData.BuildingClass)buildingToBeEdited;
         }
 
 
         private void AddBuilding_Load(object sender, EventArgs e)
         {
-
+            if (message == "EDIT")
+            {
+                textBox1.Text = newBuilding.BuildingLongName;
+                textBox2.Text = newBuilding.BuildingShortName;
+            }
         }
 
 
@@ -38,22 +52,72 @@ namespace shipapp
         /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            ResetError();
+
+            if (ValidateData() && message == "ADD")
+            {
+                AddBuildingToDb();
+            }
+            else if (ValidateData() && message == "EDIT")
+            {
+                EditBuilding();
+            }
+        }
+
+
+        public bool ValidateData()
+        {
+            // Method level variables
+            bool pass = true;
+            string message = "Make sure all fields have correct data.\r\n";
+
             if (String.IsNullOrWhiteSpace(textBox1.Text))
             {
-                return;
+                pass = false;
+                message = "\t-Must have a Long Name\r\n";
+                textBox1.BackColor = Color.LightPink;
             }
+
             if (String.IsNullOrWhiteSpace(textBox2.Text))
             {
-                return;
+                pass = false;
+                message = "\t-Must have a Short Name\r\n";
+                textBox2.BackColor = Color.LightPink;
             }
-            //create new building
-            Models.ModelData.BuildingClass building = new Models.ModelData.BuildingClass()
+
+            if (!pass)
             {
-                BuildingLongName = textBox1.Text,
-                BuildingShortName = textBox2.Text
-            };
-            Connections.DataConnections.DataConnectionClass.buildingConn.WriteBuilding(building);
-            Connections.DataConnections.DataConnectionClass.DataLists.BuildingNames.Add(building);
+                MessageBox.Show(message, "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            }
+
+            return pass;
+        }
+
+
+        public void ResetError()
+        {
+            textBox1.BackColor = Color.White;
+            textBox2.BackColor = Color.White;
+        }
+
+
+        public void AddBuildingToDb()
+        {
+            newBuilding.BuildingLongName = textBox1.Text;
+            newBuilding.BuildingShortName = textBox2.Text;
+            Connections.DataConnections.DataConnectionClass.buildingConn.WriteBuilding(newBuilding);
+            Connections.DataConnections.DataConnectionClass.DataLists.BuildingNames.Add(newBuilding);
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+
+        public void EditBuilding()
+        {
+            newBuilding.BuildingLongName = textBox1.Text;
+            newBuilding.BuildingShortName = textBox2.Text;
+            Connections.DataConnections.DataConnectionClass.buildingConn.WriteBuilding(newBuilding);
+            Connections.DataConnections.DataConnectionClass.DataLists.BuildingNames.Add(newBuilding);
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

@@ -36,23 +36,33 @@ namespace shipapp
         /// <summary>
         /// Add a fauctly to the database
         /// </summary>
-        public AddFaculty()
+        public AddFaculty(string message)
         {
             InitializeComponent();
             NewFaculty = new Faculty();
+            this.message = message;
         }
 
 
         /// <summary>
         /// Add a fauctly to the database
         /// </summary>
-        //public AddFaculty()
-        //{
-        //    InitializeComponent();
-        //    NewFaculty = new Faculty();
-        //    Connections.DataConnections.DataConnectionClass.buildingConn.GetBuildingList();
-        //    Connections.DataConnections.DataConnectionClass.DataLists.BuildingNames.ForEach(b => comboBox1.Items.Add(b.BuildingLongName));
-        //}
+        public AddFaculty(string message, Object facultyToBeEdited)
+        {
+            InitializeComponent();
+            NewFaculty = (Models.Faculty)facultyToBeEdited;
+            this.message = message;
+
+            if (message == "EDIT")
+            {
+                txtFirstName.Text = newFaculty.FirstName;
+                txtLastName.Text = newFaculty.LastName;
+                txtId1.Text = newFaculty.Id.ToString();
+                txtId2.Text = newFaculty.Faculty_PersonId;
+                //comboBox1.SelectedIndex = (int)newFaculty.Building_Id;
+
+            }
+        }
 
 
         /// <summary>
@@ -66,21 +76,13 @@ namespace shipapp
             ResetError();
 
             // Check that the appropriate data exist before writing to the DB.
-            if (ValidateData())
+            if (ValidateData() && message == "ADD")
             {
-                NewFaculty.FirstName = txtFirstName.Text;
-                NewFaculty.LastName = txtLastName.Text;
-                NewFaculty.Faculty_PersonId = txtId2.Text;
-                NewFaculty.Id = long.Parse(txtId1.Text);
-                BuildingClass g = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(m => m.BuildingLongName == comboBox1.SelectedItem.ToString());
-                NewFaculty.Building_Id = g.BuildingId;
-                NewFaculty.Building_Name = g.BuildingShortName;
-                NewFaculty.RoomNumber = textBox1.Text;
-                
-                // Add to DB
-                DataConnectionClass.EmployeeConn.AddFaculty(NewFaculty);
-                DataConnectionClass.DataLists.FacultyList.Add(NewFaculty);
-                this.Close();
+                AddFacultyToDb();
+            }
+            else if (ValidateData() && message == "EDIT")
+            {
+                EditFaculty();
             }
             else
             {
@@ -124,11 +126,6 @@ namespace shipapp
                 txtId2.BackColor = Color.LightPink;
             }
 
-            //// TODO: add combobox selection checking
-            //if (comboBox1.SelectedItem )
-            //{
-
-            //}
 
             return pass;
         }
@@ -149,5 +146,42 @@ namespace shipapp
         {
             DataConnectionClass.buildingConn.GetBuildingList(this);
         }
+
+
+        public void AddFacultyToDb()
+        {
+            NewFaculty.FirstName = txtFirstName.Text;
+            NewFaculty.LastName = txtLastName.Text;
+            NewFaculty.Faculty_PersonId = txtId2.Text;
+            NewFaculty.Id = long.Parse(txtId1.Text);
+            BuildingClass g = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(m => m.BuildingLongName == comboBox1.SelectedItem.ToString());
+            NewFaculty.Building_Id = g.BuildingId;
+            NewFaculty.Building_Name = g.BuildingShortName;
+            NewFaculty.RoomNumber = txtRoomNumber.Text;
+
+            // Add to DB
+            DataConnectionClass.EmployeeConn.AddFaculty(NewFaculty);
+            DataConnectionClass.DataLists.FacultyList.Add(NewFaculty);
+            this.Close();
+        }
+
+
+        public void EditFaculty()
+        {
+            NewFaculty.FirstName = txtFirstName.Text;
+            NewFaculty.LastName = txtLastName.Text;
+            NewFaculty.Faculty_PersonId = txtId2.Text;
+            NewFaculty.Id = long.Parse(txtId1.Text);
+            BuildingClass g = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(m => m.BuildingLongName == comboBox1.SelectedItem.ToString());
+            NewFaculty.Building_Id = g.BuildingId;
+            NewFaculty.Building_Name = g.BuildingShortName;
+            NewFaculty.RoomNumber = txtRoomNumber.Text;
+
+            // Add to DB
+            DataConnectionClass.EmployeeConn.UpdateFaculty(NewFaculty);
+            DataConnectionClass.DataLists.FacultyList.Add(NewFaculty);
+            this.Close();
+        }
+
     }
 }

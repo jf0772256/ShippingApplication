@@ -181,13 +181,15 @@ namespace shipapp
         /// <param name="e"></param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            message = "ADD";
+
             if (currentTable == 0)
             {
                 MessageBox.Show("You must select a table before you can add an item!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else if (currentTable == 1)
             {
-                AddUser addUser = new AddUser(message = "ADD");
+                AddUser addUser = new AddUser(message);
                 addUser.ShowDialog();
                 dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();
@@ -210,24 +212,21 @@ namespace shipapp
             }
             else if (currentTable == 2)
             {
-                AddVendor addVendor = new AddVendor(message = "ADD");
+                AddVendor addVendor = new AddVendor(message);
                 addVendor.ShowDialog();
-                //DataConnectionClass.VendorConn.GetVendorList(this);
                 btnVendors_Click_1(this, e);
             }
             else if (currentTable == 3)
             {
-                AddFaculty addFaculty = new shipapp.AddFaculty();
+                AddFaculty addFaculty = new shipapp.AddFaculty(message);
                 addFaculty.ShowDialog();
                 dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();
                 ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-                //DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
-                //dataGridView1.DataSource = DataConnectionClass.DataLists.FacultyList;
             }
             else if (currentTable == 4)
             {
-                AddBuilding addbuilding = new AddBuilding();
+                AddBuilding addbuilding = new AddBuilding(message);
                 DialogResult dr = addbuilding.ShowDialog();
                 if (dr == DialogResult.OK)
                 {
@@ -409,31 +408,31 @@ namespace shipapp
             // Edit the correct object
             if (currentTable == 1)
             {
-                /// Edit user object
-                // Create user object from id 
+                // Edit user object 
                 User userToBeEdited = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-
-                // Create a form and set it to edit the object sent
-                AddUser addUser = new AddUser(message = "EDIT", userToBeEdited);
+                AddUser addUser = new AddUser(message, userToBeEdited);
                 addUser.ShowDialog();
             }
             else if (currentTable == 2)
             {
                 // Edit vendor object
                 Vendors vendorToBeEdited = DataConnectionClass.DataLists.Vendors.FirstOrDefault(vid => vid.VendorId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                DataConnectionClass.VendorConn.UpdateVendor(vendorToBeEdited);
+                AddVendor addVendor = new AddVendor(message, vendorToBeEdited);
+                addVendor.ShowDialog();
             }
             else if (currentTable == 3)
             {
                 // Edit faculty object
                 Faculty facultyToBeEdited = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(fid => fid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                DataConnectionClass.EmployeeConn.UpdateFaculty(facultyToBeEdited);
+                AddFaculty addFaculty = new AddFaculty(message, facultyToBeEdited);
+                addFaculty.ShowDialog();
             }
             else if (currentTable == 4)
             {
                 // Edit building object
                 BuildingClass buildingToBeEdited = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(bid => bid.BuildingId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                DataConnectionClass.buildingConn.WriteBuilding(buildingToBeEdited);// TODO: Need edit option in connection class
+                AddBuilding addBuilding = new AddBuilding(message, buildingToBeEdited);
+                addBuilding.ShowDialog();
             }
             else if (currentTable == 5)
             {
