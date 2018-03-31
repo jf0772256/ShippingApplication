@@ -23,6 +23,7 @@ namespace shipapp
         // Class level variables
         private int currentTable = 0;
         private string message = "REST";
+        private int role;
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
         private object objectToBeEditied;
 
@@ -128,6 +129,24 @@ namespace shipapp
         {
             this.CenterToParent();
             btnUsers_Click_1(this, e);
+            
+            //
+            if (role == 1)
+            {
+                // Do nothing
+                pcBxDelete.Enabled = true;
+                pcBxEdit.Enabled = true;
+                pictureBox1.Enabled = true;
+                pcBxPrint.Enabled = true;
+            }
+            else if (role == 2)
+            {
+                pcBxDelete.Enabled = false;
+                pcBxEdit.Enabled = false;
+                pictureBox1.Enabled = false;
+                pcBxPrint.Enabled = false;
+                // TODO: Restrict view of password
+            }
         }
         #region Table Buttons
         private void btnUsers_Click(object sender, EventArgs e)
@@ -140,7 +159,6 @@ namespace shipapp
         {
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
-            //DataConnectionClass.VendorConn.GetVendorList();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             dataGridView1.DataSource = DataConnectionClass.DataLists.Vendors;
         }
@@ -237,7 +255,7 @@ namespace shipapp
             }
             else if (currentTable == 5)
             {
-                AddCarrier addCarrier = new AddCarrier();
+                AddCarrier addCarrier = new AddCarrier(message);
                 addCarrier.ShowDialog();
                 btnCarriers_Click_1(this, e);
             }
@@ -438,7 +456,8 @@ namespace shipapp
             {
                 // Edit carrier object
                 Carrier carrierToBeEdited = DataConnectionClass.DataLists.CarriersList.FirstOrDefault(cid => cid.CarrierId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                DataConnectionClass.CarrierConn.UpdateCarrier(carrierToBeEdited);
+                AddCarrier addCarrier = new AddCarrier(message, carrierToBeEdited);
+                addCarrier.ShowDialog();
             }
             else if (currentTable == 6)
             {

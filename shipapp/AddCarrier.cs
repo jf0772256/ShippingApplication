@@ -17,11 +17,30 @@ namespace shipapp
     {
         // Class level variables
         private string message;
+        private Models.Carrier newCarrier;
 
 
-        public AddCarrier()
+        public AddCarrier(string message)
         {
             InitializeComponent();
+            this.message = message;
+        }
+
+
+        public AddCarrier(string message, Object carrierToBeEdited)
+        {
+            InitializeComponent();
+            this.message = message;
+            newCarrier = (Models.Carrier)carrierToBeEdited;
+        }
+
+
+        private void AddCarrier_Load(object sender, EventArgs e)
+        {
+            if (message == "EDIT")
+            {
+                txtName.Text = newCarrier.CarrierName;
+            }
         }
 
 
@@ -33,9 +52,14 @@ namespace shipapp
         private void btnAdd_Click(object sender, EventArgs e)
         {
             // Reset the Errors
-            if (CheckData())
+            if (CheckData() && message == "ADD")
             {
                 AddCarrierToDB();
+                this.Close();
+            }
+            else if (CheckData() && message == "EDIT")
+            {
+                EditCarrier();
                 this.Close();
             }
             else
@@ -59,6 +83,16 @@ namespace shipapp
             // Write the data to the DB
             Connections.DataConnections.DataConnectionClass.CarrierConn.AddCarrier(carrierToBeAdded);
             Connections.DataConnections.DataConnectionClass.DataLists.CarriersList.Add(Connections.DataConnections.DataConnectionClass.CarrierConn.GetCarrier(carrierToBeAdded.CarrierId));
+        }
+
+
+        public void EditCarrier()
+        {
+            newCarrier.CarrierName = txtName.Text;
+
+            // Write the data to the DB
+            Connections.DataConnections.DataConnectionClass.CarrierConn.UpdateCarrier(newCarrier);
+            Connections.DataConnections.DataConnectionClass.DataLists.CarriersList.Add(Connections.DataConnections.DataConnectionClass.CarrierConn.GetCarrier(newCarrier.CarrierId));
         }
 
 

@@ -103,6 +103,8 @@ namespace shipapp
 
         public void AddBuildingToDb()
         {
+            newBuilding = new Models.ModelData.BuildingClass();
+
             newBuilding.BuildingLongName = textBox1.Text;
             newBuilding.BuildingShortName = textBox2.Text;
             Connections.DataConnections.DataConnectionClass.buildingConn.WriteBuilding(newBuilding);

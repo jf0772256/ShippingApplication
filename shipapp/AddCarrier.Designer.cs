@@ -74,6 +74,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "AddCarrier";
             this.Text = "AddCarrier";
+            this.Load += new System.EventHandler(this.AddCarrier_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

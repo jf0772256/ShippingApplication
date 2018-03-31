@@ -42,7 +42,7 @@
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pcBxPrint = new System.Windows.Forms.PictureBox();
             this.pcBxDelete = new System.Windows.Forms.PictureBox();
             this.pcBxEdit = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -53,7 +53,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcBxPrint)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -136,7 +136,7 @@
             this.groupBox1.Controls.Add(this.pictureBox7);
             this.groupBox1.Controls.Add(this.pictureBox6);
             this.groupBox1.Controls.Add(this.pictureBox5);
-            this.groupBox1.Controls.Add(this.pictureBox4);
+            this.groupBox1.Controls.Add(this.pcBxPrint);
             this.groupBox1.Controls.Add(this.pcBxDelete);
             this.groupBox1.Controls.Add(this.pcBxEdit);
             this.groupBox1.Controls.Add(this.pictureBox1);
@@ -201,17 +201,17 @@
             this.pictureBox5.TabIndex = 5;
             this.pictureBox5.TabStop = false;
             // 
-            // pictureBox4
+            // pcBxPrint
             // 
-            this.pictureBox4.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox4.BackgroundImage = global::shipapp.Properties.Resources.android_printer;
-            this.pictureBox4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox4.Location = new System.Drawing.Point(130, 81);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(35, 35);
-            this.pictureBox4.TabIndex = 4;
-            this.pictureBox4.TabStop = false;
-            this.toolTip1.SetToolTip(this.pictureBox4, "Print Report");
+            this.pcBxPrint.BackColor = System.Drawing.Color.Transparent;
+            this.pcBxPrint.BackgroundImage = global::shipapp.Properties.Resources.android_printer;
+            this.pcBxPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pcBxPrint.Location = new System.Drawing.Point(130, 81);
+            this.pcBxPrint.Name = "pcBxPrint";
+            this.pcBxPrint.Size = new System.Drawing.Size(35, 35);
+            this.pcBxPrint.TabIndex = 4;
+            this.pcBxPrint.TabStop = false;
+            this.toolTip1.SetToolTip(this.pcBxPrint, "Print Report");
             // 
             // pcBxDelete
             // 
@@ -298,7 +298,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcBxPrint)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxDelete)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -320,7 +320,7 @@
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.PictureBox pcBxPrint;
         private System.Windows.Forms.PictureBox pcBxDelete;
         private System.Windows.Forms.PictureBox pcBxEdit;
         private System.Windows.Forms.PictureBox pictureBox1;

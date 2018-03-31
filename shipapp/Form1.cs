@@ -65,6 +65,7 @@ namespace shipapp
                 btnDailyReceiving.Enabled = false;
                 btnManage.Enabled = false;
                 btnReports.Enabled = false;
+                btnSettings.Enabled = true;
             }
 
 
@@ -72,19 +73,28 @@ namespace shipapp
             if (role == 1)
             {
                 // Do nothing
+                btnDailyReceiving.Enabled = true;
+                btnManage.Enabled = true;
+                btnReports.Enabled = true;
+                btnSettings.Enabled = true;
             }
 
             // If Supervisor
             if (role == 2)
             {
+                btnDailyReceiving.Enabled = true;
+                btnManage.Enabled = true;
+                btnReports.Enabled = true;
                 btnSettings.Enabled = false;
             }
 
             // If Crew
-            if (role == 2)
+            if (role == 3)
             {
+                btnDailyReceiving.Enabled = true;
+                btnManage.Enabled = false;
+                btnReports.Enabled = false;
                 btnSettings.Enabled = false;
-                
             }
         }
         /// <summary>
