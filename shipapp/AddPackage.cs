@@ -44,9 +44,6 @@ namespace shipapp
             if (message == "EDIT")
             {
                 // TODO: Filter ComboBoxe with correct info  
-                txtDate.Text = newPackage.PackageReceivedDate;
-                txtDelDate.Text = newPackage.PackageDeliveredDate;
-                txtPersonId.Text = newPackage.Package_PersonId;
                 txtPO.Text = newPackage.PONumber;
                 txtTracking.Text = newPackage.PackageTrackingNumber;
                 cmboCarrier.Text = newPackage.PackageCarrier;
@@ -133,7 +130,8 @@ namespace shipapp
             txtTracking.BackColor = Color.White;
             cmboDelBy.BackColor = Color.White;
             cmboSignedBy.BackColor = Color.White;
-            txtPersonId.BackColor = Color.White;
+            dTDel.CalendarMonthBackground = Color.White;
+            dTRec.CalendarMonthBackground = Color.White;
         }
 
 
@@ -179,21 +177,21 @@ namespace shipapp
                 errorMsg += "\t-Must include a tracking number.\r\n";
             }
 
-            // Check that a deliveiry person is selected
-            if (String.IsNullOrWhiteSpace(cmboDelBy.Text))
-            {
-                pass = false;
-                cmboDelBy.BackColor = Color.LightPink;
-                errorMsg += "\t-Must select a delivery person.\r\n";
-            }
+            //// Check that a deliveiry person is selected
+            //if (String.IsNullOrWhiteSpace(cmboDelBy.Text))
+            //{
+            //    pass = false;
+            //    cmboDelBy.BackColor = Color.LightPink;
+            //    errorMsg += "\t-Must select a delivery person.\r\n";
+            //}
             
-            // Check that a person ID has been assigned
-            if (txtPersonId.Text == "" || txtPersonId == null)
-            {
-                pass = false;
-                cmboSignedBy.BackColor = Color.LightPink;
-                errorMsg += "\t-Must include a person ID.\r\n";
-            }
+            //// Check that a person ID has been assigned
+            //if (txtPersonId.Text == "" || txtPersonId == null)
+            //{
+            //    pass = false;
+            //    cmboSignedBy.BackColor = Color.LightPink;
+            //    errorMsg += "\t-Must include a person ID.\r\n";
+            //}
 
             // If the data is not correct alert the user with a message
             if (!pass)
@@ -219,11 +217,13 @@ namespace shipapp
             newPackage.PackageTrackingNumber = txtTracking.Text;
             newPackage.PackageDeleveredBy = cmboDelBy.Text;
             newPackage.PackageSignedForBy = cmboSignedBy.Text;
-            newPackage.PackageReceivedDate = txtDate.Text;
-            newPackage.PackageDeliveredDate = txtDelDate.Text;
-            newPackage.Package_PersonId = txtPersonId.Text;
             newPackage.Status = (Models.Package.DeliveryStatus)Convert.ToInt32(cmboStatus.Text);
         }
         #endregion
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

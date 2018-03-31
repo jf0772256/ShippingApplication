@@ -35,9 +35,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtTracking = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtDate = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtDelDate = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -51,8 +49,8 @@
             this.btnViewNote = new System.Windows.Forms.Button();
             this.btnAddNote = new System.Windows.Forms.Button();
             this.btnReceive = new System.Windows.Forms.Button();
-            this.txtPersonId = new System.Windows.Forms.TextBox();
-            this.lblop = new System.Windows.Forms.Label();
+            this.dTRec = new System.Windows.Forms.DateTimePicker();
+            this.dTDel = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // lblPO
@@ -121,14 +119,6 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "Tracking #";
             // 
-            // txtDate
-            // 
-            this.txtDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDate.Location = new System.Drawing.Point(109, 170);
-            this.txtDate.Name = "txtDate";
-            this.txtDate.Size = new System.Drawing.Size(169, 26);
-            this.txtDate.TabIndex = 11;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -139,19 +129,11 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "Date Rec";
             // 
-            // txtDelDate
-            // 
-            this.txtDelDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDelDate.Location = new System.Drawing.Point(417, 77);
-            this.txtDelDate.Name = "txtDelDate";
-            this.txtDelDate.Size = new System.Drawing.Size(158, 26);
-            this.txtDelDate.TabIndex = 13;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(303, 83);
+            this.label7.Location = new System.Drawing.Point(303, 77);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(80, 20);
             this.label7.TabIndex = 12;
@@ -181,7 +163,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(303, 112);
+            this.label8.Location = new System.Drawing.Point(303, 109);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(62, 20);
             this.label8.TabIndex = 18;
@@ -236,7 +218,7 @@
             // 
             this.cmboStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboStatus.FormattingEnabled = true;
-            this.cmboStatus.Location = new System.Drawing.Point(417, 109);
+            this.cmboStatus.Location = new System.Drawing.Point(417, 104);
             this.cmboStatus.Name = "cmboStatus";
             this.cmboStatus.Size = new System.Drawing.Size(158, 28);
             this.cmboStatus.TabIndex = 26;
@@ -272,23 +254,30 @@
             this.btnReceive.UseVisualStyleBackColor = true;
             this.btnReceive.Click += new System.EventHandler(this.btnReceive_Click);
             // 
-            // txtPersonId
+            // dTRec
             // 
-            this.txtPersonId.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPersonId.Location = new System.Drawing.Point(417, 143);
-            this.txtPersonId.Name = "txtPersonId";
-            this.txtPersonId.Size = new System.Drawing.Size(158, 26);
-            this.txtPersonId.TabIndex = 31;
+            this.dTRec.CustomFormat = "MMM dd, yyyy";
+            this.dTRec.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dTRec.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dTRec.Location = new System.Drawing.Point(109, 170);
+            this.dTRec.Name = "dTRec";
+            this.dTRec.ShowUpDown = true;
+            this.dTRec.Size = new System.Drawing.Size(169, 26);
+            this.dTRec.TabIndex = 32;
+            this.dTRec.Value = new System.DateTime(2018, 3, 30, 0, 0, 0, 0);
+            this.dTRec.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
-            // lblop
+            // dTDel
             // 
-            this.lblop.AutoSize = true;
-            this.lblop.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblop.Location = new System.Drawing.Point(303, 146);
-            this.lblop.Name = "lblop";
-            this.lblop.Size = new System.Drawing.Size(80, 20);
-            this.lblop.TabIndex = 30;
-            this.lblop.Text = "Date Del";
+            this.dTDel.CustomFormat = "MMM dd, yyyy";
+            this.dTDel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dTDel.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dTDel.Location = new System.Drawing.Point(417, 74);
+            this.dTDel.Name = "dTDel";
+            this.dTDel.ShowUpDown = true;
+            this.dTDel.Size = new System.Drawing.Size(158, 26);
+            this.dTDel.TabIndex = 34;
+            this.dTDel.Value = new System.DateTime(2018, 3, 30, 0, 0, 0, 0);
             // 
             // AddPackage
             // 
@@ -296,8 +285,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(602, 266);
-            this.Controls.Add(this.txtPersonId);
-            this.Controls.Add(this.lblop);
+            this.Controls.Add(this.dTDel);
+            this.Controls.Add(this.dTRec);
             this.Controls.Add(this.btnReceive);
             this.Controls.Add(this.btnAddNote);
             this.Controls.Add(this.btnViewNote);
@@ -310,9 +299,7 @@
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtDelDate);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.txtDate);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txtTracking);
             this.Controls.Add(this.label5);
@@ -338,9 +325,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtTracking;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtDate;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtDelDate;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -354,7 +339,7 @@
         private System.Windows.Forms.Button btnViewNote;
         private System.Windows.Forms.Button btnAddNote;
         private System.Windows.Forms.Button btnReceive;
-        private System.Windows.Forms.TextBox txtPersonId;
-        private System.Windows.Forms.Label lblop;
+        private System.Windows.Forms.DateTimePicker dTRec;
+        private System.Windows.Forms.DateTimePicker dTDel;
     }
 }
