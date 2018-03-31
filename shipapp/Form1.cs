@@ -23,7 +23,7 @@ namespace shipapp
     {
         // Class level variables
         bool isLoggedIn = false;
-        int role = 0;
+        int role = 1;
 
 
         LogIn LogInForm { get; set; }

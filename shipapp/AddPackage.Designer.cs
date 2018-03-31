@@ -51,6 +51,8 @@
             this.btnReceive = new System.Windows.Forms.Button();
             this.dTRec = new System.Windows.Forms.DateTimePicker();
             this.dTDel = new System.Windows.Forms.DateTimePicker();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtRoleId = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lblPO
@@ -278,12 +280,32 @@
             this.dTDel.TabIndex = 34;
             this.dTDel.Value = new System.DateTime(2018, 3, 30, 0, 0, 0, 0);
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(303, 143);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(67, 20);
+            this.label9.TabIndex = 35;
+            this.label9.Text = "Role Id";
+            // 
+            // txtRoleId
+            // 
+            this.txtRoleId.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRoleId.Location = new System.Drawing.Point(417, 137);
+            this.txtRoleId.Name = "txtRoleId";
+            this.txtRoleId.Size = new System.Drawing.Size(158, 26);
+            this.txtRoleId.TabIndex = 36;
+            // 
             // AddPackage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(602, 266);
+            this.Controls.Add(this.txtRoleId);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.dTDel);
             this.Controls.Add(this.dTRec);
             this.Controls.Add(this.btnReceive);
@@ -340,5 +362,7 @@
         private System.Windows.Forms.Button btnReceive;
         private System.Windows.Forms.DateTimePicker dTRec;
         private System.Windows.Forms.DateTimePicker dTDel;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtRoleId;
     }
 }
