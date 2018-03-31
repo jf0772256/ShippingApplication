@@ -14,7 +14,7 @@ using shipapp.Connections.DataConnections;
 namespace shipapp
 {
     /// <summary>
-    /// This calss allows the user to add a faculty to the database
+    /// This class allows the user to add a faculty to the database
     /// </summary>
     public partial class AddFaculty : Form
     {
@@ -40,11 +40,6 @@ namespace shipapp
         {
             InitializeComponent();
             NewFaculty = new Faculty();
-            DataConnectionClass.buildingConn.GetBuildingList();
-            foreach (BuildingClass b in DataConnectionClass.DataLists.BuildingNames)
-            {
-                comboBox1.Items.Add(b.BuildingLongName);
-            }
         }
 
 
@@ -148,6 +143,11 @@ namespace shipapp
             txtLastName.BackColor = Color.White;
             txtId1.BackColor = Color.White;
             txtId2.BackColor = Color.White;
+        }
+
+        private void AddFaculty_Load(object sender, EventArgs e)
+        {
+            DataConnectionClass.buildingConn.GetBuildingList(this);
         }
     }
 }

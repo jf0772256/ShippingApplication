@@ -31,6 +31,15 @@ namespace shipapp.Connections.DataConnections.Classes
                 };
                 t.dataGridView1.DataSource = bs;
             }
+            else if (Sender is shipapp.AddFaculty)
+            {
+                shipapp.AddFaculty t = (shipapp.AddFaculty)Sender;
+                DataConnectionClass.DataLists.BuildingNames = b;
+                foreach (BuildingClass bldg in DataConnectionClass.DataLists.BuildingNames)
+                {
+                    t.comboBox1.Items.Add(bldg.BuildingLongName);
+                }
+            }
         }
         public void WriteBuilding(BuildingClass building)
         {

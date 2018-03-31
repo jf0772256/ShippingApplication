@@ -217,7 +217,7 @@ namespace shipapp
             }
             else if (currentTable == 3)
             {
-                AddFaculty addFaculty = new AddFaculty();
+                AddFaculty addFaculty = new shipapp.AddFaculty();
                 addFaculty.ShowDialog();
                 dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();

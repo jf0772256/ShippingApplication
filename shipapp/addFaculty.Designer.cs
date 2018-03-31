@@ -180,6 +180,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "AddFaculty";
             this.Text = "Add Faculty";
+            this.Load += new System.EventHandler(this.AddFaculty_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -197,8 +198,8 @@
         private System.Windows.Forms.Label lblId2;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox1;
+        internal System.Windows.Forms.ComboBox comboBox1;
     }
 }
