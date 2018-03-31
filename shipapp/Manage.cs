@@ -515,5 +515,23 @@ namespace shipapp
                 role = 0;
             }
         }
+
+
+        private void pictureBox8_Click(object sender, EventArgs e)
+        {
+            SignOut();
+        }
+
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            SignOut();
+        }
+
+
+        public void SignOut()
+        {
+            MessageBox.Show(DataConnectionClass.AuthenticatedUser.LastName + ", " + DataConnectionClass.AuthenticatedUser.FirstName + "\r\n" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + "\r\n\r\nTo Logout exit to the Main Menu.");
+        }
     }
 }

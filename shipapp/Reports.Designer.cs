@@ -174,6 +174,7 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "User";
             this.toolTip1.SetToolTip(this.label1, "Click to Sign Out");
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // pictureBox2
             // 
@@ -230,6 +231,7 @@
             this.pictureBox7.Size = new System.Drawing.Size(35, 35);
             this.pictureBox7.TabIndex = 8;
             this.pictureBox7.TabStop = false;
+            this.pictureBox7.Click += new System.EventHandler(this.pictureBox7_Click);
             // 
             // Reports
             // 
