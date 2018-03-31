@@ -53,6 +53,8 @@
             this.dTDel = new System.Windows.Forms.DateTimePicker();
             this.label9 = new System.Windows.Forms.Label();
             this.txtRoleId = new System.Windows.Forms.TextBox();
+            this.cmboBuilding = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblPO
@@ -77,7 +79,7 @@
             // 
             this.lblCarrier.AutoSize = true;
             this.lblCarrier.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCarrier.Location = new System.Drawing.Point(13, 45);
+            this.lblCarrier.Location = new System.Drawing.Point(13, 72);
             this.lblCarrier.Name = "lblCarrier";
             this.lblCarrier.Size = new System.Drawing.Size(63, 20);
             this.lblCarrier.TabIndex = 2;
@@ -87,7 +89,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(13, 77);
+            this.label3.Location = new System.Drawing.Point(13, 104);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(67, 20);
             this.label3.TabIndex = 4;
@@ -97,7 +99,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(13, 109);
+            this.label4.Location = new System.Drawing.Point(13, 136);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(85, 20);
             this.label4.TabIndex = 6;
@@ -106,7 +108,7 @@
             // txtTracking
             // 
             this.txtTracking.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTracking.Location = new System.Drawing.Point(109, 138);
+            this.txtTracking.Location = new System.Drawing.Point(109, 39);
             this.txtTracking.Name = "txtTracking";
             this.txtTracking.Size = new System.Drawing.Size(169, 26);
             this.txtTracking.TabIndex = 9;
@@ -115,7 +117,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(13, 141);
+            this.label5.Location = new System.Drawing.Point(13, 42);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(92, 20);
             this.label5.TabIndex = 8;
@@ -125,7 +127,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(13, 173);
+            this.label6.Location = new System.Drawing.Point(13, 200);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(85, 20);
             this.label6.TabIndex = 10;
@@ -175,7 +177,7 @@
             // 
             this.cmboCarrier.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboCarrier.FormattingEnabled = true;
-            this.cmboCarrier.Location = new System.Drawing.Point(109, 42);
+            this.cmboCarrier.Location = new System.Drawing.Point(109, 69);
             this.cmboCarrier.Name = "cmboCarrier";
             this.cmboCarrier.Size = new System.Drawing.Size(169, 28);
             this.cmboCarrier.TabIndex = 21;
@@ -184,7 +186,7 @@
             // 
             this.cmboVendor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboVendor.FormattingEnabled = true;
-            this.cmboVendor.Location = new System.Drawing.Point(109, 74);
+            this.cmboVendor.Location = new System.Drawing.Point(109, 101);
             this.cmboVendor.Name = "cmboVendor";
             this.cmboVendor.Size = new System.Drawing.Size(169, 28);
             this.cmboVendor.TabIndex = 22;
@@ -193,7 +195,7 @@
             // 
             this.cmboRecipiant.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboRecipiant.FormattingEnabled = true;
-            this.cmboRecipiant.Location = new System.Drawing.Point(109, 106);
+            this.cmboRecipiant.Location = new System.Drawing.Point(109, 133);
             this.cmboRecipiant.Name = "cmboRecipiant";
             this.cmboRecipiant.Size = new System.Drawing.Size(169, 28);
             this.cmboRecipiant.TabIndex = 23;
@@ -230,7 +232,7 @@
             // btnViewNote
             // 
             this.btnViewNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnViewNote.Location = new System.Drawing.Point(307, 213);
+            this.btnViewNote.Location = new System.Drawing.Point(307, 240);
             this.btnViewNote.Name = "btnViewNote";
             this.btnViewNote.Size = new System.Drawing.Size(132, 41);
             this.btnViewNote.TabIndex = 27;
@@ -240,7 +242,7 @@
             // btnAddNote
             // 
             this.btnAddNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddNote.Location = new System.Drawing.Point(445, 213);
+            this.btnAddNote.Location = new System.Drawing.Point(445, 240);
             this.btnAddNote.Name = "btnAddNote";
             this.btnAddNote.Size = new System.Drawing.Size(130, 41);
             this.btnAddNote.TabIndex = 28;
@@ -250,7 +252,7 @@
             // btnReceive
             // 
             this.btnReceive.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReceive.Location = new System.Drawing.Point(109, 214);
+            this.btnReceive.Location = new System.Drawing.Point(109, 241);
             this.btnReceive.Name = "btnReceive";
             this.btnReceive.Size = new System.Drawing.Size(169, 40);
             this.btnReceive.TabIndex = 29;
@@ -263,7 +265,7 @@
             this.dTRec.CustomFormat = "MMM dd, yyyy";
             this.dTRec.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dTRec.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dTRec.Location = new System.Drawing.Point(109, 170);
+            this.dTRec.Location = new System.Drawing.Point(109, 197);
             this.dTRec.Name = "dTRec";
             this.dTRec.ShowUpDown = true;
             this.dTRec.Size = new System.Drawing.Size(169, 26);
@@ -300,12 +302,33 @@
             this.txtRoleId.Size = new System.Drawing.Size(158, 26);
             this.txtRoleId.TabIndex = 36;
             // 
+            // cmboBuilding
+            // 
+            this.cmboBuilding.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmboBuilding.FormattingEnabled = true;
+            this.cmboBuilding.Location = new System.Drawing.Point(109, 163);
+            this.cmboBuilding.Name = "cmboBuilding";
+            this.cmboBuilding.Size = new System.Drawing.Size(169, 28);
+            this.cmboBuilding.TabIndex = 40;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(13, 170);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(73, 20);
+            this.label10.TabIndex = 39;
+            this.label10.Text = "Building";
+            // 
             // AddPackage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.ClientSize = new System.Drawing.Size(602, 266);
+            this.ClientSize = new System.Drawing.Size(602, 293);
+            this.Controls.Add(this.cmboBuilding);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.txtRoleId);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.dTDel);
@@ -366,5 +389,7 @@
         private System.Windows.Forms.DateTimePicker dTDel;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtRoleId;
+        private System.Windows.Forms.ComboBox cmboBuilding;
+        private System.Windows.Forms.Label label10;
     }
 }

@@ -61,6 +61,7 @@ namespace shipapp
                 cmboDelBy.Text = newPackage.PackageDeleveredBy;
                 cmboStatus.Text = newPackage.Status.ToString();
                 txtRoleId.Text = newPackage.Package_PersonId;
+                cmboBuilding.Text = newPackage.DelivBuildingShortName;
             }
             else if (message == "ADD")
             {
@@ -229,6 +230,7 @@ namespace shipapp
             newPackage.PackageReceivedDate = dTRec.Value.ToShortDateString();
             newPackage.PackageDeliveredDate = dTDel.Value.ToShortDateString();
             newPackage.Package_PersonId = txtRoleId.Text;
+            newPackage.DelivBuildingShortName = cmboBuilding.Text;
             newPackage.Status = (Models.Package.DeliveryStatus)FormatStatus(cmboStatus.Text);
         }
         #endregion
