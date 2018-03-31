@@ -215,6 +215,7 @@
             this.pcBxPrint.TabIndex = 4;
             this.pcBxPrint.TabStop = false;
             this.toolTip1.SetToolTip(this.pcBxPrint, "Print Report");
+            this.pcBxPrint.Click += new System.EventHandler(this.pcBxPrint_Click);
             // 
             // pcBxDelete
             // 

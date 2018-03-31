@@ -533,5 +533,26 @@ namespace shipapp
         {
             MessageBox.Show(DataConnectionClass.AuthenticatedUser.LastName + ", " + DataConnectionClass.AuthenticatedUser.FirstName + "\r\n" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + "\r\n\r\nTo Logout exit to the Main Menu.");
         }
+
+
+        
+        /// <summary>
+        /// Print the selected report
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pcBxPrint_Click(object sender, EventArgs e)
+        {
+            PrintReport();
+        }
+
+
+        /// <summary>
+        /// Print the selected report
+        /// </summary>
+        public void PrintReport()
+        {
+
+        }
     }
 }
