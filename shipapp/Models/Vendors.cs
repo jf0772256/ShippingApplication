@@ -23,5 +23,9 @@ namespace shipapp.Models
         public Vendors()
         {
         }
+        public override string ToString()
+        {
+            return VendorName;
+        }
     }
 }

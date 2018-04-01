@@ -50,14 +50,13 @@ namespace shipapp
         public AddFaculty(string message, Object facultyToBeEdited)
         {
             InitializeComponent();
-            NewFaculty = (Models.Faculty)facultyToBeEdited;
+            NewFaculty = (Faculty)facultyToBeEdited;
             this.message = message;
 
             if (message == "EDIT")
             {
                 txtFirstName.Text = newFaculty.FirstName;
                 txtLastName.Text = newFaculty.LastName;
-                txtId1.Text = newFaculty.Id.ToString();
                 txtId2.Text = newFaculty.Faculty_PersonId;
                 //comboBox1.SelectedIndex = (int)newFaculty.Building_Id;
             }
@@ -112,13 +111,7 @@ namespace shipapp
                 pass = false;
                 txtLastName.BackColor = Color.LightPink;
             }
-
-            if (!long.TryParse(txtId1.Text, out num0))
-            {
-                pass = false;
-                txtId1.BackColor = Color.LightPink;
-            }
-
+            
             if (String.IsNullOrWhiteSpace(txtId2.Text))
             {
                 pass = false;
@@ -136,7 +129,6 @@ namespace shipapp
         {
             txtFirstName.BackColor = Color.White;
             txtLastName.BackColor = Color.White;
-            txtId1.BackColor = Color.White;
             txtId2.BackColor = Color.White;
         }
 
@@ -152,7 +144,6 @@ namespace shipapp
             NewFaculty.FirstName = txtFirstName.Text;
             NewFaculty.LastName = txtLastName.Text;
             NewFaculty.Faculty_PersonId = txtId2.Text;
-            NewFaculty.Id = long.Parse(txtId1.Text);
             BuildingClass g = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(m => m.BuildingLongName == comboBox1.SelectedItem.ToString());
             NewFaculty.Building_Id = g.BuildingId;
             NewFaculty.Building_Name = g.BuildingShortName;
@@ -170,7 +161,6 @@ namespace shipapp
             NewFaculty.FirstName = txtFirstName.Text;
             NewFaculty.LastName = txtLastName.Text;
             NewFaculty.Faculty_PersonId = txtId2.Text;
-            NewFaculty.Id = long.Parse(txtId1.Text);
             BuildingClass g = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(m => m.BuildingLongName == comboBox1.SelectedItem.ToString());
             NewFaculty.Building_Id = g.BuildingId;
             NewFaculty.Building_Name = g.BuildingShortName;
@@ -181,6 +171,59 @@ namespace shipapp
             DataConnectionClass.DataLists.FacultyList.Add(NewFaculty);
             this.Close();
         }
-
+        private void txtFirstName_Leave(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrWhiteSpace(txtFirstName.Text) && message != "EDIT")
+            {
+                if (txtFirstName.Text.Length < 4)
+                {
+                    DataConnectionClass.CreatePersonId(txtFirstName.Text.ToLower().Substring(0, txtFirstName.Text.Length));
+                    txtId2.Text = DataConnectionClass.PersonIdGenerated;
+                }
+                else
+                {
+                    DataConnectionClass.CreatePersonId(txtFirstName.Text.ToLower().Substring(0, 4));
+                    txtId2.Text = DataConnectionClass.PersonIdGenerated;
+                }
+            }
+        }
+        private void txtLastName_Leave(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrWhiteSpace(txtFirstName.Text) && !String.IsNullOrWhiteSpace(txtLastName.Text) && message != "EDIT")
+            {
+                string pidstring = "";
+                if (txtFirstName.Text.Length < 4)
+                {
+                    pidstring = txtFirstName.Text.ToLower().Substring(0, txtFirstName.Text.Length);
+                }
+                else
+                {
+                    pidstring = txtFirstName.Text.ToLower().Substring(0, 4);
+                }
+                if (txtLastName.Text.Length < 4)
+                {
+                    pidstring += txtLastName.Text.ToLower().Substring(0, txtLastName.Text.Length);
+                }
+                else
+                {
+                    pidstring += txtLastName.Text.ToLower().Substring(0, 4);
+                }
+                DataConnectionClass.CreatePersonId(pidstring);
+                txtId2.Text = DataConnectionClass.PersonIdGenerated;
+            }
+            else if (!String.IsNullOrWhiteSpace(txtLastName.Text) && message != "EDIT")
+            {
+                if (txtLastName.Text.Length < 4)
+                {
+                    DataConnectionClass.CreatePersonId(txtLastName.Text.ToLower().Substring(0, txtLastName.Text.Length));
+                    txtId2.Text = DataConnectionClass.PersonIdGenerated;
+                }
+                else
+                {
+                    DataConnectionClass.CreatePersonId(txtLastName.Text.ToLower().Substring(0, 4));
+                    txtId2.Text = DataConnectionClass.PersonIdGenerated;
+                }
+            }
+        }
     }
 }

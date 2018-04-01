@@ -51,9 +51,21 @@ namespace shipapp.Models
         {
             Notes = new List<Note>() { };
         }
+        /// <summary>
+        /// Returns users name in standard english read out (first name last name) with a space between the first and last name
+        /// </summary>
+        /// <returns>String</returns>
         public override string ToString()
         {
             return FirstName + " " + LastName;
+        }
+        /// <summary>
+        /// Formatted string for lists (last name, first name)
+        /// </summary>
+        /// <returns>String</returns>
+        public string ToFormattedString()
+        {
+            return LastName + ", " + FirstName;
         }
     }
 }

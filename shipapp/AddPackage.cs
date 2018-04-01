@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using shipapp.Models;
+using shipapp.Models.ModelData;
+using shipapp.Connections.DataConnections;
 
 namespace shipapp
 {
@@ -19,6 +22,7 @@ namespace shipapp
         private Models.Package newPackage;
         private string message = "NONE";
         private new Receiving ParentForm { get; set; }
+        private string WorkingPID { get; set; }
 
 
         #region form basic
@@ -36,7 +40,7 @@ namespace shipapp
         public AddPackage(string message, object packageToBeEdited, Receiving parent)
         {
             InitializeComponent();
-            newPackage = (Models.Package)packageToBeEdited;
+            newPackage = (Package)packageToBeEdited;
             ParentForm = parent;
             this.message = message;
             cmboStatus.Items.Add("Not_Recieved");
@@ -44,7 +48,15 @@ namespace shipapp
             cmboStatus.Items.Add("OutForDelivery");
             cmboStatus.Items.Add("Delivered");
         }
-
+        
+        private void RefreshLists()
+        {
+            DataConnectionClass.UserConn.GetManyUsers();
+            DataConnectionClass.VendorConn.GetVendorList();
+            DataConnectionClass.CarrierConn.GetCarrierList();
+            DataConnectionClass.buildingConn.GetBuildingList();
+            DataConnectionClass.EmployeeConn.GetAllAfaculty();
+        }
 
         private void AddPackage_Load(object sender, EventArgs e)
         {
@@ -62,14 +74,58 @@ namespace shipapp
                 cmboStatus.Text = newPackage.Status.ToString();
                 txtRoleId.Text = newPackage.Package_PersonId;
                 cmboBuilding.Text = newPackage.DelivBuildingShortName;
+                foreach (Carrier car in DataConnectionClass.DataLists.CarriersList)
+                {
+                    cmboCarrier.Items.Add(car.ToString());
+                }
+                foreach (Vendors vnd in DataConnectionClass.DataLists.Vendors)
+                {
+                    cmboBuilding.Items.Add(vnd.ToString());
+                }
+                foreach (Faculty fac in DataConnectionClass.DataLists.FacultyList)
+                {
+                    cmboRecipiant.Items.Add(fac.ToString());
+                    cmboSignedBy.Items.Add(fac.ToString());
+                }
+                foreach (BuildingClass bldg in DataConnectionClass.DataLists.BuildingNames)
+                {
+                    cmboBuilding.Items.Add(bldg.BuildingLongName);
+                }
+                foreach (User usr in DataConnectionClass.DataLists.UsersList)
+                {
+                    cmboDelBy.Items.Add(usr.ToFormattedString());
+                }
             }
             else if (message == "ADD")
             {
                 // Instatiate Package
-                newPackage = new Models.Package();
+                newPackage = new Package();
+                foreach (Carrier car in DataConnectionClass.DataLists.CarriersList)
+                {
+                    cmboCarrier.Items.Add(car.ToString());
+                }
+                foreach (Vendors vnd in DataConnectionClass.DataLists.Vendors)
+                {
+                    cmboBuilding.Items.Add(vnd.ToString());
+                }
+                foreach (Faculty fac in DataConnectionClass.DataLists.FacultyList)
+                {
+                    cmboRecipiant.Items.Add(fac.ToString());
+                    cmboSignedBy.Items.Add(fac.ToString());
+                }
+                foreach (BuildingClass bldg in DataConnectionClass.DataLists.BuildingNames)
+                {
+                    cmboBuilding.Items.Add(bldg.BuildingLongName);
+                }
+                foreach (User usr in DataConnectionClass.DataLists.UsersList)
+                {
+                    cmboDelBy.Items.Add(usr.ToFormattedString());
+                }
             }
 
         }
+
+
         #endregion
 
 
@@ -259,7 +315,6 @@ namespace shipapp
 
             return 0;
         }
-
         private void cmboStatus_SelectionChangeCommitted(object sender, EventArgs e)
         {
             string selText = cmboStatus.SelectedItem.ToString();
@@ -284,7 +339,6 @@ namespace shipapp
                 newPackage.Status = Models.Package.DeliveryStatus.Not_Received;
             }
         }
-
         private void cmboStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selText = cmboStatus.SelectedItem.ToString();
@@ -309,5 +363,352 @@ namespace shipapp
                 newPackage.Status = Models.Package.DeliveryStatus.Not_Received;
             }
         }
+        #region For creation of the person id on the fly
+        private void txtPO_Leave(object sender, EventArgs e)
+        {
+            if (message != "EDIT")
+            {
+                if (!String.IsNullOrWhiteSpace(txtPO.Text))
+                {
+                    if (txtPO.Text.Length < 4)
+                    {
+                        WorkingPID = txtPO.Text.ToLower().Substring(0, txtPO.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID = txtPO.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboCarrier.Text))
+                {
+                    if (!String.IsNullOrWhiteSpace(txtPO.Text))
+                    {
+                        WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                    }
+                    else
+                    {
+                        if (cmboCarrier.Text.Length < 4)
+                        {
+                            WorkingPID = cmboCarrier.Text.ToLower().Substring(0, cmboCarrier.Text.Length);
+                        }
+                        else
+                        {
+                            WorkingPID = cmboCarrier.Text.ToLower().Substring(0, 4);
+                        }
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboVendor.Text))
+                {
+                    if (cmboVendor.Text.Length < 4)
+                    {
+                        WorkingPID += cmboVendor.Text.ToLower().Substring(0, cmboVendor.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboVendor.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboRecipiant.Text))
+                {
+                    if (cmboRecipiant.Text.Length < 4)
+                    {
+                        WorkingPID += cmboRecipiant.Text.ToLower().Substring(0, cmboRecipiant.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboRecipiant.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboBuilding.Text))
+                {
+                    if (cmboBuilding.Text.Length < 4)
+                    {
+                        WorkingPID += cmboBuilding.Text.ToLower().Substring(0, cmboBuilding.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboBuilding.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                txtRoleId.Text = WorkingPID;
+            }
+        }
+        private void cmboCarrier_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (message != "EDIT")
+            {
+                if (!String.IsNullOrWhiteSpace(txtPO.Text))
+                {
+                    if (txtPO.Text.Length < 4)
+                    {
+                        WorkingPID = txtPO.Text.ToLower().Substring(0, txtPO.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID = txtPO.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboCarrier.Text))
+                {
+                    if (!String.IsNullOrWhiteSpace(txtPO.Text))
+                    {
+                        WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                    }
+                    else
+                    {
+                        if (cmboCarrier.Text.Length < 4)
+                        {
+                            WorkingPID = cmboCarrier.Text.ToLower().Substring(0, cmboCarrier.Text.Length);
+                        }
+                        else
+                        {
+                            WorkingPID = cmboCarrier.Text.ToLower().Substring(0, 4);
+                        }
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboVendor.Text))
+                {
+                    if (cmboVendor.Text.Length < 4)
+                    {
+                        WorkingPID += cmboVendor.Text.ToLower().Substring(0, cmboVendor.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboVendor.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboRecipiant.Text))
+                {
+                    if (cmboRecipiant.Text.Length < 4)
+                    {
+                        WorkingPID += cmboRecipiant.Text.ToLower().Substring(0, cmboRecipiant.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboRecipiant.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboBuilding.Text))
+                {
+                    if (cmboBuilding.Text.Length < 4)
+                    {
+                        WorkingPID += cmboBuilding.Text.ToLower().Substring(0, cmboBuilding.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboBuilding.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                txtRoleId.Text = WorkingPID;
+            }
+        }
+        private void cmboVendor_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (message != "EDIT")
+            {
+                if (!String.IsNullOrWhiteSpace(txtPO.Text))
+                {
+                    if (txtPO.Text.Length < 4)
+                    {
+                        WorkingPID = txtPO.Text.ToLower().Substring(0, txtPO.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID = txtPO.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboCarrier.Text))
+                {
+                    if (!String.IsNullOrWhiteSpace(txtPO.Text))
+                    {
+                        WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                    }
+                    else
+                    {
+                        if (cmboCarrier.Text.Length < 4)
+                        {
+                            WorkingPID = cmboCarrier.Text.ToLower().Substring(0, cmboCarrier.Text.Length);
+                        }
+                        else
+                        {
+                            WorkingPID = cmboCarrier.Text.ToLower().Substring(0, 4);
+                        }
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboVendor.Text))
+                {
+                    if (cmboVendor.Text.Length < 4)
+                    {
+                        WorkingPID += cmboVendor.Text.ToLower().Substring(0, cmboVendor.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboVendor.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboRecipiant.Text))
+                {
+                    if (cmboRecipiant.Text.Length < 4)
+                    {
+                        WorkingPID += cmboRecipiant.Text.ToLower().Substring(0, cmboRecipiant.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboRecipiant.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboBuilding.Text))
+                {
+                    if (cmboBuilding.Text.Length < 4)
+                    {
+                        WorkingPID += cmboBuilding.Text.ToLower().Substring(0, cmboBuilding.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboBuilding.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                txtRoleId.Text = WorkingPID;
+            }
+        }
+        private void cmboRecipiant_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (message != "EDIT")
+            {
+                if (!String.IsNullOrWhiteSpace(txtPO.Text))
+                {
+                    if (txtPO.Text.Length < 4)
+                    {
+                        WorkingPID = txtPO.Text.ToLower().Substring(0, txtPO.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID = txtPO.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboCarrier.Text))
+                {
+                    if (!String.IsNullOrWhiteSpace(txtPO.Text))
+                    {
+                        WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                    }
+                    else
+                    {
+                        if (cmboCarrier.Text.Length < 4)
+                        {
+                            WorkingPID = cmboCarrier.Text.ToLower().Substring(0, cmboCarrier.Text.Length);
+                        }
+                        else
+                        {
+                            WorkingPID = cmboCarrier.Text.ToLower().Substring(0, 4);
+                        }
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboVendor.Text))
+                {
+                    if (cmboVendor.Text.Length < 4)
+                    {
+                        WorkingPID += cmboVendor.Text.ToLower().Substring(0, cmboVendor.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboVendor.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboRecipiant.Text))
+                {
+                    if (cmboRecipiant.Text.Length < 4)
+                    {
+                        WorkingPID += cmboRecipiant.Text.ToLower().Substring(0, cmboRecipiant.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboRecipiant.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboBuilding.Text))
+                {
+                    if (cmboBuilding.Text.Length < 4)
+                    {
+                        WorkingPID += cmboBuilding.Text.ToLower().Substring(0, cmboBuilding.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboBuilding.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                txtRoleId.Text = WorkingPID;
+            }
+        }
+        private void cmboBuilding_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (message != "EDIT")
+            {
+                if (!String.IsNullOrWhiteSpace(txtPO.Text))
+                {
+                    if (txtPO.Text.Length < 4)
+                    {
+                        WorkingPID = txtPO.Text.ToLower().Substring(0, txtPO.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID = txtPO.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboCarrier.Text))
+                {
+                    if (!String.IsNullOrWhiteSpace(txtPO.Text))
+                    {
+                        WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                    }
+                    else
+                    {
+                        if (cmboCarrier.Text.Length < 4)
+                        {
+                            WorkingPID = cmboCarrier.Text.ToLower().Substring(0, cmboCarrier.Text.Length);
+                        }
+                        else
+                        {
+                            WorkingPID = cmboCarrier.Text.ToLower().Substring(0, 4);
+                        }
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboVendor.Text))
+                {
+                    if (cmboVendor.Text.Length < 4)
+                    {
+                        WorkingPID += cmboVendor.Text.ToLower().Substring(0, cmboVendor.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboVendor.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboRecipiant.Text))
+                {
+                    if (cmboRecipiant.Text.Length < 4)
+                    {
+                        WorkingPID += cmboRecipiant.Text.ToLower().Substring(0, cmboRecipiant.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboRecipiant.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                if (!String.IsNullOrWhiteSpace(cmboBuilding.Text))
+                {
+                    if (cmboBuilding.Text.Length < 4)
+                    {
+                        WorkingPID += cmboBuilding.Text.ToLower().Substring(0, cmboBuilding.Text.Length);
+                    }
+                    else
+                    {
+                        WorkingPID += cmboBuilding.Text.ToLower().Substring(0, 4);
+                    }
+                }
+                txtRoleId.Text = WorkingPID;
+            }
+        }
+        #endregion
     }
 }

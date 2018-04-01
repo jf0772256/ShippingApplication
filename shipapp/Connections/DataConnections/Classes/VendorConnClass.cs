@@ -38,6 +38,10 @@ namespace shipapp.Connections.DataConnections.Classes
                 };
                 t.dataGridView1.DataSource = bs;
             }
+            else
+            {
+                DataConnectionClass.DataLists.Vendors = vend;
+            }
         }
         public void AddVendor(Vendors value)
         {

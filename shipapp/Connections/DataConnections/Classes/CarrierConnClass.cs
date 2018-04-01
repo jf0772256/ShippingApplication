@@ -54,6 +54,10 @@ namespace shipapp.Connections.DataConnections.Classes
                 };
                 t.dataGridView1.DataSource = bs;
             }
+            else
+            {
+                DataConnectionClass.DataLists.CarriersList = carr;
+            }
         }
         /// <summary>
         /// Collects a single specific carrier from the database - this is important, You must include a valid database id as long.

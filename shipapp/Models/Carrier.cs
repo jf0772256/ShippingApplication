@@ -26,5 +26,9 @@ namespace shipapp.Models
         public Carrier()
         {
         }
+        public override string ToString()
+        {
+            return CarrierName;
+        }
     }
 }

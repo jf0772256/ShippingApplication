@@ -74,6 +74,7 @@
             this.txtPO.Name = "txtPO";
             this.txtPO.Size = new System.Drawing.Size(169, 26);
             this.txtPO.TabIndex = 1;
+            this.txtPO.Leave += new System.EventHandler(this.txtPO_Leave);
             // 
             // lblCarrier
             // 
@@ -181,6 +182,7 @@
             this.cmboCarrier.Name = "cmboCarrier";
             this.cmboCarrier.Size = new System.Drawing.Size(169, 28);
             this.cmboCarrier.TabIndex = 21;
+            this.cmboCarrier.SelectionChangeCommitted += new System.EventHandler(this.cmboCarrier_SelectionChangeCommitted);
             // 
             // cmboVendor
             // 
@@ -190,6 +192,7 @@
             this.cmboVendor.Name = "cmboVendor";
             this.cmboVendor.Size = new System.Drawing.Size(169, 28);
             this.cmboVendor.TabIndex = 22;
+            this.cmboVendor.SelectionChangeCommitted += new System.EventHandler(this.cmboVendor_SelectionChangeCommitted);
             // 
             // cmboRecipiant
             // 
@@ -199,6 +202,7 @@
             this.cmboRecipiant.Name = "cmboRecipiant";
             this.cmboRecipiant.Size = new System.Drawing.Size(169, 28);
             this.cmboRecipiant.TabIndex = 23;
+            this.cmboRecipiant.SelectionChangeCommitted += new System.EventHandler(this.cmboRecipiant_SelectionChangeCommitted);
             // 
             // cmboDelBy
             // 
@@ -299,6 +303,7 @@
             this.txtRoleId.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRoleId.Location = new System.Drawing.Point(417, 137);
             this.txtRoleId.Name = "txtRoleId";
+            this.txtRoleId.ReadOnly = true;
             this.txtRoleId.Size = new System.Drawing.Size(158, 26);
             this.txtRoleId.TabIndex = 36;
             // 
@@ -310,6 +315,7 @@
             this.cmboBuilding.Name = "cmboBuilding";
             this.cmboBuilding.Size = new System.Drawing.Size(169, 28);
             this.cmboBuilding.TabIndex = 40;
+            this.cmboBuilding.SelectionChangeCommitted += new System.EventHandler(this.cmboBuilding_SelectionChangeCommitted);
             // 
             // label10
             // 

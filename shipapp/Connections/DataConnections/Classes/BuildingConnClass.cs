@@ -40,6 +40,10 @@ namespace shipapp.Connections.DataConnections.Classes
                     t.comboBox1.Items.Add(bldg.BuildingLongName);
                 }
             }
+            else
+            {
+                DataConnectionClass.DataLists.BuildingNames = b;
+            }
         }
         public void WriteBuilding(BuildingClass building)
         {

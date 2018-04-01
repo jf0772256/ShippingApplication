@@ -32,8 +32,6 @@
             this.txtLastName = new System.Windows.Forms.TextBox();
             this.lblFirstName = new System.Windows.Forms.Label();
             this.lblLastName = new System.Windows.Forms.Label();
-            this.lblId1 = new System.Windows.Forms.Label();
-            this.txtId1 = new System.Windows.Forms.TextBox();
             this.txtId2 = new System.Windows.Forms.TextBox();
             this.lblId2 = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -49,6 +47,7 @@
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(266, 26);
             this.txtFirstName.TabIndex = 0;
+            this.txtFirstName.Leave += new System.EventHandler(this.txtFirstName_Leave);
             // 
             // txtLastName
             // 
@@ -56,6 +55,7 @@
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(266, 26);
             this.txtLastName.TabIndex = 1;
+            this.txtLastName.Leave += new System.EventHandler(this.txtLastName_Leave);
             // 
             // lblFirstName
             // 
@@ -77,39 +77,23 @@
             this.lblLastName.TabIndex = 3;
             this.lblLastName.Text = "Last Name";
             // 
-            // lblId1
-            // 
-            this.lblId1.AutoSize = true;
-            this.lblId1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblId1.Location = new System.Drawing.Point(13, 80);
-            this.lblId1.Name = "lblId1";
-            this.lblId1.Size = new System.Drawing.Size(40, 20);
-            this.lblId1.TabIndex = 4;
-            this.lblId1.Text = "Id 1";
-            // 
-            // txtId1
-            // 
-            this.txtId1.Location = new System.Drawing.Point(114, 74);
-            this.txtId1.Name = "txtId1";
-            this.txtId1.Size = new System.Drawing.Size(100, 26);
-            this.txtId1.TabIndex = 2;
-            // 
             // txtId2
             // 
-            this.txtId2.Location = new System.Drawing.Point(280, 74);
+            this.txtId2.Location = new System.Drawing.Point(114, 74);
             this.txtId2.Name = "txtId2";
-            this.txtId2.Size = new System.Drawing.Size(100, 26);
+            this.txtId2.ReadOnly = true;
+            this.txtId2.Size = new System.Drawing.Size(266, 26);
             this.txtId2.TabIndex = 3;
             // 
             // lblId2
             // 
             this.lblId2.AutoSize = true;
             this.lblId2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblId2.Location = new System.Drawing.Point(234, 77);
+            this.lblId2.Location = new System.Drawing.Point(12, 80);
             this.lblId2.Name = "lblId2";
-            this.lblId2.Size = new System.Drawing.Size(40, 20);
+            this.lblId2.Size = new System.Drawing.Size(87, 20);
             this.lblId2.TabIndex = 6;
-            this.lblId2.Text = "Id 2";
+            this.lblId2.Text = "Unique Id";
             // 
             // btnAdd
             // 
@@ -170,8 +154,6 @@
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.txtId2);
             this.Controls.Add(this.lblId2);
-            this.Controls.Add(this.txtId1);
-            this.Controls.Add(this.lblId1);
             this.Controls.Add(this.lblLastName);
             this.Controls.Add(this.lblFirstName);
             this.Controls.Add(this.txtLastName);
@@ -192,8 +174,6 @@
         private System.Windows.Forms.TextBox txtLastName;
         private System.Windows.Forms.Label lblFirstName;
         private System.Windows.Forms.Label lblLastName;
-        private System.Windows.Forms.Label lblId1;
-        private System.Windows.Forms.TextBox txtId1;
         private System.Windows.Forms.TextBox txtId2;
         private System.Windows.Forms.Label lblId2;
         private System.Windows.Forms.Button btnAdd;

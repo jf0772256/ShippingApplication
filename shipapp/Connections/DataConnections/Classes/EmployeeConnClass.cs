@@ -53,6 +53,10 @@ namespace shipapp.Connections.DataConnections.Classes
                 };
                 t.dataGridView1.DataSource = bs;
             }
+            else
+            {
+                DataConnectionClass.DataLists.FacultyList = fac;
+            }
         }
         public void DeleteFaculty(Faculty f)
         {

@@ -49,6 +49,10 @@ namespace shipapp.Connections.DataConnections.Classes
                 };
                 t.dataGridView1.DataSource = bs;
             }
+            else
+            {
+                DataConnectionClass.DataLists.UsersList = users;
+            }
         }
         public bool CheckAuth(User tester)
         {

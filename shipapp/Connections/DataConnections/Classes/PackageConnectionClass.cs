@@ -54,6 +54,10 @@ namespace shipapp.Connections.DataConnections.Classes
                 };
                 t.dataGridPackages.DataSource = bs;
             }
+            else
+            {
+                DataConnectionClass.DataLists.Packages = pack;
+            }
         }
         /// <summary>
         /// Adds a package to database

@@ -66,9 +66,21 @@ namespace shipapp.Models
             this.LastName = lastName;
             Notes = new List<Note>() { };
         }
+        /// <summary>
+        /// last name ,&space first name
+        /// </summary>
+        /// <returns>String</returns>
         public override string ToString()
         {
             return LastName + ", " +FirstName;
+        }
+        /// <summary>
+        /// first name + space + last name
+        /// </summary>
+        /// <returns>String</returns>
+        public string ToNormalNameString()
+        {
+            return FirstName + " " + LastName;
         }
     }
 }

@@ -916,9 +916,9 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
                     cmd.CommandText = "UPDATE idcounter SET id_value = ?, last_id=? WHERE id = ?;";
-                    cmd.Parameters.AddWithValue("id", 1);
-                    cmd.Parameters.AddWithValue("value", i);
-                    cmd.Parameters.AddWithValue("lastval", lid);
+                    cmd.Parameters.Add("value",OdbcType.BigInt).Value = i;
+                    cmd.Parameters.Add("lastval",OdbcType.NVarChar).Value = lid;
+                    cmd.Parameters.Add("id",OdbcType.BigInt).Value = 1;
                     try
                     {
                         cmd.ExecuteNonQuery();
