@@ -35,6 +35,7 @@ namespace shipapp
             cmboStatus.Items.Add("Received");
             cmboStatus.Items.Add("OutForDelivery");
             cmboStatus.Items.Add("Delivered");
+            RefreshLists();
         }
 
         public AddPackage(string message, object packageToBeEdited, Receiving parent)
@@ -47,6 +48,7 @@ namespace shipapp
             cmboStatus.Items.Add("Received");
             cmboStatus.Items.Add("OutForDelivery");
             cmboStatus.Items.Add("Delivered");
+            RefreshLists();
         }
         
         private void RefreshLists()
@@ -80,7 +82,7 @@ namespace shipapp
                 }
                 foreach (Vendors vnd in DataConnectionClass.DataLists.Vendors)
                 {
-                    cmboBuilding.Items.Add(vnd.ToString());
+                    cmboVendor.Items.Add(vnd.ToString());
                 }
                 foreach (Faculty fac in DataConnectionClass.DataLists.FacultyList)
                 {
@@ -89,7 +91,7 @@ namespace shipapp
                 }
                 foreach (BuildingClass bldg in DataConnectionClass.DataLists.BuildingNames)
                 {
-                    cmboBuilding.Items.Add(bldg.BuildingLongName);
+                    cmboBuilding.Items.Add(bldg.ToString());
                 }
                 foreach (User usr in DataConnectionClass.DataLists.UsersList)
                 {
@@ -106,7 +108,7 @@ namespace shipapp
                 }
                 foreach (Vendors vnd in DataConnectionClass.DataLists.Vendors)
                 {
-                    cmboBuilding.Items.Add(vnd.ToString());
+                    cmboVendor.Items.Add(vnd.ToString());
                 }
                 foreach (Faculty fac in DataConnectionClass.DataLists.FacultyList)
                 {
@@ -115,7 +117,7 @@ namespace shipapp
                 }
                 foreach (BuildingClass bldg in DataConnectionClass.DataLists.BuildingNames)
                 {
-                    cmboBuilding.Items.Add(bldg.BuildingLongName);
+                    cmboBuilding.Items.Add(bldg.ToString());
                 }
                 foreach (User usr in DataConnectionClass.DataLists.UsersList)
                 {
@@ -125,10 +127,8 @@ namespace shipapp
 
         }
 
-
         #endregion
-
-
+        
         #region Form Add
         /// <summary>
         /// When the button is clicked attempt to add a package to the database
@@ -152,8 +152,7 @@ namespace shipapp
                 this.Close();
             }
         }
-
-  
+        
         /// <summary>
         /// Grab the data from the form, check for errors, create a package entity, and add it to the database
         /// </summary>
@@ -163,12 +162,13 @@ namespace shipapp
             FillPackage();
 
             // Write Package
-            Connections.DataConnections.DataConnectionClass.PackageConnClass.AddPackage(newPackage);
+            DataConnectionClass.PackageConnClass.AddPackage(newPackage);
+            //do this ONLY on add
+            DataConnectionClass.SavePersonId();
             //Connections.DataConnections.DataConnectionClass.DataLists.Packages.Add(newPackage);
-            Connections.DataConnections.DataConnectionClass.PackageConnClass.GetPackageList(this.ParentForm);
+            DataConnectionClass.PackageConnClass.GetPackageList(this.ParentForm);
         }
-
-
+        
         /// <summary>
         /// Fill the object
         /// </summary>
@@ -183,8 +183,7 @@ namespace shipapp
             Connections.DataConnections.DataConnectionClass.PackageConnClass.GetPackageList(this.ParentForm);
         }
         #endregion
-
-
+        
         #region Data Integrity
         /// <summary>
         /// Reset the error warnings
@@ -292,7 +291,6 @@ namespace shipapp
         }
         #endregion
         
-
         /// <summary>
         /// Set status to proper int
         /// </summary>
@@ -363,6 +361,7 @@ namespace shipapp
                 newPackage.Status = Models.Package.DeliveryStatus.Not_Received;
             }
         }
+
         #region For creation of the person id on the fly
         private void txtPO_Leave(object sender, EventArgs e)
         {
@@ -383,7 +382,14 @@ namespace shipapp
                 {
                     if (!String.IsNullOrWhiteSpace(txtPO.Text))
                     {
-                        WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                        if (cmboCarrier.Text.Length < 4)
+                        {
+                            WorkingPID += cmboCarrier.Text.ToLower().Substring(0, cmboCarrier.Text.Length);
+                        }
+                        else
+                        {
+                            WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                        }
                     }
                     else
                     {
@@ -430,13 +436,15 @@ namespace shipapp
                         WorkingPID += cmboBuilding.Text.ToLower().Substring(0, 4);
                     }
                 }
-                txtRoleId.Text = WorkingPID;
+                DataConnectionClass.CreatePersonId(WorkingPID);
+                txtRoleId.Text = DataConnectionClass.PersonIdGenerated;
             }
         }
         private void cmboCarrier_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (message != "EDIT")
             {
+                cmboCarrier.Text = cmboCarrier.SelectedItem.ToString();
                 if (!String.IsNullOrWhiteSpace(txtPO.Text))
                 {
                     if (txtPO.Text.Length < 4)
@@ -452,7 +460,14 @@ namespace shipapp
                 {
                     if (!String.IsNullOrWhiteSpace(txtPO.Text))
                     {
-                        WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                        if (cmboCarrier.Text.Length < 4)
+                        {
+                            WorkingPID += cmboCarrier.Text.ToLower().Substring(0, cmboCarrier.Text.Length);
+                        }
+                        else
+                        {
+                            WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                        }
                     }
                     else
                     {
@@ -499,13 +514,15 @@ namespace shipapp
                         WorkingPID += cmboBuilding.Text.ToLower().Substring(0, 4);
                     }
                 }
-                txtRoleId.Text = WorkingPID;
+                DataConnectionClass.CreatePersonId(WorkingPID);
+                txtRoleId.Text = DataConnectionClass.PersonIdGenerated;
             }
         }
         private void cmboVendor_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (message != "EDIT")
             {
+                cmboVendor.Text = cmboVendor.SelectedItem.ToString();
                 if (!String.IsNullOrWhiteSpace(txtPO.Text))
                 {
                     if (txtPO.Text.Length < 4)
@@ -521,7 +538,14 @@ namespace shipapp
                 {
                     if (!String.IsNullOrWhiteSpace(txtPO.Text))
                     {
-                        WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                        if (cmboCarrier.Text.Length < 4)
+                        {
+                            WorkingPID += cmboCarrier.Text.ToLower().Substring(0, cmboCarrier.Text.Length);
+                        }
+                        else
+                        {
+                            WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                        }
                     }
                     else
                     {
@@ -568,13 +592,15 @@ namespace shipapp
                         WorkingPID += cmboBuilding.Text.ToLower().Substring(0, 4);
                     }
                 }
-                txtRoleId.Text = WorkingPID;
+                DataConnectionClass.CreatePersonId(WorkingPID);
+                txtRoleId.Text = DataConnectionClass.PersonIdGenerated;
             }
         }
         private void cmboRecipiant_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (message != "EDIT")
             {
+                cmboRecipiant.Text = cmboRecipiant.SelectedItem.ToString();
                 if (!String.IsNullOrWhiteSpace(txtPO.Text))
                 {
                     if (txtPO.Text.Length < 4)
@@ -590,7 +616,14 @@ namespace shipapp
                 {
                     if (!String.IsNullOrWhiteSpace(txtPO.Text))
                     {
-                        WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                        if (cmboCarrier.Text.Length < 4)
+                        {
+                            WorkingPID += cmboCarrier.Text.ToLower().Substring(0, cmboCarrier.Text.Length);
+                        }
+                        else
+                        {
+                            WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                        }
                     }
                     else
                     {
@@ -637,13 +670,15 @@ namespace shipapp
                         WorkingPID += cmboBuilding.Text.ToLower().Substring(0, 4);
                     }
                 }
-                txtRoleId.Text = WorkingPID;
+                DataConnectionClass.CreatePersonId(WorkingPID);
+                txtRoleId.Text = DataConnectionClass.PersonIdGenerated;
             }
         }
         private void cmboBuilding_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (message != "EDIT")
             {
+                cmboBuilding.Text = cmboBuilding.SelectedItem.ToString();
                 if (!String.IsNullOrWhiteSpace(txtPO.Text))
                 {
                     if (txtPO.Text.Length < 4)
@@ -659,7 +694,14 @@ namespace shipapp
                 {
                     if (!String.IsNullOrWhiteSpace(txtPO.Text))
                     {
-                        WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                        if (cmboCarrier.Text.Length < 4)
+                        {
+                            WorkingPID += cmboCarrier.Text.ToLower().Substring(0, cmboCarrier.Text.Length);
+                        }
+                        else
+                        {
+                            WorkingPID += cmboCarrier.Text.ToLower().Substring(0, 4);
+                        }
                     }
                     else
                     {
@@ -706,7 +748,8 @@ namespace shipapp
                         WorkingPID += cmboBuilding.Text.ToLower().Substring(0, 4);
                     }
                 }
-                txtRoleId.Text = WorkingPID;
+                DataConnectionClass.CreatePersonId(WorkingPID);
+                txtRoleId.Text = DataConnectionClass.PersonIdGenerated;
             }
         }
         #endregion
