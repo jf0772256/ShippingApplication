@@ -39,7 +39,7 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public void ResetAllDatabaseTables()
         {
-            Drop_Tables(new List<string>() { "notes","buildings","packages","employees","vendors","carriers","users","roles"});
+            Drop_Tables(new List<string>() { "notes","idcounter","buildings","packages","employees","vendors","carriers","users","roles"});
             Create_Tables();
         }
     }

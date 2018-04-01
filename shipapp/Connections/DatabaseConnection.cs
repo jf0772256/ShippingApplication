@@ -25,6 +25,12 @@ namespace shipapp.Connections
         private SQLHelperClass SQLHelper { get; set; }
         #endregion
         #region Constructors and Tests
+        internal DatabaseConnection(string connection, string encode, SQLHelperClass.DatabaseType dbt)
+        {
+            DBType = dbt;
+            ConnString = connection;
+            EncodeKey = encode;
+        }
         /// <summary>
         /// Uses globalclass connection string or string builder for tasks
         /// </summary>
@@ -82,8 +88,7 @@ namespace shipapp.Connections
 
                     "CREATE TABLE IF NOT EXISTS purchase_orders(po_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, po_number VARCHAR(25) DEFAULT NULL,po_package_count INT DEFAULT 0, po_created_on DATETIME, po_created_by BIGINT, po_approved_by BIGINT, FOREIGN KEY (po_created_by) REFERENCES employees(empl_id) ON DELETE NO ACTION ON UPDATE NO ACTION, FOREIGN KEY (po_approved_by) REFERENCES employees(empl_id) ON DELETE NO ACTION ON UPDATE NO ACTION)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS packages(package_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,package_po varchar(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date VARCHAR(50),package_deliv_bldg VARCHAR(100), package_deliver_date VARCHAR(50), package_notes_id VARCHAR(1000) NOT NULL UNIQUE,package_status INT DEFAULT 0)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    //create default roles;
-                    "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');"
+                    "CREATE TABLE IF NOT EXISTS idcounter(id BIGINT NOT NULL PRIMARY KEY, id_value BIGINT NOT NULL, last_id VARCHAR(1000) DEFAULT NULL); "
                 };
             }
             else if (DBType == SQLHelperClass.DatabaseType.MSSQL)
@@ -102,9 +107,8 @@ namespace shipapp.Connections
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'carriers')CREATE TABLE carriers(carrier_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY, carrier_name VARCHAR(50) NOT NULL UNIQUE);",
 
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'packages')CREATE TABLE packages(package_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,package_po VARCHAR(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date VARCHAR(50),package_deliv_bldg VARCHAR(100), package_deliver_date VARCHAR(50), package_note_id VARCHAR(1000) NOT NULL, package_status INT DEFAULT 0, CONSTRAINT UC_NID UNIQUE(package_note_id));",
-                    "IF (SELECT COUNT(*) FROM sys.symmetric_keys WHERE name = 'secure_data')=0 CREATE SYMMETRIC KEY secure_data WITH ALGORITHM = AES_128 ENCRYPTION BY PASSWORD = '" + EncodeKey +"';",
-                    //create default roles;
-                    "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');"
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'idcounter')CREATE TABLE idcounter(id BIGINT NOT NULL PRIMARY KEY, id_value BIGINT NOT NULL, last_id VARCHAR(1000) DEFAULT NULL);",
+                    "IF (SELECT COUNT(*) FROM sys.symmetric_keys WHERE name = 'secure_data')=0 CREATE SYMMETRIC KEY secure_data WITH ALGORITHM = AES_128 ENCRYPTION BY PASSWORD = '" + EncodeKey +"';"
                 };
             }
             //out side all conditions available
@@ -147,6 +151,62 @@ namespace shipapp.Connections
                     {
                         cmd.Transaction.Rollback();
                         throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
+                    }
+                }
+                DoDefaultInserts();
+            }
+        }
+        private void DoDefaultInserts()
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            List<string> cmdTxt = new List<string>() { };
+            if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+            {
+                cmdTxt = new List<string>()
+                {
+                    "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');",
+                    "INSERT INTO idcounter(id,id_value)VALUES(1,0);",
+                    "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';",
+                    "INSERT INTO users(users.user_fname,users.user_lname,users.user_name,users.user_password,users.user_role_id,person_id)VALUES('Danny','Lane','danny_lane',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'DannyLane')),1,'dannyl001');",
+                    "CLOSE SYMMETRIC KEY secure_data;"
+                };
+            }
+            else if (DBType == SQLHelperClass.DatabaseType.MySQL)
+            {
+                cmdTxt = new List<string>()
+                {
+                    "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');",
+                    "INSERT INTO idcounter(id,id_value)VALUES(1,0);",
+                    "INSERT INTO users(users.user_fname,users.user_lname,users.user_name,users.user_password,users.user_role_id,users.person_id)VALUES('Danny','Lane','danny_lane',AES_ENCRYPT(DannyLane,"+EncodeKey+"),1,'dannyl001');"
+                };
+            }
+            else
+            {
+                //fail
+                throw new DatabaseConnectionException("Invalid server type passed.");
+            }
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    foreach (string command in cmdTxt)
+                    {
+                        cmd.CommandText += command;
+                    }
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception exe)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Data failed to proccess see inner exceotion for further details", exe);
                     }
                 }
             }
@@ -810,6 +870,64 @@ namespace shipapp.Connections
                     {
                         cmd.Transaction.Rollback();
                         throw new DatabaseConnectionException("Data Processing Failed to write, view inner exceltion for details", e);
+                    }
+                }
+            }
+        }
+        protected void Update(BuildingClass b)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "UPDATE buildings SET building_long_name = ?, building_short_name=? WHERE building_id = ?;";
+                    cmd.Parameters.AddWithValue("bln", b.BuildingLongName);
+                    cmd.Parameters.AddWithValue("bsn", b.BuildingShortName);
+                    cmd.Parameters.AddWithValue("bid", b.BuildingId);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
+                    }
+                }
+            }
+        }
+        internal void Update(long i, string lid)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "UPDATE idcounter SET id_value = ?, last_id=? WHERE id = ?;";
+                    cmd.Parameters.AddWithValue("id", 1);
+                    cmd.Parameters.AddWithValue("value", i);
+                    cmd.Parameters.AddWithValue("lastval", lid);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                     }
                 }
             }
@@ -1527,6 +1645,54 @@ namespace shipapp.Connections
                 }
             }
             return bl;
+        }
+        internal long GetLastNumericalId()
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            long i = 0;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    cmd.CommandText = "SELECT id_value FROM idcounter;";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            i = Convert.ToInt64(reader[0].ToString());
+                        }
+                    }
+                }
+            }
+            return i;
+        }
+        internal string GetLastStringId()
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            string i = "";
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    cmd.CommandText = "SELECT last_id FROM idcounter;";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            i = reader[0].ToString();
+                        }
+                    }
+                }
+            }
+            return i;
         }
         #endregion
         #region private gets

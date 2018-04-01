@@ -49,5 +49,9 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             Delete(building);
         }
+        public void UpdateBuilding(BuildingClass building)
+        {
+            Update(building);
+        }
     }
 }

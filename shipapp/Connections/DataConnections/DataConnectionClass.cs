@@ -19,6 +19,8 @@ namespace shipapp.Connections.DataConnections
         public static SQLHelperClass.DatabaseType DBType { get; set; }
         public static Serialize Serialization { get; set; }
         public static string ConnectionString { get; set; }
+        private static long PersonIdNumberCounter { get; set; }
+        public static string PersonIdGenerated { get; set; }
         public static string EncodeString { get; set; }
         /// <summary>
         /// Tester connection class and its methods amd properties
@@ -193,6 +195,19 @@ namespace shipapp.Connections.DataConnections
             SuccessAuthenticating = false;
             UserConn.Authenticate.Password = "";
             UserConn.Authenticate.UserName = "";
+        }
+        /// <summary>
+        /// Fucntion to genetare the person id automatically, by passing a string to use as a prefix the function will append a numer to it and return it.
+        /// </summary>
+        /// <param name="str">some string value</param>
+        public static void CreatePersonId(string str)
+        {
+            DatabaseConnection dbc = new DatabaseConnection(ConnectionString,EncodeString,DBType);
+            long lastidnum = dbc.GetLastNumericalId();
+            lastidnum += 1;
+            PersonIdNumberCounter = lastidnum;
+            PersonIdGenerated = str + PersonIdNumberCounter;
+            dbc.Update(PersonIdNumberCounter, PersonIdGenerated);
         }
     }
     /// <summary>
