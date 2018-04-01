@@ -144,6 +144,16 @@ namespace shipapp
                 pcBxEdit.BackColor = Color.Transparent;
                 pictureBox1.BackColor = Color.Transparent;
                 pcBxPrint.Show();
+
+                btnVendors.Enabled = true;
+                btnFaculty.Show();
+                btnFaculty.Enabled = true;
+                btnBuildings.Show();
+                btnBuildings.Enabled = true;
+                btnCarriers.Show();
+                btnCarriers.Enabled = true;
+                btnOther.Enabled = true;
+                btnOther.Show();
             }
             else if (role == 2)
             {
@@ -156,7 +166,32 @@ namespace shipapp
                 pcBxEdit.BackColor = Color.LightPink;
                 pictureBox1.BackColor = Color.LightPink;
                 pcBxPrint.Hide();
+
+                btnVendors.Enabled = true;
+                btnFaculty.Show();
+                btnFaculty.Enabled = true;
+                btnBuildings.Show();
+                btnBuildings.Enabled = true;
+                btnCarriers.Show();
+                btnCarriers.Enabled = true;
+                btnOther.Enabled = true;
+                btnOther.Show();
                 // TODO: Restrict view of password
+            }
+            else if ( role == 0)
+            {
+                btnUsers.Enabled = true;
+                btnUsers.BackColor = Color.White;
+                btnVendors.Hide();
+                btnVendors.Enabled = false;
+                btnFaculty.Hide();
+                btnFaculty.Enabled = false;
+                btnBuildings.Hide();
+                btnBuildings.Enabled = false;
+                btnCarriers.Hide();
+                btnCarriers.Enabled = false;
+                btnOther.Enabled = false;
+                btnOther.Hide();
             }
         }
         #region Table Buttons

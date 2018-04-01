@@ -66,11 +66,11 @@ namespace shipapp
             if (role == 0)
             {
                 btnDailyReceiving.Enabled = false;
-                btnManage.Enabled = false;
+                btnManage.Enabled = true;
                 btnReports.Enabled = false;
                 btnSettings.Enabled = true;
                 btnDailyReceiving.BackColor = Color.LightPink;
-                btnManage.BackColor = Color.LightPink;
+                btnManage.BackColor = Color.White;
                 btnReports.BackColor = Color.LightPink;
                 btnSettings.BackColor = Color.White;
             }
