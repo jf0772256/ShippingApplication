@@ -204,9 +204,15 @@ namespace shipapp.Connections.DataConnections
         {
             DatabaseConnection dbc = new DatabaseConnection(ConnectionString,EncodeString,DBType);
             long lastidnum = dbc.GetLastNumericalId();
-            lastidnum += 1;
-            PersonIdNumberCounter = lastidnum;
+            PersonIdNumberCounter = lastidnum += 1;
             PersonIdGenerated = str + PersonIdNumberCounter;
+        }
+        /// <summary>
+        /// Saves the person id to the database idcounter. this will help make data safer
+        /// </summary>
+        public static void SavePersonId()
+        {
+            DatabaseConnection dbc = new DatabaseConnection(ConnectionString, EncodeString, DBType);
             dbc.Update(PersonIdNumberCounter, PersonIdGenerated);
         }
     }

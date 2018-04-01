@@ -55,7 +55,7 @@ namespace shipapp
             if (message == "EDIT")
             {
                 // Fill Textbox
-                txtBoxPersonId.Text = userToBeEdited.Id.ToString();
+                txtBoxPersonId.Text = userToBeEdited.Person_Id;
                 txtFirstName.Text = userToBeEdited.FirstName;
                 txtLastName.Text = userToBeEdited.LastName;
                 txtLevel.Text = userToBeEdited.Level.ToString();
@@ -94,7 +94,8 @@ namespace shipapp
 
                 // Write the data to the DB
                 Connections.DataConnections.DataConnectionClass.UserConn.Write1User(newUser);
-                Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Add(Connections.DataConnections.DataConnectionClass.UserConn.Get1User(newUser.Username));
+                //Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Add(Connections.DataConnections.DataConnectionClass.UserConn.Get1User(newUser.Username));
+                Connections.DataConnections.DataConnectionClass.SavePersonId();
                 this.Close();
             }
             else if (ValidateData() && message == "EDIT") // If editing the user
@@ -220,6 +221,62 @@ namespace shipapp
             }
 
             return roleId;
+        }
+
+        private void txtFirstName_Leave(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrWhiteSpace(txtFirstName.Text) && message != "EDIT")
+            {
+                if (txtFirstName.Text.Length < 4)
+                {
+                    Connections.DataConnections.DataConnectionClass.CreatePersonId(txtFirstName.Text.ToLower().Substring(0, txtFirstName.Text.Length));
+                    txtBoxPersonId.Text = Connections.DataConnections.DataConnectionClass.PersonIdGenerated;
+                }
+                else
+                {
+                    Connections.DataConnections.DataConnectionClass.CreatePersonId(txtFirstName.Text.ToLower().Substring(0, 4));
+                    txtBoxPersonId.Text = Connections.DataConnections.DataConnectionClass.PersonIdGenerated;
+                }
+            }
+        }
+
+        private void txtLastName_Leave(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrWhiteSpace(txtFirstName.Text)  && !String.IsNullOrWhiteSpace(txtLastName.Text) && message != "EDIT")
+            {
+                string pidstring = "";
+                if (txtFirstName.Text.Length < 4)
+                {
+                    pidstring = txtFirstName.Text.ToLower().Substring(0, txtFirstName.Text.Length);
+                }
+                else
+                {
+                    pidstring = txtFirstName.Text.ToLower().Substring(0, 4);
+                }
+                if (txtLastName.Text.Length < 4)
+                {
+                    pidstring += txtLastName.Text.ToLower().Substring(0, txtLastName.Text.Length);
+                }
+                else
+                {
+                    pidstring += txtLastName.Text.ToLower().Substring(0, 4);
+                }
+                Connections.DataConnections.DataConnectionClass.CreatePersonId(pidstring);
+                txtBoxPersonId.Text = Connections.DataConnections.DataConnectionClass.PersonIdGenerated;
+            }
+            else if (!String.IsNullOrWhiteSpace(txtLastName.Text) && message != "EDIT")
+            {
+                if (txtLastName.Text.Length < 4)
+                {
+                    Connections.DataConnections.DataConnectionClass.CreatePersonId(txtLastName.Text.ToLower().Substring(0, txtLastName.Text.Length));
+                    txtBoxPersonId.Text = Connections.DataConnections.DataConnectionClass.PersonIdGenerated;
+                }
+                else
+                {
+                    Connections.DataConnections.DataConnectionClass.CreatePersonId(txtLastName.Text.ToLower().Substring(0, 4));
+                    txtBoxPersonId.Text = Connections.DataConnections.DataConnectionClass.PersonIdGenerated;
+                }
+            }
         }
     }
 }

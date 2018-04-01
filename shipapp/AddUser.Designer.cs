@@ -59,6 +59,7 @@
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(100, 22);
             this.txtFirstName.TabIndex = 2;
+            this.txtFirstName.Leave += new System.EventHandler(this.txtFirstName_Leave);
             // 
             // lbl1
             // 
@@ -76,6 +77,7 @@
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(100, 22);
             this.txtLastName.TabIndex = 4;
+            this.txtLastName.Leave += new System.EventHandler(this.txtLastName_Leave);
             // 
             // lblLevel
             // 
@@ -143,6 +145,7 @@
             // 
             this.txtBoxPersonId.Location = new System.Drawing.Point(100, 148);
             this.txtBoxPersonId.Name = "txtBoxPersonId";
+            this.txtBoxPersonId.ReadOnly = true;
             this.txtBoxPersonId.Size = new System.Drawing.Size(100, 22);
             this.txtBoxPersonId.TabIndex = 13;
             // 

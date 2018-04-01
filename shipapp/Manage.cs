@@ -438,9 +438,16 @@ namespace shipapp
             if (currentTable == 1)
             {
                 // Edit user object 
-                User userToBeEdited = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                AddUser addUser = new AddUser(message, userToBeEdited);
-                addUser.ShowDialog();
+                if (dataGridView1.SelectedRows.Count > 0)
+                {
+                    User userToBeEdited = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                    AddUser addUser = new AddUser(message, userToBeEdited);
+                    addUser.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Sorry, you must select the row to proceed.","Row to modify is null");
+                }
             }
             else if (currentTable == 2)
             {

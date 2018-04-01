@@ -167,7 +167,7 @@ namespace shipapp.Connections
                 cmdTxt = new List<string>()
                 {
                     "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');",
-                    "INSERT INTO idcounter(id,id_value)VALUES(1,0);",
+                    "INSERT INTO idcounter(id,id_value)VALUES(1,1);",
                     "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';",
                     "INSERT INTO users(users.user_fname,users.user_lname,users.user_name,users.user_password,users.user_role_id,person_id)VALUES('Danny','Lane','danny_lane',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'DannyLane')),1,'dannyl001');",
                     "CLOSE SYMMETRIC KEY secure_data;"
@@ -178,7 +178,7 @@ namespace shipapp.Connections
                 cmdTxt = new List<string>()
                 {
                     "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');",
-                    "INSERT INTO idcounter(id,id_value)VALUES(1,0);",
+                    "INSERT INTO idcounter(id,id_value)VALUES(1,1);",
                     "INSERT INTO users(users.user_fname,users.user_lname,users.user_name,users.user_password,users.user_role_id,users.person_id)VALUES('Danny','Lane','danny_lane',AES_ENCRYPT(DannyLane,"+EncodeKey+"),1,'dannyl001');"
                 };
             }
@@ -1140,13 +1140,13 @@ namespace shipapp.Connections
                     {
                         while (reader.Read())
                         {
-                            u.Id = Convert.ToInt64(reader[0].ToString());
-                            u.FirstName = reader[1].ToString();
-                            u.LastName = reader[2].ToString();
-                            u.Username = reader[3].ToString();
-                            u.PassWord = reader[4].ToString();
-                            rid = Convert.ToInt64(reader[5].ToString());
-                            u.Person_Id = reader[6].ToString();
+                            u.Id = Convert.ToInt64(reader["user_id"].ToString());
+                            u.FirstName = reader["user_fname"].ToString();
+                            u.LastName = reader["user_lname"].ToString();
+                            u.Username = reader["user_name"].ToString();
+                            u.PassWord = reader["Password"].ToString();
+                            rid = Convert.ToInt64(reader["user_role_id"].ToString());
+                            u.Person_Id = reader["person_id"].ToString();
                         }
                     }
                     cmd.Parameters.Clear();
@@ -1156,10 +1156,10 @@ namespace shipapp.Connections
                     {
                         while (reader.Read())
                         {
-                            u.Level = new Models.ModelData.Role()
+                            u.Level = new Role()
                             {
-                                Role_id = Convert.ToInt64(reader[0].ToString()),
-                                Role_Title = reader[1].ToString()
+                                Role_id = Convert.ToInt64(reader["role_id"].ToString()),
+                                Role_Title = reader["role_title"].ToString()
                             };
                         }
                     }
@@ -1258,14 +1258,14 @@ namespace shipapp.Connections
                             {
                                 User u = new User()
                                 {
-                                    Id = Convert.ToInt64(reader[0].ToString()),
-                                    FirstName = reader[1].ToString(),
-                                    LastName = reader[2].ToString(),
-                                    Username = reader[3].ToString(),
-                                    PassWord = reader[4].ToString(),
-                                    Person_Id = reader[6].ToString()
+                                    Id = Convert.ToInt64(reader["user_id"].ToString()),
+                                    FirstName = reader["user_fname"].ToString(),
+                                    LastName = reader["user_lname"].ToString(),
+                                    Username = reader["user_name"].ToString(),
+                                    PassWord = reader["Password"].ToString(),
+                                    Person_Id = reader["person_id"].ToString()
                                 };
-                                rids.Add(Convert.ToInt64(reader[5].ToString()));
+                                rids.Add(Convert.ToInt64(reader["user_role_id"].ToString()));
                                 usr.Add(u);
                             }
                         }
@@ -1300,14 +1300,14 @@ namespace shipapp.Connections
                             {
                                 User u = new User()
                                 {
-                                    Id = Convert.ToInt64(reader[0].ToString()),
-                                    FirstName = reader[1].ToString(),
-                                    LastName = reader[2].ToString(),
-                                    Username = reader[3].ToString(),
-                                    PassWord = reader[4].ToString(),
-                                    Person_Id = reader[6].ToString()
+                                    Id = Convert.ToInt64(reader["user_id"].ToString()),
+                                    FirstName = reader["user_fname"].ToString(),
+                                    LastName = reader["user_lname"].ToString(),
+                                    Username = reader["user_name"].ToString(),
+                                    PassWord = reader["Password"].ToString(),
+                                    Person_Id = reader["person_id"].ToString()
                                 };
-                                rids.Add(Convert.ToInt64(reader[5].ToString()));
+                                rids.Add(Convert.ToInt64(reader["user_role_id"].ToString()));
                                 usr.Add(u);
                             }
                         }
@@ -1323,8 +1323,8 @@ namespace shipapp.Connections
                                 {
                                     u.Level = new Models.ModelData.Role()
                                     {
-                                        Role_id = Convert.ToInt64(reader[0].ToString()),
-                                        Role_Title = reader[1].ToString()
+                                        Role_id = Convert.ToInt64(reader["role_id"].ToString()),
+                                        Role_Title = reader["role_title"].ToString()
                                     };
                                 }
                             }
