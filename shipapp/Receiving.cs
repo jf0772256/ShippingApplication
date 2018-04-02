@@ -52,6 +52,12 @@ namespace shipapp
             SetRole();
             GetPackages();
 
+            //
+            if (dataGridPackages.SelectedColumns.Count == 0)
+            {
+                txtSearch.Enabled = false;
+            }
+
             // Set form to match role
             if (role == 1)
             {
@@ -146,8 +152,8 @@ namespace shipapp
         /// <param name="e"></param>
         private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
-            AddNote note = new AddNote();
-            note.Show();
+            //AddNote note = new AddNote();
+            //note.Show();
         }
 
 
@@ -156,27 +162,6 @@ namespace shipapp
         /// </summary>
         public void AddPackageToGrid()
         {
-            ////TODO Fill list with query from Database
-            //dataGridPackages.DataSource = null;
-            //dataGridPackages.Columns.Clear(); ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-            //DataConnectionClass.EmployeeConn.GetAllAfaculty();
-            //dataGridPackages.DataSource = DataConnectionClass.DataLists.FacultyList;
-            ////adds combo columns
-            //dgvch.AddCustomColumn(dataGridPackages, "Phone Numbers", "phone_number", 9);
-            //dgvch.AddCustomColumn(dataGridPackages, "E-Mail Address", "email_address", 10);
-            //dgvch.AddCustomColumn(dataGridPackages, "Address", "address", 11);
-            ////add values to drop downs
-            //for (int i = 0; i < DataConnectionClass.DataLists.FacultyList.Count; i++)
-            //{
-            //    DataGridViewComboBoxCell tcel = (DataGridViewComboBoxCell)dataGridPackages.Rows[i].Cells["phone_number"];
-            //    DataConnectionClass.DataLists.FacultyList[i].Phone.ForEach(p => tcel.Items.Add(p.Phone_Number.ToString()));
-
-            //    DataGridViewComboBoxCell ucel = (DataGridViewComboBoxCell)dataGridPackages.Rows[i].Cells["email_address"];
-            //    DataConnectionClass.DataLists.FacultyList[i].Email.ForEach(h => ucel.Items.Add(h.Email_Address.ToString()));
-
-            //    DataGridViewComboBoxCell vcel = (DataGridViewComboBoxCell)dataGridPackages.Rows[i].Cells["address"];
-            //    DataConnectionClass.DataLists.FacultyList[i].Address.ForEach(a => vcel.Items.Add(a.GetBuildingDetails(true)));
-            //}
             message = "ADD";
             AddPackage addPackage = new AddPackage(message,this);
             addPackage.ShowDialog(); 
@@ -200,6 +185,7 @@ namespace shipapp
             Package packageToBeRemoved = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0].Value));
             DataConnectionClass.PackageConnClass.DeletePackage(packageToBeRemoved);
             DataConnectionClass.PackageConnClass.GetPackageList();
+            Refreash();
         }
 
 
@@ -332,6 +318,24 @@ namespace shipapp
         {
             // If column selected and search bar not equal null or whitespace, else do nothing
             // -- Query database and return results
+        }
+
+
+        private void pcBXRefreash_Click(object sender, EventArgs e)
+        {
+            Refreash();
+        }
+
+
+        public void Refreash()
+        {
+            DataConnectionClass.PackageConnClass.GetPackageList(this);
+        }
+
+        private void dataGridPackages_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //MessageBox.Show("It worked: " + dataGridPackages.SelectedCells[0].ColumnIndex + "\r\n" + dataGridPackages.Columns[dataGridPackages.SelectedCells[0].ColumnIndex].DataPropertyName);
+            lblSearch.Text = dataGridPackages.Columns[dataGridPackages.SelectedCells[0].ColumnIndex].DataPropertyName;
         }
     }
 }

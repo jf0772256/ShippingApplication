@@ -41,6 +41,7 @@
             this.btnAdd = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.txtSearch = new System.Windows.Forms.TextBox();
+            this.lblSearch = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridPackages)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
@@ -62,9 +63,11 @@
             this.dataGridPackages.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dataGridPackages.Location = new System.Drawing.Point(0, 149);
             this.dataGridPackages.Name = "dataGridPackages";
+            this.dataGridPackages.ReadOnly = true;
             this.dataGridPackages.Size = new System.Drawing.Size(1234, 512);
             this.dataGridPackages.TabIndex = 0;
             this.dataGridPackages.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
+            this.dataGridPackages.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridPackages_CellDoubleClick);
             // 
             // label1
             // 
@@ -113,6 +116,7 @@
             this.pcBXRefreash.Size = new System.Drawing.Size(35, 35);
             this.pcBXRefreash.TabIndex = 7;
             this.pcBXRefreash.TabStop = false;
+            this.pcBXRefreash.Click += new System.EventHandler(this.pcBXRefreash_Click);
             // 
             // pcBxPrint
             // 
@@ -170,18 +174,32 @@
             // txtSearch
             // 
             this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(248, 103);
+            this.txtSearch.Location = new System.Drawing.Point(381, 102);
             this.txtSearch.Name = "txtSearch";
+            this.txtSearch.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.txtSearch.Size = new System.Drawing.Size(156, 26);
             this.txtSearch.TabIndex = 11;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            // 
+            // lblSearch
+            // 
+            this.lblSearch.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.lblSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSearch.Location = new System.Drawing.Point(377, 76);
+            this.lblSearch.Name = "lblSearch";
+            this.lblSearch.Size = new System.Drawing.Size(160, 23);
+            this.lblSearch.TabIndex = 12;
+            this.lblSearch.Text = "label2";
+            this.lblSearch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Receiving
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(1234, 661);
+            this.Controls.Add(this.lblSearch);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.pictureBox8);
             this.Controls.Add(this.pictureBox6);
@@ -220,5 +238,6 @@
         internal System.Windows.Forms.Label label1;
         internal System.Windows.Forms.DataGridView dataGridPackages;
         private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Label lblSearch;
     }
 }
