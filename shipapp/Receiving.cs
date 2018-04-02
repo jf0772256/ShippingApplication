@@ -332,6 +332,7 @@ namespace shipapp
             DataConnectionClass.PackageConnClass.GetPackageList(this);
         }
 
+
         private void dataGridPackages_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             //MessageBox.Show("It worked: " + dataGridPackages.SelectedCells[0].ColumnIndex + "\r\n" + dataGridPackages.Columns[dataGridPackages.SelectedCells[0].ColumnIndex].DataPropertyName);
