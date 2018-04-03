@@ -81,5 +81,16 @@ namespace shipapp
                 DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.Unset;
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenSQLFile.InitialDirectory = Environment.CurrentDirectory + "\\Connections\\Backup";
+            DialogResult dr = OpenSQLFile.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                string fin = OpenSQLFile.FileName;
+                Connections.DataConnections.DataConnectionClass.Backup_DB.RestoreDBBackup(fin);
+            }
+        }
     }
 }

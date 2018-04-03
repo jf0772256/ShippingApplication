@@ -18,7 +18,6 @@ namespace shipapp.Connections.HelperClasses
         /// </summary>
         public Backup_DB_Class() : base()
         {
-            CheckToDoBackup();
         }
         /// <summary>
         /// on start tuesday, thursday do back up
@@ -43,7 +42,8 @@ namespace shipapp.Connections.HelperClasses
         /// process will run sync with main application.
         /// meaning this will block user from main application from continuing until completed.
         /// </summary>
-        public void RestoreDBBackup()
+        /// <param name="filepathandname">File path for file to open and read</param>
+        public void RestoreDBBackup(string filepathandname)
         {
 
         }

@@ -1718,7 +1718,7 @@ namespace shipapp.Connections
                     {
                         cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
                         cmd.CommandText += "SELECT users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id,person_id FROM users;";
-                        cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
+                        cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;\n";
                     }
                     else if (DBType == SQLHelperClass.DatabaseType.MySQL)
                     {
@@ -1731,129 +1731,179 @@ namespace shipapp.Connections
                     string sql = "";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
-                        if (restoreToDBType == SQLHelperClass.DatabaseType.MSSQL)
+                        if (reader.HasRows == true)
                         {
-                            sql += "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
-                            sql += "INSERT INTO users(user_fname,user_lname,user_name,user_password,user_role_id,person_id)VALUES";
-                            bool done = false;
-                            while (reader.Read())
+                            if (restoreToDBType == SQLHelperClass.DatabaseType.MSSQL)
                             {
-                                if (!done)
+                                sql += "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';\n";
+                                sql += "INSERT INTO users(user_fname,user_lname,user_name,user_password,user_role_id,person_id)VALUES";
+                                bool done = false;
+                                while (reader.Read())
                                 {
-                                    sql += "('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'" + reader["Password"].ToString() + "'))," + Convert.ToInt64(reader["user_role_id"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
-                                    done = true;
+                                    if (!done)
+                                    {
+                                        sql += "('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'" + reader["Password"].ToString() + "'))," + Convert.ToInt64(reader["user_role_id"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
+                                        done = true;
+                                    }
+                                    sql += ",('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'" + reader["Password"].ToString() + "'))," + Convert.ToInt64(reader["user_role_id"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
                                 }
-                                sql += ",('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'" + reader["Password"].ToString() + "'))," + Convert.ToInt64(reader["user_role_id"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
+                                sql += ";\n";
+                                sql += "CLOSE SYMMETRIC KEY secure_data;\n";
                             }
-                            sql += ";";
-                            sql += "CLOSE SYMMETRIC KEY secure_data;";
-                        }
-                        else if (restoreToDBType == SQLHelperClass.DatabaseType.MySQL)
-                        {
-                            bool done = false;
-                            while (reader.Read())
+                            else if (restoreToDBType == SQLHelperClass.DatabaseType.MySQL)
                             {
-                                if (!done)
+                                bool done = false;
+                                sql += "INSERT INTO users(user_fname,user_lname,user_name,user_password,user_role_id,person_id)VALUES";
+                                while (reader.Read())
                                 {
-                                    sql += "('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',AES_ENCRYPT('" + reader["Password"].ToString() + "','" + EncodeKey + "')," + Convert.ToInt64(reader["user_fname"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
-                                    done = true;
-                                    continue;
+                                    if (!done)
+                                    {
+                                        sql += "('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',AES_ENCRYPT('" + reader["Password"].ToString() + "','" + EncodeKey + "')," + Convert.ToInt64(reader["user_role_id"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
+                                        done = true;
+                                        continue;
+                                    }
+                                    sql += ",('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',AES_ENCRYPT('" + reader["Password"].ToString() + "','" + EncodeKey + "')," + Convert.ToInt64(reader["user_role_id"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
                                 }
-                                sql += ",('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',AES_ENCRYPT('" + reader["Password"].ToString() + "','" + EncodeKey + "')," + Convert.ToInt64(reader["user_fname"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
+                                sql += ";\n";
                             }
-                            sql += ";";
                         }
                     }
                     cmd.CommandText = "SELECT vendor_name FROM vendors;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
-                        sql += "INSERT INTO vendors (vendor_name)VALUES";
-                        bool done = false;
-                        while (reader.Read())
+                        if (reader.HasRows == true)
                         {
-                            if (!done)
+                            sql += "INSERT INTO vendors (vendor_name)VALUES";
+                            bool done = false;
+                            while (reader.Read())
                             {
-                                sql += "('" + reader["vendor_name"].ToString() + "')";
-                                done = true;
-                                continue;
+                                if (!done)
+                                {
+                                    sql += "('" + reader["vendor_name"].ToString() + "')";
+                                    done = true;
+                                    continue;
+                                }
+                                sql += ",('" + reader["vendor_name"].ToString() + "')";
                             }
-                            sql += ",('" + reader["vendor_name"].ToString() + "')";
+                            sql += ";\n";
                         }
-                        sql += ";";
                     }
                     cmd.CommandText = "SELECT carrier_name FROM carriers;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
-                        sql += "INSERT INTO carriers(carrier_name)VALUES";
-                        bool done = false;
-                        while (reader.Read())
+                        if (reader.HasRows == true)
                         {
-                            if (!done)
+                            sql += "INSERT INTO carriers(carrier_name)VALUES";
+                            bool done = false;
+                            while (reader.Read())
                             {
-                                sql += "('" + reader["carrier_name"].ToString() + "')";
-                                done = true;
-                                continue;
+                                if (!done)
+                                {
+                                    sql += "('" + reader["carrier_name"].ToString() + "')";
+                                    done = true;
+                                    continue;
+                                }
+                                sql += ",('" + reader["carrier_name"].ToString() + "')";
                             }
-                            sql += ",('" + reader["carrier_name"].ToString() + "')";
+                            sql += ";\n";
                         }
-                        sql += ";";
                     }
-                    //do data dump to file prevent overload
-                    WriteFile(path2bu, filen, sql);
-                    sql = "";
                     cmd.CommandText = "SELECT building_short_name,building_long_name FROM buildings;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
-                        sql += "INSERT INTO buildings(building_long_name,building_short_name)VALUES";
-                        bool done = false;
-                        while (reader.Read())
+                        if (reader.HasRows == true)
                         {
-                            if (!done)
+                            sql += "INSERT INTO buildings(building_long_name,building_short_name)VALUES";
+                            bool done = false;
+                            while (reader.Read())
                             {
-                                sql += "('" + reader["building_long_name"].ToString() + "','" + reader["building_short_name"].ToString() + "')";
-                                done = true;
-                                continue;
+                                if (!done)
+                                {
+                                    sql += "('" + reader["building_long_name"].ToString() + "','" + reader["building_short_name"].ToString() + "')";
+                                    done = true;
+                                    continue;
+                                }
+                                sql += ",('" + reader["building_long_name"].ToString() + "','" + reader["building_short_name"].ToString() + "')";
                             }
-                            sql += ",('" + reader["building_long_name"].ToString() + "','" + reader["building_short_name"].ToString() + "')";
+                            sql += ";\n";
                         }
-                        sql += ";";
                     }
                     cmd.CommandText = "SELECT empl_fname, empl_lname, person_id, building_id, building_room_number FROM employees;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
-                        sql += "INSERT INTO employees(empl_fname, empl_lname, person_id, building_id, building_room_number)VALUES";
-                        bool done = false;
-                        while (reader.Read())
+                        if (reader.HasRows == true)
                         {
-                            if (!done)
+                            sql += "INSERT INTO employees(empl_fname, empl_lname, person_id, building_id, building_room_number)VALUES";
+                            bool done = false;
+                            while (reader.Read())
                             {
-                                sql += "('"+reader["empl_fname"].ToString()+"','"+ reader["empl_lname"].ToString() + "','"+ reader["person_id"].ToString() + "',"+ Convert.ToInt64(reader["building_id"].ToString()) + ",'"+ reader["building_room_number"].ToString() + "')";
-                                done = true;
-                                continue;
+                                if (!done)
+                                {
+                                    sql += "('" + reader["empl_fname"].ToString() + "','" + reader["empl_lname"].ToString() + "','" + reader["person_id"].ToString() + "'," + Convert.ToInt64(reader["building_id"].ToString()) + ",'" + reader["building_room_number"].ToString() + "')";
+                                    done = true;
+                                    continue;
+                                }
+                                sql += ",('" + reader["empl_fname"].ToString() + "','" + reader["empl_lname"].ToString() + "','" + reader["person_id"].ToString() + "'," + Convert.ToInt64(reader["building_id"].ToString()) + ",'" + reader["building_room_number"].ToString() + "')";
                             }
-                            sql += ",('" + reader["empl_fname"].ToString() + "','" + reader["empl_lname"].ToString() + "','" + reader["person_id"].ToString() + "'," + Convert.ToInt64(reader["building_id"].ToString()) + ",'" + reader["building_room_number"].ToString() + "')";
+                            sql += ";\n";
                         }
-                        sql += ";";
                     }
-                    //do data dump to file prevent overload
-                    WriteFile(path2bu, filen, sql);
-                    sql = "";
                     cmd.CommandText = "SELECT package_po, package_carrier, package_vendor, package_deliv_to, package_deliv_by, package_signed_for_by, package_tracking_number, package_receive_date, package_deliver_date, package_note_id, package_status, package_deliv_bldg FROM packages;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
-                        sql += "INSERT INTO packages(package_po, package_carrier, package_vendor, package_deliv_to, package_deliv_by, package_signed_for_by, package_tracking_number, package_receive_date, package_deliver_date, package_note_id, package_status, package_deliv_bldg)VALUES";
+                        if (reader.HasRows == true)
+                        {
+                            sql += "INSERT INTO packages(package_po, package_carrier, package_vendor, package_deliv_to, package_deliv_by, package_signed_for_by, package_tracking_number, package_receive_date, package_deliver_date, package_note_id, package_status, package_deliv_bldg)VALUES";
+                            bool done = false;
+                            while (reader.Read())
+                            {
+                                if (!done)
+                                {
+                                    sql += "('" + reader["package_po"].ToString() + "','" + reader["package_carrier"].ToString() + "','" + reader["package_vendor"].ToString() + "','" + reader["package_deliv_to"].ToString() + "','" + reader["package_deliv_by"].ToString() + "','" + reader["package_signed_for_by"].ToString() + "','" + reader["package_tracking_number"].ToString() + "','" + reader["package_receive_date"].ToString() + "','" + reader["package_deliver_date"].ToString() + "','" + reader["package_note_id"].ToString() + "'," + Convert.ToInt64(reader["package_status"].ToString()) + ",'" + reader["package_deliv_bldg"].ToString() + "')";
+                                    done = true;
+                                    continue;
+                                }
+                                sql += ",('" + reader["package_po"].ToString() + "','" + reader["package_carrier"].ToString() + "','" + reader["package_vendor"].ToString() + "','" + reader["package_deliv_to"].ToString() + "','" + reader["package_deliv_by"].ToString() + "','" + reader["package_signed_for_by"].ToString() + "','" + reader["package_tracking_number"].ToString() + "','" + reader["package_receive_date"].ToString() + "','" + reader["package_deliver_date"].ToString() + "','" + reader["package_note_id"].ToString() + "'," + Convert.ToInt64(reader["package_status"].ToString()) + ",'" + reader["package_deliv_bldg"].ToString() + "')";
+                            }
+                            sql += ";\n";
+                        }
+                    }
+                    cmd.CommandText = "SELECT * FROM notes;";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows == true)
+                        {
+                            sql += "INSERT INTO notes (note_id,note_value)VALUES";
+                            bool done = false;
+                            while (reader.Read())
+                            {
+                                if (!done)
+                                {
+                                    sql += "('" + reader["note_id"].ToString() + "','" + reader["note_value"].ToString() + "')";
+                                    done = false;
+                                    continue;
+                                }
+                                sql += ",('" + reader["note_id"].ToString() + "','" + reader["note_value"].ToString() + "')";
+                            }
+                            sql += ";\n";
+                        }
+                    }
+                    cmd.CommandText = "SELECT id_value,last_id FROM idcounter;";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        sql += "INSERT INTO idcounter(id_value,last_id)VALUES";
                         bool done = false;
                         while (reader.Read())
                         {
                             if (!done)
                             {
-                                sql += "('"+reader["package_po"].ToString()+"','"+ reader["package_carrier"].ToString() + "','"+ reader["package_vendor"].ToString() + "','"+ reader["package_deliv_to"].ToString() + "','"+ reader["package_deliv_by"].ToString() + "','"+ reader["package_signed_for_by"].ToString() + "','"+ reader["package_tracking_number"].ToString() + "','"+ reader["package_receive_date"].ToString() + "','"+ reader["package_deliver_date"].ToString() + "','"+ reader["package_note_id"].ToString() + "',"+ Convert.ToInt64(reader["package_status"].ToString()) + ",'"+ reader["package_deliv_bldg"].ToString() + "')";
+                                sql += "(" + Convert.ToInt64(reader["id_value"].ToString()) + ",'" + reader["last_id"].ToString() + "')";
                                 done = true;
                                 continue;
                             }
-                            sql += ",('" + reader["package_po"].ToString() + "','" + reader["package_carrier"].ToString() + "','" + reader["package_vendor"].ToString() + "','" + reader["package_deliv_to"].ToString() + "','" + reader["package_deliv_by"].ToString() + "','" + reader["package_signed_for_by"].ToString() + "','" + reader["package_tracking_number"].ToString() + "','" + reader["package_receive_date"].ToString() + "','" + reader["package_deliver_date"].ToString() + "','" + reader["package_note_id"].ToString() + "'," + Convert.ToInt64(reader["package_status"].ToString()) + ",'" + reader["package_deliv_bldg"].ToString() + "')";
+                            sql += ",(" + Convert.ToInt64(reader["id_value"].ToString()) + ",'" + reader["last_id"].ToString() + "')";
                         }
-                        sql += ";";
+                        sql += ";\n";
                     }
                     //do data dump;
                     WriteFile(path2bu, filen, sql);
@@ -1870,7 +1920,7 @@ namespace shipapp.Connections
         private void WriteFile(string path, string filen, string data)
         {
             string fpn = path + filen;
-            using (StreamWriter stream = new StreamWriter(fpn,true))
+            using (StreamWriter stream = new StreamWriter(fpn,false))
             {
                 stream.Write(data);
             }
@@ -1881,12 +1931,12 @@ namespace shipapp.Connections
         /// <param name="path">path to directory</param>
         /// <param name="filen">file name to read</param>
         /// <returns>String of SQL data</returns>
-        private string ReadFile(string path, string filen)
+        private List<string> ReadFile(string filetoread)
         {
-            string data = "";
-            using (StreamReader reader = new StreamReader(path + filen))
+            List<string> data = new List<string>();
+            using (StreamReader reader = new StreamReader(filetoread))
             {
-                data = reader.ReadToEnd();
+                data.Add(reader.ReadLine());
             }
             return data;
         }
@@ -1901,7 +1951,30 @@ namespace shipapp.Connections
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;
-
+            List<string> data = ReadFile(filename);
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("",c))
+                {
+                    try
+                    {
+                        foreach (string command in data)
+                        {
+                            cmd.CommandText = command;
+                            cmd.ExecuteNonQuery();
+                        }
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("There was an error reading data into database. Review inner exception for details.", e);
+                    }
+                }
+            }
         }
         #endregion
         #region private gets

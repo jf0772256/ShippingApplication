@@ -87,7 +87,7 @@ namespace shipapp.Connections.DataConnections
         }
         public DataConnectionClass()
         {
-
+            GetDatabaseData();
         }
         /// <summary>
         /// Used to update database connection with a new connection string, this new value is saved.

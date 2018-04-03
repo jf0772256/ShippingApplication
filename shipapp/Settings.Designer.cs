@@ -222,6 +222,7 @@
             this.button1.TabIndex = 17;
             this.button1.Text = "Restore";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -260,7 +261,7 @@
             // OpenSQLFile
             // 
             this.OpenSQLFile.DefaultExt = "sql";
-            this.OpenSQLFile.Filter = "\"SQL Files|*.sql\"";
+            this.OpenSQLFile.Filter = "SQL Files|*.sql";
             this.OpenSQLFile.ReadOnlyChecked = true;
             this.OpenSQLFile.ShowReadOnly = true;
             // 
