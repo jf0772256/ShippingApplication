@@ -167,10 +167,10 @@ namespace shipapp.Connections
                 cmdTxt = new List<string>()
                 {
                     "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');",
-                    "INSERT INTO idcounter(id,id_value)VALUES(1,1);",
-                    "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';",
-                    "INSERT INTO users(users.user_fname,users.user_lname,users.user_name,users.user_password,users.user_role_id,person_id)VALUES('Danny','Lane','danny_lane',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'DannyLane')),1,'dannyl001');",
-                    "CLOSE SYMMETRIC KEY secure_data;"
+                    "INSERT INTO idcounter(id,id_value)VALUES(1,0);",
+                    //"OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';",
+                    //"INSERT INTO users(users.user_fname,users.user_lname,users.user_name,users.user_password,users.user_role_id,person_id)VALUES('Danny','Lane','danny_lane',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'DannyLane')),1,'dannyl001');",
+                    //"CLOSE SYMMETRIC KEY secure_data;"
                 };
             }
             else if (DBType == SQLHelperClass.DatabaseType.MySQL)
@@ -178,8 +178,8 @@ namespace shipapp.Connections
                 cmdTxt = new List<string>()
                 {
                     "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');",
-                    "INSERT INTO idcounter(id,id_value)VALUES(1,1);",
-                    "INSERT INTO users(users.user_fname,users.user_lname,users.user_name,users.user_password,users.user_role_id,users.person_id)VALUES('Danny','Lane','danny_lane',AES_ENCRYPT(DannyLane,"+EncodeKey+"),1,'dannyl001');"
+                    "INSERT INTO idcounter(id,id_value)VALUES(1,0);",
+                    //"INSERT INTO users(users.user_fname,users.user_lname,users.user_name,users.user_password,users.user_role_id,users.person_id)VALUES('Danny','Lane','danny_lane',AES_ENCRYPT(DannyLane,"+EncodeKey+"),1,'dannyl001');"
                 };
             }
             else
@@ -1693,6 +1693,26 @@ namespace shipapp.Connections
                 }
             }
             return i;
+        }
+        /// <summary>
+        /// Completes file back up
+        /// saves with {date}.sql
+        /// runs tues and thurs
+        /// and manually
+        /// </summary>
+        internal void DoBackup()
+        {
+
+        }
+        /// <summary>
+        /// Reads back in file from the .sql file and 
+        /// reads data into the database. (executes code
+        /// saves in text file)
+        /// </summary>
+        /// <param name="filename">File to restore</param>
+        internal void DoRestore(string filename)
+        {
+
         }
         #endregion
         #region private gets
