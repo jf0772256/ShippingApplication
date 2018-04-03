@@ -1700,9 +1700,88 @@ namespace shipapp.Connections
         /// runs tues and thurs
         /// and manually
         /// </summary>
-        internal void DoBackup()
+        internal void DoBackup(SQLHelperClass.DatabaseType restoreToDBType)
         {
-
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            string filen = DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + ".sql";
+            string path2bu = Environment.CurrentDirectory + "\\Connections\\Backup\\";
+            /***********************************************************************************************/
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("",c))
+                {
+                    if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+                    {
+                        cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
+                        cmd.CommandText += "SELECT users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id,person_id FROM users;";
+                        cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
+                    }
+                    else if (DBType == SQLHelperClass.DatabaseType.MySQL)
+                    {
+                        cmd.CommandText = "SELECT user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id,person_id FROM users;";
+                    }
+                    else
+                    {
+                        throw new DatabaseConnectionException("Database type is missing or unset.");
+                    }
+                    string sql = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        sql = "INSERT INTO users(user_fname,user_lname,user_name,user_password,user_role_id,person_id)VALUES";
+                        if (restoreToDBType == SQLHelperClass.DatabaseType.MSSQL)
+                        {
+                            bool done = false;
+                            while (reader.Read())
+                            {
+                                if (!done)
+                                {
+                                    sql += "('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'" + reader["Password"].ToString() + "'))," + Convert.ToInt64(reader["user_fname"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
+                                    done = true;
+                                }
+                                sql += ",('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'" + reader["Password"].ToString() + "'))," + Convert.ToInt64(reader["user_fname"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
+                            }
+                            sql += ";";
+                            sql += "CLOSE SYMMETRIC KEY secure_data;";
+                        }
+                        else if (restoreToDBType == SQLHelperClass.DatabaseType.MySQL)
+                        {
+                            bool done = false;
+                            while (reader.Read())
+                            {
+                                if (!done)
+                                {
+                                    sql += "('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',AES_ENCRYPT('" + reader["Password"].ToString() + "','" + EncodeKey + "')," + Convert.ToInt64(reader["user_fname"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
+                                    done = true;
+                                    continue;
+                                }
+                                sql += ",('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',AES_ENCRYPT('" + reader["Password"].ToString() + "','" + EncodeKey + "')," + Convert.ToInt64(reader["user_fname"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
+                            }
+                            sql += ";";
+                        }
+                    }
+                    cmd.CommandText = "SELECT vendor_name FROM vendors;";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        sql += "INSERT INTO vendors (vendor_name)VALUES";
+                        bool done = false;
+                        while (reader.Read())
+                        {
+                            if (!done)
+                            {
+                                sql += "('" + reader["vendor_name"] + "')";
+                                done = true;
+                                continue;
+                            }
+                            sql += ",('" + reader["vendor_name"] + "')";
+                        }
+                        sql += ";";
+                    }
+                }
+            }
         }
         /// <summary>
         /// Reads back in file from the .sql file and 
@@ -1712,6 +1791,9 @@ namespace shipapp.Connections
         /// <param name="filename">File to restore</param>
         internal void DoRestore(string filename)
         {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
 
         }
         #endregion
