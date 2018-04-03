@@ -1936,7 +1936,10 @@ namespace shipapp.Connections
             List<string> data = new List<string>();
             using (StreamReader reader = new StreamReader(filetoread))
             {
-                data.Add(reader.ReadLine());
+                while (!String.IsNullOrWhiteSpace(reader.ReadLine()))
+                {
+                    data.Add(reader.ReadLine());
+                }
             }
             return data;
         }

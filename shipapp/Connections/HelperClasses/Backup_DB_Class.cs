@@ -45,7 +45,7 @@ namespace shipapp.Connections.HelperClasses
         /// <param name="filepathandname">File path for file to open and read</param>
         public void RestoreDBBackup(string filepathandname)
         {
-
+            DoRestore(filepathandname);
         }
     }
 }
