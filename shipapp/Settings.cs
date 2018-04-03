@@ -37,11 +37,11 @@ namespace shipapp
 
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem.ToString() == "MS SQL Server")
+            if (comboBox1.SelectedItem.ToString() == "MS SQL Server" || comboBox2.SelectedItem.ToString() == "MS SQL Server")
             {
                 DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.MSSQL;
             }
-            else if (comboBox1.SelectedItem.ToString() == "MySQL")
+            else if (comboBox1.SelectedItem.ToString() == "MySQL" || comboBox2.SelectedItem.ToString() == "MySQL")
             {
                 DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.MySQL;
             }
@@ -58,6 +58,28 @@ namespace shipapp
             DialogResult = DialogResult.OK;
             this.Close();
             Application.Exit();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Connections.HelperClasses.SQLHelperClass.DatabaseType type = (DatabaseType == Connections.HelperClasses.SQLHelperClass.DatabaseType.Unset) ? Connections.DataConnections.DataConnectionClass.DBType : DatabaseType;
+            Connections.DataConnections.DataConnectionClass.Backup_DB.DoBackup(type);
+        }
+
+        private void comboBox2_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (comboBox2.SelectedItem.ToString() == "MS SQL Server")
+            {
+                DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.MSSQL;
+            }
+            else if (comboBox2.SelectedItem.ToString() == "MySQL")
+            {
+                DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.MySQL;
+            }
+            else
+            {
+                DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.Unset;
+            }
         }
     }
 }

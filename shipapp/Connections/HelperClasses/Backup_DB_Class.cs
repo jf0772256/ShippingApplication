@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using shipapp.Connections.DataConnections;
+using shipapp.Connections.HelperClasses;
 
 namespace shipapp.Connections.HelperClasses
 {
@@ -16,7 +18,7 @@ namespace shipapp.Connections.HelperClasses
         /// </summary>
         public Backup_DB_Class() : base()
         {
-
+            CheckToDoBackup();
         }
         /// <summary>
         /// on start tuesday, thursday do back up
@@ -24,14 +26,18 @@ namespace shipapp.Connections.HelperClasses
         /// </summary>
         public async void CheckToDoBackup()
         {
-
+            DateTime dt = DateTime.Now;
+            if (dt.DayOfWeek == DayOfWeek.Tuesday || dt.DayOfWeek == DayOfWeek.Thursday )
+            {
+                await Task.Run(() => DoBackup(DataConnectionClass.DBType));
+            }
         }
         /// <summary>
         /// Manually trigger async back up process -- will not interfere.
         /// </summary>
-        public async void ManualDBBackup()
+        public async void ManualDBBackup(SQLHelperClass.DatabaseType type)
         {
-
+            await Task.Run(() => DoBackup(type));
         }
         /// <summary>
         /// process will run sync with main application.

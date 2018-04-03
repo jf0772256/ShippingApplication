@@ -23,6 +23,10 @@ namespace shipapp.Connections.DataConnections
         public static string PersonIdGenerated { get; set; }
         public static string EncodeString { get; set; }
         /// <summary>
+        /// methods to handle the back up and restore of the databse data
+        /// </summary>
+        public static Backup_DB_Class Backup_DB { get; set; }
+        /// <summary>
         /// Tester connection class and its methods amd properties
         /// </summary>
         public static TestConnClass TestConn { get; set; }
@@ -78,6 +82,7 @@ namespace shipapp.Connections.DataConnections
             EmployeeConn = new EmployeeConnClass();
             PackageConnClass = new PackageConnectionClass();
             buildingConn = new BuildingConnClass();
+            Backup_DB = new Backup_DB_Class();
             DataLists = new Lists();
         }
         public DataConnectionClass()

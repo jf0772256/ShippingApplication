@@ -178,3 +178,4 @@ C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.csproj.Ge
 C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.csproj.CoreCompileInputs.cache
 C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.exe
 C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.pdb
+C:\Users\Jesse Fender\Desktop\ShippingApplication\shipapp\bin\Debug\Connections\Backup\.en_Noedit.txt
