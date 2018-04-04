@@ -22,7 +22,6 @@ namespace shipapp
     {
         // Class level variabels
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
-        private string message = "";
         private int role;
         private ListSortDirection[] ColumnDirection { get; set; }
 
@@ -56,6 +55,29 @@ namespace shipapp
         {
             this.CenterToParent();
             GetPackages();
+            SetRole();
+
+            // Set form according to the role
+            if (role == 1)
+            {
+                pcBxAddToDaily.Enabled = true;
+                pcBxAddToDaily.Show();
+            }
+            else if (role == 2)
+            {
+                pcBxAddToDaily.Enabled = true;
+                pcBxAddToDaily.Show();
+            }
+            else if (role == 3)
+            {
+                pcBxAddToDaily.Enabled = false;
+                pcBxAddToDaily.Hide();
+            }
+            else
+            {
+                pcBxAddToDaily.Enabled = false;
+                pcBxAddToDaily.Hide();
+            }
         }
 
 
@@ -149,6 +171,16 @@ namespace shipapp
         public void Refreash()
         {
             DataConnectionClass.PackageConnClass.GetPackageList(this);
+        }
+
+        /// <summary>
+        /// Refreash the list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pcBxRefreash_Click(object sender, EventArgs e)
+        {
+            GetPackages();
         }
     }
 }

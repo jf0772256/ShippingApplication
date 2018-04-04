@@ -36,10 +36,12 @@
             this.pcBxAddToDaily = new System.Windows.Forms.PictureBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.pcBxRefreash = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datGridHistory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxAddToDaily)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcBxRefreash)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -105,12 +107,25 @@
             this.pictureBox7.TabStop = false;
             this.pictureBox7.Click += new System.EventHandler(this.pictureBox7_Click);
             // 
+            // pcBxRefreash
+            // 
+            this.pcBxRefreash.BackColor = System.Drawing.Color.Transparent;
+            this.pcBxRefreash.BackgroundImage = global::shipapp.Properties.Resources.loop;
+            this.pcBxRefreash.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pcBxRefreash.Location = new System.Drawing.Point(53, 79);
+            this.pcBxRefreash.Name = "pcBxRefreash";
+            this.pcBxRefreash.Size = new System.Drawing.Size(35, 35);
+            this.pcBxRefreash.TabIndex = 9;
+            this.pcBxRefreash.TabStop = false;
+            this.pcBxRefreash.Click += new System.EventHandler(this.pcBxRefreash_Click);
+            // 
             // Reports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(1234, 661);
+            this.Controls.Add(this.pcBxRefreash);
             this.Controls.Add(this.pictureBox7);
             this.Controls.Add(this.pcBxAddToDaily);
             this.Controls.Add(this.label1);
@@ -123,6 +138,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.datGridHistory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxAddToDaily)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcBxRefreash)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -136,5 +152,6 @@
         private System.Windows.Forms.ToolTip toolTip1;
         internal System.Windows.Forms.Label label1;
         internal System.Windows.Forms.DataGridView datGridHistory;
+        private System.Windows.Forms.PictureBox pcBxRefreash;
     }
 }
