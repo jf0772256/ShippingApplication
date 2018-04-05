@@ -37,11 +37,13 @@ namespace shipapp
 
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem.ToString() == "MS SQL Server" || comboBox2.SelectedItem.ToString() == "MS SQL Server")
+            comboBox2.SelectedItem = null;
+            DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.Unset;
+            if (comboBox1.SelectedItem.ToString() == "MS SQL Server")
             {
                 DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.MSSQL;
             }
-            else if (comboBox1.SelectedItem.ToString() == "MySQL" || comboBox2.SelectedItem.ToString() == "MySQL")
+            else if (comboBox1.SelectedItem.ToString() == "MySQL")
             {
                 DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.MySQL;
             }
@@ -68,6 +70,8 @@ namespace shipapp
 
         private void comboBox2_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            comboBox1.SelectedItem = null;
+            DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.Unset;
             if (comboBox2.SelectedItem.ToString() == "MS SQL Server")
             {
                 DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.MSSQL;
