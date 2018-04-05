@@ -64,7 +64,18 @@ namespace shipapp
             printer.Footer = "Footer";
             printer.FooterSpacing = 15;
             printer.PageSettings.Landscape = true;
-            printer.ColumnWidth = DGVPrinter.ColumnWidthSetting.Porportional;
+            //printer.ColumnWidth = DGVPrinter.ColumnWidthSetting.Porportional;
+            //printer.ColumnWidth = DGVPrinter.ColumnWidthSetting.DataWidth;
+            printer.PrintMargins = new System.Drawing.Printing.Margins(10, 45, 30, 20);
+            printer.ShowTotalPageNumber = true;
+            //dataGridLog.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+            dataGridLog.Columns[0].Width = 35;
+            dataGridLog.Columns[1].Width = 50;
+            dataGridLog.Columns[2].Width = 35;
+            dataGridLog.Columns[3].Width = 110;
+            dataGridLog.Columns[4].Width = 35;
+            dataGridLog.Columns[5].Width = 85;
+            dataGridLog.Columns[6].Width = 125;
 
             // Print the Object
             printer.PrintDataGridView(dataGridLog);
