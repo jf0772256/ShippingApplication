@@ -48,8 +48,13 @@ namespace shipapp
                 // do nothing when errors but the lists will have to be pulled elsewhere
             }
 
-            MessageBox.Show(DataConnectionClass.AuthenticatedUser.Level.Role_Title);
+            //MessageBox.Show(DataConnectionClass.AuthenticatedUser.Level.Role_Title);
             SetRole();
+            //only back up data if admin or super admin user.
+            if (role == 1 || role == 0)
+            {
+                DataConnectionClass.Backup_DB.CheckToDoBackup();
+            }
         }
 
 

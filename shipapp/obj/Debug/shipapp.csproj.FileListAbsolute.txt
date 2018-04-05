@@ -222,3 +222,7 @@ C:\Users\kalin\Desktop\ShippingApplication\shipapp\bin\Debug\log4net.dll
 C:\Users\kalin\Desktop\ShippingApplication\shipapp\bin\Debug\log4net.xml
 C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.csproj.CopyComplete
 C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.PrintPreview.resources
+C:\Users\jf0772256\Desktop\ShippingApp\shipapp\bin\Debug\Connections\Backup\DoNotModify.txt
+C:\Users\jf0772256\Desktop\ShippingApp\shipapp\bin\Debug\log4net.dll
+C:\Users\jf0772256\Desktop\ShippingApp\shipapp\bin\Debug\log4net.xml
+C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.PrintPreview.resources
