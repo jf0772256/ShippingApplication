@@ -4,20 +4,23 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
+using Extentions;
 
 namespace shipapp.Connections.HelperClasses
 {
-    internal class SortableBindingList<T> : BindingList<T> where T : class
+    //using shipapp.Connections.HelperClasses.extentions;
+    internal class SortableBindingList<T> : BindingList<T>, IEnumerable, IEnumerator where T : class
     {
         private bool _isSorted;
         private ListSortDirection _sortDirection = ListSortDirection.Ascending;
         private PropertyDescriptor _sortProperty;
-
+        private int Postion { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="SortableBindingList{T}"/> class.
         /// </summary>
         public SortableBindingList()
         {
+            
         }
 
         /// <summary>
@@ -60,6 +63,8 @@ namespace shipapp.Connections.HelperClasses
         {
             get { return _sortProperty; }
         }
+
+        public object Current => this.Items[Postion];
 
         /// <summary>
         /// Removes any sort applied with ApplySortCore if sorting is implemented
@@ -120,6 +125,30 @@ namespace shipapp.Connections.HelperClasses
             }
             //not comparable, compare ToString
             return lhsValue.ToString().CompareTo(rhsValue.ToString());
+        }
+
+        public bool MoveNext()
+        {
+            Postion++;
+            return (Postion < Items.Count);
+        }
+
+        public void Reset()
+        {
+            Postion = 0;
+        }
+    }
+}
+namespace Extentions
+{
+    internal static class ForEachExtention
+    {
+        public static void ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
+        {
+            foreach (T item in enumeration)
+            {
+                action(item);
+            }
         }
     }
 }
