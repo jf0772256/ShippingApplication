@@ -1746,6 +1746,7 @@ namespace shipapp.Connections
                                         {
                                             sql += "('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'" + reader["Password"].ToString() + "'))," + Convert.ToInt64(reader["user_role_id"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
                                             done = true;
+                                            continue;
                                         }
                                         sql += ",('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'" + reader["Password"].ToString() + "'))," + Convert.ToInt64(reader["user_role_id"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
                                     }
