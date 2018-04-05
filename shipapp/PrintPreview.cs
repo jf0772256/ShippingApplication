@@ -1,4 +1,4 @@
-﻿using DGVPrinterHelper;
+﻿using shipapp.Connections.HelperClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,8 +53,8 @@ namespace shipapp
             DGVPrinter printer = new DGVPrinter();
 
             // Set the print obejct page settings
-            printer.Title = "Deleivery Log";
-            printer.SubTitle = "Deleivery Person Goes Here";
+            printer.Title = "Delivery Log";
+            printer.SubTitle = "Delivery Person Goes Here";
             printer.SubTitleFormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.NoClip;
             printer.PageNumbers = true;
             printer.PageNumberInHeader = true;
@@ -77,7 +77,7 @@ namespace shipapp
             {
                 Log log = new Log();
 
-                log.Po = "0000" + 1;
+                log.Po = PadPO(i);
                 log.TrackingNumber = "" + (i + 1) + (i - 2) + (i + 3) + (i - 4) + (i + 5) + (i - 6) + (i + 7) + (i - 8) + (i + 9);
                 log.Carrier = "UPS";
                 log.Vendor = "Amazon";
@@ -89,6 +89,29 @@ namespace shipapp
             }
         }
 
+        public string PadPO(int newValue)
+        {
+            if (newValue <= 9)
+            {
+                return "0000" + newValue.ToString();
+            }
+            else if (newValue > 9 && newValue < 100)
+            {
+                return "000" + newValue.ToString();
+            }
+            else if (newValue > 99 && newValue < 1000)
+            {
+                return "00" + newValue.ToString();
+            }
+            else if (newValue > 999 && newValue < 10000)
+            {
+                return "0" + newValue.ToString();
+            }
+            else
+            {
+                return newValue.ToString();
+            }
+        }
 
         /// <summary>
         /// Close the application

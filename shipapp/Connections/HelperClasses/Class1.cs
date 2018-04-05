@@ -16,7 +16,7 @@ using System.Diagnostics;
 
 
 //[module:CLSCompliant(true)]
-namespace DGVPrinterHelper //AllocationRequest
+namespace shipapp.Connections.HelperClasses
 {
     #region Supporting Classes
 
