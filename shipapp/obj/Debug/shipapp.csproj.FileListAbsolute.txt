@@ -218,3 +218,7 @@ C:\Users\kalin\Desktop\TestEnviroment\ShippingApplication\shipapp\obj\Debug\ship
 C:\Users\kalin\Desktop\TestEnviroment\ShippingApplication\shipapp\obj\Debug\shipapp.csproj.CopyComplete
 C:\Users\kalin\Desktop\TestEnviroment\ShippingApplication\shipapp\obj\Debug\shipapp.exe
 C:\Users\kalin\Desktop\TestEnviroment\ShippingApplication\shipapp\obj\Debug\shipapp.pdb
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\bin\Debug\log4net.dll
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\bin\Debug\log4net.xml
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.csproj.CopyComplete
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.PrintPreview.resources

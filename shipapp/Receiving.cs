@@ -32,6 +32,8 @@ namespace shipapp
         private int role;
         private ListSortDirection[] ColumnDirection { get; set; }
 
+        private List<Log> logs = new List<Log>();
+
 
         /// <summary>
         /// Form constructor
@@ -298,20 +300,24 @@ namespace shipapp
         /// </summary>
         public void PrintLog()
         {
-            MessageBox.Show("Hey look, Im printing!");
-            DGVPrinter printer = new DGVPrinter();
-            printer.Title = "Deleivery Log";
-            printer.SubTitle = "Deleivery Person Goes Here";
-            printer.SubTitleFormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.NoClip;
-            printer.PageNumbers = true;
-            printer.PageNumberInHeader = true;
-            printer.PorportionalColumns = true;
-            printer.HeaderCellAlignment = StringAlignment.Near;
-            printer.Footer = "Footer";
-            printer.FooterSpacing = 15;
-            printer.PageSettings.Landscape = true;
-            printer.PrintDataGridView(dataGridPackages);
-            
+            //MessageBox.Show("Hey look, Im printing!");
+            //DGVPrinter printer = new DGVPrinter();
+            //printer.Title = "Deleivery Log";
+            //printer.SubTitle = "Deleivery Person Goes Here";
+            //printer.SubTitleFormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.NoClip;
+            //printer.PageNumbers = true;
+            //printer.PageNumberInHeader = true;
+            //printer.PorportionalColumns = true;
+            //printer.HeaderCellAlignment = StringAlignment.Near;
+            //printer.PrintMargins = new System.Drawing.Printing.Margins(1, 1, 1, 1);
+            //printer.Footer = "Footer";
+            //printer.FooterSpacing = 15;
+            //printer.PageSettings.Landscape = true;
+            //printer.ColumnWidth = DGVPrinter.ColumnWidthSetting.CellWidth;
+            //printer.PrintDataGridView();
+
+            PrintPreview printPreview = new PrintPreview();
+            printPreview.ShowDialog();
         }
 
 

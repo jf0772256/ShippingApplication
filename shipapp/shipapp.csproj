@@ -111,6 +111,7 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Log.cs" />
     <Compile Include="Models\Carrier.cs" />
     <Compile Include="Connections\DatabaseConnection.cs" />
     <Compile Include="Models\Faculty.cs" />
@@ -137,6 +138,12 @@
     <Compile Include="Models\ModelData\Role.cs" />
     <Compile Include="Models\Package.cs" />
     <Compile Include="Models\Vendors.cs" />
+    <Compile Include="PrintPreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrintPreview.Designer.cs">
+      <DependentUpon>PrintPreview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Receiving.cs">
@@ -190,6 +197,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Manage.resx">
       <DependentUpon>Manage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrintPreview.resx">
+      <DependentUpon>PrintPreview.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
