@@ -56,7 +56,11 @@ namespace shipapp
             this.CenterToParent();
             GetPackages();
             SetRole();
-
+            BindingSource bs = new BindingSource
+            {
+                DataSource = DataConnectionClass.DataLists.Packages
+            };
+            datGridHistory.DataSource = bs;
             // Set form according to the role
             if (role == 1)
             {
