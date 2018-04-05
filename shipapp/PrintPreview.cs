@@ -14,6 +14,7 @@ namespace shipapp
     public partial class PrintPreview : Form
     {
         // Class level variabels
+        private string clerk = "Null!";
         private BindingList<Log> logs = new BindingList<Log>();
 
 
@@ -43,7 +44,16 @@ namespace shipapp
         /// <param name="e"></param>
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            PrintLog();
+            //
+            if (String.IsNullOrWhiteSpace(cmboClerk.SelectedItem.ToString()))
+            {
+                MessageBox.Show("You must select a clerk to deleiver the packages!", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else
+            {
+                PrintLog();
+                this.Close();
+            }
         }
 
 
@@ -54,7 +64,7 @@ namespace shipapp
 
             // Set the print obejct page settings
             printer.Title = "Delivery Log";
-            printer.SubTitle = "Delivery Person Goes Here";
+            printer.SubTitle = "Clerk: " + clerk;
             printer.SubTitleFormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.NoClip;
             printer.PageNumbers = true;
             printer.PageNumberInHeader = true;
@@ -64,7 +74,18 @@ namespace shipapp
             printer.Footer = "Footer";
             printer.FooterSpacing = 15;
             printer.PageSettings.Landscape = true;
-            printer.ColumnWidth = DGVPrinter.ColumnWidthSetting.Porportional;
+            //printer.ColumnWidth = DGVPrinter.ColumnWidthSetting.Porportional;
+            //printer.ColumnWidth = DGVPrinter.ColumnWidthSetting.DataWidth;
+            printer.PrintMargins = new System.Drawing.Printing.Margins(10, 45, 30, 20);
+            printer.ShowTotalPageNumber = true;
+            //dataGridLog.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+            dataGridLog.Columns[0].Width = 35;
+            dataGridLog.Columns[1].Width = 50;
+            dataGridLog.Columns[2].Width = 35;
+            dataGridLog.Columns[3].Width = 110;
+            dataGridLog.Columns[4].Width = 35;
+            dataGridLog.Columns[5].Width = 85;
+            dataGridLog.Columns[6].Width = 125;
 
             // Print the Object
             printer.PrintDataGridView(dataGridLog);
@@ -73,7 +94,7 @@ namespace shipapp
 
         public void GetLog()
         {
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 100; i++)
             {
                 Log log = new Log();
 
@@ -121,6 +142,17 @@ namespace shipapp
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+
+        /// <summary>
+        /// Select a clerk to deliver the package
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cmboClerk_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            clerk = cmboClerk.SelectedItem.ToString();
         }
     }
 }
