@@ -11,6 +11,8 @@ using shipapp.Connections.HelperClasses;
 using shipapp.Models;
 using shipapp.Models.ModelData;
 using shipapp.Connections.DataConnections;
+using DGVPrinterHelper;
+
 
 namespace shipapp
 {
@@ -297,6 +299,19 @@ namespace shipapp
         public void PrintLog()
         {
             MessageBox.Show("Hey look, Im printing!");
+            DGVPrinter printer = new DGVPrinter();
+            printer.Title = "Deleivery Log";
+            printer.SubTitle = "Deleivery Person Goes Here";
+            printer.SubTitleFormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.NoClip;
+            printer.PageNumbers = true;
+            printer.PageNumberInHeader = true;
+            printer.PorportionalColumns = true;
+            printer.HeaderCellAlignment = StringAlignment.Near;
+            printer.Footer = "Footer";
+            printer.FooterSpacing = 15;
+            printer.PageSettings.Landscape = true;
+            printer.PrintDataGridView(dataGridPackages);
+            
         }
 
 
