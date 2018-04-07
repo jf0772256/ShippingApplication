@@ -40,5 +40,28 @@ namespace shipapp.Connections.HelperClasses
         public string Building { get => building; set => building = value; }
         public string Recipiant { get => recipiant; set => recipiant = value; }
         public string Signature { get => signature; set => signature = value; }
+
+
+        /// <summary>
+        /// Convert a pacakge to a log
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns></returns>
+        public static Log ConvertPackageToLog(Models.Package package)
+        {
+            // Create new log
+            Log log = new Log();
+
+            // Fill log
+            log.po = package.PONumber;
+            log.Building = package.DelivBuildingShortName;
+            log.Recipiant = package.PackageDeliveredTo;
+            log.TrackingNumber = package.PackageTrackingNumber;
+            log.Vendor = package.PackageVendor;
+            log.Carrier = package.PackageCarrier;
+            log.Signature = "";
+
+            return log;
+        }
     }
 }

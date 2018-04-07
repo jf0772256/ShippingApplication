@@ -30,6 +30,7 @@ namespace shipapp
         private string message = "";
         private int role;
         private ListSortDirection[] ColumnDirection { get; set; }
+        private BindingList<Log> logList;
 
         private List<Log> logs = new List<Log>();
 
@@ -299,23 +300,8 @@ namespace shipapp
         /// </summary>
         public void PrintLog()
         {
-            //MessageBox.Show("Hey look, Im printing!");
-            //DGVPrinter printer = new DGVPrinter();
-            //printer.Title = "Deleivery Log";
-            //printer.SubTitle = "Deleivery Person Goes Here";
-            //printer.SubTitleFormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.NoClip;
-            //printer.PageNumbers = true;
-            //printer.PageNumberInHeader = true;
-            //printer.PorportionalColumns = true;
-            //printer.HeaderCellAlignment = StringAlignment.Near;
-            //printer.PrintMargins = new System.Drawing.Printing.Margins(1, 1, 1, 1);
-            //printer.Footer = "Footer";
-            //printer.FooterSpacing = 15;
-            //printer.PageSettings.Landscape = true;
-            //printer.ColumnWidth = DGVPrinter.ColumnWidthSetting.CellWidth;
-            //printer.PrintDataGridView();
-
-            PrintPreview printPreview = new PrintPreview();
+            CreateLogList();
+            PrintPreview printPreview = new PrintPreview(logList);
             printPreview.ShowDialog();
         }
 
@@ -357,6 +343,38 @@ namespace shipapp
         {
             //MessageBox.Show("It worked: " + dataGridPackages.SelectedCells[0].ColumnIndex + "\r\n" + dataGridPackages.Columns[dataGridPackages.SelectedCells[0].ColumnIndex].DataPropertyName);
             lblSearch.Text = dataGridPackages.Columns[dataGridPackages.SelectedCells[0].ColumnIndex].DataPropertyName;
+        }
+
+
+        /// <summary>
+        /// Set the clerk to the packages that 
+        /// </summary>
+        public void SetClerk()
+        {
+
+        }
+
+
+        /// <summary>
+        /// Fill a list with the selected items
+        /// </summary>
+        public void CreateLogList()
+        {
+            // Test for old list
+            if (logList != null)
+            {
+                logList.Clear();
+            }
+
+            // Create new list object
+            logList = new BindingList<Log>();
+
+            // Fill list with logs
+            for (int i = 0; i < dataGridPackages.SelectedRows.Count; i++)
+            {
+                // Convert packages to logs
+                logList.Add(Log.ConvertPackageToLog((Package)dataGridPackages.SelectedRows[i].DataBoundItem));
+            }
         }
     }
 }

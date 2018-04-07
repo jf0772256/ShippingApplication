@@ -15,18 +15,18 @@ namespace shipapp
     {
         // Class level variabels
         private string clerk = "Null!";
-        private BindingList<Log> logs = new BindingList<Log>();
+        private BindingList<Log> logs;
 
 
-        public PrintPreview()
+        public PrintPreview(Object logs)
         {
             InitializeComponent();
+            this.logs = (BindingList<Log>)logs;
         }
 
 
         private void PrintPreview_Load(object sender, EventArgs e)
         {
-            GetLog();
             dataGridLog.DataSource = logs;
         }
 
@@ -52,6 +52,7 @@ namespace shipapp
             else
             {
                 PrintLog();
+                UpdatePackageListWithClerk();
                 this.Close();
             }
         }
@@ -70,15 +71,13 @@ namespace shipapp
             printer.PageNumberInHeader = true;
             printer.PorportionalColumns = true;
             printer.HeaderCellAlignment = StringAlignment.Near;
-            //printer.PrintMargins = new System.Drawing.Printing.Margins(1, 1, 1, 1);
             printer.Footer = "Footer";
             printer.FooterSpacing = 15;
             printer.PageSettings.Landscape = true;
-            //printer.ColumnWidth = DGVPrinter.ColumnWidthSetting.Porportional;
-            //printer.ColumnWidth = DGVPrinter.ColumnWidthSetting.DataWidth;
             printer.PrintMargins = new System.Drawing.Printing.Margins(10, 45, 30, 20);
             printer.ShowTotalPageNumber = true;
-            //dataGridLog.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+
+            // Set column widths
             dataGridLog.Columns[0].Width = 35;
             dataGridLog.Columns[1].Width = 50;
             dataGridLog.Columns[2].Width = 35;
@@ -92,24 +91,11 @@ namespace shipapp
         }
 
 
-        public void GetLog()
-        {
-            for (int i = 0; i < 100; i++)
-            {
-                Log log = new Log();
-
-                log.Po = PadPO(i);
-                log.TrackingNumber = "" + (i + 1) + (i - 2) + (i + 3) + (i - 4) + (i + 5) + (i - 6) + (i + 7) + (i - 8) + (i + 9);
-                log.Carrier = "UPS";
-                log.Vendor = "Amazon";
-                log.Recipiant = "Ford, Tiffany";
-                log.Building = "NKM";
-                log.Signature = "";
-
-                logs.Add(log);
-            }
-        }
-
+        /// <summary>
+        ///  Make the PO pretty
+        /// </summary>
+        /// <param name="newValue"></param>
+        /// <returns></returns>
         public string PadPO(int newValue)
         {
             if (newValue <= 9)
@@ -133,6 +119,17 @@ namespace shipapp
                 return newValue.ToString();
             }
         }
+
+
+        /// <summary>
+        /// Returns a string containing the clerk assigned to the log
+        /// </summary>
+        /// <returns></returns>
+        public string UpdatePackageListWithClerk()
+        {
+            return clerk;
+        }
+
 
         /// <summary>
         /// Close the application
