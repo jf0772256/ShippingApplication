@@ -15,13 +15,70 @@ namespace shipapp
     {
         // Class level variabels
         private string clerk = "Null!";
+        private int identity = 0;
         private BindingList<Log> logs;
+        private BindingList<Models.Faculty> Faculties;
+        private BindingList<Models.Vendors> vendors;
+        private BindingList<Models.Carrier> carriers;
+        private BindingList<Models.ModelData.BuildingClass> buildings;
+        private BindingList<Models.User> users;
 
 
-        public PrintPreview(Object logs)
+        /// <summary>
+        /// Constructor: Set form accroding to list type
+        /// </summary>
+        /// <param name="list"></param>
+        public PrintPreview(Object list)
         {
             InitializeComponent();
-            this.logs = (BindingList<Log>)logs;
+            this.logs = (BindingList<Log>)list;
+
+            // Determine list type
+            if (identity == 1)
+            {
+                // List is Package
+                this.logs = (BindingList<Log>)list;
+            }
+            else if (identity == 2)
+            {
+                // List is Package History TODO
+                this.logs = (BindingList<Log>)list;
+            }
+            else if (identity == 3)
+            {
+                // List is Users
+                this.users = (BindingList<Models.User>)list;
+            }
+            else if (identity == 4)
+            {
+                //List is Vendor
+                this.vendors = (BindingList<Models.Vendors>)list;
+            }
+            else if (identity == 5)
+            {
+                // List is Faculty
+                this.Faculties = (BindingList<Models.Faculty>)list;
+            }
+            else if (identity == 6)
+            {
+                // List is Building
+                this.buildings = (BindingList<Models.ModelData.BuildingClass>)list;
+            }
+            else if (identity == 7)
+            {
+                // List is Carrier
+                this.carriers = (BindingList<Models.Carrier>)list;
+            }
+            else if (identity == 8)
+            {
+                // List is Activity History TODO
+                this.logs = (BindingList<Log>)list;
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong\r\nTry again.", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
         }
 
 
@@ -51,14 +108,14 @@ namespace shipapp
             }
             else
             {
-                PrintLog();
+                Print();
                 UpdatePackageListWithClerk();
                 this.Close();
             }
         }
 
 
-        public void PrintLog()
+        public void Print()
         {
             // Create print object
             DGVPrinter printer = new DGVPrinter();
@@ -71,20 +128,22 @@ namespace shipapp
             printer.PageNumberInHeader = true;
             printer.PorportionalColumns = true;
             printer.HeaderCellAlignment = StringAlignment.Near;
-            printer.Footer = "Footer";
             printer.FooterSpacing = 15;
             printer.PageSettings.Landscape = true;
             printer.PrintMargins = new System.Drawing.Printing.Margins(10, 45, 30, 20);
             printer.ShowTotalPageNumber = true;
 
             // Set column widths
-            dataGridLog.Columns[0].Width = 35;
-            dataGridLog.Columns[1].Width = 50;
-            dataGridLog.Columns[2].Width = 35;
-            dataGridLog.Columns[3].Width = 110;
-            dataGridLog.Columns[4].Width = 35;
-            dataGridLog.Columns[5].Width = 85;
-            dataGridLog.Columns[6].Width = 125;
+            if (identity == 1)
+            {
+                dataGridLog.Columns[0].Width = 35;
+                dataGridLog.Columns[1].Width = 50;
+                dataGridLog.Columns[2].Width = 35;
+                dataGridLog.Columns[3].Width = 110;
+                dataGridLog.Columns[4].Width = 35;
+                dataGridLog.Columns[5].Width = 85;
+                dataGridLog.Columns[6].Width = 125;
+            }
 
             // Print the Object
             printer.PrintDataGridView(dataGridLog);

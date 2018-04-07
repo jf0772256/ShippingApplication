@@ -291,14 +291,14 @@ namespace shipapp
         /// <param name="e"></param>
         private void pcBxPrint_Click(object sender, EventArgs e)
         {
-            PrintLog();
+            Print();
         }
 
 
         /// <summary>
         /// Print the selected packages
         /// </summary>
-        public void PrintLog()
+        public void Print()
         {
             CreateLogList();
             PrintPreview printPreview = new PrintPreview(logList);
