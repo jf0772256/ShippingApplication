@@ -174,7 +174,7 @@ namespace shipapp
         /// </summary>
         public void Refreash()
         {
-            DataConnectionClass.PackageConnClass.GetPackageList(this);
+            DataConnectionClass.PackageConnClass.GetPackageHistoryList(this);
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace shipapp
         /// <param name="e"></param>
         private void pcBxRefreash_Click(object sender, EventArgs e)
         {
-            GetPackages();
+            Refreash();
         }
     }
 }

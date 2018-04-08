@@ -287,6 +287,7 @@
             this.dTDel.Size = new System.Drawing.Size(158, 26);
             this.dTDel.TabIndex = 34;
             this.dTDel.Value = new System.DateTime(2018, 3, 30, 0, 0, 0, 0);
+            this.dTDel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dTDel_MouseDown);
             // 
             // label9
             // 

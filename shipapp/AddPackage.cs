@@ -104,6 +104,11 @@ namespace shipapp
             }
             else if (message == "ADD")
             {
+                // Set del date inactive
+                dTDel.CalendarForeColor = Color.Red;
+                dTDel.CalendarTitleForeColor = Color.BlueViolet;
+                dTDel.CalendarTrailingForeColor = Color.Cyan;
+
                 // Instatiate Package
                 newPackage = new Package();
                 foreach (Carrier car in DataConnectionClass.DataLists.CarriersList)
@@ -742,5 +747,9 @@ namespace shipapp
         }
         #endregion
 
+        private void dTDel_MouseDown(object sender, MouseEventArgs e)
+        {
+            //dTDel.CalendarForeColor = Color.Black;
+        }
     }
 }
