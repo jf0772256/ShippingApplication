@@ -62,6 +62,10 @@ namespace shipapp
 
         private void AddPackage_Load(object sender, EventArgs e)
         {
+            // Set date to today
+            dTRec.Value = DateTime.Now;
+            dTDel.Value = DateTime.Now;
+
             // If edit, fill form with the pakcage info
             if (message == "EDIT")
             {
@@ -243,22 +247,6 @@ namespace shipapp
                 errorMsg += "\t-Must include a tracking number.\r\n";
             }
 
-            //// Check that a deliveiry person is selected
-            //if (String.IsNullOrWhiteSpace(cmboDelBy.Text))
-            //{
-            //    pass = false;
-            //    cmboDelBy.BackColor = Color.LightPink;
-            //    errorMsg += "\t-Must select a delivery person.\r\n";
-            //}
-            
-            //// Check that a person ID has been assigned
-            //if (txtPersonId.Text == "" || txtPersonId == null)
-            //{
-            //    pass = false;
-            //    cmboSignedBy.BackColor = Color.LightPink;
-            //    errorMsg += "\t-Must include a person ID.\r\n";
-            //}
-
             // If the data is not correct alert the user with a message
             if (!pass)
             {
@@ -318,23 +306,23 @@ namespace shipapp
             string selText = cmboStatus.SelectedItem.ToString();
             if (selText == "Not Recieved")
             {
-                newPackage.Status = Models.Package.DeliveryStatus.Not_Received;
+                newPackage.Status = Package.DeliveryStatus.Not_Received;
             }
             else if (selText == "Recieved")
             {
-                newPackage.Status = Models.Package.DeliveryStatus.Received;
+                newPackage.Status = Package.DeliveryStatus.Received;
             }
             else if (selText == "Out For Delivery")
             {
-                newPackage.Status = Models.Package.DeliveryStatus.OutForDelivery;
+                newPackage.Status = Package.DeliveryStatus.OutForDelivery;
             }
             else if (selText == "Delivered")
             {
-                newPackage.Status = Models.Package.DeliveryStatus.Delivered;
+                newPackage.Status = Package.DeliveryStatus.Delivered;
             }
             else
             {
-                newPackage.Status = Models.Package.DeliveryStatus.Not_Received;
+                newPackage.Status = Package.DeliveryStatus.Not_Received;
             }
         }
         private void cmboStatus_SelectedIndexChanged(object sender, EventArgs e)
@@ -342,23 +330,23 @@ namespace shipapp
             string selText = cmboStatus.SelectedItem.ToString();
             if (selText == "Not Recieved")
             {
-                newPackage.Status = Models.Package.DeliveryStatus.Not_Received;
+                newPackage.Status = Package.DeliveryStatus.Not_Received;
             }
             else if (selText == "Recieved")
             {
-                newPackage.Status = Models.Package.DeliveryStatus.Received;
+                newPackage.Status = Package.DeliveryStatus.Received;
             }
             else if (selText == "Out For Delivery")
             {
-                newPackage.Status = Models.Package.DeliveryStatus.OutForDelivery;
+                newPackage.Status = Package.DeliveryStatus.OutForDelivery;
             }
             else if (selText == "Delivered")
             {
-                newPackage.Status = Models.Package.DeliveryStatus.Delivered;
+                newPackage.Status = Package.DeliveryStatus.Delivered;
             }
             else
             {
-                newPackage.Status = Models.Package.DeliveryStatus.Not_Received;
+                newPackage.Status = Package.DeliveryStatus.Not_Received;
             }
         }
 
@@ -753,5 +741,6 @@ namespace shipapp
             }
         }
         #endregion
+
     }
 }
