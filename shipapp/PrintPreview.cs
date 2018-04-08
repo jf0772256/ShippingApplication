@@ -28,9 +28,10 @@ namespace shipapp
         /// Constructor: Set form accroding to list type
         /// </summary>
         /// <param name="list"></param>
-        public PrintPreview(Object list)
+        public PrintPreview(Object list, int identity)
         {
             InitializeComponent();
+            this.identity = identity;
             this.logs = (BindingList<Log>)list;
 
             // Determine list type

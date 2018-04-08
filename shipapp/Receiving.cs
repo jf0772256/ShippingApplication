@@ -301,7 +301,7 @@ namespace shipapp
         public void Print()
         {
             CreateLogList();
-            PrintPreview printPreview = new PrintPreview(logList);
+            PrintPreview printPreview = new PrintPreview(logList, 1);
             printPreview.ShowDialog();
         }
 

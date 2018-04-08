@@ -26,12 +26,18 @@ namespace shipapp
         private int role;
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
         private object objectToBeEditied;
+        private BindingList<Faculty> faculties;
+        private BindingList<Vendors> vendors;
+        private BindingList<Carrier> carriers;
+        private BindingList<BuildingClass> buildings;
+        private BindingList<User> users;
 
 
         // Data list for tables
         //Use Connections.DataConnections.DataConnectionClass.DataLists.{Name of binding list}
         private ListSortDirection[] ColumnDirection { get; set; }
         public object ObjectToBeEditied { get => objectToBeEditied; set => objectToBeEditied = value; }
+
 
         public Manage()
         {
@@ -330,7 +336,7 @@ namespace shipapp
             dataGridView1.Columns.Clear();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             DataConnectionClass.UserConn.GetManyUsers(this);
-            //dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
+
             //change header text for roles
             try
             {
@@ -342,14 +348,6 @@ namespace shipapp
                 for (i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
                 {
                     dataGridView1.Rows[i].Cells["Level"].Value = DataConnectionClass.DataLists.UsersList[i].Level.ToString();
-                    //if (DataConnectionClass.DataLists.UsersList[i].Notes is null || DataConnectionClass.DataLists.UsersList[i].Notes.Count <= 0)
-                    //{
-                    //    dataGridView1.Rows[i].Cells["note_count"].Value = 0;
-                    //}
-                    //else
-                    //{
-                    //    dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.UsersList[i].Notes.Count.ToString();
-                    //}
                 }
             }
             catch (Exception)
@@ -379,8 +377,6 @@ namespace shipapp
         {
             currentTable = 4;
             DataConnectionClass.buildingConn.GetBuildingList(this);
-            //TODO Fill list with query from Database
-            //dataGridView1.DataSource = DataConnectionClass.DataLists.BuildingNames;
         }
 
 
@@ -392,7 +388,6 @@ namespace shipapp
             dataGridView1.Columns.Clear();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             DataConnectionClass.CarrierConn.GetCarrierList(this);
-            //dataGridView1.DataSource = DataConnectionClass.DataLists.CarriersList;
         }
 
 
@@ -542,7 +537,7 @@ namespace shipapp
         {
             if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Administrator")
             {
-                this.role = 1;
+                role = 1;
             }
             else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Supervisor")
             {
@@ -594,7 +589,7 @@ namespace shipapp
         /// </summary>
         public void PrintReport()
         {
-            MessageBox.Show("Hey look, Im printing!");
+            Print();
         }
 
 
@@ -626,7 +621,127 @@ namespace shipapp
 
         public void Print()
         {
- 
+            if (currentTable == 1)
+            {
+                CreateLogList();
+                PrintPreview printPreview = new PrintPreview(users, currentTable + 2);
+                printPreview.ShowDialog();
+            }
+            else if (currentTable == 2)
+            {
+                CreateLogList();
+                PrintPreview printPreview = new PrintPreview(vendors, currentTable + 2);
+                printPreview.ShowDialog();
+            }
+            else if (currentTable == 3)
+            {
+                CreateLogList();
+                PrintPreview printPreview = new PrintPreview(faculties, currentTable + 2);
+                printPreview.ShowDialog();
+            }
+            else if (currentTable == 4)
+            {
+                CreateLogList();
+                PrintPreview printPreview = new PrintPreview(buildings, currentTable + 2);
+                printPreview.ShowDialog();
+            }
+            else if (currentTable == 5)
+            {
+                CreateLogList();
+                PrintPreview printPreview = new PrintPreview(carriers, currentTable + 2);
+                printPreview.ShowDialog();
+            }
+            else if (currentTable == 6)
+            {
+                //// TODO History
+                //PrintPreview printPreview = new PrintPreview();
+                //printPreview.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("It seems something went wrong.\r\nPlease try again.", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+
+        /// <summary>
+        /// Fill a list with the selected items
+        /// </summary>
+        public void CreateLogList()
+        {
+            // Create new list object
+            if (currentTable == 1)
+            {
+                users = new BindingList<User>();
+
+                // Fill list with logs
+                for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
+                {
+                    // Convert packages to logs
+                    users.Add((User)dataGridView1.SelectedRows[i].DataBoundItem);
+                }
+            }
+            else if (currentTable == 2)
+            {
+                vendors = new BindingList<Vendors>();
+
+                // Fill list with logs
+                for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
+                {
+                    // Convert packages to logs
+                    vendors.Add((Vendors)dataGridView1.SelectedRows[i].DataBoundItem);
+                }
+            }
+            else if (currentTable == 3)
+            {
+                faculties = new BindingList<Faculty>();
+
+                // Fill list with logs
+                for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
+                {
+                    // Convert packages to logs
+                    faculties.Add((Faculty)dataGridView1.SelectedRows[i].DataBoundItem);
+                }
+            }
+            else if (currentTable == 4)
+            {
+                buildings = new BindingList<BuildingClass>();
+
+                // Fill list with logs
+                for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
+                {
+                    // Convert packages to logs
+                    buildings.Add((BuildingClass)dataGridView1.SelectedRows[i].DataBoundItem);
+                }
+            }
+            else if (currentTable == 5)
+            {
+                carriers = new BindingList<Carrier>();
+
+                // Fill list with logs
+                for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
+                {
+                    // Convert packages to logs
+                    carriers.Add((Carrier)dataGridView1.SelectedRows[i].DataBoundItem);
+                }
+            }
+            else if (currentTable == 6)
+            {
+                //// TODO History
+                //list = new BindingList<Log>();
+
+                // Fill list with logs
+                for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
+                {
+                    // Convert packages to logs
+                    users.Add((User)dataGridView1.SelectedRows[i].DataBoundItem);
+                }
+            }
+            else
+            {
+                MessageBox.Show("It seems something went wrong.\r\nTry again", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
     }
 }
+
