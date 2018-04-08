@@ -32,48 +32,63 @@ namespace shipapp
         {
             InitializeComponent();
             this.identity = identity;
-            this.logs = (BindingList<Log>)list;
 
             // Determine list type
             if (identity == 1)
             {
                 // List is Package
                 this.logs = (BindingList<Log>)list;
+                dataGridLog.DataSource = logs;
+                cmboClerk.Show();
             }
             else if (identity == 2)
             {
                 // List is Package History TODO
                 this.logs = (BindingList<Log>)list;
+                dataGridLog.DataSource = logs;
+                cmboClerk.Hide();
             }
             else if (identity == 3)
             {
                 // List is Users
                 this.users = (BindingList<Models.User>)list;
+                dataGridLog.DataSource = users;
+                cmboClerk.Hide();
             }
             else if (identity == 4)
             {
                 //List is Vendor
                 this.vendors = (BindingList<Models.Vendors>)list;
+                dataGridLog.DataSource = vendors;
+                cmboClerk.Hide();
             }
             else if (identity == 5)
             {
                 // List is Faculty
                 this.Faculties = (BindingList<Models.Faculty>)list;
+                dataGridLog.DataSource = Faculties;
+                cmboClerk.Hide();
             }
             else if (identity == 6)
             {
                 // List is Building
                 this.buildings = (BindingList<Models.ModelData.BuildingClass>)list;
+                dataGridLog.DataSource = buildings;
+                cmboClerk.Hide();
             }
             else if (identity == 7)
             {
                 // List is Carrier
                 this.carriers = (BindingList<Models.Carrier>)list;
+                dataGridLog.DataSource = carriers;
+                cmboClerk.Hide();
             }
             else if (identity == 8)
             {
                 // List is Activity History TODO
                 this.logs = (BindingList<Log>)list;
+                dataGridLog.DataSource = logs;
+                cmboClerk.Hide();
             }
             else
             {
@@ -85,7 +100,7 @@ namespace shipapp
 
         private void PrintPreview_Load(object sender, EventArgs e)
         {
-            dataGridLog.DataSource = logs;
+            
         }
 
 
@@ -103,7 +118,7 @@ namespace shipapp
         private void btnPrint_Click(object sender, EventArgs e)
         {
             //
-            if (String.IsNullOrWhiteSpace(cmboClerk.SelectedItem.ToString()))
+            if (identity == 1  & String.IsNullOrWhiteSpace(cmboClerk.SelectedItem.ToString()))
             {
                 MessageBox.Show("You must select a clerk to deleiver the packages!", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
