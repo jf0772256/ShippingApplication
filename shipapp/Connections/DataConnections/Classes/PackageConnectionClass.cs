@@ -7,6 +7,7 @@ using shipapp.Models;
 using shipapp.Models.ModelData;
 using System.Windows.Forms;
 using shipapp.Connections.HelperClasses;
+using Extentions;
 
 namespace shipapp.Connections.DataConnections.Classes
 {
@@ -33,9 +34,11 @@ namespace shipapp.Connections.DataConnections.Classes
                 return;
             }
             Sender = sender;
-            SortableBindingList<Package> pack = await Task.Run(() => Get_Package_List());
+            string dte = FormatDateString(DateTime.Now.ToString());
+            SortableBindingList<Package> pack = await Task.Run(() => Get_Package_List(dte));
             if (Sender is Manage)
             {
+                pack.ForEach(i => { i.PackageDeliveredDate = ReturnUSStandardDateFormat(i.PackageDeliveredDate); i.PackageReceivedDate = ReturnUSStandardDateFormat(i.PackageReceivedDate); });
                 Manage t = (Manage)Sender;
                 DataConnectionClass.DataLists.Packages = pack;
                 BindingSource bs = new BindingSource
@@ -46,6 +49,7 @@ namespace shipapp.Connections.DataConnections.Classes
             }
             else if (sender is Receiving)
             {
+                pack.ForEach(i => { i.PackageDeliveredDate = ReturnUSStandardDateFormat(i.PackageDeliveredDate); i.PackageReceivedDate = ReturnUSStandardDateFormat(i.PackageReceivedDate); });
                 Receiving t = (Receiving)Sender;
                 DataConnectionClass.DataLists.Packages = pack;
                 BindingSource bs = new BindingSource
@@ -59,12 +63,30 @@ namespace shipapp.Connections.DataConnections.Classes
                 DataConnectionClass.DataLists.Packages = pack;
             }
         }
+        public async void GetPackageHistoryList(object sender = null)
+        {
+            DateTime dt1 = DateTime.Today.AddDays(-1);
+            DateTime dt2 = DateTime.Today.AddMonths(-6);
+            string test1 = FormatDateString(dt1.ToString()), test2 = FormatDateString(dt2.ToString());
+            SortableBindingList<Package> hist = await Task.Run(() => Get_Package_List(test1, test2));
+            if (Sender is Reports t)
+            {
+                DataConnectionClass.DataLists.PackageHistory = hist;
+                BindingSource bs = new BindingSource
+                {
+                    DataSource = DataConnectionClass.DataLists.PackageHistory
+                };
+                t.datGridHistory.DataSource = bs;
+            }
+        }
         /// <summary>
         /// Adds a package to database
         /// </summary>
         /// <param name="p">New package object</param>
         public void AddPackage(Package p)
         {
+            p.PackageReceivedDate = FormatDateString(p.PackageReceivedDate);
+            p.PackageDeliveredDate = FormatDateString(p.PackageDeliveredDate);
             Write(p);
         }
         /// <summary>
@@ -78,6 +100,36 @@ namespace shipapp.Connections.DataConnections.Classes
         public void DeletePackage(Package p)
         {
             Delete(p);
+        }
+        /// <summary>
+        /// Formats the string from month/day/year to yyyy-mm-dd
+        /// </summary>
+        /// <param name="indate">US standard date notation</param>
+        /// <returns>ISO date Formated yyyy-mm-dd</returns>
+        private string FormatDateString(string indate)
+        {
+            DateTime dt = new DateTime();
+            DateTime.TryParse(indate, out dt);
+            string yr, mo, day;
+            yr = dt.Year.ToString();
+            mo = ((dt.Month > 9)?dt.Month.ToString():"0"+ dt.Month.ToString());
+            day = ((dt.Day > 9) ? dt.Day.ToString() : "0" + dt.Day.ToString());
+            return yr + "-" + mo + "-" + day;
+        }
+        /// <summary>
+        /// Formats the date string from ISO date(yyyy-mm-dd) to US Stadard format(m/d/yyyy)
+        /// </summary>
+        /// <param name="indate">Date from datasource</param>
+        /// <returns>formatted string for display</returns>
+        private string ReturnUSStandardDateFormat(string indate)
+        {
+            DateTime dt = new DateTime();
+            DateTime.TryParse(indate, out dt);
+            string yr, mo, day;
+            yr = dt.Year.ToString();
+            mo = dt.Month.ToString();
+            day = dt.Day.ToString();
+            return mo + "/" + day + "/" + yr;
         }
     }
 }

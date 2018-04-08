@@ -1572,7 +1572,7 @@ namespace shipapp.Connections
                 }
             }
         }
-        protected SortableBindingList<Package> Get_Package_List()
+        protected SortableBindingList<Package> Get_Package_List(string datetoget)
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
@@ -1585,7 +1585,52 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("", c))
                 {
                     Package p = new Package() { };
-                    cmd.CommandText = "SELECT package_id,package_po,package_carrier,package_vendor,package_deliv_to,package_deliv_by,package_signed_for_by,package_tracking_number,package_receive_date,package_deliver_date,package_note_id,package_status,package_deliv_bldg FROM packages;";
+                    cmd.CommandText = "SELECT package_id,package_po,package_carrier,package_vendor,package_deliv_to,package_deliv_by,package_signed_for_by,package_tracking_number,package_receive_date,package_deliver_date,package_note_id,package_status,package_deliv_bldg FROM packages where package_receive_date = '" + datetoget + "';";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            p = new Package()
+                            {
+                                PackageId = Convert.ToInt64(reader["package_id"].ToString()),
+                                PackageTrackingNumber = reader["package_tracking_number"].ToString(),
+                                PONumber = reader["package_po"].ToString(),
+                                PackageCarrier = reader["package_carrier"].ToString(),
+                                PackageVendor = reader["package_vendor"].ToString(),
+                                PackageDeleveredBy = reader["package_deliv_by"].ToString(),
+                                PackageDeliveredTo = reader["package_deliv_to"].ToString(),
+                                PackageSignedForBy = reader["package_signed_for_by"].ToString(),
+                                PackageReceivedDate = reader["package_receive_date"].ToString(),
+                                PackageDeliveredDate = reader["package_deliver_date"].ToString(),
+                                Package_PersonId = reader["package_note_id"].ToString(),
+                                Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString()),
+                                DelivBuildingShortName = reader["package_deliv_bldg"].ToString()
+                            };
+                            pkg.Add(p);
+                        }
+                    }
+                    foreach (Package pac in pkg)
+                    {
+                        pac.Notes = GetNotesListById(pac.Package_PersonId);
+                    }
+                    return pkg;
+                }
+            }
+        }
+        protected SortableBindingList<Package> Get_Package_List(string startdate,string enddate)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            SortableBindingList<Package> pkg = new SortableBindingList<Package>();
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("", c))
+                {
+                    Package p = new Package() { };
+                    cmd.CommandText = "SELECT package_id,package_po,package_carrier,package_vendor,package_deliv_to,package_deliv_by,package_signed_for_by,package_tracking_number,package_receive_date,package_deliver_date,package_note_id,package_status,package_deliv_bldg FROM packages where package_receive_date BETWEEN '" + startdate + "' AND '" + enddate + "';";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())

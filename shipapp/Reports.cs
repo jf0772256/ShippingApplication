@@ -56,11 +56,11 @@ namespace shipapp
             this.CenterToParent();
             GetPackages();
             SetRole();
-            BindingSource bs = new BindingSource
-            {
-                DataSource = DataConnectionClass.DataLists.Packages
-            };
-            datGridHistory.DataSource = bs;
+            //BindingSource bs = new BindingSource
+            //{
+            //    DataSource = DataConnectionClass.DataLists.PackageHistory
+            //};
+            //datGridHistory.DataSource = bs;
             // Set form according to the role
             if (role == 1)
             {
@@ -165,7 +165,7 @@ namespace shipapp
         /// </summary>
         public void GetPackages()
         {
-            DataConnectionClass.PackageConnClass.GetPackageList(this);
+            DataConnectionClass.PackageConnClass.GetPackageHistoryList(this);
         }
 
 
