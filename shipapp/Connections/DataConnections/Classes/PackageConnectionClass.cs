@@ -67,8 +67,9 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             DateTime dt1 = DateTime.Today.AddDays(-1);
             DateTime dt2 = DateTime.Today.AddMonths(-6);
+            Sender = sender;
             string test1 = FormatDateString(dt1.ToString()), test2 = FormatDateString(dt2.ToString());
-            SortableBindingList<Package> hist = await Task.Run(() => Get_Package_List(test1, test2));
+            SortableBindingList<Package> hist = await Task.Run(() => Get_Package_List(test2, test1));
             if (Sender is Reports t)
             {
                 DataConnectionClass.DataLists.PackageHistory = hist;
