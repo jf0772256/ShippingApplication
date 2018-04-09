@@ -37,6 +37,12 @@
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pcBxRefreash = new System.Windows.Forms.PictureBox();
+            this.lblSearch = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.dTFrom = new System.Windows.Forms.DateTimePicker();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.dTTo = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datGridHistory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxAddToDaily)).BeginInit();
@@ -72,6 +78,7 @@
             this.datGridHistory.Name = "datGridHistory";
             this.datGridHistory.Size = new System.Drawing.Size(1234, 541);
             this.datGridHistory.TabIndex = 1;
+            this.datGridHistory.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.datGridHistory_ColumnHeaderMouseClick);
             // 
             // label1
             // 
@@ -121,12 +128,78 @@
             this.pcBxRefreash.TabStop = false;
             this.pcBxRefreash.Click += new System.EventHandler(this.pcBxRefreash_Click);
             // 
+            // lblSearch
+            // 
+            this.lblSearch.AutoSize = true;
+            this.lblSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSearch.Location = new System.Drawing.Point(349, 65);
+            this.lblSearch.Name = "lblSearch";
+            this.lblSearch.Size = new System.Drawing.Size(58, 20);
+            this.lblSearch.TabIndex = 10;
+            this.lblSearch.Text = "TODO";
+            this.toolTip1.SetToolTip(this.lblSearch, "Click to Sign Out");
+            this.lblSearch.Click += new System.EventHandler(this.lblSearch_Click);
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Location = new System.Drawing.Point(297, 88);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(159, 26);
+            this.txtSearch.TabIndex = 11;
+            // 
+            // dTFrom
+            // 
+            this.dTFrom.CustomFormat = "MMM dd, yyyy";
+            this.dTFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dTFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dTFrom.Location = new System.Drawing.Point(536, 52);
+            this.dTFrom.Name = "dTFrom";
+            this.dTFrom.Size = new System.Drawing.Size(146, 26);
+            this.dTFrom.TabIndex = 12;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(480, 57);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(50, 20);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "From";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(501, 94);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 20);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "To";
+            // 
+            // dTTo
+            // 
+            this.dTTo.CustomFormat = "MMM dd, yyyy";
+            this.dTTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dTTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dTTo.Location = new System.Drawing.Point(536, 88);
+            this.dTTo.Name = "dTTo";
+            this.dTTo.Size = new System.Drawing.Size(146, 26);
+            this.dTTo.TabIndex = 14;
+            // 
             // Reports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(1234, 661);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.dTTo);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.dTFrom);
+            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.lblSearch);
             this.Controls.Add(this.pcBxRefreash);
             this.Controls.Add(this.pictureBox7);
             this.Controls.Add(this.pcBxAddToDaily);
@@ -156,5 +229,11 @@
         internal System.Windows.Forms.Label label1;
         internal System.Windows.Forms.DataGridView datGridHistory;
         private System.Windows.Forms.PictureBox pcBxRefreash;
+        internal System.Windows.Forms.Label lblSearch;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.DateTimePicker dTFrom;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DateTimePicker dTTo;
     }
 }

@@ -29,6 +29,7 @@ namespace shipapp
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
         private string message = "";
         private int role;
+        private string selectedColumnName = "";
         private ListSortDirection[] ColumnDirection { get; set; }
         private BindingList<Log> logList;
 
@@ -375,6 +376,42 @@ namespace shipapp
             {
                 // Convert packages to logs
                 logList.Add(Log.ConvertPackageToLog((Package)dataGridPackages.SelectedRows[i].DataBoundItem));
+            }
+        }
+
+
+        /// <summary>
+        /// Query the databse when key pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+
+        /// <summary>
+        /// Query packages
+        /// </summary>
+        public void QueryPackages()
+        {
+            //dataGridPackages.SelectedColumns[0].DataPropertyName
+        }
+
+        private void dataGridPackages_Click(object sender, EventArgs e)
+        {
+            if (dataGridPackages.SelectedColumns.Count > 0)
+            {
+                lblSearch.Text = dataGridPackages.SelectedColumns[0].DataPropertyName;
+            }
+        }
+
+        private void dataGridPackages_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (dataGridPackages.SelectedColumns.Count > 0)
+            {
+                lblSearch.Text = dataGridPackages.SelectedColumns[0].DataPropertyName;
             }
         }
     }

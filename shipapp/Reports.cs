@@ -187,5 +187,28 @@ namespace shipapp
             Refreash();
             MessageBox.Show("The list has refreshed");
         }
+
+        private void lblSearch_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        /// <summary>
+        /// Query packages
+        /// </summary>
+        public void QueryPackages()
+        {
+            //dataGridPackages.SelectedColumns[0].DataPropertyName
+        }
+
+
+        private void datGridHistory_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (datGridHistory.SelectedColumns.Count > 0)
+            {
+                lblSearch.Text = datGridHistory.SelectedColumns[0].DataPropertyName;
+            }
+        }
     }
 }
