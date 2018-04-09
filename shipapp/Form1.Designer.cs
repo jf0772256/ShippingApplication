@@ -52,6 +52,7 @@
             // 
             // btnSettings
             // 
+            this.btnSettings.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnSettings.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnSettings.BackgroundImage = global::shipapp.Properties.Resources.android_settings;
             this.btnSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -66,6 +67,7 @@
             // 
             // btnManage
             // 
+            this.btnManage.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnManage.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnManage.BackgroundImage = global::shipapp.Properties.Resources.android_storage;
             this.btnManage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -80,6 +82,7 @@
             // 
             // btnReports
             // 
+            this.btnReports.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnReports.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnReports.BackgroundImage = global::shipapp.Properties.Resources.document_text;
             this.btnReports.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -94,6 +97,7 @@
             // 
             // btnDailyReceiving
             // 
+            this.btnDailyReceiving.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnDailyReceiving.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnDailyReceiving.BackgroundImage = global::shipapp.Properties.Resources.social_dropbox;
             this.btnDailyReceiving.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -130,7 +134,9 @@
             this.Controls.Add(this.btnReports);
             this.Controls.Add(this.btnDailyReceiving);
             this.Name = "MainMenu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Main Menu";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainMenu_FormClosed);
             this.Load += new System.EventHandler(this.MainMenu_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
