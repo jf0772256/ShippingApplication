@@ -36,8 +36,8 @@
             this.pcBxAddToDaily = new System.Windows.Forms.PictureBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.pcBxRefreash = new System.Windows.Forms.PictureBox();
             this.lblSearch = new System.Windows.Forms.Label();
+            this.pcBxRefreash = new System.Windows.Forms.PictureBox();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dTFrom = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
@@ -73,6 +73,7 @@
             this.datGridHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.datGridHistory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.datGridHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.datGridHistory.Location = new System.Drawing.Point(0, 120);
             this.datGridHistory.Name = "datGridHistory";
@@ -116,18 +117,6 @@
             this.pictureBox7.TabStop = false;
             this.pictureBox7.Click += new System.EventHandler(this.pictureBox7_Click);
             // 
-            // pcBxRefreash
-            // 
-            this.pcBxRefreash.BackColor = System.Drawing.Color.Transparent;
-            this.pcBxRefreash.BackgroundImage = global::shipapp.Properties.Resources.loop;
-            this.pcBxRefreash.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pcBxRefreash.Location = new System.Drawing.Point(53, 79);
-            this.pcBxRefreash.Name = "pcBxRefreash";
-            this.pcBxRefreash.Size = new System.Drawing.Size(35, 35);
-            this.pcBxRefreash.TabIndex = 9;
-            this.pcBxRefreash.TabStop = false;
-            this.pcBxRefreash.Click += new System.EventHandler(this.pcBxRefreash_Click);
-            // 
             // lblSearch
             // 
             this.lblSearch.AutoSize = true;
@@ -139,6 +128,18 @@
             this.lblSearch.Text = "TODO";
             this.toolTip1.SetToolTip(this.lblSearch, "Click to Sign Out");
             this.lblSearch.Click += new System.EventHandler(this.lblSearch_Click);
+            // 
+            // pcBxRefreash
+            // 
+            this.pcBxRefreash.BackColor = System.Drawing.Color.Transparent;
+            this.pcBxRefreash.BackgroundImage = global::shipapp.Properties.Resources.loop;
+            this.pcBxRefreash.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pcBxRefreash.Location = new System.Drawing.Point(53, 79);
+            this.pcBxRefreash.Name = "pcBxRefreash";
+            this.pcBxRefreash.Size = new System.Drawing.Size(35, 35);
+            this.pcBxRefreash.TabIndex = 9;
+            this.pcBxRefreash.TabStop = false;
+            this.pcBxRefreash.Click += new System.EventHandler(this.pcBxRefreash_Click);
             // 
             // txtSearch
             // 
