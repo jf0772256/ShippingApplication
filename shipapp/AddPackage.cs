@@ -751,5 +751,11 @@ namespace shipapp
         {
             //dTDel.CalendarForeColor = Color.Black;
         }
+
+
+        public void AutoFillBuilding()
+        {
+
+        }
     }
 }
