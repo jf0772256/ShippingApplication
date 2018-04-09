@@ -64,8 +64,10 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
             this.datGridHistory.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.datGridHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.datGridHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.datGridHistory.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.datGridHistory.Location = new System.Drawing.Point(0, 120);
             this.datGridHistory.Name = "datGridHistory";
             this.datGridHistory.Size = new System.Drawing.Size(1234, 541);
@@ -133,6 +135,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Name = "Reports";
             this.Text = "Reports";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Reports_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.datGridHistory)).EndInit();

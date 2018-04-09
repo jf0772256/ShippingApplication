@@ -185,6 +185,7 @@ namespace shipapp
         private void pcBxRefreash_Click(object sender, EventArgs e)
         {
             Refreash();
+            MessageBox.Show("The list has refreshed");
         }
     }
 }

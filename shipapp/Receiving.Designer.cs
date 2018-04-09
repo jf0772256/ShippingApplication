@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridPackages = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
@@ -54,13 +54,15 @@
             // 
             // dataGridPackages
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.dataGridPackages.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            this.dataGridPackages.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGridPackages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridPackages.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridPackages.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dataGridPackages.Location = new System.Drawing.Point(0, 149);
             this.dataGridPackages.Name = "dataGridPackages";
             this.dataGridPackages.ReadOnly = true;
@@ -183,13 +185,12 @@
             // 
             // lblSearch
             // 
-            this.lblSearch.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lblSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSearch.Location = new System.Drawing.Point(377, 76);
             this.lblSearch.Name = "lblSearch";
             this.lblSearch.Size = new System.Drawing.Size(160, 23);
             this.lblSearch.TabIndex = 12;
-            this.lblSearch.Text = "label2";
+            this.lblSearch.Text = "TODO";
             this.lblSearch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Receiving
@@ -212,6 +213,7 @@
             this.Controls.Add(this.dataGridPackages);
             this.Name = "Receiving";
             this.Text = "Receiving";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Receiving_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridPackages)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
