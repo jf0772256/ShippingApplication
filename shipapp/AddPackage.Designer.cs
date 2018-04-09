@@ -112,7 +112,7 @@
             this.txtTracking.Location = new System.Drawing.Point(109, 39);
             this.txtTracking.Name = "txtTracking";
             this.txtTracking.Size = new System.Drawing.Size(169, 26);
-            this.txtTracking.TabIndex = 9;
+            this.txtTracking.TabIndex = 2;
             // 
             // label5
             // 
@@ -181,7 +181,7 @@
             this.cmboCarrier.Location = new System.Drawing.Point(109, 69);
             this.cmboCarrier.Name = "cmboCarrier";
             this.cmboCarrier.Size = new System.Drawing.Size(169, 28);
-            this.cmboCarrier.TabIndex = 21;
+            this.cmboCarrier.TabIndex = 3;
             this.cmboCarrier.SelectionChangeCommitted += new System.EventHandler(this.cmboCarrier_SelectionChangeCommitted);
             // 
             // cmboVendor
@@ -191,7 +191,7 @@
             this.cmboVendor.Location = new System.Drawing.Point(109, 101);
             this.cmboVendor.Name = "cmboVendor";
             this.cmboVendor.Size = new System.Drawing.Size(169, 28);
-            this.cmboVendor.TabIndex = 22;
+            this.cmboVendor.TabIndex = 4;
             this.cmboVendor.SelectionChangeCommitted += new System.EventHandler(this.cmboVendor_SelectionChangeCommitted);
             // 
             // cmboRecipiant
@@ -201,26 +201,28 @@
             this.cmboRecipiant.Location = new System.Drawing.Point(109, 133);
             this.cmboRecipiant.Name = "cmboRecipiant";
             this.cmboRecipiant.Size = new System.Drawing.Size(169, 28);
-            this.cmboRecipiant.TabIndex = 23;
+            this.cmboRecipiant.TabIndex = 5;
             this.cmboRecipiant.SelectionChangeCommitted += new System.EventHandler(this.cmboRecipiant_SelectionChangeCommitted);
             // 
             // cmboDelBy
             // 
             this.cmboDelBy.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboDelBy.FormattingEnabled = true;
+            this.cmboDelBy.ItemHeight = 20;
             this.cmboDelBy.Location = new System.Drawing.Point(417, 10);
             this.cmboDelBy.Name = "cmboDelBy";
             this.cmboDelBy.Size = new System.Drawing.Size(158, 28);
-            this.cmboDelBy.TabIndex = 24;
+            this.cmboDelBy.TabIndex = 8;
             // 
             // cmboSignedBy
             // 
             this.cmboSignedBy.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboSignedBy.FormattingEnabled = true;
+            this.cmboSignedBy.ItemHeight = 20;
             this.cmboSignedBy.Location = new System.Drawing.Point(417, 42);
             this.cmboSignedBy.Name = "cmboSignedBy";
             this.cmboSignedBy.Size = new System.Drawing.Size(158, 28);
-            this.cmboSignedBy.TabIndex = 25;
+            this.cmboSignedBy.TabIndex = 9;
             // 
             // cmboStatus
             // 
@@ -229,7 +231,7 @@
             this.cmboStatus.Location = new System.Drawing.Point(417, 104);
             this.cmboStatus.Name = "cmboStatus";
             this.cmboStatus.Size = new System.Drawing.Size(158, 28);
-            this.cmboStatus.TabIndex = 26;
+            this.cmboStatus.TabIndex = 11;
             this.cmboStatus.SelectedIndexChanged += new System.EventHandler(this.cmboStatus_SelectedIndexChanged);
             this.cmboStatus.SelectionChangeCommitted += new System.EventHandler(this.cmboStatus_SelectionChangeCommitted);
             // 
@@ -239,7 +241,7 @@
             this.btnViewNote.Location = new System.Drawing.Point(307, 240);
             this.btnViewNote.Name = "btnViewNote";
             this.btnViewNote.Size = new System.Drawing.Size(132, 41);
-            this.btnViewNote.TabIndex = 27;
+            this.btnViewNote.TabIndex = 14;
             this.btnViewNote.Text = "View Note";
             this.btnViewNote.UseVisualStyleBackColor = true;
             // 
@@ -249,7 +251,7 @@
             this.btnAddNote.Location = new System.Drawing.Point(445, 240);
             this.btnAddNote.Name = "btnAddNote";
             this.btnAddNote.Size = new System.Drawing.Size(130, 41);
-            this.btnAddNote.TabIndex = 28;
+            this.btnAddNote.TabIndex = 15;
             this.btnAddNote.Text = "Add Note";
             this.btnAddNote.UseVisualStyleBackColor = true;
             // 
@@ -259,7 +261,7 @@
             this.btnReceive.Location = new System.Drawing.Point(109, 241);
             this.btnReceive.Name = "btnReceive";
             this.btnReceive.Size = new System.Drawing.Size(169, 40);
-            this.btnReceive.TabIndex = 29;
+            this.btnReceive.TabIndex = 13;
             this.btnReceive.Text = "Receive";
             this.btnReceive.UseVisualStyleBackColor = true;
             this.btnReceive.Click += new System.EventHandler(this.btnReceive_Click);
@@ -273,7 +275,7 @@
             this.dTRec.Name = "dTRec";
             this.dTRec.ShowUpDown = true;
             this.dTRec.Size = new System.Drawing.Size(169, 26);
-            this.dTRec.TabIndex = 32;
+            this.dTRec.TabIndex = 7;
             this.dTRec.Value = new System.DateTime(2018, 3, 30, 0, 0, 0, 0);
             // 
             // dTDel
@@ -285,7 +287,7 @@
             this.dTDel.Name = "dTDel";
             this.dTDel.ShowUpDown = true;
             this.dTDel.Size = new System.Drawing.Size(158, 26);
-            this.dTDel.TabIndex = 34;
+            this.dTDel.TabIndex = 10;
             this.dTDel.Value = new System.DateTime(2018, 3, 30, 0, 0, 0, 0);
             this.dTDel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dTDel_MouseDown);
             // 
@@ -306,7 +308,7 @@
             this.txtRoleId.Name = "txtRoleId";
             this.txtRoleId.ReadOnly = true;
             this.txtRoleId.Size = new System.Drawing.Size(158, 26);
-            this.txtRoleId.TabIndex = 36;
+            this.txtRoleId.TabIndex = 12;
             // 
             // cmboBuilding
             // 
@@ -315,7 +317,7 @@
             this.cmboBuilding.Location = new System.Drawing.Point(109, 163);
             this.cmboBuilding.Name = "cmboBuilding";
             this.cmboBuilding.Size = new System.Drawing.Size(169, 28);
-            this.cmboBuilding.TabIndex = 40;
+            this.cmboBuilding.TabIndex = 6;
             this.cmboBuilding.SelectionChangeCommitted += new System.EventHandler(this.cmboBuilding_SelectionChangeCommitted);
             // 
             // label10

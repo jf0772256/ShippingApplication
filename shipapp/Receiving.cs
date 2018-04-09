@@ -330,6 +330,7 @@ namespace shipapp
         private void pcBXRefreash_Click(object sender, EventArgs e)
         {
             Refreash();
+            MessageBox.Show("The list has refreshed");
         }
 
 
