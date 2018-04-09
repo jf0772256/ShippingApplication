@@ -110,7 +110,9 @@
             this.Controls.Add(this.txtBxPassword);
             this.Controls.Add(this.txtBxUsername);
             this.Name = "LogIn";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LogIn";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.LogIn_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

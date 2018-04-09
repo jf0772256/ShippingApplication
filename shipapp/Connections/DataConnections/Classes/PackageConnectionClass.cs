@@ -88,7 +88,8 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             p.PackageReceivedDate = FormatDateString(p.PackageReceivedDate);
             p.PackageDeliveredDate = FormatDateString(p.PackageDeliveredDate);
-            Write(p);
+            string dte = FormatDateString(DateTime.Today.ToShortDateString());
+            Write(p,dte);
         }
         /// <summary>
         /// Updates a current package.
