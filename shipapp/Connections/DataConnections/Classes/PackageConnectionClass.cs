@@ -99,9 +99,31 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             Update(p);
         }
+        /// <summary>
+        /// removes a database row from database
+        /// </summary>
+        /// <param name="p">package to remove</param>
         public void DeletePackage(Package p)
         {
             Delete(p);
+        }
+        /// <summary>
+        /// Updates the selected package last modified date to todays date
+        /// </summary>
+        /// <param name="p">package to update</param>
+        public void UpdateLastModified(Package p)
+        {
+            string dte = FormatDateString(DateTime.Today.ToShortDateString());
+            base.Update(p, dte);
+        }
+        /// <summary>
+        /// Updates The packages stored in a standard list last modified date to today.
+        /// </summary>
+        /// <param name="p">List of Package Objects</param>
+        public void UpdateLastModified(List<Package> p)
+        {
+            string dte = FormatDateString(DateTime.Today.ToShortDateString());
+            p.ForEach(i => Update(i, dte));
         }
         /// <summary>
         /// Formats the string from month/day/year to yyyy-mm-dd
