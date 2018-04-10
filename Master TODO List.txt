@@ -1,0 +1,47 @@
+===========================================================
+-----------------------------------------------------------
+                      -Master TODO List-
+-----------------------------------------------------------
+===========================================================
+General list
+-----------------------------------------------------------
+ -Empty
+===========================================================
+Receiving
+-----------------------------------------------------------
+ -Auto fill Room based on Faculty selectet when adding a new package
+ -Query packages based on selected column 
+ -Test row(s) selected before executing row dependent logic
+ -Add ability to Add a note
+===========================================================
+History
+-----------------------------------------------------------
+ -Query packages based on selected column
+ -Test row(s) selected before executing row dependent logic
+ -Ensure printing is working correctly
+===========================================================
+Manage
+-----------------------------------------------------------
+ -Hide passwords for supervisors
+ -Ensure printing is working correctly
+ -Add ability to Add a note
+ -Add activity history list - maybe
+   +Example 0:(When a user adds a vendor add a history object that indicates what user added what vendor on what date)
+   +Example 1:(When a the database autobacks up create a object that states that the database was backed up)
+ -Add a diffrent backcolor to the selected table button(i.e. when vendor selected, vendor background color eual blue) 
+ -Test Tabs
+ -Test tabs in various add forms
+===========================================================
+Settings
+-----------------------------------------------------------
+ -Consider making the user manual printable - maybe
+ -Consider making a pop-up user manual - maybe
+===========================================================
+Main Menu
+-----------------------------------------------------------
+ -Test Tabs
+===========================================================
+Login
+-----------------------------------------------------------
+ -Test Tabs
+ -Test enter Key

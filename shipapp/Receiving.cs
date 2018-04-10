@@ -118,7 +118,10 @@ namespace shipapp
         /// <param name="e"></param>
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            DeletePackage();
+            if (dataGridPackages.SelectedRows.Count > 0)
+            {
+                DeletePackage();
+            }
         }
 
 
@@ -211,7 +214,10 @@ namespace shipapp
         /// <param name="e"></param>
         private void pcBxEdit_Click(object sender, EventArgs e)
         {
-            EditPackage();
+            if (dataGridPackages.SelectedRows.Count > 0)
+            {
+                EditPackage();
+            }
         }
 
 
@@ -292,7 +298,10 @@ namespace shipapp
         /// <param name="e"></param>
         private void pcBxPrint_Click(object sender, EventArgs e)
         {
-            Print();
+            if (dataGridPackages.SelectedRows.Count > 0)
+            {
+                Print();
+            }
         }
 
 

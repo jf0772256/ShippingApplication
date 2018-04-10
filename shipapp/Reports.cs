@@ -123,7 +123,10 @@ namespace shipapp
         /// <param name="e"></param>
         private void pcBxAddToDaily_Click(object sender, EventArgs e)
         {
-            AddPackageToDaily();
+            if (datGridHistory.SelectedRows.Count > 0)
+            {
+                AddPackageToDaily();
+            }
         }
 
 

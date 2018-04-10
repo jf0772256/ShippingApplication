@@ -251,73 +251,10 @@ namespace shipapp
         /// <param name="e"></param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            message = "ADD";
-
-            if (currentTable == 0)
+            if (dataGridView1.SelectedRows.Count > 0)
             {
-                MessageBox.Show("You must select a table before you can add an item!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AddEntity();
             }
-            else if (currentTable == 1)
-            {
-                AddUser addUser = new AddUser(message);
-                addUser.ShowDialog();
-                dataGridView1.DataSource = null;
-                dataGridView1.Columns.Clear();
-                ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-                DataConnectionClass.UserConn.GetManyUsers(this);
-                //dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
-                //dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
-                //for (int i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
-                //{
-                //    if (DataConnectionClass.DataLists.UsersList[i].Notes is null || DataConnectionClass.DataLists.UsersList[i].Notes.Count <= 0)
-                //    {
-                //        dataGridView1.Rows[i].Cells["note_count"].Value = 0;
-                //    }
-                //    else
-                //    {
-                //        dataGridView1.Rows[i].Cells["note_count"].Value = DataConnectionClass.DataLists.UsersList[i].Notes.Count.ToString();
-                //    }
-                //}
-                dataGridView1.Update();
-            }
-            else if (currentTable == 2)
-            {
-                AddVendor addVendor = new AddVendor(message);
-                addVendor.ShowDialog();
-                btnVendors_Click_1(this, e);
-            }
-            else if (currentTable == 3)
-            {
-                AddFaculty addFaculty = new shipapp.AddFaculty(message);
-                addFaculty.ShowDialog();
-                dataGridView1.DataSource = null;
-                dataGridView1.Columns.Clear();
-                ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
-            }
-            else if (currentTable == 4)
-            {
-                AddBuilding addbuilding = new AddBuilding(message);
-                DialogResult dr = addbuilding.ShowDialog();
-                if (dr == DialogResult.OK)
-                {
-                    addbuilding.Dispose();
-                    GC.Collect();
-                    btnBuildings_Click_1(this, e);
-                }
-            }
-            else if (currentTable == 5)
-            {
-                AddCarrier addCarrier = new AddCarrier(message);
-                addCarrier.ShowDialog();
-                btnCarriers_Click_1(this, e);
-            }
-            else if (currentTable == 6)
-            {
-                MessageBox.Show("This button is not set to a existing table! Please select another table.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            // Reset message
-            message = "REST";
         }
         #endregion
 
@@ -452,7 +389,10 @@ namespace shipapp
         /// <param name="e"></param>
         private void pcBxDelete_Click(object sender, EventArgs e)
         {
-            DeleteEntity();
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                DeleteEntity();
+            }
         }
 
 
@@ -529,7 +469,10 @@ namespace shipapp
         /// <param name="e"></param>
         private void pcBxEdit_Click(object sender, EventArgs e)
         {
-            EditEntity();
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                EditEntity();
+            }
         }
 
 
@@ -589,7 +532,10 @@ namespace shipapp
         /// </summary>
         public void PrintReport()
         {
-            Print();
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                Print();
+            }
         }
 
 
@@ -741,6 +687,64 @@ namespace shipapp
             {
                 MessageBox.Show("It seems something went wrong.\r\nTry again", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
+        }
+
+        public void AddEntity()
+        {
+            message = "ADD";
+
+            if (currentTable == 0)
+            {
+                MessageBox.Show("You must select a table before you can add an item!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (currentTable == 1)
+            {
+                AddUser addUser = new AddUser(message);
+                addUser.ShowDialog();
+                dataGridView1.DataSource = null;
+                dataGridView1.Columns.Clear();
+                ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
+                DataConnectionClass.UserConn.GetManyUsers(this);
+                dataGridView1.Update();
+            }
+            else if (currentTable == 2)
+            {
+                AddVendor addVendor = new AddVendor(message);
+                addVendor.ShowDialog();
+                btnVendors_Click_1(this, e);
+            }
+            else if (currentTable == 3)
+            {
+                AddFaculty addFaculty = new shipapp.AddFaculty(message);
+                addFaculty.ShowDialog();
+                dataGridView1.DataSource = null;
+                dataGridView1.Columns.Clear();
+                ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
+            }
+            else if (currentTable == 4)
+            {
+                AddBuilding addbuilding = new AddBuilding(message);
+                DialogResult dr = addbuilding.ShowDialog();
+                if (dr == DialogResult.OK)
+                {
+                    addbuilding.Dispose();
+                    GC.Collect();
+                    btnBuildings_Click_1(this, e);
+                }
+            }
+            else if (currentTable == 5)
+            {
+                AddCarrier addCarrier = new AddCarrier(message);
+                addCarrier.ShowDialog();
+                btnCarriers_Click_1(this, e);
+            }
+            else if (currentTable == 6)
+            {
+                MessageBox.Show("This button is not set to a existing table! Please select another table.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // Reset message
+            message = "REST";
         }
     }
 }
