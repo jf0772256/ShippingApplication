@@ -18,6 +18,7 @@ namespace shipapp
         // Class level variables
         private string message;
         private Models.User userToBeEdited;
+        private char c = '\u2022';
 
 
         /// <summary>
@@ -51,6 +52,9 @@ namespace shipapp
         /// <param name="e"></param>
         private void AddUser_Load(object sender, EventArgs e)
         {
+            // Set Password Char
+            txtPassword.PasswordChar = c;
+
             // If EDIT set form to edit mode
             if (message == "EDIT")
             {
@@ -150,7 +154,6 @@ namespace shipapp
         {
             // Method level variables
             bool pass = true;
-            long num0 = 0;
 
             // Validate data
             if (txtFirstName.Text == "")

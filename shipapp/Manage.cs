@@ -31,6 +31,7 @@ namespace shipapp
         private BindingList<Carrier> carriers;
         private BindingList<BuildingClass> buildings;
         private BindingList<User> users;
+        private char c = '\u2022';
 
 
         // Data list for tables
@@ -163,6 +164,7 @@ namespace shipapp
             }
             else if (role == 2)
             {
+
                 pcBxDelete.Enabled = false;
                 pcBxEdit.Enabled = false;
                 pictureBox1.Enabled = false;
@@ -253,7 +255,7 @@ namespace shipapp
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                AddEntity();
+                AddEntity(e);
             }
         }
         #endregion
@@ -278,6 +280,7 @@ namespace shipapp
             try
             {
                 dataGridView1.Columns["Level"].HeaderText = "Role";
+                
                 //dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
                 int i = 0;
                 // sets the value of the text to role title rather than the class namespace and name
@@ -285,6 +288,7 @@ namespace shipapp
                 for (i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
                 {
                     dataGridView1.Rows[i].Cells["Level"].Value = DataConnectionClass.DataLists.UsersList[i].Level.ToString();
+                    
                 }
             }
             catch (Exception)
@@ -689,7 +693,7 @@ namespace shipapp
             }
         }
 
-        public void AddEntity()
+        public void AddEntity(EventArgs e)
         {
             message = "ADD";
 
@@ -745,6 +749,18 @@ namespace shipapp
 
             // Reset message
             message = "REST";
+        }
+
+
+        public string ValueToPassWord(String password)
+        {
+            
+            for (int i = 0; i < password.Length; i++)
+            {
+                 password.ToCharArray()[i] = c;
+            }
+
+            return password;
         }
     }
 }
