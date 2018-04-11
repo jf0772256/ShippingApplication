@@ -324,6 +324,18 @@ namespace shipapp
 
             return packages;
         }
-
+        /// <summary>
+        /// for consistancy
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void datGridHistory_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Rectangle bnds = datGridHistory.Rows[e.RowIndex].Cells[e.ColumnIndex].ContentBounds;
+            int x = bnds.Width / 2;
+            int y = bnds.Height / 2;
+            DataGridViewCellMouseEventArgs m = new DataGridViewCellMouseEventArgs(e.ColumnIndex, e.RowIndex, x, y, new MouseEventArgs(MouseButtons.Left, 1, x, y, 0));
+            datGridHistory_CellMouseClick(this, m);
+        }
     }
 }

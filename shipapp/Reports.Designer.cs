@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.datGridHistory = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
@@ -67,11 +67,11 @@
             // 
             // datGridHistory
             // 
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
-            this.datGridHistory.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            this.datGridHistory.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.datGridHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -82,7 +82,12 @@
             this.datGridHistory.ReadOnly = true;
             this.datGridHistory.Size = new System.Drawing.Size(1234, 541);
             this.datGridHistory.TabIndex = 1;
+            this.datGridHistory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datGridHistory_CellClick);
+            this.datGridHistory.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datGridHistory_CellClick);
+            this.datGridHistory.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datGridHistory_CellClick);
+            this.datGridHistory.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datGridHistory_CellClick);
             this.datGridHistory.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.datGridHistory_CellMouseClick);
+            this.datGridHistory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.datGridHistory_CellMouseClick);
             this.datGridHistory.Click += new System.EventHandler(this.datGridHistory_Click);
             // 
             // label1
@@ -125,7 +130,7 @@
             // 
             this.lblSearch.AutoSize = true;
             this.lblSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSearch.Location = new System.Drawing.Point(341, 65);
+            this.lblSearch.Location = new System.Drawing.Point(293, 65);
             this.lblSearch.Name = "lblSearch";
             this.lblSearch.Size = new System.Drawing.Size(58, 20);
             this.lblSearch.TabIndex = 10;
