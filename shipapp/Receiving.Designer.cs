@@ -69,7 +69,8 @@
             this.dataGridPackages.ReadOnly = true;
             this.dataGridPackages.Size = new System.Drawing.Size(1234, 512);
             this.dataGridPackages.TabIndex = 0;
-            this.dataGridPackages.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
+            this.dataGridPackages.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridPackages_CellDoubleClick);
+            this.dataGridPackages.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridPackages_CellDoubleClick);
             this.dataGridPackages.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridPackages_CellDoubleClick);
             this.dataGridPackages.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridPackages_ColumnHeaderMouseClick);
             this.dataGridPackages.Click += new System.EventHandler(this.dataGridPackages_Click);
