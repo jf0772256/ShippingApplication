@@ -9,15 +9,18 @@ General list
 ===========================================================
 Receiving
 -----------------------------------------------------------
- -Auto fill Room based on Faculty selectet when adding a new package
+ -Auto fill Room based on Faculty selectet when adding a new package 
  -Query packages based on selected column 
- -Test row(s) selected before executing row dependent logic
+ -Test row(s) selected before executing row dependent logic (Done: Kalin)
  -Add ability to Add a note
+ -Ensure printing is working correctly(Done: Kalin)
+ -Set Clerk from user selection in print log
+ -Test Tabs(Done: Kalin)
 ===========================================================
 History
 -----------------------------------------------------------
  -Query packages based on selected column
- -Test row(s) selected before executing row dependent logic
+ -Test row(s) selected before executing row dependent logic (Done: Kalin)
  -Ensure printing is working correctly
 ===========================================================
 Manage
