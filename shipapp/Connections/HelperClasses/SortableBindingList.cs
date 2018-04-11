@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Extentions;
+using shipapp.Connections.HelperClasses;
 
 namespace shipapp.Connections.HelperClasses
 {
