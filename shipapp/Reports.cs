@@ -82,6 +82,8 @@ namespace shipapp
                 pcBxAddToDaily.Enabled = false;
                 pcBxAddToDaily.Hide();
             }
+            lblSearch.Text = "";
+            txtSearch.Enabled = false;
         }
 
 
@@ -281,19 +283,27 @@ namespace shipapp
 
         private void datGridHistory_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (datGridHistory.SelectedColumns.Count > 0)
+            lblSearch.Text = datGridHistory.Columns[datGridHistory.SelectedCells[0].ColumnIndex].DataPropertyName;
+            if (lblSearch.Text.Length == 0)
             {
-                lblSearch.Text = datGridHistory.SelectedColumns[0].DataPropertyName;
-                MessageBox.Show("CLick2");
+                txtSearch.Enabled = false;
+            }
+            else
+            {
+                txtSearch.Enabled = true;
             }
         }
 
         private void datGridHistory_Click(object sender, EventArgs e)
         {
-            if (datGridHistory.SelectedColumns.Count > 0)
+            lblSearch.Text = datGridHistory.Columns[datGridHistory.SelectedCells[0].ColumnIndex].DataPropertyName;
+            if (lblSearch.Text.Length == 0)
             {
-                lblSearch.Text = datGridHistory.SelectedColumns[0].DataPropertyName;
-                MessageBox.Show("CLick1");
+                txtSearch.Enabled = false;
+            }
+            else
+            {
+                txtSearch.Enabled = true;
             }
         }
     }
