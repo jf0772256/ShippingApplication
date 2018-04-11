@@ -200,9 +200,73 @@ namespace shipapp
         /// <summary>
         /// Query packages
         /// </summary>
-        public void QueryPackages()
+        public void QueryPackages(string searchTerm)
         {
-            //dataGridPackages.SelectedColumns[0].DataPropertyName
+            BindingSource bs = new BindingSource();
+            List<Package> result = new List<Package>();
+            SortableBindingList<Package> j = new SortableBindingList<Package>();
+            switch (lblSearch.Text)
+            {
+                case "PONumber":
+                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PONumber.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result.ForEach(i => j.Add(i));
+                    bs.DataSource = j;
+                    break;
+                case "PackageCarrier":
+                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageCarrier.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result.ForEach(i => j.Add(i));
+                    bs.DataSource = j;
+                    break;
+                case "PackageVendor":
+                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageVendor.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result.ForEach(i => j.Add(i));
+                    bs.DataSource = j;
+                    break;
+                case "PackageDeliveredTo":
+                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageDeliveredTo.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result.ForEach(i => j.Add(i));
+                    bs.DataSource = j;
+                    break;
+                case "PackageDeliveredBy":
+                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageDeleveredBy.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result.ForEach(i => j.Add(i));
+                    bs.DataSource = j;
+                    break;
+                case "PackageSignedForBy":
+                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageSignedForBy.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result.ForEach(i => j.Add(i));
+                    bs.DataSource = j;
+                    break;
+                case "PackageTrackingNumber":
+                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageTrackingNumber.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result.ForEach(i => j.Add(i));
+                    bs.DataSource = j;
+                    break;
+                case "PackageRecievedDate":
+                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageReceivedDate.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result.ForEach(i => j.Add(i));
+                    bs.DataSource = j;
+                    break;
+                case "PackageDeliveredDate":
+                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageDeliveredDate.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result.ForEach(i => j.Add(i));
+                    bs.DataSource = j;
+                    break;
+                case "Status":
+                    result = DataConnectionClass.DataLists.Packages.Where(a => a.Status.ToString().ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result.ForEach(i => j.Add(i));
+                    bs.DataSource = j;
+                    break;
+                case "DelivBuildingShortName":
+                    result = DataConnectionClass.DataLists.Packages.Where(a => a.DelivBuildingShortName.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result.ForEach(i => j.Add(i));
+                    bs.DataSource = j;
+                    break;
+                default:
+                    bs.DataSource = DataConnectionClass.DataLists.Packages;
+                    break;
+            }
+            datGridHistory.DataSource = bs;
         }
 
 
@@ -211,6 +275,25 @@ namespace shipapp
             if (datGridHistory.SelectedColumns.Count > 0)
             {
                 lblSearch.Text = datGridHistory.SelectedColumns[0].DataPropertyName;
+                MessageBox.Show("CLick3");
+            }
+        }
+
+        private void datGridHistory_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (datGridHistory.SelectedColumns.Count > 0)
+            {
+                lblSearch.Text = datGridHistory.SelectedColumns[0].DataPropertyName;
+                MessageBox.Show("CLick2");
+            }
+        }
+
+        private void datGridHistory_Click(object sender, EventArgs e)
+        {
+            if (datGridHistory.SelectedColumns.Count > 0)
+            {
+                lblSearch.Text = datGridHistory.SelectedColumns[0].DataPropertyName;
+                MessageBox.Show("CLick1");
             }
         }
     }

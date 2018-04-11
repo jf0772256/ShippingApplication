@@ -77,9 +77,12 @@
             this.datGridHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.datGridHistory.Location = new System.Drawing.Point(0, 120);
             this.datGridHistory.Name = "datGridHistory";
+            this.datGridHistory.ReadOnly = true;
             this.datGridHistory.Size = new System.Drawing.Size(1234, 541);
             this.datGridHistory.TabIndex = 1;
+            this.datGridHistory.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.datGridHistory_CellMouseClick);
             this.datGridHistory.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.datGridHistory_ColumnHeaderMouseClick);
+            this.datGridHistory.Click += new System.EventHandler(this.datGridHistory_Click);
             // 
             // label1
             // 
