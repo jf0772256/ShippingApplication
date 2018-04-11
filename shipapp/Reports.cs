@@ -210,62 +210,62 @@ namespace shipapp
             switch (lblSearch.Text)
             {
                 case "PONumber":
-                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PONumber.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result = DataConnectionClass.DataLists.PackageHistory.Where(a => a.PONumber.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
                 case "PackageCarrier":
-                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageCarrier.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result = DataConnectionClass.DataLists.PackageHistory.Where(a => a.PackageCarrier.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
                 case "PackageVendor":
-                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageVendor.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result = DataConnectionClass.DataLists.PackageHistory.Where(a => a.PackageVendor.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
                 case "PackageDeliveredTo":
-                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageDeliveredTo.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result = DataConnectionClass.DataLists.PackageHistory.Where(a => a.PackageDeliveredTo.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
                 case "PackageDeliveredBy":
-                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageDeleveredBy.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result = DataConnectionClass.DataLists.PackageHistory.Where(a => a.PackageDeleveredBy.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
                 case "PackageSignedForBy":
-                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageSignedForBy.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result = DataConnectionClass.DataLists.PackageHistory.Where(a => a.PackageSignedForBy.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
                 case "PackageTrackingNumber":
-                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageTrackingNumber.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result = DataConnectionClass.DataLists.PackageHistory.Where(a => a.PackageTrackingNumber.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
                 case "PackageRecievedDate":
-                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageReceivedDate.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result = DataConnectionClass.DataLists.PackageHistory.Where(a => a.PackageReceivedDate.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
                 case "PackageDeliveredDate":
-                    result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageDeliveredDate.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result = DataConnectionClass.DataLists.PackageHistory.Where(a => a.PackageDeliveredDate.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
                 case "Status":
-                    result = DataConnectionClass.DataLists.Packages.Where(a => a.Status.ToString().ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result = DataConnectionClass.DataLists.PackageHistory.Where(a => a.Status.ToString().ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
                 case "DelivBuildingShortName":
-                    result = DataConnectionClass.DataLists.Packages.Where(a => a.DelivBuildingShortName.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
+                    result = DataConnectionClass.DataLists.PackageHistory.Where(a => a.DelivBuildingShortName.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
                 default:
-                    bs.DataSource = DataConnectionClass.DataLists.Packages;
+                    bs.DataSource = DataConnectionClass.DataLists.PackageHistory;
                     break;
             }
             datGridHistory.DataSource = bs;
@@ -305,6 +305,11 @@ namespace shipapp
             {
                 txtSearch.Enabled = true;
             }
+        }
+
+        private void txtSearch_KeyUp(object sender, KeyEventArgs e)
+        {
+            QueryPackages(txtSearch.Text);
         }
     }
 }
