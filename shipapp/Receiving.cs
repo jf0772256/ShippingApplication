@@ -396,17 +396,20 @@ namespace shipapp
         /// <param name="e"></param>
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
-
+            QueryPackages(txtSearch.Text)
         }
 
 
         /// <summary>
         /// Query packages
         /// </summary>
-        public void QueryPackages()
+        public void QueryPackages(string searchTerm)
         {
-            //dataGridPackages.SelectedColumns[0].DataPropertyName
+            //var filteredList = from x in DataConnectionClass.DataLists.Packages where x.PackageTrackingNumber  y select x;
+
+            var searchResults = DataConnectionClass.DataLists.Packages.Where(a => a.All(b => a.IndexOf(b, StringComparison.OrdinalIgnoreCase) >= 0)).ToList();
         }
+
 
         private void dataGridPackages_Click(object sender, EventArgs e)
         {
@@ -415,6 +418,7 @@ namespace shipapp
                 lblSearch.Text = dataGridPackages.SelectedColumns[0].DataPropertyName;
             }
         }
+
 
         private void dataGridPackages_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {

@@ -288,7 +288,6 @@ namespace shipapp
                 for (i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
                 {
                     dataGridView1.Rows[i].Cells["Level"].Value = DataConnectionClass.DataLists.UsersList[i].Level.ToString();
-                    
                 }
             }
             catch (Exception)
