@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.datGridHistory = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
@@ -67,11 +67,11 @@
             // 
             // datGridHistory
             // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            this.datGridHistory.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
+            this.datGridHistory.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
             this.datGridHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -125,11 +125,12 @@
             // 
             this.lblSearch.AutoSize = true;
             this.lblSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSearch.Location = new System.Drawing.Point(349, 65);
+            this.lblSearch.Location = new System.Drawing.Point(341, 65);
             this.lblSearch.Name = "lblSearch";
             this.lblSearch.Size = new System.Drawing.Size(58, 20);
             this.lblSearch.TabIndex = 10;
             this.lblSearch.Text = "TODO";
+            this.lblSearch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTip1.SetToolTip(this.lblSearch, "Click to Sign Out");
             // 
             // pcBxRefreash
@@ -158,7 +159,7 @@
             this.dTFrom.CustomFormat = "MMM dd, yyyy";
             this.dTFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dTFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dTFrom.Location = new System.Drawing.Point(536, 52);
+            this.dTFrom.Location = new System.Drawing.Point(595, 47);
             this.dTFrom.Name = "dTFrom";
             this.dTFrom.Size = new System.Drawing.Size(146, 26);
             this.dTFrom.TabIndex = 12;
@@ -167,7 +168,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(480, 57);
+            this.label2.Location = new System.Drawing.Point(539, 52);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(50, 20);
             this.label2.TabIndex = 13;
@@ -177,7 +178,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(501, 94);
+            this.label3.Location = new System.Drawing.Point(560, 89);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 20);
             this.label3.TabIndex = 15;
@@ -188,7 +189,7 @@
             this.dTTo.CustomFormat = "MMM dd, yyyy";
             this.dTTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dTTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dTTo.Location = new System.Drawing.Point(536, 88);
+            this.dTTo.Location = new System.Drawing.Point(595, 83);
             this.dTTo.Name = "dTTo";
             this.dTTo.Size = new System.Drawing.Size(146, 26);
             this.dTTo.TabIndex = 14;

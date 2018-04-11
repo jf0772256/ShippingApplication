@@ -17,6 +17,7 @@ namespace shipapp
         private string clerk = "Null!";
         private int identity = 0;
         private BindingList<Log> logs;
+        private BindingList<Models.Package> packages;
         private BindingList<Models.Faculty> Faculties;
         private BindingList<Models.Vendors> vendors;
         private BindingList<Models.Carrier> carriers;
@@ -44,8 +45,8 @@ namespace shipapp
             else if (identity == 2)
             {
                 // List is Package History TODO
-                this.logs = (BindingList<Log>)list;
-                dataGridLog.DataSource = logs;
+                this.packages = (BindingList<Models.Package>)list;
+                dataGridLog.DataSource = packages;
                 cmboClerk.Hide();
             }
             else if (identity == 3)
@@ -118,9 +119,18 @@ namespace shipapp
         private void btnPrint_Click(object sender, EventArgs e)
         {
             //
-            if (identity == 1  & String.IsNullOrWhiteSpace(cmboClerk.SelectedItem.ToString()))
+            if (identity == 1)
             {
-                MessageBox.Show("You must select a clerk to deleiver the packages!", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                if (String.IsNullOrWhiteSpace(cmboClerk.SelectedItem.ToString()))
+                {
+                    MessageBox.Show("You must select a clerk to deleiver the packages!", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                else
+                {
+                    Print();
+                    UpdatePackageListWithClerk();
+                    this.Close();
+                }
             }
             else
             {

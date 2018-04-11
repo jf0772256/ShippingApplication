@@ -308,9 +308,22 @@ namespace shipapp
         /// </summary>
         public void Print()
         {
-            //CreateLogList();
-            //PrintPreview printPreview = new PrintPreview(logList, 1);
-            //printPreview.ShowDialog();
+            PrintPreview printPreview = new PrintPreview(CreateListFromSelectedRows(), 2);
+            printPreview.ShowDialog();
         }
+
+
+        public Object CreateListFromSelectedRows()
+        {
+            BindingList<Package> packages = new BindingList<Package>();
+            
+            for (int i = 0; i < datGridHistory.SelectedRows.Count; i++)
+            {
+                packages.Add((Package)datGridHistory.SelectedRows[i].DataBoundItem);
+            }
+
+            return packages;
+        }
+
     }
 }
