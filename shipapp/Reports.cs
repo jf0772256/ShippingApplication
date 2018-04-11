@@ -193,11 +193,6 @@ namespace shipapp
             MessageBox.Show("The list has refreshed");
         }
 
-        private void lblSearch_Click(object sender, EventArgs e)
-        {
-
-        }
-
 
         /// <summary>
         /// Query packages
@@ -272,15 +267,6 @@ namespace shipapp
         }
 
 
-        private void datGridHistory_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (datGridHistory.SelectedColumns.Count > 0)
-            {
-                lblSearch.Text = datGridHistory.SelectedColumns[0].DataPropertyName;
-                MessageBox.Show("CLick3");
-            }
-        }
-
         private void datGridHistory_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             lblSearch.Text = datGridHistory.Columns[datGridHistory.SelectedCells[0].ColumnIndex].DataPropertyName;
@@ -310,6 +296,21 @@ namespace shipapp
         private void txtSearch_KeyUp(object sender, KeyEventArgs e)
         {
             QueryPackages(txtSearch.Text);
+        }
+
+        private void pcBxPrint_Click(object sender, EventArgs e)
+        {
+            Print();
+        }
+
+        /// <summary>
+        /// Print the selected packages
+        /// </summary>
+        public void Print()
+        {
+            //CreateLogList();
+            //PrintPreview printPreview = new PrintPreview(logList, 1);
+            //printPreview.ShowDialog();
         }
     }
 }

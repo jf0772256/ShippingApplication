@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.datGridHistory = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,11 +43,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.dTTo = new System.Windows.Forms.DateTimePicker();
+            this.pcBxPrint = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datGridHistory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxAddToDaily)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxRefreash)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcBxPrint)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -65,11 +67,11 @@
             // 
             // datGridHistory
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.datGridHistory.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            this.datGridHistory.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.datGridHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -81,7 +83,6 @@
             this.datGridHistory.Size = new System.Drawing.Size(1234, 541);
             this.datGridHistory.TabIndex = 1;
             this.datGridHistory.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.datGridHistory_CellMouseClick);
-            this.datGridHistory.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.datGridHistory_ColumnHeaderMouseClick);
             this.datGridHistory.Click += new System.EventHandler(this.datGridHistory_Click);
             // 
             // label1
@@ -130,7 +131,6 @@
             this.lblSearch.TabIndex = 10;
             this.lblSearch.Text = "TODO";
             this.toolTip1.SetToolTip(this.lblSearch, "Click to Sign Out");
-            this.lblSearch.Click += new System.EventHandler(this.lblSearch_Click);
             // 
             // pcBxRefreash
             // 
@@ -193,12 +193,25 @@
             this.dTTo.Size = new System.Drawing.Size(146, 26);
             this.dTTo.TabIndex = 14;
             // 
+            // pcBxPrint
+            // 
+            this.pcBxPrint.BackColor = System.Drawing.Color.Transparent;
+            this.pcBxPrint.BackgroundImage = global::shipapp.Properties.Resources.android_printer;
+            this.pcBxPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pcBxPrint.Location = new System.Drawing.Point(94, 79);
+            this.pcBxPrint.Name = "pcBxPrint";
+            this.pcBxPrint.Size = new System.Drawing.Size(35, 35);
+            this.pcBxPrint.TabIndex = 16;
+            this.pcBxPrint.TabStop = false;
+            this.pcBxPrint.Click += new System.EventHandler(this.pcBxPrint_Click);
+            // 
             // Reports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(1234, 661);
+            this.Controls.Add(this.pcBxPrint);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dTTo);
             this.Controls.Add(this.label2);
@@ -220,6 +233,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pcBxAddToDaily)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxRefreash)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcBxPrint)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -240,5 +254,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DateTimePicker dTTo;
+        private System.Windows.Forms.PictureBox pcBxPrint;
     }
 }
