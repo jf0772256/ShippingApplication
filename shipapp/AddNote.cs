@@ -113,7 +113,7 @@ namespace shipapp
             }
             else if (Usr as User != null)
             {
-                if (Fac.Notes.Count == 0)
+                if (Usr.Notes.Count == 0)
                 {
                     textBox2.Text = "No notes have been entered.";
                 }

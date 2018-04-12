@@ -69,6 +69,11 @@ namespace shipapp
                 // Change Button Text
                 btnAdd.Text = "EDIT";
             }
+            else
+            {
+                BtnAddNote.Enabled = false;
+                BtnViewNote.Enabled = false;
+            }
         }
 
 
@@ -279,6 +284,22 @@ namespace shipapp
                     Connections.DataConnections.DataConnectionClass.CreatePersonId(txtLastName.Text.ToLower().Substring(0, 4));
                     txtBoxPersonId.Text = Connections.DataConnections.DataConnectionClass.PersonIdGenerated;
                 }
+            }
+        }
+
+        private void BtnViewNote_Click(object sender, EventArgs e)
+        {
+            using (AddNote note = new AddNote(userToBeEdited, true))
+            {
+                note.ShowDialog();
+            }
+        }
+
+        private void BtnAddNote_Click(object sender, EventArgs e)
+        {
+            using (AddNote note = new AddNote(userToBeEdited, false))
+            {
+                note.ShowDialog();
             }
         }
     }

@@ -41,6 +41,8 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.txtBoxPersonId = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.BtnAddNote = new System.Windows.Forms.Button();
+            this.BtnViewNote = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label2
@@ -55,9 +57,11 @@
             // 
             // txtFirstName
             // 
+            this.txtFirstName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFirstName.Location = new System.Drawing.Point(100, 8);
             this.txtFirstName.Name = "txtFirstName";
-            this.txtFirstName.Size = new System.Drawing.Size(100, 22);
+            this.txtFirstName.Size = new System.Drawing.Size(220, 22);
             this.txtFirstName.TabIndex = 2;
             this.txtFirstName.Leave += new System.EventHandler(this.txtFirstName_Leave);
             // 
@@ -73,9 +77,11 @@
             // 
             // txtLastName
             // 
+            this.txtLastName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLastName.Location = new System.Drawing.Point(100, 36);
             this.txtLastName.Name = "txtLastName";
-            this.txtLastName.Size = new System.Drawing.Size(100, 22);
+            this.txtLastName.Size = new System.Drawing.Size(220, 22);
             this.txtLastName.TabIndex = 4;
             this.txtLastName.Leave += new System.EventHandler(this.txtLastName_Leave);
             // 
@@ -91,9 +97,11 @@
             // 
             // txtLevel
             // 
+            this.txtLevel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLevel.Location = new System.Drawing.Point(100, 64);
             this.txtLevel.Name = "txtLevel";
-            this.txtLevel.Size = new System.Drawing.Size(100, 22);
+            this.txtLevel.Size = new System.Drawing.Size(220, 22);
             this.txtLevel.TabIndex = 6;
             // 
             // lbl2
@@ -108,9 +116,11 @@
             // 
             // txtUsername
             // 
+            this.txtUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUsername.Location = new System.Drawing.Point(100, 92);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(100, 22);
+            this.txtUsername.Size = new System.Drawing.Size(220, 22);
             this.txtUsername.TabIndex = 8;
             // 
             // lbl3
@@ -125,18 +135,22 @@
             // 
             // txtPassword
             // 
+            this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPassword.Location = new System.Drawing.Point(100, 120);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(100, 22);
+            this.txtPassword.Size = new System.Drawing.Size(220, 22);
             this.txtPassword.TabIndex = 10;
             // 
             // btnAdd
             // 
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(100, 173);
+            this.btnAdd.Location = new System.Drawing.Point(220, 173);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(100, 36);
+            this.btnAdd.Size = new System.Drawing.Size(100, 42);
             this.btnAdd.TabIndex = 12;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -144,10 +158,12 @@
             // 
             // txtBoxPersonId
             // 
+            this.txtBoxPersonId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBoxPersonId.Location = new System.Drawing.Point(100, 148);
             this.txtBoxPersonId.Name = "txtBoxPersonId";
             this.txtBoxPersonId.ReadOnly = true;
-            this.txtBoxPersonId.Size = new System.Drawing.Size(100, 22);
+            this.txtBoxPersonId.Size = new System.Drawing.Size(220, 22);
             this.txtBoxPersonId.TabIndex = 13;
             // 
             // label3
@@ -160,12 +176,40 @@
             this.label3.TabIndex = 14;
             this.label3.Text = "Unique ID";
             // 
+            // BtnAddNote
+            // 
+            this.BtnAddNote.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnAddNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnAddNote.Location = new System.Drawing.Point(119, 173);
+            this.BtnAddNote.Name = "BtnAddNote";
+            this.BtnAddNote.Size = new System.Drawing.Size(95, 42);
+            this.BtnAddNote.TabIndex = 15;
+            this.BtnAddNote.Text = "Add Notes";
+            this.BtnAddNote.UseVisualStyleBackColor = true;
+            this.BtnAddNote.Click += new System.EventHandler(this.BtnAddNote_Click);
+            // 
+            // BtnViewNote
+            // 
+            this.BtnViewNote.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnViewNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnViewNote.Location = new System.Drawing.Point(18, 173);
+            this.BtnViewNote.Name = "BtnViewNote";
+            this.BtnViewNote.Size = new System.Drawing.Size(95, 42);
+            this.BtnViewNote.TabIndex = 16;
+            this.BtnViewNote.Text = "View Notes";
+            this.BtnViewNote.UseVisualStyleBackColor = true;
+            this.BtnViewNote.Click += new System.EventHandler(this.BtnViewNote_Click);
+            // 
             // AddUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.ClientSize = new System.Drawing.Size(212, 216);
+            this.ClientSize = new System.Drawing.Size(331, 222);
+            this.Controls.Add(this.BtnViewNote);
+            this.Controls.Add(this.BtnAddNote);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtBoxPersonId);
             this.Controls.Add(this.btnAdd);
@@ -182,6 +226,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AddUser";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AddUser";
             this.Load += new System.EventHandler(this.AddUser_Load);
             this.ResumeLayout(false);
@@ -203,5 +248,7 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.TextBox txtBoxPersonId;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button BtnAddNote;
+        private System.Windows.Forms.Button BtnViewNote;
     }
 }
