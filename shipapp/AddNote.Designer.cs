@@ -73,6 +73,7 @@
             this.Controls.Add(this.label1);
             this.Name = "AddNote";
             this.Text = "AddNote";
+            this.Load += new System.EventHandler(this.AddNote_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
