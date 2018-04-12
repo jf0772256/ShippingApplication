@@ -11,6 +11,8 @@ Receiving
 -----------------------------------------------------------
  -Auto fill Room based on Faculty selectet when adding a new package (DONE Jesse)
  -Add room number to deliver to field. Not 100% how though.
+    +Add Field in db to combine room and bldg
+    +Test
  -Query packages based on selected column (DONE Jesse / Kalin)
  -Test row(s) selected before executing row dependent logic (Done: Kalin)
  -Add ability to Add a note

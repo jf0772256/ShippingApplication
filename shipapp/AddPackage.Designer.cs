@@ -55,6 +55,7 @@
             this.txtRoleId = new System.Windows.Forms.TextBox();
             this.cmboBuilding = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.lblroom = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblPO
@@ -316,7 +317,7 @@
             this.cmboBuilding.FormattingEnabled = true;
             this.cmboBuilding.Location = new System.Drawing.Point(109, 163);
             this.cmboBuilding.Name = "cmboBuilding";
-            this.cmboBuilding.Size = new System.Drawing.Size(169, 28);
+            this.cmboBuilding.Size = new System.Drawing.Size(127, 28);
             this.cmboBuilding.TabIndex = 6;
             this.cmboBuilding.SelectionChangeCommitted += new System.EventHandler(this.cmboBuilding_SelectionChangeCommitted);
             // 
@@ -330,12 +331,22 @@
             this.label10.TabIndex = 39;
             this.label10.Text = "Building";
             // 
+            // lblroom
+            // 
+            this.lblroom.AutoSize = true;
+            this.lblroom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblroom.Location = new System.Drawing.Point(242, 166);
+            this.lblroom.Name = "lblroom";
+            this.lblroom.Size = new System.Drawing.Size(0, 20);
+            this.lblroom.TabIndex = 40;
+            // 
             // AddPackage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(602, 293);
+            this.Controls.Add(this.lblroom);
             this.Controls.Add(this.cmboBuilding);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.txtRoleId);
@@ -400,5 +411,6 @@
         private System.Windows.Forms.TextBox txtRoleId;
         private System.Windows.Forms.ComboBox cmboBuilding;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblroom;
     }
 }

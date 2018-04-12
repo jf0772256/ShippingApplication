@@ -65,6 +65,7 @@ namespace shipapp.Models
         /// </summary>
         public DeliveryStatus Status { get; set; }
         public string DelivBuildingShortName { get; set; }
+        public string DeliverTo { get; set; }
         /// <summary>
         /// constructor
         /// </summary>

@@ -20,6 +20,7 @@ namespace shipapp
     {
         // Class level variabels
         private Package newPackage;
+        private Faculty fac;
         private string message = "NONE";
         private new Receiving ParentForm { get; set; }
         private string WorkingPID { get; set; }
@@ -646,6 +647,14 @@ namespace shipapp
                 cmboBuilding.SelectedItem = b.BuildingShortName;
                 cmboBuilding_SelectionChangeCommitted(this, e);
             }
+            else
+            {
+                fac = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(i => i.ToString() == cmboRecipiant.Text);
+                BuildingClass b = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(i => i.BuildingId == fac.Building_Id);
+                cmboBuilding.SelectedItem = b.BuildingShortName;
+                cmboBuilding_SelectionChangeCommitted(this, e);
+                newPackage.DeliverTo = newPackage.DelivBuildingShortName + " " + fac.RoomNumber;
+            }
         }
         private void cmboBuilding_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -724,15 +733,12 @@ namespace shipapp
                 DataConnectionClass.CreatePersonId(WorkingPID);
                 txtRoleId.Text = DataConnectionClass.PersonIdGenerated;
             }
+            newPackage.DelivBuildingShortName = cmboBuilding.Text;
         }
         #endregion
         private void dTDel_MouseDown(object sender, MouseEventArgs e)
         {
             //dTDel.CalendarForeColor = Color.Black;
-        }
-        public void AutoFillBuilding()
-        {
-
         }
     }
 }
