@@ -892,7 +892,7 @@ namespace shipapp.Connections
                     cmd.Parameters.AddRange(new OdbcParameter[]
                     {
                         new OdbcParameter("lm", datestring),
-                        new OdbcParameter("id", p.PONumber)
+                        new OdbcParameter("id", p.PackageId)
                     });
                     try
                     {
