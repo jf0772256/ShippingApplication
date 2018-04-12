@@ -29,7 +29,6 @@ namespace shipapp
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
         private string message = "";
         private int role;
-        private string selectedColumnName = "";
         private ListSortDirection[] ColumnDirection { get; set; }
         private BindingList<Log> logList;
         private List<Log> logs = new List<Log>();
