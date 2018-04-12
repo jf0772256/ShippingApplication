@@ -22,8 +22,7 @@ namespace shipapp
         // Class level variables
         private Faculty newFaculty;
         private string message;
-
-
+        
         /// <summary>
         /// Public property for faculty
         /// </summary>
@@ -32,8 +31,6 @@ namespace shipapp
             get => newFaculty;
             set => newFaculty = value;
         }
-
-
         /// <summary>
         /// Add a fauctly to the database
         /// </summary>
@@ -43,8 +40,6 @@ namespace shipapp
             NewFaculty = new Faculty();
             this.message = message;
         }
-
-
         /// <summary>
         /// Add a fauctly to the database
         /// </summary>
@@ -62,8 +57,6 @@ namespace shipapp
                 //comboBox1.SelectedIndex = (int)newFaculty.Building_Id;
             }
         }
-
-
         /// <summary>
         /// When the user clicks this button it will check the data, add it to the DB, and close the form.
         /// </summary>
@@ -98,31 +91,24 @@ namespace shipapp
         {
             // Method level variables
             bool pass = true;
-            long num0 = 0;
-
             // Test Data
             if (txtFirstName.Text == "")
             {
                 pass = false;
                 txtFirstName.BackColor = Color.LightPink;
             }
-
             if (txtLastName.Text == "")
             {
                 pass = false;
                 txtLastName.BackColor = Color.LightPink;
             }
-            
             if (String.IsNullOrWhiteSpace(txtId2.Text))
             {
                 pass = false;
                 txtId2.BackColor = Color.LightPink;
             }
-
             return pass;
         }
-
-
         /// <summary>
         /// Reset the backcolor after errors
         /// </summary>
@@ -132,14 +118,10 @@ namespace shipapp
             txtLastName.BackColor = Color.White;
             txtId2.BackColor = Color.White;
         }
-
-
         private void AddFaculty_Load(object sender, EventArgs e)
         {
             DataConnectionClass.buildingConn.GetBuildingList(this);
         }
-
-
         public void AddFacultyToDb()
         {
             NewFaculty.FirstName = txtFirstName.Text;
@@ -155,8 +137,6 @@ namespace shipapp
             DataConnectionClass.DataLists.FacultyList.Add(NewFaculty);
             this.Close();
         }
-
-
         public void EditFaculty()
         {
             NewFaculty.FirstName = txtFirstName.Text;
