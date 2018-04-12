@@ -377,7 +377,8 @@
             this.Controls.Add(this.txtPO);
             this.Controls.Add(this.lblPO);
             this.Name = "AddPackage";
-            this.Text = "AddPackage";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Add Package";
             this.Load += new System.EventHandler(this.AddPackage_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

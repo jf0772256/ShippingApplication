@@ -93,7 +93,7 @@
             this.Controls.Add(this.label1);
             this.Name = "AddNote";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AddNote";
+            this.Text = "Add Note";
             this.Load += new System.EventHandler(this.AddNote_Load);
             this.Resize += new System.EventHandler(this.AddNote_Resize);
             this.ResumeLayout(false);

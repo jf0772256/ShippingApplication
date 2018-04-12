@@ -118,6 +118,11 @@ namespace shipapp
         }
         private void AddFaculty_Load(object sender, EventArgs e)
         {
+            if (message != "EDIT")
+            {
+                BtnAddNote.Enabled = false;
+                BtnViewNotes.Enabled = false;
+            }
             DataConnectionClass.buildingConn.GetBuildingList(this);
         }
         public void AddFacultyToDb()
@@ -202,6 +207,22 @@ namespace shipapp
                     DataConnectionClass.CreatePersonId(txtLastName.Text.ToLower().Substring(0, 4));
                     txtId2.Text = DataConnectionClass.PersonIdGenerated;
                 }
+            }
+        }
+
+        private void BtnViewNotes_Click(object sender, EventArgs e)
+        {
+            using (AddNote note = new AddNote(newFaculty, true))
+            {
+                note.ShowDialog();
+            }
+        }
+
+        private void BtnAddNote_Click(object sender, EventArgs e)
+        {
+            using (AddNote note = new AddNote(newFaculty, false))
+            {
+                note.ShowDialog();
             }
         }
     }

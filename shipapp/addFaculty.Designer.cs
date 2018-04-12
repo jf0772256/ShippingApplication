@@ -39,6 +39,8 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtRoomNumber = new System.Windows.Forms.TextBox();
+            this.BtnAddNote = new System.Windows.Forms.Button();
+            this.BtnViewNotes = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtFirstName
@@ -98,7 +100,7 @@
             // btnAdd
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(145, 183);
+            this.btnAdd.Location = new System.Drawing.Point(246, 183);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(134, 33);
             this.btnAdd.TabIndex = 19;
@@ -141,12 +143,36 @@
             this.txtRoomNumber.Size = new System.Drawing.Size(235, 26);
             this.txtRoomNumber.TabIndex = 23;
             // 
+            // BtnAddNote
+            // 
+            this.BtnAddNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnAddNote.Location = new System.Drawing.Point(134, 183);
+            this.BtnAddNote.Name = "BtnAddNote";
+            this.BtnAddNote.Size = new System.Drawing.Size(106, 32);
+            this.BtnAddNote.TabIndex = 24;
+            this.BtnAddNote.Text = "Add Notes";
+            this.BtnAddNote.UseVisualStyleBackColor = true;
+            this.BtnAddNote.Click += new System.EventHandler(this.BtnAddNote_Click);
+            // 
+            // BtnViewNotes
+            // 
+            this.BtnViewNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnViewNotes.Location = new System.Drawing.Point(22, 183);
+            this.BtnViewNotes.Name = "BtnViewNotes";
+            this.BtnViewNotes.Size = new System.Drawing.Size(106, 31);
+            this.BtnViewNotes.TabIndex = 25;
+            this.BtnViewNotes.Text = "View Notes";
+            this.BtnViewNotes.UseVisualStyleBackColor = true;
+            this.BtnViewNotes.Click += new System.EventHandler(this.BtnViewNotes_Click);
+            // 
             // AddFaculty
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(399, 227);
+            this.Controls.Add(this.BtnViewNotes);
+            this.Controls.Add(this.BtnAddNote);
             this.Controls.Add(this.txtRoomNumber);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBox1);
@@ -161,6 +187,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "AddFaculty";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add Faculty";
             this.Load += new System.EventHandler(this.AddFaculty_Load);
             this.ResumeLayout(false);
@@ -181,5 +208,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtRoomNumber;
         internal System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button BtnAddNote;
+        private System.Windows.Forms.Button BtnViewNotes;
     }
 }
