@@ -144,10 +144,21 @@ namespace shipapp
         /// </summary>
         public void AddPackageToDaily()
         {
+            //
+            string message = "Success!\r\n";
+            int count = 0;
+
             for (int i = 0; i < datGridHistory.SelectedRows.Count; i++)
             {
                 DataConnectionClass.PackageConnClass.UpdateLastModified((Package)datGridHistory.SelectedRows[i].DataBoundItem);
+                count++;
             }
+
+            //
+            DataConnectionClass.PackageConnClass.GetPackageHistoryList(this);
+
+            //
+            MessageBox.Show(message + count +" have been added to todays receiving list.");
         }
         /// <summary>
         /// Fill the lsit with packages
