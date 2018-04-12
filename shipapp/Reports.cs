@@ -298,11 +298,14 @@ namespace shipapp
         /// <param name="e"></param>
         private void datGridHistory_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            Rectangle bnds = datGridHistory.Rows[e.RowIndex].Cells[e.ColumnIndex].ContentBounds;
-            int x = bnds.Width / 2;
-            int y = bnds.Height / 2;
-            DataGridViewCellMouseEventArgs m = new DataGridViewCellMouseEventArgs(e.ColumnIndex, e.RowIndex, x, y, new MouseEventArgs(MouseButtons.Left, 1, x, y, 0));
-            datGridHistory_CellMouseClick(this, m);
+            if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
+            {
+                Rectangle bnds = datGridHistory.Rows[e.RowIndex].Cells[e.ColumnIndex].ContentBounds;
+                int x = bnds.Width / 2;
+                int y = bnds.Height / 2;
+                DataGridViewCellMouseEventArgs m = new DataGridViewCellMouseEventArgs(e.ColumnIndex, e.RowIndex, x, y, new MouseEventArgs(MouseButtons.Left, 1, x, y, 0));
+                datGridHistory_CellMouseClick(this, m);
+            }
         }
         /// <summary>
         /// things to do once the binding of the lists has been completed -- rename headers here hide columns here
