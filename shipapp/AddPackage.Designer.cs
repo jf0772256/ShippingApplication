@@ -245,6 +245,7 @@
             this.btnViewNote.TabIndex = 14;
             this.btnViewNote.Text = "View Note";
             this.btnViewNote.UseVisualStyleBackColor = true;
+            this.btnViewNote.Click += new System.EventHandler(this.btnViewNote_Click);
             // 
             // btnAddNote
             // 
@@ -255,6 +256,7 @@
             this.btnAddNote.TabIndex = 15;
             this.btnAddNote.Text = "Add Note";
             this.btnAddNote.UseVisualStyleBackColor = true;
+            this.btnAddNote.Click += new System.EventHandler(this.btnAddNote_Click);
             // 
             // btnReceive
             // 

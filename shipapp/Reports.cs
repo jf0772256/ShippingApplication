@@ -301,7 +301,7 @@ namespace shipapp
             
             for (int i = 0; i < datGridHistory.SelectedRows.Count; i++)
             {
-                packages.Add((Package)datGridHistory.SelectedRows[i].HeaderCell.Value);
+                packages.Add((Package)datGridHistory.SelectedRows[i].DataBoundItem);
             }
 
             return packages;

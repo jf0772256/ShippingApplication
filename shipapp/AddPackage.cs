@@ -759,5 +759,21 @@ namespace shipapp
         {
             //dTDel.CalendarForeColor = Color.Black;
         }
+
+        private void btnAddNote_Click(object sender, EventArgs e)
+        {
+            using (AddNote note = new AddNote(newPackage, false))
+            {
+                note.ShowDialog();
+            }
+        }
+
+        private void btnViewNote_Click(object sender, EventArgs e)
+        {
+            using (AddNote note = new AddNote(newPackage, true))
+            {
+                note.ShowDialog();
+            }
+        }
     }
 }

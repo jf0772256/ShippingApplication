@@ -259,10 +259,7 @@ namespace shipapp
         /// <param name="e"></param>
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count > 0)
-            {
                 AddEntity(e);
-            }
         }
         #endregion
 

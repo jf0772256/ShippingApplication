@@ -126,7 +126,7 @@ namespace shipapp
             }
             else if (Pck as Package != null)
             {
-                if (Fac.Notes.Count == 0)
+                if (Pck.Notes.Count == 0)
                 {
                     textBox2.Text = "No notes have been entered.";
                 }

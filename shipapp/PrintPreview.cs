@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Extentions;
 
 namespace shipapp
 {
@@ -62,7 +63,6 @@ namespace shipapp
             else
             {
                 Print();
-                UpdatePackageListWithClerk();
                 this.Close();
             }
         }
@@ -184,7 +184,7 @@ namespace shipapp
             {
                 // List is Package History TODO
                 this.packages = (BindingList<Models.Package>)list;
-                dataGridLog.DataSource = packages;
+                dataGridLog.DataSource = this.packages;
                 cmboClerk.Hide();
             }
             else if (identity == 3)
@@ -245,6 +245,11 @@ namespace shipapp
                 printPackages[i].Status = (Models.Package.DeliveryStatus)2;
                 Connections.DataConnections.DataConnectionClass.PackageConnClass.UpdatePackage(printPackages[i]);
             }
+        }
+
+        private void PrintPreview_Load(object sender, EventArgs e)
+        {
+            Connections.DataConnections.DataConnectionClass.DataLists.UsersList.ForEach(i => cmboClerk.Items.Add(i));
         }
     }
 }
