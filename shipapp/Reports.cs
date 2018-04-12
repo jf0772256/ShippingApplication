@@ -144,7 +144,10 @@ namespace shipapp
         /// </summary>
         public void AddPackageToDaily()
         {
-
+            for (int i = 0; i < datGridHistory.SelectedRows.Count; i++)
+            {
+                DataConnectionClass.PackageConnClass.UpdateLastModified((Package)datGridHistory.SelectedRows[i].DataBoundItem);
+            }
         }
         /// <summary>
         /// Fill the lsit with packages
