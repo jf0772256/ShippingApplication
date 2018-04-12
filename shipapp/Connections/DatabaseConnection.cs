@@ -165,7 +165,7 @@ namespace shipapp.Connections
             {
                 cmdTxt = new List<string>()
                 {
-                    "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');",
+                    "INSERT INTO roles(role_title)VALUES('Administrator'),('Dock Supervisor'),('Supervisor'),('User');",
                     "INSERT INTO idcounter(id,id_value)VALUES(1,0);",
                     //"OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';",
                     //"INSERT INTO users(users.user_fname,users.user_lname,users.user_name,users.user_password,users.user_role_id,person_id)VALUES('Danny','Lane','danny_lane',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'DannyLane')),1,'dannyl001');",
@@ -176,7 +176,7 @@ namespace shipapp.Connections
             {
                 cmdTxt = new List<string>()
                 {
-                    "INSERT INTO roles(role_title)VALUES('Administrator'),('Supervisor'),('User');",
+                    "INSERT INTO roles(role_title)VALUES('Administrator'),('Dock Supervisor'),('Supervisor'),('User');",
                     "INSERT INTO idcounter(id,id_value)VALUES(1,0);",
                     //"INSERT INTO users(users.user_fname,users.user_lname,users.user_name,users.user_password,users.user_role_id,users.person_id)VALUES('Danny','Lane','danny_lane',AES_ENCRYPT(DannyLane,"+EncodeKey+"),1,'dannyl001');"
                 };
@@ -601,13 +601,13 @@ namespace shipapp.Connections
                     int cnt = 0;
                     foreach (Note note in v)
                     {
-                        if (note.Note_Id > 0)
+                        if (note.Note_Id == 0)
                         {
                             cmd.CommandText += "(?,?),";
                             cmd.Parameters.AddRange(new OdbcParameter[]
                             {
-                            new OdbcParameter("pid" + cnt,personID),
-                            new OdbcParameter("value"+cnt,note.Note_Value)
+                            new OdbcParameter("pid",personID),
+                            new OdbcParameter("value",note.Note_Value)
                             });
                         }
                     }
@@ -848,19 +848,7 @@ namespace shipapp.Connections
                         new OdbcParameter("bldgshortname",p.DelivBuildingShortName),
                         new OdbcParameter("packid",p.PackageId)
                     });
-                    foreach (Note note in p.Notes)
-                    {
-                        if (note.Note_Id == 0)
-                        {
-                            //insert new note
-                            cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES(?,?);";
-                            cmd.Parameters.AddRange(new OdbcParameter[]
-                            {
-                                new OdbcParameter("pid",p.Package_PersonId),
-                                new OdbcParameter("noteval",note.Note_Value)
-                            });
-                        }
-                    }
+                    PWrite(p.Notes, p.Package_PersonId);
                     try
                     {
                         cmd.ExecuteNonQuery();

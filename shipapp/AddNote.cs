@@ -106,7 +106,8 @@ namespace shipapp
                 {
                     foreach (Note note in Fac.Notes)
                     {
-                        textBox2.Text = note.Note_Value + "\n-------------------------\n";
+                        textBox2.Text += note.Note_Value;
+                        textBox2.Text += "\r\n ------------------------- \r\n";
                     }
                 }
             }
@@ -120,7 +121,8 @@ namespace shipapp
                 {
                     foreach (Note note in Usr.Notes)
                     {
-                        textBox2.Text = note.Note_Value + "\n-------------------------\n";
+                        textBox2.Text += note.Note_Value;
+                        textBox2.Text += "\r\n ------------------------- \r\n";
                     }
                 }
             }
@@ -134,7 +136,8 @@ namespace shipapp
                 {
                     foreach (Note note in Pck.Notes)
                     {
-                        textBox2.Text = note.Note_Value + "\n-------------------------\n";
+                        textBox2.Text += note.Note_Value;
+                        textBox2.Text += "\r\n ------------------------- \r\n";
                     }
                 }
             }
