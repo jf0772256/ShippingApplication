@@ -22,6 +22,7 @@ Receiving
  -Ensure printing is working correctly(Done: Kalin)
  -Set Clerk from user selection in print log
  -Test Tabs(Done: Kalin)
+ -Add date to delivery log
 ===========================================================
 History
 -----------------------------------------------------------
@@ -31,9 +32,9 @@ History
 ===========================================================
 Manage
 -----------------------------------------------------------
- -Hide passwords for supervisors
+ -Hide passwords for supervisors (Inprogress - Jesse)
  -Ensure printing is working correctly
- -Add ability to Add a note
+ -Add ability to Add a note (Done Jesse) 
  -Add activity history list - maybe
    +Example 0:(When a user adds a vendor add a history object that indicates what user added what vendor on what date)
    +Example 1:(When a the database autobacks up create a object that states that the database was backed up)
