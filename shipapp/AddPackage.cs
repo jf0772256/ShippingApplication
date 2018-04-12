@@ -75,7 +75,16 @@ namespace shipapp
                 cmboDelBy.Text = newPackage.PackageDeleveredBy;
                 cmboStatus.Text = newPackage.Status.ToString();
                 txtRoleId.Text = newPackage.Package_PersonId;
-                cmboBuilding.Text = newPackage.DelivBuildingShortName;
+                string[] parts = newPackage.DelivBuildingShortName.Split(' ');
+                cmboBuilding.Text = parts[0];
+                if (parts.Length == 2)
+                {
+                    lblroom.Text = parts[1];
+                }
+                else
+                {
+                    lblroom.Text = "";
+                }
                 foreach (Carrier car in DataConnectionClass.DataLists.CarriersList)
                 {
                     cmboCarrier.Items.Add(car.ToString());
@@ -177,9 +186,9 @@ namespace shipapp
             FillPackage();
 
             // Edit Package
-            Connections.DataConnections.DataConnectionClass.PackageConnClass.UpdatePackage(newPackage);
+            DataConnectionClass.PackageConnClass.UpdatePackage(newPackage);
             //Connections.DataConnections.DataConnectionClass.DataLists.Packages.Add(newPackage);
-            Connections.DataConnections.DataConnectionClass.PackageConnClass.GetPackageList(this.ParentForm);
+            DataConnectionClass.PackageConnClass.GetPackageList(this.ParentForm);
         }
         #endregion
         #region Data Integrity
@@ -258,8 +267,15 @@ namespace shipapp
             newPackage.PackageReceivedDate = dTRec.Value.ToShortDateString();
             newPackage.PackageDeliveredDate = dTDel.Value.ToShortDateString();
             newPackage.Package_PersonId = txtRoleId.Text;
-            newPackage.DelivBuildingShortName = cmboBuilding.Text;
-            newPackage.Status = (Models.Package.DeliveryStatus)FormatStatus(cmboStatus.Text);
+            if (!String.IsNullOrWhiteSpace(lblroom.Text))
+            {
+                newPackage.DelivBuildingShortName = cmboBuilding.Text + " " + lblroom.Text;
+            }
+            else
+            {
+                newPackage.DelivBuildingShortName = cmboBuilding.Text;
+            }
+            newPackage.Status = (Package.DeliveryStatus)FormatStatus(cmboStatus.Text);
         }
         #endregion
         /// <summary>
@@ -642,10 +658,12 @@ namespace shipapp
                 }
                 DataConnectionClass.CreatePersonId(WorkingPID);
                 txtRoleId.Text = DataConnectionClass.PersonIdGenerated;
-                Faculty f = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(i => i.ToString() == cmboRecipiant.Text);
-                BuildingClass b = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(i => i.BuildingId == f.Building_Id);
+                fac = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(i => i.ToString() == cmboRecipiant.Text);
+                BuildingClass b = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(i => i.BuildingId == fac.Building_Id);
                 cmboBuilding.SelectedItem = b.BuildingShortName;
                 cmboBuilding_SelectionChangeCommitted(this, e);
+                lblroom.Text = fac.RoomNumber;
+                newPackage.DelivBuildingShortName = cmboBuilding.Text + " " + fac.RoomNumber;
             }
             else
             {
@@ -653,7 +671,8 @@ namespace shipapp
                 BuildingClass b = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(i => i.BuildingId == fac.Building_Id);
                 cmboBuilding.SelectedItem = b.BuildingShortName;
                 cmboBuilding_SelectionChangeCommitted(this, e);
-                newPackage.DeliverTo = newPackage.DelivBuildingShortName + " " + fac.RoomNumber;
+                lblroom.Text = fac.RoomNumber;
+                newPackage.DelivBuildingShortName = cmboBuilding.Text + " " + fac.RoomNumber;
             }
         }
         private void cmboBuilding_SelectionChangeCommitted(object sender, EventArgs e)
