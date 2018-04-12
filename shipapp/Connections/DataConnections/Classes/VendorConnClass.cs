@@ -37,6 +37,14 @@ namespace shipapp.Connections.DataConnections.Classes
                     DataSource = DataConnectionClass.DataLists.Vendors
                 };
                 t.dataGridView1.DataSource = bs;
+                try
+                {
+                    t.dataGridView1.Columns["VendorId"].Visible = false;
+                }
+                catch (Exception)
+                {
+                    //
+                }
             }
             else
             {

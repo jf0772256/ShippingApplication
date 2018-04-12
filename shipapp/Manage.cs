@@ -719,7 +719,6 @@ namespace shipapp
                 addUser.ShowDialog();
                 dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();
-                ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
                 DataConnectionClass.UserConn.GetManyUsers(this);
                 dataGridView1.Update();
             }
@@ -731,11 +730,10 @@ namespace shipapp
             }
             else if (currentTable == 3)
             {
-                AddFaculty addFaculty = new shipapp.AddFaculty(message);
+                AddFaculty addFaculty = new AddFaculty(message);
                 addFaculty.ShowDialog();
                 dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();
-                ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             }
             else if (currentTable == 4)
             {

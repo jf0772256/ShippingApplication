@@ -48,6 +48,16 @@ namespace shipapp.Connections.DataConnections.Classes
                     DataSource = DataConnectionClass.DataLists.UsersList
                 };
                 t.dataGridView1.DataSource = bs;
+                try
+                {
+                    t.dataGridView1.Columns["Id"].Visible = false;
+                    t.dataGridView1.Columns["PassWord"].Visible = false;
+                    t.dataGridView1.Columns["Person_Id"].Visible = false;
+                }
+                catch (Exception)
+                {
+                    //
+                }
             }
             else
             {

@@ -30,8 +30,16 @@ namespace shipapp.Connections.DataConnections.Classes
                     DataSource = DataConnectionClass.DataLists.BuildingNames
                 };
                 t.dataGridView1.DataSource = bs;
+                try
+                {
+                    t.dataGridView1.Columns["BuildingId"].Visible = false;
+                }
+                catch (Exception)
+                {
+                    //
+                }
             }
-            else if (Sender is shipapp.AddFaculty)
+            else if (Sender is AddFaculty)
             {
                 shipapp.AddFaculty t = (shipapp.AddFaculty)Sender;
                 DataConnectionClass.DataLists.BuildingNames = b;

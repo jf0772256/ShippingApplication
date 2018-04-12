@@ -32,7 +32,8 @@ History
 ===========================================================
 Manage
 -----------------------------------------------------------
- -Hide passwords for supervisors (Inprogress - Jesse)
+ -Hide passwords for supervisors (Done - Jesse)
+ -Hide Unnessisary Columns from Manage (Done - Jesse) *with error trapping*
  -Ensure printing is working correctly
  -Add ability to Add a note (Done Jesse) 
  -Add activity history list - maybe

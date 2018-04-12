@@ -53,6 +53,14 @@ namespace shipapp.Connections.DataConnections.Classes
                     DataSource = DataConnectionClass.DataLists.CarriersList
                 };
                 t.dataGridView1.DataSource = bs;
+                try
+                {
+                    t.dataGridView1.Columns["CarrierId"].Visible = false;
+                }
+                catch (Exception)
+                {
+                    //
+                }
             }
             else
             {
