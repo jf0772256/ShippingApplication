@@ -9,8 +9,8 @@ General list
 ===========================================================
 Receiving
 -----------------------------------------------------------
- -Auto fill Room based on Faculty selectet when adding a new package 
- -Query packages based on selected column 
+ -Auto fill Room based on Faculty selectet when adding a new package (DONE Jesse)
+ -Query packages based on selected column (DONE Jesse / Kalin)
  -Test row(s) selected before executing row dependent logic (Done: Kalin)
  -Add ability to Add a note
  -Ensure printing is working correctly(Done: Kalin)
@@ -19,7 +19,7 @@ Receiving
 ===========================================================
 History
 -----------------------------------------------------------
- -Query packages based on selected column
+ -Query packages based on selected column (DONE Jesse / Kalin)
  -Test row(s) selected before executing row dependent logic (Done: Kalin)
  -Ensure printing is working correctly
 ===========================================================

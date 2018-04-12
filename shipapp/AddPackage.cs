@@ -19,11 +19,10 @@ namespace shipapp
     public partial class AddPackage : Form
     {
         // Class level variabels
-        private Models.Package newPackage;
+        private Package newPackage;
         private string message = "NONE";
         private new Receiving ParentForm { get; set; }
         private string WorkingPID { get; set; }
-
 
         #region form basic
         public AddPackage(string message, Receiving parent)
@@ -37,7 +36,6 @@ namespace shipapp
             cmboStatus.Items.Add("Delivered");
             RefreshLists();
         }
-
         public AddPackage(string message, object packageToBeEdited, Receiving parent)
         {
             InitializeComponent();
@@ -50,7 +48,6 @@ namespace shipapp
             cmboStatus.Items.Add("Delivered");
             RefreshLists();
         }
-        
         private void RefreshLists()
         {
             DataConnectionClass.UserConn.GetManyUsers();
@@ -59,13 +56,11 @@ namespace shipapp
             DataConnectionClass.buildingConn.GetBuildingList();
             DataConnectionClass.EmployeeConn.GetAllAfaculty();
         }
-
         private void AddPackage_Load(object sender, EventArgs e)
         {
             // Set date to today
             dTRec.Value = DateTime.Now;
             dTDel.Value = DateTime.Now;
-
             // If edit, fill form with the pakcage info
             if (message == "EDIT")
             {
@@ -133,11 +128,8 @@ namespace shipapp
                     cmboDelBy.Items.Add(usr.ToFormattedString());
                 }
             }
-
         }
-
         #endregion
-        
         #region Form Add
         /// <summary>
         /// When the button is clicked attempt to add a package to the database
@@ -161,7 +153,6 @@ namespace shipapp
                 this.Close();
             }
         }
-        
         /// <summary>
         /// Grab the data from the form, check for errors, create a package entity, and add it to the database
         /// </summary>
@@ -169,7 +160,6 @@ namespace shipapp
         {
             // Create Package
             FillPackage();
-
             // Write Package
             DataConnectionClass.PackageConnClass.AddPackage(newPackage);
             //do this ONLY on add
@@ -177,7 +167,6 @@ namespace shipapp
             //Connections.DataConnections.DataConnectionClass.DataLists.Packages.Add(newPackage);
             DataConnectionClass.PackageConnClass.GetPackageList(this.ParentForm);
         }
-        
         /// <summary>
         /// Fill the object
         /// </summary>
@@ -192,7 +181,6 @@ namespace shipapp
             Connections.DataConnections.DataConnectionClass.PackageConnClass.GetPackageList(this.ParentForm);
         }
         #endregion
-        
         #region Data Integrity
         /// <summary>
         /// Reset the error warnings
@@ -208,8 +196,6 @@ namespace shipapp
             dTDel.CalendarMonthBackground = Color.White;
             dTRec.CalendarMonthBackground = Color.White;
         }
-
-
         /// <summary>
         /// Check that correct and neccesary data is enetered to the form
         /// </summary>
@@ -219,7 +205,6 @@ namespace shipapp
             // Method level variables
             bool pass = true;
             string errorMsg = "Unable to add package.\r\nPlease insure the following items are filled with correct data.\r\n";
-
             // Check that a carrier is selected
             if (String.IsNullOrWhiteSpace(cmboCarrier.Text))
             {
@@ -227,7 +212,6 @@ namespace shipapp
                 cmboCarrier.BackColor = Color.LightPink;
                 errorMsg += "\t-Must select a carrier.\r\n";
             }
-
             // Check that a vendor is selected
             if (String.IsNullOrWhiteSpace(cmboVendor.Text))
             {
@@ -235,7 +219,6 @@ namespace shipapp
                 cmboVendor.BackColor = Color.LightPink;
                 errorMsg += "\t-Must slect a vendor.\r\n";
             }
-
             // Check that a recipiant is selected
             if (String.IsNullOrWhiteSpace(cmboRecipiant.Text))
             {
@@ -243,7 +226,6 @@ namespace shipapp
                 cmboRecipiant.BackColor = Color.LightPink;
                 errorMsg += "\t-Must select a recipiant.\r\n";
             }
-
             // Check that the package has a tracking number
             if (String.IsNullOrWhiteSpace(txtTracking.Text))
             {
@@ -251,17 +233,13 @@ namespace shipapp
                 txtTracking.BackColor = Color.LightPink;
                 errorMsg += "\t-Must include a tracking number.\r\n";
             }
-
             // If the data is not correct alert the user with a message
             if (!pass)
             {
                 MessageBox.Show(errorMsg, "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
             return pass;
         }
-
-
         /// <summary>
         /// Fill the packge entity with data
         /// </summary>
@@ -283,7 +261,6 @@ namespace shipapp
             newPackage.Status = (Models.Package.DeliveryStatus)FormatStatus(cmboStatus.Text);
         }
         #endregion
-        
         /// <summary>
         /// Set status to proper int
         /// </summary>
@@ -354,7 +331,6 @@ namespace shipapp
                 newPackage.Status = Package.DeliveryStatus.Not_Received;
             }
         }
-
         #region For creation of the person id on the fly
         private void txtPO_Leave(object sender, EventArgs e)
         {
@@ -665,6 +641,10 @@ namespace shipapp
                 }
                 DataConnectionClass.CreatePersonId(WorkingPID);
                 txtRoleId.Text = DataConnectionClass.PersonIdGenerated;
+                Faculty f = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(i => i.ToString() == cmboRecipiant.Text);
+                BuildingClass b = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(i => i.BuildingId == f.Building_Id);
+                cmboBuilding.SelectedItem = b.BuildingShortName;
+                cmboBuilding_SelectionChangeCommitted(this, e);
             }
         }
         private void cmboBuilding_SelectionChangeCommitted(object sender, EventArgs e)
@@ -746,13 +726,10 @@ namespace shipapp
             }
         }
         #endregion
-
         private void dTDel_MouseDown(object sender, MouseEventArgs e)
         {
             //dTDel.CalendarForeColor = Color.Black;
         }
-
-
         public void AutoFillBuilding()
         {
 
