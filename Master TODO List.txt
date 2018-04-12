@@ -16,9 +16,9 @@ Receiving
  -Query packages based on selected column (DONE Jesse / Kalin)
  -Test row(s) selected before executing row dependent logic (Done: Kalin)
  -Add ability to Add a note
-    + To Packages  (inprogress - Jesse)
-    + To Users
-    + To Faculty
+    + To Packages  (done pending test- Jesse)
+    + To Users  (done pending test- Jesse)
+    + To Faculty  (done pending test- Jesse)
  -Ensure printing is working correctly(Done: Kalin)
  -Set Clerk from user selection in print log
  -Test Tabs(Done: Kalin)
