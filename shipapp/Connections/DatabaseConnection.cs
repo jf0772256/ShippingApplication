@@ -891,8 +891,8 @@ namespace shipapp.Connections
                     //ids all will be 0 for null, strings should roll to null
                     cmd.Parameters.AddRange(new OdbcParameter[]
                     {
-                        new OdbcParameter("poid", p.PONumber),
-                        new OdbcParameter("lm", datestring)
+                        new OdbcParameter("lm", datestring),
+                        new OdbcParameter("id", p.PONumber)
                     });
                     try
                     {
