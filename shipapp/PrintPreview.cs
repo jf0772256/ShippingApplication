@@ -23,91 +23,18 @@ namespace shipapp
         private BindingList<Models.Carrier> carriers;
         private BindingList<Models.ModelData.BuildingClass> buildings;
         private BindingList<Models.User> users;
+        private List<Models.Package> printPackages;
 
 
         /// <summary>
         /// Constructor: Set form accroding to list type
         /// </summary>
         /// <param name="list"></param>
-        public PrintPreview(Object list, int identity)
+        public PrintPreview(Object list, int identity, object packages)
         {
             InitializeComponent();
-            this.identity = identity;
 
-            // Determine list type
-            if (identity == 1)
-            {
-                // List is Package
-                this.logs = (BindingList<Log>)list;
-                dataGridLog.DataSource = logs;
-                cmboClerk.Show();
-            }
-            else if (identity == 2)
-            {
-                // List is Package History TODO
-                this.packages = (BindingList<Models.Package>)list;
-                dataGridLog.DataSource = packages;
-                cmboClerk.Hide();
-            }
-            else if (identity == 3)
-            {
-                // List is Users
-                this.users = (BindingList<Models.User>)list;
-                dataGridLog.DataSource = users;
-                cmboClerk.Hide();
-            }
-            else if (identity == 4)
-            {
-                //List is Vendor
-                this.vendors = (BindingList<Models.Vendors>)list;
-                dataGridLog.DataSource = vendors;
-                cmboClerk.Hide();
-            }
-            else if (identity == 5)
-            {
-                // List is Faculty
-                this.Faculties = (BindingList<Models.Faculty>)list;
-                dataGridLog.DataSource = Faculties;
-                cmboClerk.Hide();
-            }
-            else if (identity == 6)
-            {
-                // List is Building
-                this.buildings = (BindingList<Models.ModelData.BuildingClass>)list;
-                dataGridLog.DataSource = buildings;
-                cmboClerk.Hide();
-            }
-            else if (identity == 7)
-            {
-                // List is Carrier
-                this.carriers = (BindingList<Models.Carrier>)list;
-                dataGridLog.DataSource = carriers;
-                cmboClerk.Hide();
-            }
-            else if (identity == 8)
-            {
-                // List is Activity History TODO
-                this.logs = (BindingList<Log>)list;
-                dataGridLog.DataSource = logs;
-                cmboClerk.Hide();
-            }
-            else
-            {
-                MessageBox.Show("Something went wrong\r\nTry again.", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
-            }
-        }
-
-
-        private void PrintPreview_Load(object sender, EventArgs e)
-        {
-            
-        }
-
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
+            CreateCorrectPrintForm(identity, list, packages);
         }
 
 
@@ -169,6 +96,8 @@ namespace shipapp
                 dataGridLog.Columns[4].Width = 35;
                 dataGridLog.Columns[5].Width = 85;
                 dataGridLog.Columns[6].Width = 125;
+
+                UpdatePackages();
             }
 
             // Print the Object
@@ -235,6 +164,87 @@ namespace shipapp
         private void cmboClerk_SelectedIndexChanged(object sender, EventArgs e)
         {
             clerk = cmboClerk.SelectedItem.ToString();
+        }
+
+
+        public void CreateCorrectPrintForm(int identity, Object list, Object packages)
+        {
+            this.identity = identity;
+
+            // Determine list type
+            if (identity == 1)
+            {
+                // List is Package
+                this.logs = (BindingList<Log>)list;
+                this.printPackages = (List<Models.Package>)packages;
+                dataGridLog.DataSource = logs;
+                cmboClerk.Show();
+            }
+            else if (identity == 2)
+            {
+                // List is Package History TODO
+                this.packages = (BindingList<Models.Package>)list;
+                dataGridLog.DataSource = packages;
+                cmboClerk.Hide();
+            }
+            else if (identity == 3)
+            {
+                // List is Users
+                this.users = (BindingList<Models.User>)list;
+                dataGridLog.DataSource = users;
+                cmboClerk.Hide();
+            }
+            else if (identity == 4)
+            {
+                //List is Vendor
+                this.vendors = (BindingList<Models.Vendors>)list;
+                dataGridLog.DataSource = vendors;
+                cmboClerk.Hide();
+            }
+            else if (identity == 5)
+            {
+                // List is Faculty
+                this.Faculties = (BindingList<Models.Faculty>)list;
+                dataGridLog.DataSource = Faculties;
+                cmboClerk.Hide();
+            }
+            else if (identity == 6)
+            {
+                // List is Building
+                this.buildings = (BindingList<Models.ModelData.BuildingClass>)list;
+                dataGridLog.DataSource = buildings;
+                cmboClerk.Hide();
+            }
+            else if (identity == 7)
+            {
+                // List is Carrier
+                this.carriers = (BindingList<Models.Carrier>)list;
+                dataGridLog.DataSource = carriers;
+                cmboClerk.Hide();
+            }
+            else if (identity == 8)
+            {
+                // List is Activity History TODO
+                this.logs = (BindingList<Log>)list;
+                dataGridLog.DataSource = logs;
+                cmboClerk.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong\r\nTry again.", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
+        }
+
+
+        public void UpdatePackages()
+        {
+            for (int i = 0; i < printPackages.Count; i++)
+            {
+                printPackages[i].PackageDeleveredBy = clerk;
+                printPackages[i].Status = (Models.Package.DeliveryStatus)2;
+                Connections.DataConnections.DataConnectionClass.PackageConnClass.UpdatePackage(printPackages[i]);
+            }
         }
     }
 }

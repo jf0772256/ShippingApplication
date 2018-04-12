@@ -573,31 +573,31 @@ namespace shipapp
             if (currentTable == 1)
             {
                 CreateLogList();
-                PrintPreview printPreview = new PrintPreview(users, currentTable + 2);
+                PrintPreview printPreview = new PrintPreview(users, currentTable + 2, null);
                 printPreview.ShowDialog();
             }
             else if (currentTable == 2)
             {
                 CreateLogList();
-                PrintPreview printPreview = new PrintPreview(vendors, currentTable + 2);
+                PrintPreview printPreview = new PrintPreview(vendors, currentTable + 2, null);
                 printPreview.ShowDialog();
             }
             else if (currentTable == 3)
             {
                 CreateLogList();
-                PrintPreview printPreview = new PrintPreview(faculties, currentTable + 2);
+                PrintPreview printPreview = new PrintPreview(faculties, currentTable + 2, null);
                 printPreview.ShowDialog();
             }
             else if (currentTable == 4)
             {
                 CreateLogList();
-                PrintPreview printPreview = new PrintPreview(buildings, currentTable + 2);
+                PrintPreview printPreview = new PrintPreview(buildings, currentTable + 2, null);
                 printPreview.ShowDialog();
             }
             else if (currentTable == 5)
             {
                 CreateLogList();
-                PrintPreview printPreview = new PrintPreview(carriers, currentTable + 2);
+                PrintPreview printPreview = new PrintPreview(carriers, currentTable + 2, null);
                 printPreview.ShowDialog();
             }
             else if (currentTable == 6)

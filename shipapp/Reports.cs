@@ -292,7 +292,7 @@ namespace shipapp
         /// </summary>
         public void Print()
         {
-            PrintPreview printPreview = new PrintPreview(CreateListFromSelectedRows(), 2);
+            PrintPreview printPreview = new PrintPreview(CreateListFromSelectedRows(), 2, null);
             printPreview.ShowDialog();
         }
         public Object CreateListFromSelectedRows()

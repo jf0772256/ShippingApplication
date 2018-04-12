@@ -60,7 +60,6 @@
             this.dataGridLog.RowsDefaultCellStyle = dataGridViewCellStyle9;
             this.dataGridLog.Size = new System.Drawing.Size(703, 404);
             this.dataGridLog.TabIndex = 0;
-            this.dataGridLog.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // btnPrint
             // 
@@ -109,7 +108,6 @@
             this.Controls.Add(this.dataGridLog);
             this.Name = "PrintPreview";
             this.Text = "PrintPreview";
-            this.Load += new System.EventHandler(this.PrintPreview_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridLog)).EndInit();
             this.ResumeLayout(false);
 

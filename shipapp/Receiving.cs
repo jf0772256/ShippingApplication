@@ -32,6 +32,7 @@ namespace shipapp
         private ListSortDirection[] ColumnDirection { get; set; }
         private BindingList<Log> logList;
         private List<Log> logs = new List<Log>();
+        private List<Package> printPackages = new List<Package>();
         /// <summary>
         /// Form constructor
         /// </summary>
@@ -266,7 +267,7 @@ namespace shipapp
         public void Print()
         {
             CreateLogList();
-            PrintPreview printPreview = new PrintPreview(logList, 1);
+            PrintPreview printPreview = new PrintPreview(logList, 1, printPackages);
             printPreview.ShowDialog();
         }
         /// <summary>
@@ -335,6 +336,7 @@ namespace shipapp
             {
                 // Convert packages to logs
                 logList.Add(Log.ConvertPackageToLog((Package)dataGridPackages.SelectedRows[i].DataBoundItem));
+                printPackages.Add((Package)dataGridPackages.SelectedRows[i].DataBoundItem);
             }
         }
         /// <summary>
