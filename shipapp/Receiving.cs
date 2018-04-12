@@ -32,10 +32,7 @@ namespace shipapp
         private string selectedColumnName = "";
         private ListSortDirection[] ColumnDirection { get; set; }
         private BindingList<Log> logList;
-
         private List<Log> logs = new List<Log>();
-
-
         /// <summary>
         /// Form constructor
         /// </summary>
@@ -43,8 +40,6 @@ namespace shipapp
         {
             InitializeComponent();
         }
-
-
         /// <summary>
         /// When the form loads Center it, Set the role, and fill the grid with packages
         /// </summary>
@@ -52,18 +47,14 @@ namespace shipapp
         /// <param name="e"></param>
         private void Receiving_Load(object sender, EventArgs e)
         {
-
             this.CenterToParent();
             SetRole();
             GetPackages();
             lblSearch.Text = "";
-
-            //
             if (lblSearch.Text.Length == 0)
             {
                 txtSearch.Enabled = false;
             }
-
             // Set form to match role
             if (role == 1)
             {
@@ -99,8 +90,6 @@ namespace shipapp
                 pcBxPrint.Hide();
             }
         }
-
-
         /// <summary>
         /// When the user presses this button, open the addpackage form and add a package to the DB
         /// </summary>
@@ -110,8 +99,6 @@ namespace shipapp
         {
             AddPackageToGrid();
         }
-
-
         /// <summary>
         /// When the user presses the button, delete the selected row
         /// </summary>
@@ -124,13 +111,6 @@ namespace shipapp
                 DeletePackage();
             }
         }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void DataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
@@ -152,8 +132,6 @@ namespace shipapp
                 //do nothing but quietly handle error
             }
         }
-
-
         /// <summary>
         /// TODO: Add entity selection
         /// </summary>
@@ -164,8 +142,6 @@ namespace shipapp
             //AddNote note = new AddNote();
             //note.Show();
         }
-
-
         /// <summary>
         /// Add a pacvkage to the DB and add it to the list
         /// </summary>
@@ -175,8 +151,6 @@ namespace shipapp
             AddPackage addPackage = new AddPackage(message,this);
             addPackage.ShowDialog(); 
         }
-
-
         /// <summary>
         /// Fill the lsit with packages
         /// </summary>
@@ -184,8 +158,6 @@ namespace shipapp
         {
             DataConnectionClass.PackageConnClass.GetPackageList(this);
         }
-
-
         /// <summary>
         /// Delete a package from the database
         /// </summary>
@@ -196,8 +168,6 @@ namespace shipapp
             DataConnectionClass.PackageConnClass.GetPackageList();
             Refreash();
         }
-
-
         /// <summary>
         /// When the use clicks back go back
         /// </summary>
@@ -207,7 +177,6 @@ namespace shipapp
         {
             this.Close();
         }
-
         /// <summary>
         /// When this event fires, send a mssege to edit not add a package
         /// </summary>
@@ -220,8 +189,6 @@ namespace shipapp
                 EditPackage();
             }
         }
-
-
         /// <summary>
         /// Edit a packge
         /// </summary>
@@ -235,8 +202,6 @@ namespace shipapp
             AddPackage addPackage = new AddPackage(message, packageToBeEdited,this);
             addPackage.ShowDialog();
         }
-
-
         /// <summary>
         /// Set role to match the user
         /// </summary>
@@ -259,8 +224,6 @@ namespace shipapp
                 role = 0;
             }
         }
-
-
         /// <summary>
         /// Alert the user on an atempt to signout 
         /// </summary>
@@ -270,8 +233,6 @@ namespace shipapp
         {
             SignOut();
         }
-
-
         /// <summary>
         /// Alert the user on an atempt to signout
         /// </summary>
@@ -281,8 +242,6 @@ namespace shipapp
         {
             SignOut();
         }
-
-
         /// <summary>
         /// Alert the user on an atempt to signout
         /// </summary>
@@ -290,8 +249,6 @@ namespace shipapp
         {
             MessageBox.Show(DataConnectionClass.AuthenticatedUser.LastName + ", " + DataConnectionClass.AuthenticatedUser.FirstName + "\r\n" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + "\r\n\r\nTo Logout exit to the Main Menu." );
         }
-
-
         /// <summary>
         /// Print the selected packages
         /// </summary>
@@ -304,8 +261,6 @@ namespace shipapp
                 Print();
             }
         }
-
-
         /// <summary>
         /// Print the selected packages
         /// </summary>
@@ -315,8 +270,6 @@ namespace shipapp
             PrintPreview printPreview = new PrintPreview(logList, 1);
             printPreview.ShowDialog();
         }
-
-
         /// <summary>
         /// Return a filtered list
         /// </summary>
@@ -327,8 +280,6 @@ namespace shipapp
             //SearchData();
             QueryPackages(txtSearch.Text);
         }
-
-
         /// <summary>
         /// filter data
         /// </summary>
@@ -337,21 +288,15 @@ namespace shipapp
             // If column selected and search bar not equal null or whitespace, else do nothing
             // -- Query database and return results
         }
-
-
         private void pcBXRefreash_Click(object sender, EventArgs e)
         {
             Refreash();
             MessageBox.Show("The list has refreshed");
         }
-
-
         public void Refreash()
         {
             DataConnectionClass.PackageConnClass.GetPackageList(this);
         }
-
-
         private void dataGridPackages_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             //MessageBox.Show("It worked: " + dataGridPackages.SelectedCells[0].ColumnIndex + "\r\n" + dataGridPackages.Columns[dataGridPackages.SelectedCells[0].ColumnIndex].DataPropertyName);
@@ -365,8 +310,6 @@ namespace shipapp
                 txtSearch.Enabled = true;
             }
         }
-
-
         /// <summary>
         /// Set the clerk to the packages that 
         /// </summary>
@@ -374,8 +317,6 @@ namespace shipapp
         {
 
         }
-
-
         /// <summary>
         /// Fill a list with the selected items
         /// </summary>
@@ -397,8 +338,6 @@ namespace shipapp
                 logList.Add(Log.ConvertPackageToLog((Package)dataGridPackages.SelectedRows[i].DataBoundItem));
             }
         }
-
-
         /// <summary>
         /// Query the databse when key pressed
         /// </summary>
@@ -408,8 +347,6 @@ namespace shipapp
         {
             //QueryPackages(txtSearch.Text);
         }
-
-
         /// <summary>
         /// Query packages
         /// </summary>
@@ -481,8 +418,6 @@ namespace shipapp
             }
             dataGridPackages.DataSource = bs;
         }
-
-
         private void dataGridPackages_Click(object sender, EventArgs e)
         {
             if (dataGridPackages.SelectedColumns.Count > 0)
@@ -490,8 +425,6 @@ namespace shipapp
                 lblSearch.Text = dataGridPackages.SelectedColumns[0].HeaderText;
             }
         }
-
-
         private void dataGridPackages_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (dataGridPackages.SelectedColumns.Count > 0)
@@ -499,7 +432,6 @@ namespace shipapp
                 lblSearch.Text = dataGridPackages.SelectedColumns[0].HeaderText;
             }
         }
-
         private void dataGridPackages_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             dataGridPackages.Columns["PackageId"].Visible = false;
