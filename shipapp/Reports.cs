@@ -24,6 +24,7 @@ namespace shipapp
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
         private int role;
         private ListSortDirection[] ColumnDirection { get; set; }
+
         /// <summary>
         /// Main constructor
         /// </summary>
