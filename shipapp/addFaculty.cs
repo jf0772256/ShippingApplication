@@ -81,8 +81,6 @@ namespace shipapp
                 MessageBox.Show("All fields must have correct data!", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
-
-
         /// <summary>
         /// Valiadate the data
         /// </summary>
