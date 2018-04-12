@@ -205,12 +205,16 @@ namespace shipapp
         #region Table Buttons
         private void btnUsers_Click(object sender, EventArgs e)
         {
+            ClearBackColor();
+            btnUsers.BackColor = SystemColors.ButtonHighlight;
             dataGridView1.Columns.Clear();
             dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
             dataGridView1.Update();
         }
         private void btnVendors_Click(object sender, EventArgs e)
         {
+            ClearBackColor();
+            btnVendors.BackColor = SystemColors.ButtonHighlight;
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
@@ -223,6 +227,8 @@ namespace shipapp
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
+            ClearBackColor();
+            btnFaculty.BackColor = SystemColors.ButtonHighlight;
             currentTable = 3;
             //TODO Fill list with query from Database
             //dataGridView1.DataSource = null;
@@ -269,6 +275,8 @@ namespace shipapp
 
         private void btnUsers_Click_1(object sender, EventArgs e)
         {
+            ClearBackColor();
+            btnUsers.BackColor = SystemColors.ButtonHighlight;
             currentTable = 1;
             //TODO Fill list with query from Database
             dataGridView1.DataSource = null;
@@ -303,6 +311,8 @@ namespace shipapp
 
         private void btnVendors_Click_1(object sender, EventArgs e)
         {
+            ClearBackColor();
+            btnVendors.BackColor = SystemColors.ButtonHighlight;
             currentTable = 2;
             //TODO Fill list with query from Database
             dataGridView1.DataSource = null;
@@ -315,6 +325,8 @@ namespace shipapp
 
         private void btnBuildings_Click_1(object sender, EventArgs e)
         {
+            ClearBackColor();
+            btnBuildings.BackColor = SystemColors.ButtonHighlight;
             currentTable = 4;
             DataConnectionClass.buildingConn.GetBuildingList(this);
         }
@@ -322,6 +334,8 @@ namespace shipapp
 
         private void btnCarriers_Click_1(object sender, EventArgs e)
         {
+            ClearBackColor();
+            btnCarriers.BackColor = SystemColors.ButtonHighlight;
             currentTable = 5;
             //TODO Fill list with query from Database
             dataGridView1.DataSource = null;
@@ -333,6 +347,8 @@ namespace shipapp
 
         private void btnOther_Click_1(object sender, EventArgs e)
         {
+            ClearBackColor();
+            btnOther.BackColor = SystemColors.ButtonHighlight;
             currentTable = 6;
         }
 
@@ -760,6 +776,17 @@ namespace shipapp
             }
 
             return password;
+        }
+
+
+        public void ClearBackColor()
+        {
+            btnUsers.BackColor = SystemColors.ButtonFace;
+            btnVendors.BackColor = SystemColors.ButtonFace;
+            btnFaculty.BackColor = SystemColors.ButtonFace;
+            btnCarriers.BackColor = SystemColors.ButtonFace;
+            btnBuildings.BackColor = SystemColors.ButtonFace;
+            btnOther.BackColor = SystemColors.ButtonFace;
         }
     }
 }

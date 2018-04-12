@@ -61,68 +61,74 @@
             // 
             // btnUsers
             // 
+            this.btnUsers.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnUsers.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUsers.Location = new System.Drawing.Point(12, 11);
             this.btnUsers.Name = "btnUsers";
             this.btnUsers.Size = new System.Drawing.Size(212, 136);
             this.btnUsers.TabIndex = 0;
             this.btnUsers.Text = "Users";
-            this.btnUsers.UseVisualStyleBackColor = true;
+            this.btnUsers.UseVisualStyleBackColor = false;
             this.btnUsers.Click += new System.EventHandler(this.btnUsers_Click_1);
             // 
             // btnVendors
             // 
+            this.btnVendors.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnVendors.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVendors.Location = new System.Drawing.Point(241, 12);
             this.btnVendors.Name = "btnVendors";
             this.btnVendors.Size = new System.Drawing.Size(212, 136);
             this.btnVendors.TabIndex = 1;
             this.btnVendors.Text = "Vendors";
-            this.btnVendors.UseVisualStyleBackColor = true;
+            this.btnVendors.UseVisualStyleBackColor = false;
             this.btnVendors.Click += new System.EventHandler(this.btnVendors_Click_1);
             // 
             // btnFaculty
             // 
+            this.btnFaculty.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnFaculty.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFaculty.Location = new System.Drawing.Point(12, 166);
             this.btnFaculty.Name = "btnFaculty";
             this.btnFaculty.Size = new System.Drawing.Size(212, 136);
             this.btnFaculty.TabIndex = 2;
             this.btnFaculty.Text = "Faculty";
-            this.btnFaculty.UseVisualStyleBackColor = true;
+            this.btnFaculty.UseVisualStyleBackColor = false;
             this.btnFaculty.Click += new System.EventHandler(this.button2_Click);
             // 
             // btnBuildings
             // 
+            this.btnBuildings.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnBuildings.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBuildings.Location = new System.Drawing.Point(241, 166);
             this.btnBuildings.Name = "btnBuildings";
             this.btnBuildings.Size = new System.Drawing.Size(212, 136);
             this.btnBuildings.TabIndex = 3;
             this.btnBuildings.Text = "Buildings";
-            this.btnBuildings.UseVisualStyleBackColor = true;
+            this.btnBuildings.UseVisualStyleBackColor = false;
             this.btnBuildings.Click += new System.EventHandler(this.btnBuildings_Click_1);
             // 
             // btnCarriers
             // 
+            this.btnCarriers.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnCarriers.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCarriers.Location = new System.Drawing.Point(12, 321);
             this.btnCarriers.Name = "btnCarriers";
             this.btnCarriers.Size = new System.Drawing.Size(212, 136);
             this.btnCarriers.TabIndex = 4;
             this.btnCarriers.Text = "Carriers";
-            this.btnCarriers.UseVisualStyleBackColor = true;
+            this.btnCarriers.UseVisualStyleBackColor = false;
             this.btnCarriers.Click += new System.EventHandler(this.btnCarriers_Click_1);
             // 
             // btnOther
             // 
+            this.btnOther.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.btnOther.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOther.Location = new System.Drawing.Point(241, 321);
             this.btnOther.Name = "btnOther";
             this.btnOther.Size = new System.Drawing.Size(212, 136);
             this.btnOther.TabIndex = 5;
             this.btnOther.Text = "History";
-            this.btnOther.UseVisualStyleBackColor = true;
+            this.btnOther.UseVisualStyleBackColor = false;
             this.btnOther.Click += new System.EventHandler(this.btnOther_Click_1);
             // 
             // groupBox1
