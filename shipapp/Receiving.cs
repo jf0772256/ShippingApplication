@@ -355,7 +355,7 @@ namespace shipapp
         private void dataGridPackages_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             //MessageBox.Show("It worked: " + dataGridPackages.SelectedCells[0].ColumnIndex + "\r\n" + dataGridPackages.Columns[dataGridPackages.SelectedCells[0].ColumnIndex].DataPropertyName);
-            lblSearch.Text = dataGridPackages.Columns[dataGridPackages.SelectedCells[0].ColumnIndex].DataPropertyName;
+            lblSearch.Text = dataGridPackages.Columns[dataGridPackages.SelectedCells[0].ColumnIndex].HeaderText;
             if (lblSearch.Text.Length == 0)
             {
                 txtSearch.Enabled = false;
@@ -420,32 +420,32 @@ namespace shipapp
             SortableBindingList<Package> j = new SortableBindingList<Package>();
             switch (lblSearch.Text)
             {
-                case "PONumber":
+                case "PO Number":
                     result = DataConnectionClass.DataLists.Packages.Where(a => a.PONumber.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
-                case "PackageCarrier":
+                case "Carrier":
                     result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageCarrier.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
-                case "PackageVendor":
+                case "Vendor":
                     result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageVendor.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
-                case "PackageDeliveredTo":
+                case "Delivered To":
                     result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageDeliveredTo.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
-                case "PackageDeliveredBy":
+                case "Delivered By":
                     result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageDeleveredBy.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
-                case "PackageSignedForBy":
+                case "Signed For By":
                     result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageSignedForBy.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
@@ -455,22 +455,22 @@ namespace shipapp
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
-                case "PackageRecievedDate":
+                case "Recieved Date":
                     result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageReceivedDate.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
-                case "PackageDeliveredDate":
+                case "Delivered Date":
                     result = DataConnectionClass.DataLists.Packages.Where(a => a.PackageDeliveredDate.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
-                case "Status":
+                case "Delivery Status":
                     result = DataConnectionClass.DataLists.Packages.Where(a => a.Status.ToString().ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
                     break;
-                case "DelivBuildingShortName":
+                case "Deliver To Short Name":
                     result = DataConnectionClass.DataLists.Packages.Where(a => a.DelivBuildingShortName.ToLower().IndexOf(searchTerm.ToLower()) >= 0).ToList();
                     result.ForEach(i => j.Add(i));
                     bs.DataSource = j;
@@ -487,7 +487,7 @@ namespace shipapp
         {
             if (dataGridPackages.SelectedColumns.Count > 0)
             {
-                lblSearch.Text = dataGridPackages.SelectedColumns[0].DataPropertyName;
+                lblSearch.Text = dataGridPackages.SelectedColumns[0].HeaderText;
             }
         }
 
@@ -496,8 +496,25 @@ namespace shipapp
         {
             if (dataGridPackages.SelectedColumns.Count > 0)
             {
-                lblSearch.Text = dataGridPackages.SelectedColumns[0].DataPropertyName;
+                lblSearch.Text = dataGridPackages.SelectedColumns[0].HeaderText;
             }
+        }
+
+        private void dataGridPackages_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dataGridPackages.Columns["PackageId"].Visible = false;
+            dataGridPackages.Columns["Package_PersonId"].Visible = false;
+            dataGridPackages.Columns["PONumber"].HeaderText = "PO Number";
+            dataGridPackages.Columns["PackageCarrier"].HeaderText = "Carrier";
+            dataGridPackages.Columns["PackageVendor"].HeaderText = "Vendor";
+            dataGridPackages.Columns["PackageDeliveredTo"].HeaderText = "Delivered To";
+            dataGridPackages.Columns["PackageDeleveredBy"].HeaderText = "Delivered By";
+            dataGridPackages.Columns["PackageSignedForBy"].HeaderText = "Signed For By";
+            dataGridPackages.Columns["PackageTrackingNumber"].HeaderText = "Tracking Number";
+            dataGridPackages.Columns["PackageReceivedDate"].HeaderText = "Received Date";
+            dataGridPackages.Columns["PackageDeliveredDate"].HeaderText = "Delivered Date";
+            dataGridPackages.Columns["Status"].HeaderText = "Delivery Status";
+            dataGridPackages.Columns["DelivBuildingShortName"].HeaderText = "Deliver To Short Name";
         }
     }
 }
