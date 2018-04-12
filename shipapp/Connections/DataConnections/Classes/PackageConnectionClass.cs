@@ -63,10 +63,59 @@ namespace shipapp.Connections.DataConnections.Classes
                 DataConnectionClass.DataLists.Packages = pack;
             }
         }
+        /// <summary>
+        /// Gets history list for past six months and uses yesterday and yesterday - 6 months
+        /// </summary>
+        /// <param name="sender">Form object to use when binding</param>
         public async void GetPackageHistoryList(object sender = null)
         {
             DateTime dt1 = DateTime.Today.AddDays(-1);
             DateTime dt2 = DateTime.Today.AddMonths(-6);
+            Sender = sender;
+            string test1 = FormatDateString(dt1.ToString()), test2 = FormatDateString(dt2.ToString());
+            SortableBindingList<Package> hist = await Task.Run(() => Get_Package_List(test2, test1));
+            if (Sender is Reports t)
+            {
+                DataConnectionClass.DataLists.PackageHistory = hist;
+                BindingSource bs = new BindingSource
+                {
+                    DataSource = DataConnectionClass.DataLists.PackageHistory
+                };
+                t.datGridHistory.DataSource = bs;
+            }
+        }
+        /// <summary>
+        /// Gets history list from Yesterday to the specified end date
+        /// </summary>
+        /// <param name="enddate">Search end date as a string (Must be a valid date string)</param>
+        /// <param name="sender">Form object to use when binding</param>
+        public async void GetPackageHistoryList(string enddate, object sender = null)
+        {
+            DateTime dt1 = DateTime.Today.AddDays(-1);
+            bool success = DateTime.TryParse(enddate, out DateTime dt2);
+            Sender = sender;
+            string test1 = FormatDateString(dt1.ToString()), test2 = FormatDateString(dt2.ToString());
+            SortableBindingList<Package> hist = await Task.Run(() => Get_Package_List(test2, test1));
+            if (Sender is Reports t)
+            {
+                DataConnectionClass.DataLists.PackageHistory = hist;
+                BindingSource bs = new BindingSource
+                {
+                    DataSource = DataConnectionClass.DataLists.PackageHistory
+                };
+                t.datGridHistory.DataSource = bs;
+            }
+        }
+        /// <summary>
+        /// Gets history list from specified start date to the specified end date
+        /// </summary>
+        /// <param name="startdate">Search start date as a string (Must be a valid date string)</param>
+        /// <param name="enddate">Search end date as a string (Must be a valid date string)</param>
+        /// <param name="sender">Form object to use when binding</param>
+        public async void GetPackageHistoryList(string startdate, string enddate, object sender = null)
+        {
+            bool s1 = DateTime.TryParse(startdate, out DateTime dt1);
+            bool s2 = DateTime.TryParse(enddate, out DateTime dt2);
             Sender = sender;
             string test1 = FormatDateString(dt1.ToString()), test2 = FormatDateString(dt2.ToString());
             SortableBindingList<Package> hist = await Task.Run(() => Get_Package_List(test2, test1));
