@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using shipapp.Models;
 using shipapp.Models.ModelData;
+using shipapp.Connections.DataConnections;
 
 namespace shipapp
 {
@@ -48,7 +49,6 @@ namespace shipapp
             }
             InitializeComponent();
         }
-
         /// <summary>
         /// This method will add the note to the appropriate entity
         /// </summary>
@@ -56,11 +56,32 @@ namespace shipapp
         /// <param name="e"></param>
         private void btnName_Click(object sender, EventArgs e)
         {
-            /***
-             * TODO add note to enity then add note to list with in entity datalist for the perticular enitity
-             **/
+            if (AsReadOnly)
+            {
+                Close();
+            }
+            else
+            {
+                if (Fac as Faculty != null)
+                {
+                    Fac.Notes.Add(new Note() { Note_Value = textBox1.Text });
+                    DataConnectionClass.EmployeeConn.UpdateFaculty(Fac);
+                    Close();
+                }
+                else if (Usr as User != null)
+                {
+                    Usr.Notes.Add(new Note() { Note_Value = textBox1.Text });
+                    DataConnectionClass.UserConn.Update1User(Usr);
+                    Close();
+                }
+                else if (Pck as Package != null)
+                {
+                    Pck.Notes.Add(new Note() { Note_Value = textBox1.Text });
+                    DataConnectionClass.PackageConnClass.UpdatePackage(Pck);
+                    Close();
+                }
+            }
         }
-
         private void AddNote_Load(object sender, EventArgs e)
         {
             if (AsReadOnly)
