@@ -63,7 +63,67 @@ namespace shipapp
 
         private void AddNote_Load(object sender, EventArgs e)
         {
-
+            if (AsReadOnly)
+            {
+                //display only
+                textBox1.Visible = false;
+                btnName.Text = "Close";
+                textBox2.Width = textBox2.Width + (textBox1.Width - textBox2.Width) + textBox2.Width;
+            }
+            else
+            {
+                //use add note
+            }
+            // READ NOTES IN READ ONLY BOX
+            if (Fac as Faculty != null)
+            {
+                if (Fac.Notes.Count == 0)
+                {
+                    textBox2.Text = "No notes have been entered.";
+                }
+                else
+                {
+                    foreach (Note note in Fac.Notes)
+                    {
+                        textBox2.Text = note.Note_Value + "\n-------------------------\n";
+                    }
+                }
+            }
+            else if (Usr as User != null)
+            {
+                if (Fac.Notes.Count == 0)
+                {
+                    textBox2.Text = "No notes have been entered.";
+                }
+                else
+                {
+                    foreach (Note note in Usr.Notes)
+                    {
+                        textBox2.Text = note.Note_Value + "\n-------------------------\n";
+                    }
+                }
+            }
+            else if (Pck as Package != null)
+            {
+                if (Fac.Notes.Count == 0)
+                {
+                    textBox2.Text = "No notes have been entered.";
+                }
+                else
+                {
+                    foreach (Note note in Pck.Notes)
+                    {
+                        textBox2.Text = note.Note_Value + "\n-------------------------\n";
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Never allow wider than now
+        /// </summary>
+        private void AddNote_Resize(object sender, EventArgs e)
+        {
+            this.Width = 559;
         }
     }
 }
