@@ -51,12 +51,8 @@ namespace shipapp
             this.CenterToParent();
             GetPackages();
             SetRole();
-            //BindingSource bs = new BindingSource
-            //{
-            //    DataSource = DataConnectionClass.DataLists.PackageHistory
-            //};
-            //datGridHistory.DataSource = bs;
-            // Set form according to the role
+
+            dTTo.Value = DateTime.Today.AddMonths(-6);
             if (role == 1)
             {
                 pcBxAddToDaily.Enabled = true;
@@ -269,15 +265,7 @@ namespace shipapp
         }
         private void datGridHistory_Click(object sender, EventArgs e)
         {
-            //lblSearch.Text = datGridHistory.Columns[datGridHistory.SelectedCells[0].ColumnIndex].HeaderCell.Value.ToString();
-            //if (lblSearch.Text.Length == 0)
-            //{
-            //    txtSearch.Enabled = false;
-            //}
-            //else
-            //{
-            //    txtSearch.Enabled = true;
-            //}
+
         }
         private void txtSearch_KeyUp(object sender, KeyEventArgs e)
         {
@@ -340,6 +328,31 @@ namespace shipapp
             datGridHistory.Columns["PackageDeliveredDate"].HeaderText = "Delivered Date";
             datGridHistory.Columns["Status"].HeaderText = "Delivery Status";
             datGridHistory.Columns["DelivBuildingShortName"].HeaderText = "Deliver To Short Name";
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dTFrom_ValueChanged(object sender, EventArgs e)
+        {
+            // Logic for changing the TO date
+            UpdateHistorySearchTimePara();
+        }
+
+        private void dTTo_ValueChanged(object sender, EventArgs e)
+        {
+            // Logic for changeing the from date
+            UpdateHistorySearchTimePara();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void UpdateHistorySearchTimePara()
+        {
+            DataConnectionClass.PackageConnClass.GetPackageHistoryList(dTFrom.Value.ToString(),dTTo.Value.ToString(), this);
         }
     }
 }

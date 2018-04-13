@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.datGridHistory = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
@@ -67,11 +67,11 @@
             // 
             // datGridHistory
             // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            this.datGridHistory.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            this.datGridHistory.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.datGridHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -144,7 +144,7 @@
             this.pcBxRefreash.BackColor = System.Drawing.Color.Transparent;
             this.pcBxRefreash.BackgroundImage = global::shipapp.Properties.Resources.loop;
             this.pcBxRefreash.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pcBxRefreash.Location = new System.Drawing.Point(53, 79);
+            this.pcBxRefreash.Location = new System.Drawing.Point(94, 79);
             this.pcBxRefreash.Name = "pcBxRefreash";
             this.pcBxRefreash.Size = new System.Drawing.Size(35, 35);
             this.pcBxRefreash.TabIndex = 9;
@@ -169,6 +169,7 @@
             this.dTFrom.Name = "dTFrom";
             this.dTFrom.Size = new System.Drawing.Size(146, 26);
             this.dTFrom.TabIndex = 12;
+            this.dTFrom.ValueChanged += new System.EventHandler(this.dTFrom_ValueChanged);
             // 
             // label2
             // 
@@ -199,13 +200,14 @@
             this.dTTo.Name = "dTTo";
             this.dTTo.Size = new System.Drawing.Size(146, 26);
             this.dTTo.TabIndex = 14;
+            this.dTTo.ValueChanged += new System.EventHandler(this.dTTo_ValueChanged);
             // 
             // pcBxPrint
             // 
             this.pcBxPrint.BackColor = System.Drawing.Color.Transparent;
             this.pcBxPrint.BackgroundImage = global::shipapp.Properties.Resources.android_printer;
             this.pcBxPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pcBxPrint.Location = new System.Drawing.Point(94, 79);
+            this.pcBxPrint.Location = new System.Drawing.Point(53, 79);
             this.pcBxPrint.Name = "pcBxPrint";
             this.pcBxPrint.Size = new System.Drawing.Size(35, 35);
             this.pcBxPrint.TabIndex = 16;
