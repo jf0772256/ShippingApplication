@@ -162,7 +162,30 @@ namespace shipapp
                 btnOther.Enabled = true;
                 btnOther.Show();
             }
-            else if (role == 2)
+            if (role == 2)
+            {
+                // Do nothing
+                pcBxDelete.Enabled = false;
+                pcBxEdit.Enabled = true;
+                pictureBox1.Enabled = true;
+                pcBxPrint.Enabled = true;
+
+                pcBxDelete.BackColor = Color.Transparent;
+                pcBxEdit.BackColor = Color.Transparent;
+                pictureBox1.BackColor = Color.Transparent;
+                pcBxPrint.Show();
+
+                btnVendors.Enabled = true;
+                btnFaculty.Show();
+                btnFaculty.Enabled = true;
+                btnBuildings.Show();
+                btnBuildings.Enabled = true;
+                btnCarriers.Show();
+                btnCarriers.Enabled = true;
+                btnOther.Enabled = true;
+                btnOther.Show();
+            }
+            else if (role == 3)
             {
 
                 pcBxDelete.Enabled = false;
@@ -210,6 +233,10 @@ namespace shipapp
             dataGridView1.Columns.Clear();
             dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
             dataGridView1.Update();
+            if (role == 2)
+            {
+                pictureBox1.Enabled = false;
+            }
         }
         private void btnVendors_Click(object sender, EventArgs e)
         {
@@ -217,7 +244,6 @@ namespace shipapp
             btnVendors.BackColor = SystemColors.ButtonHighlight;
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
-            ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             dataGridView1.DataSource = DataConnectionClass.DataLists.Vendors;
         }
         /// <summary>
@@ -230,12 +256,8 @@ namespace shipapp
             ClearBackColor();
             btnFaculty.BackColor = SystemColors.ButtonHighlight;
             currentTable = 3;
-            //TODO Fill list with query from Database
-            //dataGridView1.DataSource = null;
-            //dataGridView1.Columns.Clear();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
-            //dataGridView1.DataSource = DataConnectionClass.DataLists.FacultyList;
         }
         private void btnBuildings_Click(object sender, EventArgs e)
         {

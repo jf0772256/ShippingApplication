@@ -33,7 +33,6 @@
             this.lbl1 = new System.Windows.Forms.Label();
             this.txtLastName = new System.Windows.Forms.TextBox();
             this.lblLevel = new System.Windows.Forms.Label();
-            this.txtLevel = new System.Windows.Forms.TextBox();
             this.lbl2 = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.lbl3 = new System.Windows.Forms.Label();
@@ -43,6 +42,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.BtnAddNote = new System.Windows.Forms.Button();
             this.BtnViewNote = new System.Windows.Forms.Button();
+            this.cmboRole = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label2
@@ -95,15 +95,6 @@
             this.lblLevel.TabIndex = 7;
             this.lblLevel.Text = "Role";
             // 
-            // txtLevel
-            // 
-            this.txtLevel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLevel.Location = new System.Drawing.Point(100, 64);
-            this.txtLevel.Name = "txtLevel";
-            this.txtLevel.Size = new System.Drawing.Size(220, 22);
-            this.txtLevel.TabIndex = 6;
-            // 
             // lbl2
             // 
             this.lbl2.AutoSize = true;
@@ -121,7 +112,7 @@
             this.txtUsername.Location = new System.Drawing.Point(100, 92);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(220, 22);
-            this.txtUsername.TabIndex = 8;
+            this.txtUsername.TabIndex = 6;
             // 
             // lbl3
             // 
@@ -141,7 +132,7 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(220, 22);
-            this.txtPassword.TabIndex = 10;
+            this.txtPassword.TabIndex = 7;
             // 
             // btnAdd
             // 
@@ -151,7 +142,7 @@
             this.btnAdd.Location = new System.Drawing.Point(220, 173);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(100, 42);
-            this.btnAdd.TabIndex = 12;
+            this.btnAdd.TabIndex = 10;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -184,7 +175,7 @@
             this.BtnAddNote.Location = new System.Drawing.Point(119, 173);
             this.BtnAddNote.Name = "BtnAddNote";
             this.BtnAddNote.Size = new System.Drawing.Size(95, 42);
-            this.BtnAddNote.TabIndex = 15;
+            this.BtnAddNote.TabIndex = 9;
             this.BtnAddNote.Text = "Add Notes";
             this.BtnAddNote.UseVisualStyleBackColor = true;
             this.BtnAddNote.Click += new System.EventHandler(this.BtnAddNote_Click);
@@ -197,10 +188,29 @@
             this.BtnViewNote.Location = new System.Drawing.Point(18, 173);
             this.BtnViewNote.Name = "BtnViewNote";
             this.BtnViewNote.Size = new System.Drawing.Size(95, 42);
-            this.BtnViewNote.TabIndex = 16;
+            this.BtnViewNote.TabIndex = 8;
             this.BtnViewNote.Text = "View Notes";
             this.BtnViewNote.UseVisualStyleBackColor = true;
             this.BtnViewNote.Click += new System.EventHandler(this.BtnViewNote_Click);
+            // 
+            // cmboRole
+            // 
+            this.cmboRole.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmboRole.BackColor = System.Drawing.Color.White;
+            this.cmboRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmboRole.FormattingEnabled = true;
+            this.cmboRole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.cmboRole.Items.AddRange(new object[] {
+            "Administrator",
+            "Dock Supervisor",
+            "Supervisor",
+            "User"});
+            this.cmboRole.Location = new System.Drawing.Point(100, 64);
+            this.cmboRole.Name = "cmboRole";
+            this.cmboRole.Size = new System.Drawing.Size(220, 24);
+            this.cmboRole.TabIndex = 5;
+            this.cmboRole.SelectionChangeCommitted += new System.EventHandler(this.cmboRole_SelectionChangeCommitted);
             // 
             // AddUser
             // 
@@ -208,6 +218,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(331, 222);
+            this.Controls.Add(this.cmboRole);
             this.Controls.Add(this.BtnViewNote);
             this.Controls.Add(this.BtnAddNote);
             this.Controls.Add(this.label3);
@@ -218,7 +229,6 @@
             this.Controls.Add(this.lbl2);
             this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.lblLevel);
-            this.Controls.Add(this.txtLevel);
             this.Controls.Add(this.lbl1);
             this.Controls.Add(this.txtLastName);
             this.Controls.Add(this.label2);
@@ -240,7 +250,6 @@
         private System.Windows.Forms.Label lbl1;
         private System.Windows.Forms.TextBox txtLastName;
         private System.Windows.Forms.Label lblLevel;
-        private System.Windows.Forms.TextBox txtLevel;
         private System.Windows.Forms.Label lbl2;
         private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.Label lbl3;
@@ -250,5 +259,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button BtnAddNote;
         private System.Windows.Forms.Button BtnViewNote;
+        private System.Windows.Forms.ComboBox cmboRole;
     }
 }

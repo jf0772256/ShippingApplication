@@ -2036,16 +2036,33 @@ namespace shipapp.Connections
                 c.ConnectionString = ConnString;
                 c.Open();
                 OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("",c))
+                using (OdbcCommand cmd = new OdbcCommand("",c,tr))
                 {
                     try
                     {
-                        foreach (string command in data)
+                        if (DBType == SQLHelperClass.DatabaseType.MSSQL)
                         {
-                            cmd.CommandText = command;
+                            cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
                             cmd.ExecuteNonQuery();
+                            foreach (string command in data)
+                            {
+                                cmd.CommandText = command;
+                                cmd.ExecuteNonQuery();
+                            }
+                            cmd.CommandText = "CLOSE SYMMETRIC KEY secure_data;";
+                            cmd.ExecuteNonQuery();
+                            cmd.Transaction.Commit();
                         }
-                        cmd.Transaction.Commit();
+                        else if (DBType == SQLHelperClass.DatabaseType.MySQL)
+                        {
+                            cmd.ExecuteNonQuery();
+                            foreach (string command in data)
+                            {
+                                cmd.CommandText = command;
+                                cmd.ExecuteNonQuery();
+                            }
+                            cmd.Transaction.Commit();
+                        }
                     }
                     catch (Exception e)
                     {

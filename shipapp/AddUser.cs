@@ -62,7 +62,7 @@ namespace shipapp
                 txtBoxPersonId.Text = userToBeEdited.Person_Id;
                 txtFirstName.Text = userToBeEdited.FirstName;
                 txtLastName.Text = userToBeEdited.LastName;
-                txtLevel.Text = userToBeEdited.Level.ToString();
+                cmboRole.Text = userToBeEdited.Level.ToString();
                 txtUsername.Text = userToBeEdited.Username;
                 txtPassword.Text = userToBeEdited.PassWord;
 
@@ -96,7 +96,7 @@ namespace shipapp
                 // Fill entity
                 newUser.FirstName = txtFirstName.Text;
                 newUser.LastName = txtLastName.Text;
-                newUser.Level = new Models.ModelData.Role() { Role_id = Convert.ToInt64(txtLevel.Text) };
+                newUser.Level = new Models.ModelData.Role() { Role_id = returnRoleId() };
                 newUser.Username = txtUsername.Text;
                 newUser.PassWord = txtPassword.Text;
                 newUser.Person_Id = txtBoxPersonId.Text;
@@ -210,20 +210,24 @@ namespace shipapp
         public long returnRoleId()
         {
             // Method levele varables
-            long roleId;
+            long roleId=0;
 
             // Find role Id
-            if (txtLevel.Text == "Administrator")
+            if (cmboRole.Text == "Administrator")
             {
                 roleId = 1;
             }
-            else if (txtLevel.Text == "Supervisor")
+            else if (cmboRole.Text == "Dock Supervisor")
             {
                 roleId = 2;
             }
-            else if(txtLevel.Text == "User")
+            else if (cmboRole.Text == "Supervisor")
             {
                 roleId = 3;
+            }
+            else if (cmboRole.Text == "User")
+            {
+                roleId = 4;
             }
             else
             {
@@ -303,6 +307,11 @@ namespace shipapp
             {
                 note.ShowDialog();
             }
+        }
+
+        private void cmboRole_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            cmboRole.Text = cmboRole.SelectedItem.ToString();
         }
     }
 }

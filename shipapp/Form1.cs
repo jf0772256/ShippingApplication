@@ -82,7 +82,7 @@ namespace shipapp
             }
 
 
-            // If Danny
+            // If Admin
             if (role == 1)
             {
                 // Do nothing
@@ -96,7 +96,7 @@ namespace shipapp
                 btnSettings.BackColor = Color.White;
             }
 
-            // If Supervisor
+            // If Dock Supervisor
             if (role == 2)
             {
                 btnDailyReceiving.Enabled = true;
@@ -109,8 +109,21 @@ namespace shipapp
                 btnSettings.BackColor = Color.LightPink;
             }
 
-            // If Crew
+            // If Supervisor
             if (role == 3)
+            {
+                btnDailyReceiving.Enabled = true;
+                btnManage.Enabled = true;
+                btnReports.Enabled = true;
+                btnSettings.Enabled = false;
+                btnDailyReceiving.BackColor = Color.White;
+                btnManage.BackColor = Color.White;
+                btnReports.BackColor = Color.White;
+                btnSettings.BackColor = Color.LightPink;
+            }
+
+            // If Crew
+            if (role == 4)
             {
                 btnDailyReceiving.Enabled = true;
                 btnManage.Enabled = false;
@@ -315,15 +328,19 @@ namespace shipapp
         {
             if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Administrator")
             {
-                this.role = 1;
+                role = 1;
             }
-            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Supervisor")
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Dock Supervisor")
             {
                 role = 2;
             }
-            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "User")
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Supervisor")
             {
                 role = 3;
+            }
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "User")
+            {
+                role = 4;
             }
             else
             {
