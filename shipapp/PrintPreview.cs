@@ -76,6 +76,7 @@ namespace shipapp
             // Set the print obejct page settings
             printer.Title = "Delivery Log";
             printer.SubTitle = "Clerk: " + clerk;
+            printer.SubTitle += ", Date: " + DateTime.Today.ToShortDateString(); 
             printer.SubTitleFormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.NoClip;
             printer.PageNumbers = true;
             printer.PageNumberInHeader = true;
