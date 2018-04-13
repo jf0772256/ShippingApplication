@@ -9,6 +9,7 @@ General list
  - Dock Sup {
 	all but settings
 } (Done Jesse / Kalin)
+-Set all datagrid view to disallow manual adds, as all adds should be done through the apprerate forms made to ensure that all fields are being properly captured. This will have the effect also allowing for the select all to work with the add to or delete as it removes the empty row at the bottom of the list. This is a property in the properties window (allow useradd, allow user edit)
 ===========================================================
 Receiving
 -----------------------------------------------------------
