@@ -53,6 +53,10 @@ namespace shipapp
             SetRole();
 
             dTTo.Value = DateTime.Today.AddMonths(-6);
+            dTFrom.Value = DateTime.Today.AddDays(-1);
+            dTTo.MaxDate = DateTime.Today;
+            dTFrom.MaxDate = DateTime.Today;
+
             if (role == 1)
             {
                 pcBxAddToDaily.Enabled = true;
