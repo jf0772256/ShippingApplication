@@ -135,7 +135,6 @@ namespace shipapp
         private void Manage_Load(object sender, EventArgs e)
         {
             this.CenterToParent();
-            btnUsers_Click_1(this, e);
             SetRole();
 
             //
@@ -162,7 +161,7 @@ namespace shipapp
                 btnOther.Enabled = true;
                 btnOther.Show();
             }
-            if (role == 2)
+            else if (role == 2)
             {
                 // Do nothing
                 pcBxDelete.Enabled = false;
@@ -225,6 +224,7 @@ namespace shipapp
                 btnOther.Enabled = false;
                 btnOther.Hide();
             }
+            btnUsers_Click_1(this, e);
         }
         #region Table Buttons
         private void btnUsers_Click(object sender, EventArgs e)
