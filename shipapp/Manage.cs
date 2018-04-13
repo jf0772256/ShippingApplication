@@ -429,6 +429,7 @@ namespace shipapp
                     User userToBeEdited = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
                     AddUser addUser = new AddUser(message, userToBeEdited);
                     addUser.ShowDialog();
+                    DataConnectionClass.UserConn.GetManyUsers(this);
                 }
                 else
                 {

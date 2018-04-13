@@ -113,6 +113,8 @@ namespace shipapp
                 Models.User newUser = new Models.User();
 
                 // Fill entity
+                newUser.Id = userToBeEdited.Id;
+                newUser.Notes = userToBeEdited.Notes;
                 newUser.FirstName = txtFirstName.Text;
                 newUser.LastName = txtLastName.Text;
                 newUser.Level = new Models.ModelData.Role() { Role_id = returnRoleId() };
@@ -122,7 +124,7 @@ namespace shipapp
 
                 // Write the data to the DB
                 Connections.DataConnections.DataConnectionClass.UserConn.Update1User(newUser);
-                Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Add(Connections.DataConnections.DataConnectionClass.UserConn.Get1User(newUser.Username));
+                //Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Add(Connections.DataConnections.DataConnectionClass.UserConn.Get1User(newUser.Username));
                 this.Close();
             }
             else if (message != "ADD" && message != "EDIT") // If the message is empty
@@ -205,10 +207,10 @@ namespace shipapp
         /// When editing the form return the correct int for the role
         /// </summary>
         /// <returns></returns>
-        public int returnRoleId()
+        public long returnRoleId()
         {
             // Method levele varables
-            int roleId;
+            long roleId;
 
             // Find role Id
             if (txtLevel.Text == "Administrator")

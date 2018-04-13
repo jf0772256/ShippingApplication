@@ -650,25 +650,27 @@ namespace shipapp.Connections
                     if (DBType == SQLHelperClass.DatabaseType.MSSQL)
                     {
                         cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD='" + EncodeKey + "';";
-                        cmd.CommandText += "UPDATE users SET user_fname = ? , user_lname = ? , user_password = EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)), user_role_id = ? WHERE user_id = ?";
+                        cmd.CommandText += "UPDATE users SET user_fname = ? , user_lname = ? , user_password = EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,?)), user_role_id = ? WHERE user_id = ?;";
                         cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
                         cmd.Parameters.AddRange(new OdbcParameter[]
                         {
                             new OdbcParameter("fname", v.FirstName),
                             new OdbcParameter("lname",v.LastName),
                             new OdbcParameter("pwrd",v.PassWord),
-                            new OdbcParameter("role",v.Level.Role_id)
+                            new OdbcParameter("role",v.Level.Role_id),
+                            new OdbcParameter("id",v.Id)
                         });
                     }
                     else if (DBType == SQLHelperClass.DatabaseType.MySQL)
                     {
-                        cmd.CommandText = "UPDATE users SET user_fname = ? , user_lname = ? , user_password = AES_ENCRYPT(?,'" + EncodeKey + "') , user_role_id = ? WHERE user_id = ?";
+                        cmd.CommandText = "UPDATE users SET user_fname = ? , user_lname = ? , user_password = AES_ENCRYPT(?,'" + EncodeKey + "') , user_role_id = ? WHERE user_id = ?;";
                         cmd.Parameters.AddRange(new OdbcParameter[]
                         {
                             new OdbcParameter("fname", v.FirstName),
                             new OdbcParameter("lname",v.LastName),
                             new OdbcParameter("pwrd",v.PassWord),
-                            new OdbcParameter("role",v.Level.Role_id)
+                            new OdbcParameter("role",v.Level.Role_id),
+                            new OdbcParameter("id",v.Id)
                         });
                     }
                     else
