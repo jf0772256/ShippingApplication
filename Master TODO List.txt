@@ -39,13 +39,13 @@ Manage
  -Hide Unnessisary Columns from Manage (Done - Jesse) *with error trapping*
  -Ensure printing is working correctly
  -Add ability to Add a note (Done Jesse) 
- -Add activity history list - maybe
+ -Add activity history list **This will be done**
    +Example 0:(When a user adds a vendor add a history object that indicates what user added what vendor on what date)
    +Example 1:(When a the database autobacks up create a object that states that the database was backed up)
  -Add a diffrent backcolor to the selected table button(i.e. when vendor selected, vendor background color eual blue) 
  -Test Tabs
  -Test tabs in various add forms
- - Convert text box to combo box where user role
+ - Convert text box to combo box where user role (Done Jesse)
 ===========================================================
 Settings
 -----------------------------------------------------------
