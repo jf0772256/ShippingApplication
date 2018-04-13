@@ -40,7 +40,7 @@
             this.txtName.Location = new System.Drawing.Point(69, 8);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(215, 26);
-            this.txtName.TabIndex = 5;
+            this.txtName.TabIndex = 1;
             // 
             // label3
             // 
@@ -59,7 +59,7 @@
             this.btnAdd.Location = new System.Drawing.Point(69, 40);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(215, 34);
-            this.btnAdd.TabIndex = 16;
+            this.btnAdd.TabIndex = 2;
             this.btnAdd.Text = "ADD";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);

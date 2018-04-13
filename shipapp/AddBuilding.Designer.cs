@@ -61,7 +61,7 @@
             this.textBox2.Location = new System.Drawing.Point(188, 42);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(234, 26);
-            this.textBox2.TabIndex = 3;
+            this.textBox2.TabIndex = 2;
             // 
             // label2
             // 
@@ -80,7 +80,7 @@
             this.btnAdd.Location = new System.Drawing.Point(240, 76);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(126, 34);
-            this.btnAdd.TabIndex = 12;
+            this.btnAdd.TabIndex = 3;
             this.btnAdd.Text = "ADD";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);

@@ -62,7 +62,7 @@
             this.txtFirstName.Location = new System.Drawing.Point(100, 8);
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(220, 22);
-            this.txtFirstName.TabIndex = 2;
+            this.txtFirstName.TabIndex = 0;
             this.txtFirstName.Leave += new System.EventHandler(this.txtFirstName_Leave);
             // 
             // lbl1
@@ -82,7 +82,7 @@
             this.txtLastName.Location = new System.Drawing.Point(100, 36);
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(220, 22);
-            this.txtLastName.TabIndex = 4;
+            this.txtLastName.TabIndex = 1;
             this.txtLastName.Leave += new System.EventHandler(this.txtLastName_Leave);
             // 
             // lblLevel
@@ -112,7 +112,7 @@
             this.txtUsername.Location = new System.Drawing.Point(100, 92);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(220, 22);
-            this.txtUsername.TabIndex = 6;
+            this.txtUsername.TabIndex = 3;
             // 
             // lbl3
             // 
@@ -132,7 +132,7 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(220, 22);
-            this.txtPassword.TabIndex = 7;
+            this.txtPassword.TabIndex = 4;
             // 
             // btnAdd
             // 
@@ -142,7 +142,7 @@
             this.btnAdd.Location = new System.Drawing.Point(220, 173);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(100, 42);
-            this.btnAdd.TabIndex = 10;
+            this.btnAdd.TabIndex = 8;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -155,7 +155,7 @@
             this.txtBoxPersonId.Name = "txtBoxPersonId";
             this.txtBoxPersonId.ReadOnly = true;
             this.txtBoxPersonId.Size = new System.Drawing.Size(220, 22);
-            this.txtBoxPersonId.TabIndex = 13;
+            this.txtBoxPersonId.TabIndex = 5;
             // 
             // label3
             // 
@@ -175,7 +175,7 @@
             this.BtnAddNote.Location = new System.Drawing.Point(119, 173);
             this.BtnAddNote.Name = "BtnAddNote";
             this.BtnAddNote.Size = new System.Drawing.Size(95, 42);
-            this.BtnAddNote.TabIndex = 9;
+            this.BtnAddNote.TabIndex = 7;
             this.BtnAddNote.Text = "Add Notes";
             this.BtnAddNote.UseVisualStyleBackColor = true;
             this.BtnAddNote.Click += new System.EventHandler(this.BtnAddNote_Click);
@@ -185,10 +185,10 @@
             this.BtnViewNote.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnViewNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnViewNote.Location = new System.Drawing.Point(18, 173);
+            this.BtnViewNote.Location = new System.Drawing.Point(12, 173);
             this.BtnViewNote.Name = "BtnViewNote";
             this.BtnViewNote.Size = new System.Drawing.Size(95, 42);
-            this.BtnViewNote.TabIndex = 8;
+            this.BtnViewNote.TabIndex = 6;
             this.BtnViewNote.Text = "View Notes";
             this.BtnViewNote.UseVisualStyleBackColor = true;
             this.BtnViewNote.Click += new System.EventHandler(this.BtnViewNote_Click);
@@ -201,6 +201,7 @@
             this.cmboRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboRole.FormattingEnabled = true;
             this.cmboRole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.cmboRole.ItemHeight = 16;
             this.cmboRole.Items.AddRange(new object[] {
             "Administrator",
             "Dock Supervisor",
@@ -209,7 +210,7 @@
             this.cmboRole.Location = new System.Drawing.Point(100, 64);
             this.cmboRole.Name = "cmboRole";
             this.cmboRole.Size = new System.Drawing.Size(220, 24);
-            this.cmboRole.TabIndex = 5;
+            this.cmboRole.TabIndex = 2;
             this.cmboRole.SelectionChangeCommitted += new System.EventHandler(this.cmboRole_SelectionChangeCommitted);
             // 
             // AddUser

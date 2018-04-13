@@ -85,7 +85,7 @@
             this.txtId2.Name = "txtId2";
             this.txtId2.ReadOnly = true;
             this.txtId2.Size = new System.Drawing.Size(266, 26);
-            this.txtId2.TabIndex = 3;
+            this.txtId2.TabIndex = 2;
             // 
             // lblId2
             // 
@@ -103,7 +103,7 @@
             this.btnAdd.Location = new System.Drawing.Point(246, 183);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(134, 33);
-            this.btnAdd.TabIndex = 19;
+            this.btnAdd.TabIndex = 7;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -124,7 +124,7 @@
             this.comboBox1.Location = new System.Drawing.Point(145, 111);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(235, 28);
-            this.comboBox1.TabIndex = 21;
+            this.comboBox1.TabIndex = 3;
             // 
             // label2
             // 
@@ -141,7 +141,7 @@
             this.txtRoomNumber.Location = new System.Drawing.Point(145, 151);
             this.txtRoomNumber.Name = "txtRoomNumber";
             this.txtRoomNumber.Size = new System.Drawing.Size(235, 26);
-            this.txtRoomNumber.TabIndex = 23;
+            this.txtRoomNumber.TabIndex = 4;
             // 
             // BtnAddNote
             // 
@@ -149,7 +149,7 @@
             this.BtnAddNote.Location = new System.Drawing.Point(134, 183);
             this.BtnAddNote.Name = "BtnAddNote";
             this.BtnAddNote.Size = new System.Drawing.Size(106, 32);
-            this.BtnAddNote.TabIndex = 24;
+            this.BtnAddNote.TabIndex = 6;
             this.BtnAddNote.Text = "Add Notes";
             this.BtnAddNote.UseVisualStyleBackColor = true;
             this.BtnAddNote.Click += new System.EventHandler(this.BtnAddNote_Click);
@@ -160,7 +160,7 @@
             this.BtnViewNotes.Location = new System.Drawing.Point(22, 183);
             this.BtnViewNotes.Name = "BtnViewNotes";
             this.BtnViewNotes.Size = new System.Drawing.Size(106, 31);
-            this.BtnViewNotes.TabIndex = 25;
+            this.BtnViewNotes.TabIndex = 5;
             this.BtnViewNotes.Text = "View Notes";
             this.BtnViewNotes.UseVisualStyleBackColor = true;
             this.BtnViewNotes.Click += new System.EventHandler(this.BtnViewNotes_Click);

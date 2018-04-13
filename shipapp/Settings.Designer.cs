@@ -88,7 +88,7 @@
             this.dbhost.Location = new System.Drawing.Point(73, 46);
             this.dbhost.Name = "dbhost";
             this.dbhost.Size = new System.Drawing.Size(189, 26);
-            this.dbhost.TabIndex = 4;
+            this.dbhost.TabIndex = 1;
             this.dbhost.Text = "stusql.ckwia8qkgyyj.us-east-1.rds.amazonaws.com";
             this.toolTip1.SetToolTip(this.dbhost, "Database host urls are what teslls the application to look at a certian server fo" +
         "r your database. It may be a local database, or a remote database.");
@@ -99,7 +99,7 @@
             this.dbname.Location = new System.Drawing.Point(73, 102);
             this.dbname.Name = "dbname";
             this.dbname.Size = new System.Drawing.Size(189, 26);
-            this.dbname.TabIndex = 5;
+            this.dbname.TabIndex = 2;
             this.dbname.Text = "otcshipping";
             // 
             // dbuser
@@ -108,7 +108,7 @@
             this.dbuser.Location = new System.Drawing.Point(73, 156);
             this.dbuser.Name = "dbuser";
             this.dbuser.Size = new System.Drawing.Size(189, 26);
-            this.dbuser.TabIndex = 6;
+            this.dbuser.TabIndex = 3;
             this.dbuser.Text = "otcshippingadmin";
             // 
             // dbpass
@@ -118,7 +118,7 @@
             this.dbpass.Name = "dbpass";
             this.dbpass.PasswordChar = '*';
             this.dbpass.Size = new System.Drawing.Size(189, 26);
-            this.dbpass.TabIndex = 7;
+            this.dbpass.TabIndex = 4;
             this.dbpass.Text = "cis260SP18Ship";
             // 
             // dbport
@@ -127,7 +127,7 @@
             this.dbport.Location = new System.Drawing.Point(73, 261);
             this.dbport.Name = "dbport";
             this.dbport.Size = new System.Drawing.Size(189, 26);
-            this.dbport.TabIndex = 8;
+            this.dbport.TabIndex = 5;
             this.dbport.Text = "0";
             // 
             // label2
@@ -186,7 +186,7 @@
             this.BtnTest.Location = new System.Drawing.Point(77, 381);
             this.BtnTest.Name = "BtnTest";
             this.BtnTest.Size = new System.Drawing.Size(135, 48);
-            this.BtnTest.TabIndex = 14;
+            this.BtnTest.TabIndex = 9;
             this.BtnTest.Text = "Test Connection";
             this.BtnTest.UseVisualStyleBackColor = true;
             this.BtnTest.Click += new System.EventHandler(this.BtnTest_Click);
@@ -205,6 +205,7 @@
             // 
             this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.ItemHeight = 20;
             this.comboBox1.Items.AddRange(new object[] {
             "Select Database Type",
             "MySQL",
@@ -212,7 +213,7 @@
             this.comboBox1.Location = new System.Drawing.Point(73, 317);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(189, 28);
-            this.comboBox1.TabIndex = 16;
+            this.comboBox1.TabIndex = 6;
             this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
             // 
             // OpenSQLFile
@@ -254,7 +255,7 @@
             this.comboBox2.Location = new System.Drawing.Point(179, 40);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(94, 28);
-            this.comboBox2.TabIndex = 23;
+            this.comboBox2.TabIndex = 12;
             this.comboBox2.SelectionChangeCommitted += new System.EventHandler(this.comboBox2_SelectionChangeCommitted);
             // 
             // button2
@@ -263,7 +264,7 @@
             this.button2.Location = new System.Drawing.Point(94, 12);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 56);
-            this.button2.TabIndex = 22;
+            this.button2.TabIndex = 11;
             this.button2.Text = "Backup";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -274,7 +275,7 @@
             this.button1.Location = new System.Drawing.Point(6, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(78, 56);
-            this.button1.TabIndex = 21;
+            this.button1.TabIndex = 10;
             this.button1.Text = "Restore";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
