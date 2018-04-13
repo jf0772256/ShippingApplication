@@ -5,7 +5,10 @@
 ===========================================================
 General list
 -----------------------------------------------------------
- -Empty
+ - open support forms to using (){ }
+ - Dock Sup {
+	all but settings
+}
 ===========================================================
 Receiving
 -----------------------------------------------------------
@@ -20,7 +23,7 @@ Receiving
     + To Users  (done - Jesse)
     + To Faculty  (done - Jesse)
  -Ensure printing is working correctly(Done: Kalin)
- -Set Clerk from user selection in print log
+ -Set Clerk from user selection in print log (Done - Kalin)
  -Test Tabs(Done: Kalin)
  -Add date to delivery log
 ===========================================================
@@ -42,6 +45,7 @@ Manage
  -Add a diffrent backcolor to the selected table button(i.e. when vendor selected, vendor background color eual blue) 
  -Test Tabs
  -Test tabs in various add forms
+ - Convert text box to combo box where user role
 ===========================================================
 Settings
 -----------------------------------------------------------
