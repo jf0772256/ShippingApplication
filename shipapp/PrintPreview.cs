@@ -165,28 +165,23 @@ namespace shipapp
                 //
                 printer.Title = "Buildings";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+                printer.PageSettings.Landscape = false;
 
                 //
                 dataGridLog.Columns[0].Width = 50;
                 dataGridLog.Columns[1].Width = 50;
                 dataGridLog.Columns[2].Width = 50;
-                dataGridLog.Columns[3].Width = 50;
-                dataGridLog.Columns[4].Width = 50;
-                dataGridLog.Columns[5].Width = 50;
             }
             else if (identity == 7)
             {
                 //
                 printer.Title = "Carriers";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+                printer.PageSettings.Landscape = false;
 
                 //
                 dataGridLog.Columns[0].Width = 50;
                 dataGridLog.Columns[1].Width = 50;
-                dataGridLog.Columns[2].Width = 50;
-                dataGridLog.Columns[3].Width = 50;
-                dataGridLog.Columns[4].Width = 50;
-                dataGridLog.Columns[5].Width = 50;
             }
             else if (identity == 8)
             {
@@ -199,8 +194,6 @@ namespace shipapp
                 dataGridLog.Columns[1].Width = 50;
                 dataGridLog.Columns[2].Width = 50;
                 dataGridLog.Columns[3].Width = 50;
-                dataGridLog.Columns[4].Width = 50;
-                dataGridLog.Columns[5].Width = 50;
             }
             else
             {
@@ -358,6 +351,11 @@ namespace shipapp
                 this.buildings = (BindingList<Models.ModelData.BuildingClass>)list;
                 dataGridLog.DataSource = buildings;
                 cmboClerk.Hide();
+
+                //
+                dataGridLog.Columns[0].Visible = false;
+                dataGridLog.Columns[1].HeaderText = "Long Name";
+                dataGridLog.Columns[2].HeaderText = "Short Name";
             }
             else if (identity == 7)
             {
@@ -365,6 +363,10 @@ namespace shipapp
                 this.carriers = (BindingList<Models.Carrier>)list;
                 dataGridLog.DataSource = carriers;
                 cmboClerk.Hide();
+
+                //
+                dataGridLog.Columns[0].Visible = false;
+                dataGridLog.Columns[1].HeaderText = "Carrier";
             }
             else if (identity == 8)
             {
