@@ -166,6 +166,7 @@ namespace shipapp
             {
                 // Do nothing
                 pcBxDelete.Enabled = false;
+                pcBxDelete.Hide();
                 pcBxEdit.Enabled = true;
                 pictureBox1.Enabled = true;
                 pcBxPrint.Enabled = true;
@@ -236,6 +237,7 @@ namespace shipapp
             if (role == 2)
             {
                 pictureBox1.Enabled = false;
+                pictureBox1.Hide();
             }
         }
         private void btnVendors_Click(object sender, EventArgs e)
@@ -521,13 +523,17 @@ namespace shipapp
             {
                 role = 1;
             }
-            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Supervisor")
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Dock Supervisor")
             {
                 role = 2;
             }
-            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "User")
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Supervisor")
             {
                 role = 3;
+            }
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "User")
+            {
+                role = 4;
             }
             else
             {
