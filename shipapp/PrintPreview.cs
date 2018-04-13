@@ -73,10 +73,7 @@ namespace shipapp
             // Create print object
             DGVPrinter printer = new DGVPrinter();
 
-            // Set the print obejct page settings
-            printer.Title = "Delivery Log";
-            printer.SubTitle = "Clerk: " + clerk;
-            printer.SubTitle += ", Date: " + DateTime.Today.ToShortDateString(); 
+            // Set the print obejct page settings 
             printer.SubTitleFormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.NoClip;
             printer.PageNumbers = true;
             printer.PageNumberInHeader = true;
@@ -90,6 +87,12 @@ namespace shipapp
             // Set column widths
             if (identity == 1)
             {
+                //
+                printer.Title = "Delivery Log";
+                printer.SubTitle = "Clerk: " + clerk;
+                printer.SubTitle += ", Date: " + DateTime.Today.ToShortDateString();
+
+                //
                 dataGridLog.Columns[0].Width = 35;
                 dataGridLog.Columns[1].Width = 50;
                 dataGridLog.Columns[2].Width = 35;
@@ -99,6 +102,52 @@ namespace shipapp
                 dataGridLog.Columns[6].Width = 125;
 
                 UpdatePackages();
+            }
+            else if (identity == 2)
+            {
+                //
+                printer.Title = "History";
+                printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+            }
+            else if (identity == 3)
+            {
+                //
+                printer.Title = "Users";
+                printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+            }
+            else if (identity == 4)
+            {
+                //
+                printer.Title = "Vendors";
+                printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+            }
+            else if (identity == 5)
+            {
+                //
+                printer.Title = "Faculty";
+                printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+            }
+            else if (identity == 6)
+            {
+                //
+                printer.Title = "Buildings";
+                printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+            }
+            else if (identity == 7)
+            {
+                //
+                printer.Title = "Carriers";
+                printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+            }
+            else if (identity == 8)
+            {
+                //
+                printer.Title = "Activity History";
+                printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+            }
+            else
+            {
+                MessageBox.Show("Something has gone wrong.\r\nPlease try again", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             // Print the Object
