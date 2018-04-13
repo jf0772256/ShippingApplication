@@ -16,41 +16,43 @@ using shipapp.Connections.DataConnections;
 namespace shipapp
 {
     /// <summary>
-    /// This class will alow the user to do the following:
-    /// 1. Add and track freigth as it comes in.
-    /// 2. Print out daily daily logs.
-    /// 3. Change the status of current items.
-    /// 4. Push the added/updated/deleted items to the DB.
-    /// 5. Sign in and Out.
+    ///  This class allows the user to receive and manage freight as it comes in,
+    /// as well as, create delivery logs.
     /// </summary>
     public partial class Receiving : Form
     {
-        //Class level variables
+        /// Class level variables
+        //  Data list
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
-        private string message = "";
-        private int role;
         private ListSortDirection[] ColumnDirection { get; set; }
         private BindingList<Log> logList;
         private List<Log> logs = new List<Log>();
         private List<Package> printPackages = new List<Package>();
+        //  Other variabels
+        private string message = "";
+        private int role;
+
+        #region Form Setup
         /// <summary>
-        /// Form constructor
+        /// Form constructor for Recieving
         /// </summary>
         public Receiving()
         {
             InitializeComponent();
         }
         /// <summary>
-        /// When the form loads Center it, Set the role, and fill the grid with packages
+        /// When the form loads Center it, set the role, and fill the grid with packages.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Receiving_Load(object sender, EventArgs e)
         {
+            // Set form
             this.CenterToParent();
             SetRole();
             GetPackages();
             lblSearch.Text = "";
+            // Disable search until a column is selected
             if (lblSearch.Text.Length == 0)
             {
                 txtSearch.Enabled = false;
@@ -91,119 +93,15 @@ namespace shipapp
             }
         }
         /// <summary>
-        /// When the user presses this button, open the addpackage form and add a package to the DB
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            AddPackageToGrid();
-        }
-        /// <summary>
-        /// When the user presses the button, delete the selected row
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-            if (dataGridPackages.SelectedRows.Count > 0)
-            {
-                DeletePackage();
-            }
-        }
-        private void DataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            try
-            {
-                //data sort
-                if (ColumnDirection.Length > 0 && ColumnDirection[e.ColumnIndex] == ListSortDirection.Descending)
-                {
-                    dataGridPackages.Sort(dataGridPackages.Columns[e.ColumnIndex], ListSortDirection.Ascending);
-                    ColumnDirection[e.ColumnIndex] = ListSortDirection.Ascending;
-                }
-                else if (ColumnDirection.Length > 0 && ColumnDirection[e.ColumnIndex] == ListSortDirection.Ascending)
-                {
-                    dataGridPackages.Sort(dataGridPackages.Columns[e.ColumnIndex], ListSortDirection.Descending);
-                    ColumnDirection[e.ColumnIndex] = ListSortDirection.Descending;
-                }
-            }
-            catch (Exception)
-            {
-                //do nothing but quietly handle error
-            }
-        }
-        /// <summary>
-        /// TODO: Add entity selection
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-            //AddNote note = new AddNote();
-            //note.Show();
-        }
-        /// <summary>
-        /// Add a pacvkage to the DB and add it to the list
-        /// </summary>
-        public void AddPackageToGrid()
-        {
-            message = "ADD";
-            AddPackage addPackage = new AddPackage(message,this);
-            addPackage.ShowDialog(); 
-        }
-        /// <summary>
-        /// Fill the lsit with packages
+        /// Fill the list with packages from the database.
         /// </summary>
         public void GetPackages()
         {
             DataConnectionClass.PackageConnClass.GetPackageList(this);
         }
-        /// <summary>
-        /// Delete a package from the database
-        /// </summary>
-        public void DeletePackage()
-        {
-            Package packageToBeRemoved = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0].Value));
-            DataConnectionClass.PackageConnClass.DeletePackage(packageToBeRemoved);
-            DataConnectionClass.PackageConnClass.GetPackageList();
-            Refreash();
-        }
-        /// <summary>
-        /// When the use clicks back go back
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pictureBox6_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-        /// <summary>
-        /// When this event fires, send a mssege to edit not add a package
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pcBxEdit_Click(object sender, EventArgs e)
-        {
-            if (dataGridPackages.SelectedRows.Count > 0)
-            {
-                EditPackage();
-            }
-        }
-        /// <summary>
-        /// Edit a packge
-        /// </summary>
-        public void EditPackage()
-        {
-            // Set message to Edit
-            message = "EDIT";
 
-            // Create package form and set it to edit
-            Package packageToBeEdited = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0].Value));
-            AddPackage addPackage = new AddPackage(message, packageToBeEdited,this);
-            addPackage.ShowDialog();
-        }
         /// <summary>
-        /// Set role to match the user
+        /// Set role to match the users privileges.
         /// </summary>
         public void SetRole()
         {
@@ -224,8 +122,80 @@ namespace shipapp
                 role = 0;
             }
         }
+        #endregion
+
+        #region Events AllEvents
         /// <summary>
-        /// Alert the user on an atempt to signout 
+        /// Open the AddPackage form and add a package to the database.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            AddPackageToGrid();
+        }
+        /// <summary>
+        /// Remove the selected row from the database.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            // Test that a row is selected before deletion
+            if (dataGridPackages.SelectedRows.Count > 0)
+            {
+                DeletePackage();
+            }
+        }
+        /// <summary>
+        /// Sort the data is the grid view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                // Data sort
+                if (ColumnDirection.Length > 0 && ColumnDirection[e.ColumnIndex] == ListSortDirection.Descending)
+                {
+                    dataGridPackages.Sort(dataGridPackages.Columns[e.ColumnIndex], ListSortDirection.Ascending);
+                    ColumnDirection[e.ColumnIndex] = ListSortDirection.Ascending;
+                }
+                else if (ColumnDirection.Length > 0 && ColumnDirection[e.ColumnIndex] == ListSortDirection.Ascending)
+                {
+                    dataGridPackages.Sort(dataGridPackages.Columns[e.ColumnIndex], ListSortDirection.Descending);
+                    ColumnDirection[e.ColumnIndex] = ListSortDirection.Descending;
+                }
+            }
+            catch (Exception)
+            {
+                //do nothing but quietly handle error
+            }
+        }
+        /// <summary>
+        /// Go back to the main menu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        /// <summary>
+        /// Edit a packages
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pcBxEdit_Click(object sender, EventArgs e)
+        {
+            if (dataGridPackages.SelectedRows.Count > 0)
+            {
+                EditPackage();
+            }
+        }
+        /// <summary>
+        /// Alert the user on an atempt to signout.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -234,7 +204,7 @@ namespace shipapp
             SignOut();
         }
         /// <summary>
-        /// Alert the user on an atempt to signout
+        /// Alert the user on an atempt to signout.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -243,63 +213,44 @@ namespace shipapp
             SignOut();
         }
         /// <summary>
-        /// Alert the user on an atempt to signout
+        /// Return a filtered list as search results.
         /// </summary>
-        public void SignOut()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            MessageBox.Show(DataConnectionClass.AuthenticatedUser.LastName + ", " + DataConnectionClass.AuthenticatedUser.FirstName + "\r\n" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + "\r\n\r\nTo Logout exit to the Main Menu." );
+            QueryPackages(txtSearch.Text);
         }
         /// <summary>
-        /// Print the selected packages
+        /// Refreash the data grid.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pcBXRefreash_Click(object sender, EventArgs e)
+        {
+            Refreash();
+            MessageBox.Show("The list has refreshed");
+        }
+        /// <summary>
+        /// Print the selected packages.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void pcBxPrint_Click(object sender, EventArgs e)
         {
+            // Test that at least one row is selected
             if (dataGridPackages.SelectedRows.Count > 0)
             {
                 Print();
             }
         }
         /// <summary>
-        /// Print the selected packages
-        /// </summary>
-        public void Print()
-        {
-            CreateLogList();
-            PrintPreview printPreview = new PrintPreview(logList, 1, printPackages);
-            printPreview.ShowDialog();
-        }
-        /// <summary>
-        /// Return a filtered list
+        /// Set search to the selected column.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void txtSearch_TextChanged(object sender, EventArgs e)
-        {
-            //SearchData();
-            QueryPackages(txtSearch.Text);
-        }
-        /// <summary>
-        /// filter data
-        /// </summary>
-        public void SearchData()
-        {
-            // If column selected and search bar not equal null or whitespace, else do nothing
-            // -- Query database and return results
-        }
-        private void pcBXRefreash_Click(object sender, EventArgs e)
-        {
-            Refreash();
-            MessageBox.Show("The list has refreshed");
-        }
-        public void Refreash()
-        {
-            DataConnectionClass.PackageConnClass.GetPackageList(this);
-        }
         private void dataGridPackages_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            //MessageBox.Show("It worked: " + dataGridPackages.SelectedCells[0].ColumnIndex + "\r\n" + dataGridPackages.Columns[dataGridPackages.SelectedCells[0].ColumnIndex].DataPropertyName);
             lblSearch.Text = dataGridPackages.Columns[dataGridPackages.SelectedCells[0].ColumnIndex].HeaderText;
             if (lblSearch.Text.Length == 0)
             {
@@ -311,14 +262,105 @@ namespace shipapp
             }
         }
         /// <summary>
-        /// Set the clerk to the packages that 
+        /// Set search to correct column.
         /// </summary>
-        public void SetClerk()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dataGridPackages_Click(object sender, EventArgs e)
         {
-
+            if (dataGridPackages.SelectedColumns.Count > 0)
+            {
+                lblSearch.Text = dataGridPackages.SelectedColumns[0].HeaderText;
+            }
         }
         /// <summary>
-        /// Fill a list with the selected items
+        /// Set search to correct column.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dataGridPackages_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (dataGridPackages.SelectedColumns.Count > 0)
+            {
+                lblSearch.Text = dataGridPackages.SelectedColumns[0].HeaderText;
+            }
+        }
+        /// <summary>
+        /// Set column headers to correct text.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dataGridPackages_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dataGridPackages.Columns["PackageId"].Visible = false;
+            dataGridPackages.Columns["Package_PersonId"].Visible = false;
+            dataGridPackages.Columns["PONumber"].HeaderText = "PO Number";
+            dataGridPackages.Columns["PackageCarrier"].HeaderText = "Carrier";
+            dataGridPackages.Columns["PackageVendor"].HeaderText = "Vendor";
+            dataGridPackages.Columns["PackageDeliveredTo"].HeaderText = "Delivered To";
+            dataGridPackages.Columns["PackageDeleveredBy"].HeaderText = "Delivered By";
+            dataGridPackages.Columns["PackageSignedForBy"].HeaderText = "Signed For By";
+            dataGridPackages.Columns["PackageTrackingNumber"].HeaderText = "Tracking Number";
+            dataGridPackages.Columns["PackageReceivedDate"].HeaderText = "Received Date";
+            dataGridPackages.Columns["PackageDeliveredDate"].HeaderText = "Delivered Date";
+            dataGridPackages.Columns["Status"].HeaderText = "Delivery Status";
+            dataGridPackages.Columns["DelivBuildingShortName"].HeaderText = "Deliver To Short Name";
+        }
+        #endregion
+
+        #region Add Package
+        /// <summary>
+        /// Add a package to the database.
+        /// </summary>
+        public void AddPackageToGrid()
+        {
+            message = "ADD";
+            AddPackage addPackage = new AddPackage(message, this);
+            addPackage.ShowDialog();
+        }
+        #endregion
+
+        #region Edit Package
+        /// <summary>
+        /// Edit a package.
+        /// </summary>
+        public void EditPackage()
+        {
+            // Set message to Edit
+            message = "EDIT";
+
+            // Create package form and set it to edit
+            Package packageToBeEdited = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0].Value));
+            AddPackage addPackage = new AddPackage(message, packageToBeEdited, this);
+            addPackage.ShowDialog();
+        }
+        #endregion
+
+        #region Delete Package
+        /// <summary>
+        /// Delete a package from the database.
+        /// </summary>
+        public void DeletePackage()
+        {
+            Package packageToBeRemoved = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0].Value));
+            DataConnectionClass.PackageConnClass.DeletePackage(packageToBeRemoved);
+            DataConnectionClass.PackageConnClass.GetPackageList();
+            Refreash();
+        }
+        #endregion
+
+        #region Print Log
+        /// <summary>
+        /// Print the selected packages.
+        /// </summary>
+        public void Print()
+        {
+            CreateLogList();
+            PrintPreview printPreview = new PrintPreview(logList, 1, printPackages);
+            printPreview.ShowDialog();
+        }
+        /// <summary>
+        /// Fill a log with the selected items.
         /// </summary>
         public void CreateLogList()
         {
@@ -339,17 +381,21 @@ namespace shipapp
                 printPackages.Add((Package)dataGridPackages.SelectedRows[i].DataBoundItem);
             }
         }
+        #endregion
+
+        #region Refresh Package
         /// <summary>
-        /// Query the databse when key pressed
+        /// Refreash the data grid.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        public void Refreash()
         {
-            //QueryPackages(txtSearch.Text);
+            DataConnectionClass.PackageConnClass.GetPackageList(this);
         }
+        #endregion
+
+        #region Search Package
         /// <summary>
-        /// Query packages
+        /// Query packages based on selected column
         /// </summary>
         public void QueryPackages(string searchTerm)
         {
@@ -419,35 +465,16 @@ namespace shipapp
             }
             dataGridPackages.DataSource = bs;
         }
-        private void dataGridPackages_Click(object sender, EventArgs e)
+        #endregion
+
+        #region Signout
+        /// <summary>
+        /// Alert the user on an atempt to signout.
+        /// </summary>
+        public void SignOut()
         {
-            if (dataGridPackages.SelectedColumns.Count > 0)
-            {
-                lblSearch.Text = dataGridPackages.SelectedColumns[0].HeaderText;
-            }
+            MessageBox.Show(DataConnectionClass.AuthenticatedUser.LastName + ", " + DataConnectionClass.AuthenticatedUser.FirstName + "\r\n" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + "\r\n\r\nTo Logout exit to the Main Menu.");
         }
-        private void dataGridPackages_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (dataGridPackages.SelectedColumns.Count > 0)
-            {
-                lblSearch.Text = dataGridPackages.SelectedColumns[0].HeaderText;
-            }
-        }
-        private void dataGridPackages_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            dataGridPackages.Columns["PackageId"].Visible = false;
-            dataGridPackages.Columns["Package_PersonId"].Visible = false;
-            dataGridPackages.Columns["PONumber"].HeaderText = "PO Number";
-            dataGridPackages.Columns["PackageCarrier"].HeaderText = "Carrier";
-            dataGridPackages.Columns["PackageVendor"].HeaderText = "Vendor";
-            dataGridPackages.Columns["PackageDeliveredTo"].HeaderText = "Delivered To";
-            dataGridPackages.Columns["PackageDeleveredBy"].HeaderText = "Delivered By";
-            dataGridPackages.Columns["PackageSignedForBy"].HeaderText = "Signed For By";
-            dataGridPackages.Columns["PackageTrackingNumber"].HeaderText = "Tracking Number";
-            dataGridPackages.Columns["PackageReceivedDate"].HeaderText = "Received Date";
-            dataGridPackages.Columns["PackageDeliveredDate"].HeaderText = "Delivered Date";
-            dataGridPackages.Columns["Status"].HeaderText = "Delivery Status";
-            dataGridPackages.Columns["DelivBuildingShortName"].HeaderText = "Deliver To Short Name";
-        }
+        #endregion
     }
 }
