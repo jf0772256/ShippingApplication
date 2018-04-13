@@ -234,11 +234,7 @@ namespace shipapp
             dataGridView1.Columns.Clear();
             dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
             dataGridView1.Update();
-            if (role == 2)
-            {
-                pictureBox1.Enabled = false;
-                pictureBox1.Hide();
-            }
+
         }
         private void btnVendors_Click(object sender, EventArgs e)
         {
@@ -304,6 +300,12 @@ namespace shipapp
             dataGridView1.Columns.Clear();
             ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             DataConnectionClass.UserConn.GetManyUsers(this);
+
+            if (role == 2)
+            {
+                pictureBox1.Enabled = false;
+                pictureBox1.Hide();
+            }
 
             //change header text for roles
             try
