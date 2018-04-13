@@ -101,6 +101,7 @@ namespace shipapp
                 dataGridLog.Columns[5].Width = 85;
                 dataGridLog.Columns[6].Width = 125;
 
+                //
                 UpdatePackages();
             }
             else if (identity == 2)
@@ -108,42 +109,98 @@ namespace shipapp
                 //
                 printer.Title = "History";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+
+                //
+                dataGridLog.Columns[0].Width = 50;
+                dataGridLog.Columns[1].Width = 50;
+                dataGridLog.Columns[2].Width = 50;
+                dataGridLog.Columns[3].Width = 50;
+                dataGridLog.Columns[4].Width = 50;
+                dataGridLog.Columns[5].Width = 50;
+                dataGridLog.Columns[6].Width = 50;
+                dataGridLog.Columns[7].Width = 50;
+                dataGridLog.Columns[8].Width = 50;
+                dataGridLog.Columns[9].Width = 50;
             }
             else if (identity == 3)
             {
                 //
                 printer.Title = "Users";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+
+                //
+                dataGridLog.Columns[0].Width = 50;
+                dataGridLog.Columns[1].Width = 50;
+                dataGridLog.Columns[2].Width = 50;
+                dataGridLog.Columns[3].Width = 50;
+                dataGridLog.Columns[4].Width = 50;
+                dataGridLog.Columns[5].Width = 50;
             }
             else if (identity == 4)
             {
                 //
                 printer.Title = "Vendors";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+                printer.PageSettings.Landscape = false;
+
+                //
+                dataGridLog.Columns[0].Width = 50;
+                dataGridLog.Columns[1].Width = 50;
             }
             else if (identity == 5)
             {
                 //
                 printer.Title = "Faculty";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+                printer.PageSettings.Landscape = false;
+
+                //
+                dataGridLog.Columns[0].Width = 50;
+                dataGridLog.Columns[1].Width = 50;
+                dataGridLog.Columns[2].Width = 50;
+                dataGridLog.Columns[3].Width = 50;
             }
             else if (identity == 6)
             {
                 //
                 printer.Title = "Buildings";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+
+                //
+                dataGridLog.Columns[0].Width = 50;
+                dataGridLog.Columns[1].Width = 50;
+                dataGridLog.Columns[2].Width = 50;
+                dataGridLog.Columns[3].Width = 50;
+                dataGridLog.Columns[4].Width = 50;
+                dataGridLog.Columns[5].Width = 50;
             }
             else if (identity == 7)
             {
                 //
                 printer.Title = "Carriers";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+
+                //
+                dataGridLog.Columns[0].Width = 50;
+                dataGridLog.Columns[1].Width = 50;
+                dataGridLog.Columns[2].Width = 50;
+                dataGridLog.Columns[3].Width = 50;
+                dataGridLog.Columns[4].Width = 50;
+                dataGridLog.Columns[5].Width = 50;
             }
             else if (identity == 8)
             {
                 //
                 printer.Title = "Activity History";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+
+                //
+                dataGridLog.Columns[0].Width = 50;
+                dataGridLog.Columns[1].Width = 50;
+                dataGridLog.Columns[2].Width = 50;
+                dataGridLog.Columns[3].Width = 50;
+                dataGridLog.Columns[4].Width = 50;
+                dataGridLog.Columns[5].Width = 50;
             }
             else
             {
@@ -236,6 +293,21 @@ namespace shipapp
                 this.packages = (BindingList<Models.Package>)list;
                 dataGridLog.DataSource = this.packages;
                 cmboClerk.Hide();
+
+                //
+                dataGridLog.Columns["PackageId"].Visible = false;
+                dataGridLog.Columns["Package_PersonId"].Visible = false;
+                dataGridLog.Columns["PONumber"].HeaderText = "PO Number";
+                dataGridLog.Columns["PackageCarrier"].HeaderText = "Carrier";
+                dataGridLog.Columns["PackageVendor"].HeaderText = "Vendor";
+                dataGridLog.Columns["PackageDeliveredTo"].HeaderText = "Delivered To";
+                dataGridLog.Columns["PackageDeleveredBy"].HeaderText = "Delivered By";
+                dataGridLog.Columns["PackageSignedForBy"].HeaderText = "Signed For By";
+                dataGridLog.Columns["PackageTrackingNumber"].HeaderText = "Tracking Number";
+                dataGridLog.Columns["PackageReceivedDate"].HeaderText = "Received Date";
+                dataGridLog.Columns["PackageDeliveredDate"].HeaderText = "Delivered Date";
+                dataGridLog.Columns["Status"].HeaderText = "Delivery Status";
+                dataGridLog.Columns["DelivBuildingShortName"].HeaderText = "Deliver To Short Name";
             }
             else if (identity == 3)
             {
@@ -243,13 +315,26 @@ namespace shipapp
                 this.users = (BindingList<Models.User>)list;
                 dataGridLog.DataSource = users;
                 cmboClerk.Hide();
+
+                //
+                dataGridLog.Columns[0].Visible = false;
+                dataGridLog.Columns[1].HeaderText = "First Name";
+                dataGridLog.Columns[2].HeaderText = "Last Name";
+                dataGridLog.Columns[3].HeaderText = "Role";
+                dataGridLog.Columns[4].Visible = false;
+                dataGridLog.Columns[6].Visible = false;
+
             }
             else if (identity == 4)
             {
-                //List is Vendor
+                // List is Vendor
                 this.vendors = (BindingList<Models.Vendors>)list;
                 dataGridLog.DataSource = vendors;
                 cmboClerk.Hide();
+
+                //
+                dataGridLog.Columns[0].Visible = false;
+                dataGridLog.Columns[1].HeaderText = "Vendor";
             }
             else if (identity == 5)
             {
@@ -257,6 +342,15 @@ namespace shipapp
                 this.Faculties = (BindingList<Models.Faculty>)list;
                 dataGridLog.DataSource = Faculties;
                 cmboClerk.Hide();
+
+                //
+                dataGridLog.Columns[0].Visible = false;
+                dataGridLog.Columns[1].Visible = false;
+                dataGridLog.Columns[2].HeaderText = "First Name";
+                dataGridLog.Columns[3].HeaderText = "Last Name";
+                dataGridLog.Columns[4].Visible = false;
+                dataGridLog.Columns[5].HeaderText = "Building";
+                dataGridLog.Columns[6].HeaderText = "Room #";
             }
             else if (identity == 6)
             {
