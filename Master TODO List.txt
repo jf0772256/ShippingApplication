@@ -8,7 +8,7 @@ General list
  - open support forms to using (){ }
  - Dock Sup {
 	all but settings
-}
+} (Done Jesse / Kalin)
 ===========================================================
 Receiving
 -----------------------------------------------------------

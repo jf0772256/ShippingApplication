@@ -227,15 +227,6 @@ namespace shipapp
             btnUsers_Click_1(this, e);
         }
         #region Table Buttons
-        private void btnUsers_Click(object sender, EventArgs e)
-        {
-            ClearBackColor();
-            btnUsers.BackColor = SystemColors.ButtonHighlight;
-            dataGridView1.Columns.Clear();
-            dataGridView1.DataSource = DataConnectionClass.DataLists.UsersList;
-            dataGridView1.Update();
-
-        }
         /// <summary>
         /// Faculty
         /// </summary>
@@ -246,20 +237,13 @@ namespace shipapp
             ClearBackColor();
             btnFaculty.BackColor = SystemColors.ButtonHighlight;
             currentTable = 3;
-            ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
-        }
-        private void btnBuildings_Click(object sender, EventArgs e)
-        {
-            
-        }
-        private void btnCarriers_Click(object sender, EventArgs e)
-        {
-            
-        }
-        private void btnOther_Click(object sender, EventArgs e)
-        {
-            
+
+            if (role == 2)
+            {
+                pictureBox1.Enabled = true;
+                pictureBox1.Show();
+            }
         }
         #endregion // When the user clicks one of these button they will assign the active table and fiil the grid with data.
         #region Grid Buttons
@@ -290,7 +274,6 @@ namespace shipapp
             //TODO Fill list with query from Database
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
-            ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             DataConnectionClass.UserConn.GetManyUsers(this);
 
             if (role == 2)
@@ -332,9 +315,13 @@ namespace shipapp
             //TODO Fill list with query from Database
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
-            ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             DataConnectionClass.VendorConn.GetVendorList(this);
-            //dataGridView1.DataSource = DataConnectionClass.DataLists.Vendors;
+
+            if (role == 2)
+            {
+                pictureBox1.Enabled = true;
+                pictureBox1.Show();
+            }
         }
 
 
@@ -344,6 +331,12 @@ namespace shipapp
             btnBuildings.BackColor = SystemColors.ButtonHighlight;
             currentTable = 4;
             DataConnectionClass.buildingConn.GetBuildingList(this);
+
+            if (role == 2)
+            {
+                pictureBox1.Enabled = true;
+                pictureBox1.Show();
+            }
         }
 
 
@@ -355,8 +348,13 @@ namespace shipapp
             //TODO Fill list with query from Database
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
-            ColumnDirection = new ListSortDirection[] { ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending, ListSortDirection.Descending };
             DataConnectionClass.CarrierConn.GetCarrierList(this);
+
+            if (role == 2)
+            {
+                pictureBox1.Enabled = true;
+                pictureBox1.Show();
+            }
         }
 
 
