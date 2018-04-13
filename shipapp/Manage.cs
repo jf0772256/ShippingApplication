@@ -236,14 +236,6 @@ namespace shipapp
             dataGridView1.Update();
 
         }
-        private void btnVendors_Click(object sender, EventArgs e)
-        {
-            ClearBackColor();
-            btnVendors.BackColor = SystemColors.ButtonHighlight;
-            dataGridView1.DataSource = null;
-            dataGridView1.Columns.Clear();
-            dataGridView1.DataSource = DataConnectionClass.DataLists.Vendors;
-        }
         /// <summary>
         /// Faculty
         /// </summary>
