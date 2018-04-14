@@ -25,6 +25,7 @@ namespace shipapp
         private bool[] isSlectedItem = new bool[3]; 
         private new Receiving ParentForm { get; set; }
         private string WorkingPID { get; set; }
+        private object selecteditem = null;
 
         #region form basic
         public AddPackage(string message, Receiving parent)
@@ -816,6 +817,7 @@ namespace shipapp
         private void cmboSignedBy_SelectionChangeCommitted(object sender, EventArgs e)
         {
             isSlectedItem[2] = true;
+            selecteditem = cmboSignedBy.SelectedItem;
             btnReceive.Enabled = IsRequiredItemsSelected();
         }
 
@@ -827,9 +829,16 @@ namespace shipapp
             }
             else
             {
-                isSlectedItem[2] = false;
+                if (selecteditem != null && selecteditem.ToString() == cmboSignedBy.Text)
+                {
+                    isSlectedItem[2] = true;
+                }
+                else
+                {
+                    isSlectedItem[2] = false;
+                }
             }
-
+            selecteditem = null;
             btnReceive.Enabled = IsRequiredItemsSelected();
         }
     }
