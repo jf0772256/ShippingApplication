@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using shipapp.Connections.HelperClasses;
-using System.Resources;
 using System.Xml.Linq;
 using shipapp.Models;
 using shipapp.Models.ModelData;
@@ -15,6 +10,7 @@ namespace shipapp.Connections.DataConnections
 {
     class DataConnectionClass
     {
+        internal static string Dbname { get; set; }
         public static SQLHelperClass SQLHelper { get; set; }
         public static SQLHelperClass.DatabaseType DBType { get; set; }
         public static Serialize Serialization { get; set; }
@@ -58,6 +54,10 @@ namespace shipapp.Connections.DataConnections
         /// A collection of available methods for buildings such as insert, delete and get lists
         /// </summary>
         public static BuildingConnClass buildingConn { get; set; }
+        /// <summary>
+        /// Handles all in and out from the database auditlog
+        /// </summary>
+        public static Database_Audit AuditLogConnClass { get; set; }
         /// <summary>
         /// A collection of bindable lists of used classes especially for use with datagridviews and the database
         /// </summary>
@@ -179,6 +179,29 @@ namespace shipapp.Connections.DataConnections
                     {
                         item.SetValue("");
                     }
+                    if (ConnectionString != null)
+                    {
+                        string[] cracked = ConnectionString.Split(';');
+                        if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+                        {
+                            string[] db = cracked[2].Split('=');
+                            Dbname = db[1];
+                        }
+                        else if (DBType == SQLHelperClass.DatabaseType.MySQL)
+                        {
+                            if (cracked[2].Substring(0, 4) == "Port")
+                            {
+                                string[] db = cracked[3].Split('=');
+                                Dbname = db[1];
+                            }
+                            else
+                            {
+                                string[] db = cracked[2].Split('=');
+                                Dbname = db[1];
+                            }
+                        }
+                        TestConn.Checktables();
+                    }
                 }
             }
             var enc = from ele in doc.Descendants("strings").Elements() select ele;
@@ -250,7 +273,14 @@ namespace shipapp.Connections.DataConnections
         /// regular List of strings representing Faculty
         /// </summary>
         public SortableBindingList<BuildingClass> BuildingNames { get; set; }
+        /// <summary>
+        /// Packages received and or modifiesd from teh day before today to beginning of time
+        /// </summary>
         public SortableBindingList<Package> PackageHistory { get; set; }
+        /// <summary>
+        /// Database Audit log list
+        /// </summary>
+        public SortableBindingList<string> AuditLog { get; set; }
         /// <summary>
         /// Lists of all used classes (not including sub models or model helpers)
         /// </summary>
@@ -263,6 +293,7 @@ namespace shipapp.Connections.DataConnections
             Vendors = new SortableBindingList<Vendors>() { };
             BuildingNames = new SortableBindingList<BuildingClass>() { };
             PackageHistory = new SortableBindingList<Package>() { };
+            AuditLog = new SortableBindingList<string>() { };
         }
     }
 }

@@ -26,6 +26,7 @@ namespace shipapp
         {
             InitializeComponent();
             DataConnectionClass.GetDatabaseData();
+            //data base should not be cleared ... Unless absolutely nessisary
             //DataConnectionClass.TestConn.ResetAllDatabaseTables();
         }
 

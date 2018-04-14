@@ -87,7 +87,8 @@ namespace shipapp.Connections
                     "CREATE TABLE IF NOT EXISTS carriers(carrier_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, carrier_name VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     
                     "CREATE TABLE IF NOT EXISTS packages(package_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,package_po varchar(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date VARCHAR(50),package_deliv_bldg VARCHAR(100), package_deliver_date VARCHAR(50), package_notes_id VARCHAR(1000) NOT NULL UNIQUE,package_status INT DEFAULT 0, last_modified VARCHAR(100) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS idcounter(id BIGINT NOT NULL PRIMARY KEY, id_value BIGINT NOT NULL, last_id VARCHAR(1000) DEFAULT NULL); "
+                    "CREATE TABLE IF NOT EXISTS idcounter(id BIGINT NOT NULL PRIMARY KEY, id_value BIGINT NOT NULL, last_id VARCHAR(1000) DEFAULT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS db_audit_history(record_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, action_taken VARCHAR(1000) NOT NULL, action_initiated_by VARCHAR(50) NOT NULL, action_timestamp VARCHAR(100) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; "
                 };
             }
             else if (DBType == SQLHelperClass.DatabaseType.MSSQL)
@@ -107,6 +108,7 @@ namespace shipapp.Connections
 
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'packages')CREATE TABLE packages(package_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,package_po VARCHAR(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date VARCHAR(50),package_deliv_bldg VARCHAR(100), package_deliver_date VARCHAR(50), package_note_id VARCHAR(1000) NOT NULL, package_status INT DEFAULT 0, last_modified VARCHAR(100) NOT NULL, CONSTRAINT UC_NID UNIQUE(package_note_id));",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'idcounter')CREATE TABLE idcounter(id BIGINT NOT NULL PRIMARY KEY, id_value BIGINT NOT NULL, last_id VARCHAR(1000) DEFAULT NULL);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'db_audit_history')CREATE TABLE db_audit_history(record_id BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1), action_taken VARCHAR(1000) NOT NULL, action_initiated_by VARCHAR(50) NOT NULL, action_timestamp VARCHAR(100) NOT NULL);",
                     "IF (SELECT COUNT(*) FROM sys.symmetric_keys WHERE name = 'secure_data')=0 CREATE SYMMETRIC KEY secure_data WITH ALGORITHM = AES_128 ENCRYPTION BY PASSWORD = '" + EncodeKey +"';"
                 };
             }
@@ -131,20 +133,6 @@ namespace shipapp.Connections
                             cmd.ExecuteNonQuery();
                         }
                         cmd.Transaction.Commit();
-                        //for  confirmation that the tables had been created...MSSQL ONLY
-                        if (DBType == SQLHelperClass.DatabaseType.MSSQL)
-                        {
-                            cmd.CommandText = "SELECT [name] FROM sys.tables;";
-                            string message = "Tables exist or were Created::\n";
-                            using (OdbcDataReader reader = cmd.ExecuteReader())
-                            {
-                                while (reader.Read())
-                                {
-                                    message += reader[0].ToString() + "\n";
-                                }
-                                System.Windows.Forms.MessageBox.Show(message, "creation results");
-                            }
-                        }
                     }
                     catch (Exception e)
                     {
@@ -206,6 +194,82 @@ namespace shipapp.Connections
                     {
                         cmd.Transaction.Rollback();
                         throw new DatabaseConnectionException("Data failed to proccess see inner exceotion for further details", exe);
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// You can now check that the tables have been created, if it cannot find them then it will return false, if it finds any one it shoulld return true
+        /// </summary>
+        /// <param name="databasename">Parameter used for MySQL to hone the tables to only yours, if left blank the database query will shoot in the dark, it may or may not return a value</param>
+        /// <returns>Boolean</returns>
+        protected bool CheckTablesExist(string databasename)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("",c))
+                {
+                    //for  confirmation that the tables had been created...MSSQL ONLY
+                    if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+                    {
+                        if (String.IsNullOrWhiteSpace(databasename))
+                        {
+                            throw new DatabaseConnectionException("Database name must be provided");
+                        }
+                        cmd.CommandText = "select 'carriers' from "+databasename+".sys.tables where [name] like 'carriers';";
+                        string message = "";
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                message += reader[0].ToString() + "\n";
+                            }
+                            if (message.Length > 5)
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    else if (DBType == SQLHelperClass.DatabaseType.MySQL)
+                    {
+                        if (String.IsNullOrWhiteSpace(databasename))
+                        {
+                            throw new DatabaseConnectionException("Database name must be provided");
+                        }
+                        else
+                        {
+                            cmd.CommandText = "SELECT users FROM information_schema.tables where table_schema = '?'";
+                            cmd.Parameters.Add("dbname", OdbcType.VarChar).Value = databasename;
+                            string message = "";
+                            using (OdbcDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    message += reader[0].ToString() + "\n";
+                                }
+                                if (message.Length > 0)
+                                {
+                                    return true;
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new DatabaseConnectionException("Invalid database type selected");
                     }
                 }
             }
@@ -575,6 +639,38 @@ namespace shipapp.Connections
                     {
                         cmd.Transaction.Rollback();
                         throw new DatabaseConnectionException("Data Processing Failed to write, view inner exceltion for details", e);
+                    }
+                }
+            }
+        }
+        protected void Write(string auditaction, string auditperson, string audittime)
+        {
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                OdbcTransaction tr = c.BeginTransaction();
+                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                {
+                    cmd.CommandText = "INSERT INTO db_audit_history(action_taken,action_initiated_by,action_timestamp)VALUES(?,?,?);";
+                    cmd.Parameters.AddRange(new OdbcParameter[]
+                    {
+                        new OdbcParameter("taken",auditaction),
+                        new OdbcParameter("by",auditperson),
+                        new OdbcParameter("time",audittime)
+                    });
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new DatabaseConnectionException("Failed Processing Request.", e);
                     }
                 }
             }
@@ -1714,6 +1810,30 @@ namespace shipapp.Connections
             }
             return bl;
         }
+        protected SortableBindingList<string> Get_Audit_Log()
+        {
+            SortableBindingList<string> rval = new SortableBindingList<string>();
+            ConnString = DataConnectionClass.ConnectionString;
+            DBType = DataConnectionClass.DBType;
+            EncodeKey = DataConnectionClass.EncodeString;
+            using (OdbcConnection c = new OdbcConnection())
+            {
+                c.ConnectionString = ConnString;
+                c.Open();
+                using (OdbcCommand cmd = new OdbcCommand("",c))
+                {
+                    cmd.CommandText = "SELECT action_taken,action_initiated_by,action_timestamp FROM db_audit_history;";
+                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            rval.Add(reader["action_initiated_by"].ToString() + " has " + reader["action_taken"].ToString() + " on " + reader["action_timestamp"].ToString());
+                        }
+                    }
+                }
+            }
+            return rval;
+        }
         internal long GetLastNumericalId()
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -1805,7 +1925,6 @@ namespace shipapp.Connections
                             {
                                 if (restoreToDBType == SQLHelperClass.DatabaseType.MSSQL)
                                 {
-                                    sql += "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';\n";
                                     sql += "INSERT INTO users(user_fname,user_lname,user_name,user_password,user_role_id,person_id)VALUES";
                                     bool done = false;
                                     while (reader.Read())
@@ -1819,7 +1938,6 @@ namespace shipapp.Connections
                                         sql += ",('" + reader["user_fname"].ToString() + "','" + reader["user_lname"].ToString() + "','" + reader["user_name"].ToString() + "',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'" + reader["Password"].ToString() + "'))," + Convert.ToInt64(reader["user_role_id"].ToString()) + ",'" + reader["person_id"].ToString() + "')";
                                     }
                                     sql += ";\n";
-                                    sql += "CLOSE SYMMETRIC KEY secure_data;\n";
                                 }
                                 else if (restoreToDBType == SQLHelperClass.DatabaseType.MySQL)
                                 {
@@ -1959,20 +2077,26 @@ namespace shipapp.Connections
                                 sql += ";\n";
                             }
                         }
-                        cmd.CommandText = "SELECT id_value,last_id FROM idcounter;";
+                        cmd.CommandText = "SELECT id,id_value,last_id FROM idcounter;";
                         using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            sql += "INSERT INTO idcounter(id_value,last_id)VALUES";
+                            sql += "UPDATE idcounter SET id_value = "+ Convert.ToInt64(reader["id_value"].ToString()) + ",last_id = '" + reader["last_id"].ToString() + "' WHERE id = 1;";
+                            sql += "\n";
+                        }
+                        cmd.CommandText = "SELECT id,action_taken,action_initiated_by,action_timestamp FROM db_audit_history;";
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            sql += "INSERT INTO db_audit_history(record_id,action_taken,action_initiated_by,action_timestamp)VALUES";
                             bool done = false;
                             while (reader.Read())
                             {
                                 if (!done)
                                 {
-                                    sql += "(" + Convert.ToInt64(reader["id_value"].ToString()) + ",'" + reader["last_id"].ToString() + "')";
+                                    sql += "(" + Convert.ToInt64(reader["record_id"].ToString()) + ",'" + reader["action_taken"].ToString() + "','" + reader["action_initiated_by"].ToString() + "','" + reader["action_timestamp"].ToString() + "')";
                                     done = true;
                                     continue;
                                 }
-                                sql += ",(" + Convert.ToInt64(reader["id_value"].ToString()) + ",'" + reader["last_id"].ToString() + "')";
+                                sql += ",(" + Convert.ToInt64(reader["record_id"].ToString()) + ",'" + reader["action_taken"].ToString() + "','" + reader["action_initiated_by"].ToString() + "','" + reader["action_timestamp"].ToString() + "')";
                             }
                             sql += ";\n";
                         }
@@ -2010,12 +2134,19 @@ namespace shipapp.Connections
         private List<string> ReadFile(string filetoread)
         {
             List<string> data = new List<string>();
+            string line = "";
             using (StreamReader reader = new StreamReader(filetoread))
             {
-                while (!String.IsNullOrWhiteSpace(reader.ReadLine()))
+                //while (!String.IsNullOrWhiteSpace(reader.ReadLine()))
+                //{
+                //    data.Add(reader.ReadLine());
+                //}
+                line = reader.ReadLine();
+                do
                 {
-                    data.Add(reader.ReadLine());
-                }
+                    data.Add(line);
+                    line = reader.ReadLine();
+                } while (!String.IsNullOrWhiteSpace(line));
             }
             return data;
         }
