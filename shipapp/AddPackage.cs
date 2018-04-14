@@ -591,6 +591,7 @@ namespace shipapp
             }
 
             isSlectedItem[0] = true;
+            selecteditem = cmboVendor.SelectedItem;
             btnReceive.Enabled = IsRequiredItemsSelected();
         }
         private void cmboRecipiant_SelectionChangeCommitted(object sender, EventArgs e)
@@ -687,6 +688,7 @@ namespace shipapp
             }
 
             isSlectedItem[1] = true;
+            selecteditem = cmboRecipiant.SelectedItem;
             btnReceive.Enabled = IsRequiredItemsSelected();
         }
         private void cmboBuilding_SelectionChangeCommitted(object sender, EventArgs e)
@@ -837,6 +839,62 @@ namespace shipapp
                 {
                     isSlectedItem[2] = false;
                 }
+            }
+            selecteditem = null;
+            btnReceive.Enabled = IsRequiredItemsSelected();
+        }
+
+        private void cmboVendor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (selecteditem != null && selecteditem.ToString() == cmboVendor.Text)
+            {
+                isSlectedItem[0] = true;
+            }
+            else
+            {
+                isSlectedItem[0] = false;
+            }
+            selecteditem = null;
+            btnReceive.Enabled = IsRequiredItemsSelected();
+        }
+
+        private void cmboRecipiant_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (selecteditem != null && selecteditem.ToString() == cmboRecipiant.Text)
+            {
+                isSlectedItem[1] = true;
+            }
+            else
+            {
+                isSlectedItem[1] = false;
+            }
+            selecteditem = null;
+            btnReceive.Enabled = IsRequiredItemsSelected();
+        }
+
+        private void cmboVendor_TextChanged(object sender, EventArgs e)
+        {
+            if (selecteditem != null && selecteditem.ToString() == cmboVendor.Text)
+            {
+                isSlectedItem[0] = true;
+            }
+            else
+            {
+                isSlectedItem[0] = false;
+            }
+            selecteditem = null;
+            btnReceive.Enabled = IsRequiredItemsSelected();
+        }
+
+        private void cmboRecipiant_TextChanged(object sender, EventArgs e)
+        {
+            if (selecteditem != null && selecteditem.ToString() == cmboRecipiant.Text)
+            {
+                isSlectedItem[1] = true;
+            }
+            else
+            {
+                isSlectedItem[1] = false;
             }
             selecteditem = null;
             btnReceive.Enabled = IsRequiredItemsSelected();

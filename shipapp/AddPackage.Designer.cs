@@ -198,7 +198,9 @@
             this.cmboVendor.Name = "cmboVendor";
             this.cmboVendor.Size = new System.Drawing.Size(169, 28);
             this.cmboVendor.TabIndex = 4;
+            this.cmboVendor.SelectedIndexChanged += new System.EventHandler(this.cmboVendor_SelectedIndexChanged);
             this.cmboVendor.SelectionChangeCommitted += new System.EventHandler(this.cmboVendor_SelectionChangeCommitted);
+            this.cmboVendor.TextChanged += new System.EventHandler(this.cmboVendor_TextChanged);
             // 
             // cmboRecipiant
             // 
@@ -210,7 +212,9 @@
             this.cmboRecipiant.Name = "cmboRecipiant";
             this.cmboRecipiant.Size = new System.Drawing.Size(169, 28);
             this.cmboRecipiant.TabIndex = 5;
+            this.cmboRecipiant.SelectedIndexChanged += new System.EventHandler(this.cmboRecipiant_SelectedIndexChanged);
             this.cmboRecipiant.SelectionChangeCommitted += new System.EventHandler(this.cmboRecipiant_SelectionChangeCommitted);
+            this.cmboRecipiant.TextChanged += new System.EventHandler(this.cmboRecipiant_TextChanged);
             // 
             // cmboDelBy
             // 
