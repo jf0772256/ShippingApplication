@@ -73,36 +73,6 @@ namespace shipapp
             // If edit, fill form with the pakcage info
             if (message == "EDIT")
             {
-                // TODO: Filter ComboBoxe with correct info  
-                txtPO.Text = newPackage.PONumber;
-                txtTracking.Text = newPackage.PackageTrackingNumber;
-                cmboCarrier.Text = newPackage.PackageCarrier;
-                cmboVendor.Text = newPackage.PackageVendor;
-                cmboRecipiant.Text = newPackage.PackageDeliveredTo;
-                cmboSignedBy.Text = newPackage.PackageSignedForBy;
-                cmboDelBy.Text = newPackage.PackageDeleveredBy;
-                cmboStatus.Text = newPackage.Status.ToString();
-                txtRoleId.Text = newPackage.Package_PersonId;
-                string[] parts = newPackage.DelivBuildingShortName.Split(' ');
-                cmboBuilding.Text = parts[0];
-
-                if (newPackage.Status == Package.DeliveryStatus.Not_Received)
-                {
-                    dTRec.Enabled = true;
-                }
-                else
-                {
-                    dTRec.Enabled = false;
-                }
-
-                if (parts.Length == 2)
-                {
-                    lblroom.Text = parts[1];
-                }
-                else
-                {
-                    lblroom.Text = "";
-                }
                 foreach (Carrier car in DataConnectionClass.DataLists.CarriersList)
                 {
                     cmboCarrier.Items.Add(car.ToString());
@@ -123,6 +93,36 @@ namespace shipapp
                 foreach (User usr in DataConnectionClass.DataLists.UsersList)
                 {
                     cmboDelBy.Items.Add(usr.ToFormattedString());
+                }
+                // TODO: Filter ComboBoxe with correct info  
+                txtPO.Text = newPackage.PONumber;
+                txtTracking.Text = newPackage.PackageTrackingNumber;
+                cmboCarrier.SelectedItem = newPackage.PackageCarrier;
+                cmboVendor.SelectedItem = newPackage.PackageVendor;
+                cmboRecipiant.SelectedItem = newPackage.PackageDeliveredTo;
+                cmboSignedBy.SelectedItem = newPackage.PackageSignedForBy;
+                cmboDelBy.SelectedItem = newPackage.PackageDeleveredBy;
+                cmboStatus.SelectedItem = newPackage.Status.ToString();
+                txtRoleId.Text = newPackage.Package_PersonId;
+                string[] parts = newPackage.DelivBuildingShortName.Split(' ');
+                cmboBuilding.SelectedItem = parts[0];
+
+                if (newPackage.Status == Package.DeliveryStatus.Not_Received)
+                {
+                    dTRec.Enabled = true;
+                }
+                else
+                {
+                    dTRec.Enabled = false;
+                }
+
+                if (parts.Length == 2)
+                {
+                    lblroom.Text = parts[1];
+                }
+                else
+                {
+                    lblroom.Text = "";
                 }
             }
             else if (message == "ADD")
@@ -320,50 +320,56 @@ namespace shipapp
         }
         private void cmboStatus_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            string selText = cmboStatus.SelectedItem.ToString();
-            if (selText == "Not Recieved")
+            if (message == "ADD")
             {
-                newPackage.Status = Package.DeliveryStatus.Not_Received;
-            }
-            else if (selText == "Recieved")
-            {
-                newPackage.Status = Package.DeliveryStatus.Received;
-            }
-            else if (selText == "Out For Delivery")
-            {
-                newPackage.Status = Package.DeliveryStatus.OutForDelivery;
-            }
-            else if (selText == "Delivered")
-            {
-                newPackage.Status = Package.DeliveryStatus.Delivered;
-            }
-            else
-            {
-                newPackage.Status = Package.DeliveryStatus.Not_Received;
+                string selText = cmboStatus.SelectedItem.ToString();
+                if (selText == "Not Recieved")
+                {
+                    newPackage.Status = Package.DeliveryStatus.Not_Received;
+                }
+                else if (selText == "Recieved")
+                {
+                    newPackage.Status = Package.DeliveryStatus.Received;
+                }
+                else if (selText == "Out For Delivery")
+                {
+                    newPackage.Status = Package.DeliveryStatus.OutForDelivery;
+                }
+                else if (selText == "Delivered")
+                {
+                    newPackage.Status = Package.DeliveryStatus.Delivered;
+                }
+                else
+                {
+                    newPackage.Status = Package.DeliveryStatus.Not_Received;
+                }
             }
         }
         private void cmboStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string selText = cmboStatus.SelectedItem.ToString();
-            if (selText == "Not Recieved")
+            if (message == "ADD")
             {
-                newPackage.Status = Package.DeliveryStatus.Not_Received;
-            }
-            else if (selText == "Recieved")
-            {
-                newPackage.Status = Package.DeliveryStatus.Received;
-            }
-            else if (selText == "Out For Delivery")
-            {
-                newPackage.Status = Package.DeliveryStatus.OutForDelivery;
-            }
-            else if (selText == "Delivered")
-            {
-                newPackage.Status = Package.DeliveryStatus.Delivered;
-            }
-            else
-            {
-                newPackage.Status = Package.DeliveryStatus.Not_Received;
+                string selText = cmboStatus.SelectedItem.ToString();
+                if (selText == "Not Recieved")
+                {
+                    newPackage.Status = Package.DeliveryStatus.Not_Received;
+                }
+                else if (selText == "Recieved")
+                {
+                    newPackage.Status = Package.DeliveryStatus.Received;
+                }
+                else if (selText == "Out For Delivery")
+                {
+                    newPackage.Status = Package.DeliveryStatus.OutForDelivery;
+                }
+                else if (selText == "Delivered")
+                {
+                    newPackage.Status = Package.DeliveryStatus.Delivered;
+                }
+                else
+                {
+                    newPackage.Status = Package.DeliveryStatus.Not_Received;
+                }
             }
         }
         #region For creation of the person id on the fly
@@ -805,10 +811,12 @@ namespace shipapp
         public bool IsRequiredItemsSelected()
         {
             bool pass = true;
-
-            pass = (isSlectedItem[0] && isSlectedItem[1])
-                ? true
-                : false;
+            if (message == "ADD")
+            {
+                pass = (isSlectedItem[0] && isSlectedItem[1])
+                    ? true
+                    : false;
+            }
 
             if (isSlectedItem[2] && pass)
             {
