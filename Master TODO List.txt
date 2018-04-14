@@ -9,7 +9,7 @@ General list
  - Dock Sup {
 	all but settings
 } (Done Jesse / Kalin)
--Set all datagrid view to disallow manual adds, as all adds should be done through the apprerate forms made to ensure that all fields are being properly captured. This will have the effect also allowing for the select all to work with the add to or delete as it removes the empty row at the bottom of the list. This is a property in the properties window (allow useradd, allow user edit)
+-Set all datagrid view to disallow manual adds, as all adds should be done through the apprerate forms made to ensure that all fields are being properly captured. This will have the effect also allowing for the select all to work with the add to or delete as it removes the empty row at the bottom of the list. This is a property in the properties window (allow useradd, allow user edit) (DONE: Kalin: Jesse)
 ===========================================================
 Receiving
 -----------------------------------------------------------
@@ -26,27 +26,29 @@ Receiving
  -Ensure printing is working correctly(Done: Kalin)
  -Set Clerk from user selection in print log (Done - Kalin)
  -Test Tabs(Done: Kalin)
- -Add date to delivery log
+ -Add date to delivery log (Done: Kalin)
+-Test enter Key(Done: Kalin)
 ===========================================================
 History
 -----------------------------------------------------------
  -Query packages based on selected column (DONE Jesse / Kalin)
  -Test row(s) selected before executing row dependent logic (Done: Kalin)
- -Ensure printing is working correctly
+ -Ensure printing is working correctly(Prints but need beautification)
 ===========================================================
 Manage
 -----------------------------------------------------------
  -Hide passwords for supervisors (Done - Jesse)
  -Hide Unnessisary Columns from Manage (Done - Jesse) *with error trapping*
- -Ensure printing is working correctly
+ -Ensure printing is working correctly(Done: Kalin)
  -Add ability to Add a note (Done Jesse) 
  -Add activity history list **This will be done**
    +Example 0:(When a user adds a vendor add a history object that indicates what user added what vendor on what date)
    +Example 1:(When a the database autobacks up create a object that states that the database was backed up)
  -Add a diffrent backcolor to the selected table button(i.e. when vendor selected, vendor background color eual blue) 
- -Test Tabs
- -Test tabs in various add forms
+ -Test Tabs(Done: Kalin)
+ -Test tabs in various add forms(Done: Kalin)
  - Convert text box to combo box where user role (Done Jesse)
+-Test enter Key(Done: Kalin)
 ===========================================================
 Settings
 -----------------------------------------------------------
@@ -55,9 +57,9 @@ Settings
 ===========================================================
 Main Menu
 -----------------------------------------------------------
- -Test Tabs
+ -Test Tabs(Done: Kalin)
 ===========================================================
 Login
 -----------------------------------------------------------
- -Test Tabs
- -Test enter Key
+ -Test Tabs(Done: Kalin)
+ -Test enter Key(Done: Kalin)

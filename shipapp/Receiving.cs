@@ -343,8 +343,16 @@ namespace shipapp
         public void DeletePackage()
         {
             Package packageToBeRemoved = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0].Value));
-            DataConnectionClass.PackageConnClass.DeletePackage(packageToBeRemoved);
-            DataConnectionClass.PackageConnClass.GetPackageList();
+
+            if (packageToBeRemoved.PackageReceivedDate == DateTime.Today.ToShortDateString())
+            {
+                DataConnectionClass.PackageConnClass.DeletePackage(packageToBeRemoved);
+                DataConnectionClass.PackageConnClass.GetPackageList();
+            }
+            else
+            {
+                MessageBox.Show("You cannot delete this package.\r\nTHis package was not created in the past and cannot be deleted.", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
             Refreash();
         }
         #endregion

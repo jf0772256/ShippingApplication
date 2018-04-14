@@ -85,6 +85,16 @@ namespace shipapp
                 txtRoleId.Text = newPackage.Package_PersonId;
                 string[] parts = newPackage.DelivBuildingShortName.Split(' ');
                 cmboBuilding.Text = parts[0];
+
+                if (newPackage.Status == Package.DeliveryStatus.Not_Received)
+                {
+                    dTRec.Enabled = true;
+                }
+                else
+                {
+                    dTRec.Enabled = false;
+                }
+
                 if (parts.Length == 2)
                 {
                     lblroom.Text = parts[1];
