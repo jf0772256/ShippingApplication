@@ -775,5 +775,10 @@ namespace shipapp
                 note.ShowDialog();
             }
         }
+
+        private void txtPO_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

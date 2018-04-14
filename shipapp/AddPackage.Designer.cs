@@ -75,6 +75,7 @@
             this.txtPO.Name = "txtPO";
             this.txtPO.Size = new System.Drawing.Size(169, 26);
             this.txtPO.TabIndex = 1;
+            this.txtPO.TextChanged += new System.EventHandler(this.txtPO_TextChanged);
             this.txtPO.Leave += new System.EventHandler(this.txtPO_Leave);
             // 
             // lblCarrier
@@ -179,6 +180,7 @@
             // 
             this.cmboCarrier.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmboCarrier.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmboCarrier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboCarrier.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboCarrier.FormattingEnabled = true;
             this.cmboCarrier.Location = new System.Drawing.Point(109, 69);
@@ -215,6 +217,7 @@
             // 
             this.cmboDelBy.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmboDelBy.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmboDelBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboDelBy.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboDelBy.FormattingEnabled = true;
             this.cmboDelBy.ItemHeight = 20;
@@ -239,6 +242,7 @@
             // 
             this.cmboStatus.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmboStatus.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmboStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboStatus.FormattingEnabled = true;
             this.cmboStatus.Location = new System.Drawing.Point(417, 104);
@@ -310,11 +314,11 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(303, 143);
+            this.label9.Location = new System.Drawing.Point(303, 141);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 20);
+            this.label9.Size = new System.Drawing.Size(87, 20);
             this.label9.TabIndex = 35;
-            this.label9.Text = "Role Id";
+            this.label9.Text = "Unique Id";
             // 
             // txtRoleId
             // 
@@ -329,6 +333,7 @@
             // 
             this.cmboBuilding.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmboBuilding.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmboBuilding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboBuilding.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboBuilding.FormattingEnabled = true;
             this.cmboBuilding.Location = new System.Drawing.Point(109, 163);
