@@ -177,6 +177,8 @@
             // 
             // cmboCarrier
             // 
+            this.cmboCarrier.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmboCarrier.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmboCarrier.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboCarrier.FormattingEnabled = true;
             this.cmboCarrier.Location = new System.Drawing.Point(109, 69);
@@ -187,6 +189,8 @@
             // 
             // cmboVendor
             // 
+            this.cmboVendor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmboVendor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmboVendor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboVendor.FormattingEnabled = true;
             this.cmboVendor.Location = new System.Drawing.Point(109, 101);
@@ -197,6 +201,8 @@
             // 
             // cmboRecipiant
             // 
+            this.cmboRecipiant.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmboRecipiant.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmboRecipiant.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboRecipiant.FormattingEnabled = true;
             this.cmboRecipiant.Location = new System.Drawing.Point(109, 133);
@@ -207,6 +213,8 @@
             // 
             // cmboDelBy
             // 
+            this.cmboDelBy.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmboDelBy.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmboDelBy.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboDelBy.FormattingEnabled = true;
             this.cmboDelBy.ItemHeight = 20;
@@ -217,6 +225,8 @@
             // 
             // cmboSignedBy
             // 
+            this.cmboSignedBy.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmboSignedBy.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmboSignedBy.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboSignedBy.FormattingEnabled = true;
             this.cmboSignedBy.ItemHeight = 20;
@@ -227,6 +237,8 @@
             // 
             // cmboStatus
             // 
+            this.cmboStatus.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmboStatus.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmboStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboStatus.FormattingEnabled = true;
             this.cmboStatus.Location = new System.Drawing.Point(417, 104);
@@ -315,6 +327,8 @@
             // 
             // cmboBuilding
             // 
+            this.cmboBuilding.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmboBuilding.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmboBuilding.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboBuilding.FormattingEnabled = true;
             this.cmboBuilding.Location = new System.Drawing.Point(109, 163);
