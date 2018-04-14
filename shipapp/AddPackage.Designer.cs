@@ -75,7 +75,6 @@
             this.txtPO.Name = "txtPO";
             this.txtPO.Size = new System.Drawing.Size(169, 26);
             this.txtPO.TabIndex = 1;
-            this.txtPO.TextChanged += new System.EventHandler(this.txtPO_TextChanged);
             this.txtPO.Leave += new System.EventHandler(this.txtPO_Leave);
             // 
             // lblCarrier
@@ -237,6 +236,8 @@
             this.cmboSignedBy.Name = "cmboSignedBy";
             this.cmboSignedBy.Size = new System.Drawing.Size(158, 28);
             this.cmboSignedBy.TabIndex = 9;
+            this.cmboSignedBy.SelectionChangeCommitted += new System.EventHandler(this.cmboSignedBy_SelectionChangeCommitted);
+            this.cmboSignedBy.TextChanged += new System.EventHandler(this.cmboSignedBy_TextChanged);
             // 
             // cmboStatus
             // 

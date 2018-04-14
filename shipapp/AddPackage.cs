@@ -22,6 +22,7 @@ namespace shipapp
         private Package newPackage;
         private Faculty fac;
         private string message = "NONE";
+        private bool[] isSlectedItem = new bool[3]; 
         private new Receiving ParentForm { get; set; }
         private string WorkingPID { get; set; }
 
@@ -59,6 +60,12 @@ namespace shipapp
         }
         private void AddPackage_Load(object sender, EventArgs e)
         {
+            isSlectedItem[0] = false;
+            isSlectedItem[1] = false;
+            isSlectedItem[2] = false;
+
+            btnReceive.Enabled = IsRequiredItemsSelected();
+
             // Set date to today
             dTRec.Value = DateTime.Now;
             dTDel.Value = DateTime.Now;
@@ -581,6 +588,9 @@ namespace shipapp
                 DataConnectionClass.CreatePersonId(WorkingPID);
                 txtRoleId.Text = DataConnectionClass.PersonIdGenerated;
             }
+
+            isSlectedItem[0] = true;
+            btnReceive.Enabled = IsRequiredItemsSelected();
         }
         private void cmboRecipiant_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -674,6 +684,9 @@ namespace shipapp
                 lblroom.Text = fac.RoomNumber;
                 newPackage.DelivBuildingShortName = cmboBuilding.Text + " " + fac.RoomNumber;
             }
+
+            isSlectedItem[1] = true;
+            btnReceive.Enabled = IsRequiredItemsSelected();
         }
         private void cmboBuilding_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -776,9 +789,48 @@ namespace shipapp
             }
         }
 
-        private void txtPO_TextChanged(object sender, EventArgs e)
+        public bool IsRequiredItemsSelected()
         {
+            bool pass = true;
 
+            pass = (isSlectedItem[0] && isSlectedItem[1])
+                ? true
+                : false;
+
+            if (isSlectedItem[2] && pass)
+            {
+                pass = true;
+            }
+            else if (cmboSignedBy.Text == "" && pass)
+            {
+                pass = true;
+            }
+            else
+            {
+                pass = false;
+            }
+
+            return pass;
+        }
+
+        private void cmboSignedBy_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            isSlectedItem[2] = true;
+            btnReceive.Enabled = IsRequiredItemsSelected();
+        }
+
+        private void cmboSignedBy_TextChanged(object sender, EventArgs e)
+        {
+            if (cmboSignedBy.Text == "")
+            {
+                isSlectedItem[2] = true;
+            }
+            else
+            {
+                isSlectedItem[2] = false;
+            }
+
+            btnReceive.Enabled = IsRequiredItemsSelected();
         }
     }
 }
