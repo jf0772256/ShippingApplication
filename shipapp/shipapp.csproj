@@ -113,6 +113,7 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuditItem.cs" />
     <Compile Include="Models\Carrier.cs" />
     <Compile Include="Connections\DatabaseConnection.cs" />
     <Compile Include="Models\Faculty.cs" />

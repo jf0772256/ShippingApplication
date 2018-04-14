@@ -48,6 +48,8 @@ namespace shipapp
                 throw new ArgumentException("Invalid object as sender");
             }
             InitializeComponent();
+            textBox1.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Regular);
+            textBox2.Font = new Font("Microsoft Sans Serif", 11, FontStyle.Regular);
         }
         /// <summary>
         /// This method will add the note to the appropriate entity
@@ -64,19 +66,19 @@ namespace shipapp
             {
                 if (Fac as Faculty != null)
                 {
-                    Fac.Notes.Add(new Note() { Note_Value = textBox1.Text });
+                    Fac.Notes.Add(new Note() { Note_Value = textBox1.Text + ". Added by: " + DataConnectionClass.AuthenticatedUser.ToString() });
                     DataConnectionClass.EmployeeConn.UpdateFaculty(Fac);
                     Close();
                 }
                 else if (Usr as User != null)
                 {
-                    Usr.Notes.Add(new Note() { Note_Value = textBox1.Text });
+                    Usr.Notes.Add(new Note() { Note_Value = textBox1.Text + ". Added by: " + DataConnectionClass.AuthenticatedUser.ToString() });
                     DataConnectionClass.UserConn.Update1User(Usr);
                     Close();
                 }
                 else if (Pck as Package != null)
                 {
-                    Pck.Notes.Add(new Note() { Note_Value = textBox1.Text });
+                    Pck.Notes.Add(new Note() { Note_Value = textBox1.Text + ". Added by: " + DataConnectionClass.AuthenticatedUser.ToString() });
                     DataConnectionClass.PackageConnClass.UpdatePackage(Pck);
                     Close();
                 }

@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using shipapp.Models;
+using shipapp.Models.ModelData;
+using shipapp.Connections.DataConnections;
 
 namespace shipapp
 {
@@ -17,7 +20,7 @@ namespace shipapp
     {
         // Class level variables
         private string message;
-        private Models.User userToBeEdited;
+        private User userToBeEdited;
         private char c = '\u2022';
 
 
@@ -41,7 +44,7 @@ namespace shipapp
         {
             InitializeComponent();
             this.message = message;
-            this.userToBeEdited = (Models.User)objectToBeEditied;
+            this.userToBeEdited = (User)objectToBeEditied;
         }
 
 
@@ -91,40 +94,40 @@ namespace shipapp
             if (ValidateData() && message == "ADD") // If adding a user
             {
                 // Create usedr entity
-                Models.User newUser = new Models.User();
+                User newUser = new User();
 
                 // Fill entity
                 newUser.FirstName = txtFirstName.Text;
                 newUser.LastName = txtLastName.Text;
-                newUser.Level = new Models.ModelData.Role() { Role_id = returnRoleId() };
+                newUser.Level = new Role() { Role_id = returnRoleId() };
                 newUser.Username = txtUsername.Text;
                 newUser.PassWord = txtPassword.Text;
                 newUser.Person_Id = txtBoxPersonId.Text;
 
                 // Write the data to the DB
-                Connections.DataConnections.DataConnectionClass.UserConn.Write1User(newUser);
-                //Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Add(Connections.DataConnections.DataConnectionClass.UserConn.Get1User(newUser.Username));
-                Connections.DataConnections.DataConnectionClass.SavePersonId();
+                DataConnectionClass.UserConn.Write1User(newUser);
+                DataConnectionClass.SavePersonId();
+                DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added a new user: " + newUser.ToString());
                 this.Close();
             }
             else if (ValidateData() && message == "EDIT") // If editing the user
             {
                 // Create usedr entity
-                Models.User newUser = new Models.User();
+                User newUser = new User();
 
                 // Fill entity
                 newUser.Id = userToBeEdited.Id;
                 newUser.Notes = userToBeEdited.Notes;
                 newUser.FirstName = txtFirstName.Text;
                 newUser.LastName = txtLastName.Text;
-                newUser.Level = new Models.ModelData.Role() { Role_id = returnRoleId() };
+                newUser.Level = new Role() { Role_id = returnRoleId() };
                 newUser.Username = txtUsername.Text;
                 newUser.PassWord = txtPassword.Text;
                 newUser.Person_Id = txtBoxPersonId.Text;
 
                 // Write the data to the DB
-                Connections.DataConnections.DataConnectionClass.UserConn.Update1User(newUser);
-                //Connections.DataConnections.DataConnectionClass.DataLists.UsersList.Add(Connections.DataConnections.DataConnectionClass.UserConn.Get1User(newUser.Username));
+                DataConnectionClass.UserConn.Update1User(newUser);
+                DataConnectionClass.AuditLogConnClass.AddRecordToAudit("edited user: " + newUser.ToString());
                 this.Close();
             }
             else if (message != "ADD" && message != "EDIT") // If the message is empty

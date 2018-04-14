@@ -55,6 +55,7 @@ namespace shipapp
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
+            Connections.DataConnections.DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added a new or changed exising database connection");
             Connections.DataConnections.DataConnectionClass.SaveDatabaseData(new string[] { Connections.DataConnections.DataConnectionClass.DBType.ToString(), Connections.DataConnections.DataConnectionClass.ConnectionString, Connections.DataConnections.DataConnectionClass.EncodeString });
             MessageBox.Show("The new Connection has been saved!\r\n You must restart the application for the new connection to take effect.\r\n The application will now Exit", "Database Connection Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
             DialogResult = DialogResult.OK;
@@ -64,6 +65,7 @@ namespace shipapp
 
         private void button2_Click(object sender, EventArgs e)
         {
+            Connections.DataConnections.DataConnectionClass.AuditLogConnClass.AddRecordToAudit("created a manual database backup");
             Connections.HelperClasses.SQLHelperClass.DatabaseType type = (DatabaseType == Connections.HelperClasses.SQLHelperClass.DatabaseType.Unset) ? Connections.DataConnections.DataConnectionClass.DBType : DatabaseType;
             Connections.DataConnections.DataConnectionClass.Backup_DB.DoBackup(type);
         }
@@ -92,6 +94,7 @@ namespace shipapp
             DialogResult dr = OpenSQLFile.ShowDialog();
             if (dr == DialogResult.OK)
             {
+                Connections.DataConnections.DataConnectionClass.AuditLogConnClass.AddRecordToAudit("recovered or restored the database");
                 string fin = OpenSQLFile.FileName;
                 Connections.DataConnections.DataConnectionClass.Backup_DB.RestoreDBBackup(fin);
             }

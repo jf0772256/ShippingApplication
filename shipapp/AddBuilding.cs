@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using shipapp.Connections.DataConnections;
+using shipapp.Models.ModelData;
 
 namespace shipapp
 {
@@ -17,7 +19,7 @@ namespace shipapp
     {
         // Class level variables
         private string message;
-        private Models.ModelData.BuildingClass newBuilding;
+        private BuildingClass newBuilding;
 
 
         public AddBuilding(string message)
@@ -31,7 +33,7 @@ namespace shipapp
         {
             InitializeComponent();
             this.message = message;
-            newBuilding = (Models.ModelData.BuildingClass)buildingToBeEdited;
+            newBuilding = (BuildingClass)buildingToBeEdited;
         }
 
 
@@ -103,12 +105,11 @@ namespace shipapp
 
         public void AddBuildingToDb()
         {
-            newBuilding = new Models.ModelData.BuildingClass();
-
+            newBuilding = new BuildingClass();
             newBuilding.BuildingLongName = textBox1.Text;
             newBuilding.BuildingShortName = textBox2.Text;
-            Connections.DataConnections.DataConnectionClass.buildingConn.WriteBuilding(newBuilding);
-            Connections.DataConnections.DataConnectionClass.DataLists.BuildingNames.Add(newBuilding);
+            DataConnectionClass.buildingConn.WriteBuilding(newBuilding);
+            DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added new building " + newBuilding.BuildingLongName);
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -116,10 +117,11 @@ namespace shipapp
 
         public void EditBuilding()
         {
+            string oldname = newBuilding.BuildingLongName;
             newBuilding.BuildingLongName = textBox1.Text;
             newBuilding.BuildingShortName = textBox2.Text;
-            Connections.DataConnections.DataConnectionClass.buildingConn.WriteBuilding(newBuilding);
-            Connections.DataConnections.DataConnectionClass.DataLists.BuildingNames.Add(newBuilding);
+            DataConnectionClass.buildingConn.WriteBuilding(newBuilding);
+            DataConnectionClass.AuditLogConnClass.AddRecordToAudit("edited building from " + oldname + " to " + newBuilding.BuildingLongName);
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

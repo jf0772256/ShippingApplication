@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using shipapp.Connections.DataConnections;
+using shipapp.Models;
+using shipapp.Models.ModelData;
 
 namespace shipapp
 {
@@ -17,7 +20,7 @@ namespace shipapp
     {
         // Class level variables
         private string message;
-        private Models.Carrier newCarrier;
+        private Carrier newCarrier;
 
 
         public AddCarrier(string message)
@@ -31,7 +34,7 @@ namespace shipapp
         {
             InitializeComponent();
             this.message = message;
-            newCarrier = (Models.Carrier)carrierToBeEdited;
+            newCarrier = (Carrier)carrierToBeEdited;
         }
 
 
@@ -75,24 +78,25 @@ namespace shipapp
         public void AddCarrierToDB()
         {
             // Create Enity
-            Models.Carrier carrierToBeAdded = new Models.Carrier();
+            Carrier carrierToBeAdded = new Carrier();
 
             // Fill entity
             carrierToBeAdded.CarrierName = txtName.Text;
 
             // Write the data to the DB
-            Connections.DataConnections.DataConnectionClass.CarrierConn.AddCarrier(carrierToBeAdded);
-            Connections.DataConnections.DataConnectionClass.DataLists.CarriersList.Add(Connections.DataConnections.DataConnectionClass.CarrierConn.GetCarrier(carrierToBeAdded.CarrierId));
+            DataConnectionClass.CarrierConn.AddCarrier(carrierToBeAdded);
+            DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added a new carrier " + carrierToBeAdded.CarrierName);
         }
 
 
         public void EditCarrier()
         {
+            string oldname = newCarrier.CarrierName;
             newCarrier.CarrierName = txtName.Text;
 
             // Write the data to the DB
-            Connections.DataConnections.DataConnectionClass.CarrierConn.UpdateCarrier(newCarrier);
-            Connections.DataConnections.DataConnectionClass.DataLists.CarriersList.Add(Connections.DataConnections.DataConnectionClass.CarrierConn.GetCarrier(newCarrier.CarrierId));
+            DataConnectionClass.CarrierConn.UpdateCarrier(newCarrier);
+            DataConnectionClass.AuditLogConnClass.AddRecordToAudit("renamed a carrier from " + oldname + " to " + newCarrier.CarrierName);
         }
 
 

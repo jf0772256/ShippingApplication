@@ -134,10 +134,9 @@ namespace shipapp
             NewFaculty.Building_Id = g.BuildingId;
             NewFaculty.Building_Name = g.BuildingShortName;
             NewFaculty.RoomNumber = txtRoomNumber.Text;
-
             // Add to DB
             DataConnectionClass.EmployeeConn.AddFaculty(NewFaculty);
-            DataConnectionClass.DataLists.FacultyList.Add(NewFaculty);
+            DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added a new faculty member: " + newFaculty.ToNormalNameString());
             this.Close();
         }
         public void EditFaculty()
@@ -152,7 +151,7 @@ namespace shipapp
 
             // Add to DB
             DataConnectionClass.EmployeeConn.UpdateFaculty(NewFaculty);
-            DataConnectionClass.DataLists.FacultyList.Add(NewFaculty);
+            DataConnectionClass.AuditLogConnClass.AddRecordToAudit("edited faculty member: " + NewFaculty.ToNormalNameString());
             this.Close();
         }
         private void txtFirstName_Leave(object sender, EventArgs e)

@@ -29,7 +29,7 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public async void GetAuditLog(object sender = null)
         {
-            SortableBindingList<string> al = await Task.Run(() => Get_Audit_Log());
+            SortableBindingList<AuditItem> al = await Task.Run(() => Get_Audit_Log());
             if (sender is Manage)
             {
                 Manage t = (Manage)sender;

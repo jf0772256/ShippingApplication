@@ -34,9 +34,6 @@ namespace shipapp
         private char c = '\u2022';
 
 
-        // Data list for tables
-        //Use Connections.DataConnections.DataConnectionClass.DataLists.{Name of binding list}
-        private ListSortDirection[] ColumnDirection { get; set; }
         public object ObjectToBeEditied { get => objectToBeEditied; set => objectToBeEditied = value; }
 
 
@@ -45,7 +42,6 @@ namespace shipapp
             InitializeComponent();
             dataGridView1.DataError += DataGridView1_DataError;
             dataGridView1.ColumnHeaderMouseClick += DataGridView1_ColumnHeaderMouseClick;
-
         }
 
 
@@ -53,17 +49,6 @@ namespace shipapp
         {
             try
             {
-                //data sort
-                if (ColumnDirection.Length > 0 && ColumnDirection[e.ColumnIndex] == ListSortDirection.Descending)
-                {
-                    dataGridView1.Sort(dataGridView1.Columns[e.ColumnIndex], ListSortDirection.Ascending);
-                    ColumnDirection[e.ColumnIndex] = ListSortDirection.Ascending;
-                }
-                else if (ColumnDirection.Length > 0 && ColumnDirection[e.ColumnIndex] == ListSortDirection.Ascending)
-                {
-                    dataGridView1.Sort(dataGridView1.Columns[e.ColumnIndex], ListSortDirection.Descending);
-                    ColumnDirection[e.ColumnIndex] = ListSortDirection.Descending;
-                }
                 // reset column values lost during sort
                 if (currentTable == 1)
                 {
@@ -363,6 +348,7 @@ namespace shipapp
             ClearBackColor();
             btnOther.BackColor = SystemColors.ButtonHighlight;
             currentTable = 6;
+            DataConnectionClass.AuditLogConnClass.GetAuditLog(this);
         }
 
 
@@ -376,31 +362,41 @@ namespace shipapp
             {
                 // Delete selected user
                 User userToBeDeleted = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                DataConnectionClass.UserConn.DeleteUser(userToBeDeleted); 
+                DataConnectionClass.UserConn.DeleteUser(userToBeDeleted);
+                DataConnectionClass.AuditLogConnClass.AddRecordToAudit("deleted user " + userToBeDeleted.ToString());
+                DataConnectionClass.UserConn.GetManyUsers(this);
             }
             else if (currentTable == 2)
             {
                 // Delete selected vendor
                 Vendors vendorToBeDeleted = DataConnectionClass.DataLists.Vendors.FirstOrDefault(vid => vid.VendorId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
                 DataConnectionClass.VendorConn.DeleteVendor(vendorToBeDeleted);
+                DataConnectionClass.AuditLogConnClass.AddRecordToAudit("deleted vendor " + vendorToBeDeleted.VendorName);
+                DataConnectionClass.VendorConn.GetVendorList(this);
             }
             else if (currentTable == 3)
             {
                 // Delete selected faculty
                 Faculty facultyToBeDeleted = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(fid => fid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
                 DataConnectionClass.EmployeeConn.DeleteFaculty(facultyToBeDeleted);
+                DataConnectionClass.AuditLogConnClass.AddRecordToAudit("deleted faculty member " + facultyToBeDeleted.ToNormalNameString());
+                DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
             }
             else if (currentTable == 4)
             {
                 // Delete selected building
                 BuildingClass buildingToBeDeleted = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(bid => bid.BuildingId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
                 DataConnectionClass.buildingConn.RemoveBuilding(buildingToBeDeleted);
+                DataConnectionClass.AuditLogConnClass.AddRecordToAudit("deleted a building: " + buildingToBeDeleted.BuildingLongName);
+                DataConnectionClass.buildingConn.GetBuildingList(this);
             }
             else if (currentTable == 5)
             {
                 // Delete selected carrier
                 Carrier carrierToBeDeleted = DataConnectionClass.DataLists.CarriersList.FirstOrDefault(cid => cid.CarrierId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
                 DataConnectionClass.CarrierConn.DeleteCarrier(carrierToBeDeleted);
+                DataConnectionClass.AuditLogConnClass.AddRecordToAudit("deleted carrier " + carrierToBeDeleted.CarrierName);
+                DataConnectionClass.CarrierConn.GetCarrierList(this);
             }
             else if (currentTable == 6)
             {
@@ -458,6 +454,7 @@ namespace shipapp
                 Vendors vendorToBeEdited = DataConnectionClass.DataLists.Vendors.FirstOrDefault(vid => vid.VendorId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
                 AddVendor addVendor = new AddVendor(message, vendorToBeEdited);
                 addVendor.ShowDialog();
+                DataConnectionClass.VendorConn.GetVendorList(this);
             }
             else if (currentTable == 3)
             {
@@ -465,6 +462,7 @@ namespace shipapp
                 Faculty facultyToBeEdited = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(fid => fid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
                 AddFaculty addFaculty = new AddFaculty(message, facultyToBeEdited);
                 addFaculty.ShowDialog();
+                DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
             }
             else if (currentTable == 4)
             {
@@ -472,6 +470,7 @@ namespace shipapp
                 BuildingClass buildingToBeEdited = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(bid => bid.BuildingId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
                 AddBuilding addBuilding = new AddBuilding(message, buildingToBeEdited);
                 addBuilding.ShowDialog();
+                DataConnectionClass.buildingConn.GetBuildingList(this);
             }
             else if (currentTable == 5)
             {
@@ -479,6 +478,7 @@ namespace shipapp
                 Carrier carrierToBeEdited = DataConnectionClass.DataLists.CarriersList.FirstOrDefault(cid => cid.CarrierId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
                 AddCarrier addCarrier = new AddCarrier(message, carrierToBeEdited);
                 addCarrier.ShowDialog();
+                DataConnectionClass.CarrierConn.GetCarrierList(this);
             }
             else if (currentTable == 6)
             {
@@ -550,7 +550,6 @@ namespace shipapp
         {
             MessageBox.Show(DataConnectionClass.AuthenticatedUser.LastName + ", " + DataConnectionClass.AuthenticatedUser.FirstName + "\r\n" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + "\r\n\r\nTo Logout exit to the Main Menu.");
         }
-
 
         
         /// <summary>

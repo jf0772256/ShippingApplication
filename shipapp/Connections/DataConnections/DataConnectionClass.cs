@@ -84,6 +84,7 @@ namespace shipapp.Connections.DataConnections
             buildingConn = new BuildingConnClass();
             Backup_DB = new Backup_DB_Class();
             DataLists = new Lists();
+            AuditLogConnClass = new Database_Audit();
         }
         public DataConnectionClass()
         {
@@ -280,7 +281,7 @@ namespace shipapp.Connections.DataConnections
         /// <summary>
         /// Database Audit log list
         /// </summary>
-        public SortableBindingList<string> AuditLog { get; set; }
+        public SortableBindingList<AuditItem> AuditLog { get; set; }
         /// <summary>
         /// Lists of all used classes (not including sub models or model helpers)
         /// </summary>
@@ -293,7 +294,7 @@ namespace shipapp.Connections.DataConnections
             Vendors = new SortableBindingList<Vendors>() { };
             BuildingNames = new SortableBindingList<BuildingClass>() { };
             PackageHistory = new SortableBindingList<Package>() { };
-            AuditLog = new SortableBindingList<string>() { };
+            AuditLog = new SortableBindingList<AuditItem>() { };
         }
     }
 }

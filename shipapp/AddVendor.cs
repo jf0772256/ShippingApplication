@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using shipapp.Models;
+using shipapp.Connections.DataConnections;
 
 namespace shipapp
 {
@@ -17,7 +19,7 @@ namespace shipapp
     {
         // Class level variables
         private string message;
-        private Models.Vendors vendorToBeEdited;
+        private Vendors vendorToBeEdited;
 
 
         public AddVendor(string message)
@@ -31,7 +33,7 @@ namespace shipapp
         {
             InitializeComponent();
             this.message = message;
-            this.vendorToBeEdited = (Models.Vendors)vendorToBeEdited;
+            this.vendorToBeEdited = (Vendors)vendorToBeEdited;
         }
 
 
@@ -134,14 +136,15 @@ namespace shipapp
         public void AddVendorToDB()
         {
             // Create a vendor object
-            Models.Vendors vendorToBeAdded = new Models.Vendors();
+            Vendors vendorToBeAdded = new Vendors();
 
             // Fill vendor object
             vendorToBeAdded.VendorName = txtName.Text;
 
             // Write the data to the DB
-            Connections.DataConnections.DataConnectionClass.VendorConn.AddVendor(vendorToBeAdded);
-            Connections.DataConnections.DataConnectionClass.DataLists.Vendors.Add(Connections.DataConnections.DataConnectionClass.VendorConn.GetVendor(vendorToBeAdded.VendorId));
+            DataConnectionClass.VendorConn.AddVendor(vendorToBeAdded);
+            DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added a new vendor " + vendorToBeAdded.VendorName);
+            
         }
 
         
@@ -150,11 +153,13 @@ namespace shipapp
         /// </summary>
         public void EditVendor()
         {
+            string oldname = vendorToBeEdited.VendorName;
             // Set new info
             vendorToBeEdited.VendorName = txtName.Text;
 
             // Edit the vendor
-            Connections.DataConnections.DataConnectionClass.VendorConn.UpdateVendor(vendorToBeEdited);
+            DataConnectionClass.VendorConn.UpdateVendor(vendorToBeEdited);
+            DataConnectionClass.AuditLogConnClass.AddRecordToAudit("edited vendor name from " + oldname + " to " + vendorToBeEdited.VendorName);
         }
     }
 }

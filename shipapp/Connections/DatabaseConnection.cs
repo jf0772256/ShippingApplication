@@ -1810,9 +1810,9 @@ namespace shipapp.Connections
             }
             return bl;
         }
-        protected SortableBindingList<string> Get_Audit_Log()
+        protected SortableBindingList<AuditItem> Get_Audit_Log()
         {
-            SortableBindingList<string> rval = new SortableBindingList<string>();
+            SortableBindingList<AuditItem> rval = new SortableBindingList<AuditItem>();
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
             EncodeKey = DataConnectionClass.EncodeString;
@@ -1822,12 +1822,12 @@ namespace shipapp.Connections
                 c.Open();
                 using (OdbcCommand cmd = new OdbcCommand("",c))
                 {
-                    cmd.CommandText = "SELECT action_taken,action_initiated_by,action_timestamp FROM db_audit_history;";
+                    cmd.CommandText = "SELECT action_taken,action_initiated_by,action_timestamp FROM db_audit_history ORDER BY action_timestamp DESC;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            rval.Add(reader["action_initiated_by"].ToString() + " has " + reader["action_taken"].ToString() + " on " + reader["action_timestamp"].ToString());
+                            rval.Add(new AuditItem() { Item = reader["action_initiated_by"].ToString() + " has " + reader["action_taken"].ToString() + " on " + reader["action_timestamp"].ToString() });
                         }
                     }
                 }
@@ -2080,10 +2080,13 @@ namespace shipapp.Connections
                         cmd.CommandText = "SELECT id,id_value,last_id FROM idcounter;";
                         using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            sql += "UPDATE idcounter SET id_value = "+ Convert.ToInt64(reader["id_value"].ToString()) + ",last_id = '" + reader["last_id"].ToString() + "' WHERE id = 1;";
-                            sql += "\n";
+                            while (reader.Read())
+                            {
+                                sql += "UPDATE idcounter SET id_value = " + Convert.ToInt64(reader["id_value"].ToString()) + ",last_id = '" + reader["last_id"].ToString() + "' WHERE id = 1;";
+                                sql += "\n";
+                            }
                         }
-                        cmd.CommandText = "SELECT id,action_taken,action_initiated_by,action_timestamp FROM db_audit_history;";
+                        cmd.CommandText = "SELECT record_id,action_taken,action_initiated_by,action_timestamp FROM db_audit_history;";
                         using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
                             sql += "INSERT INTO db_audit_history(record_id,action_taken,action_initiated_by,action_timestamp)VALUES";
