@@ -279,6 +279,7 @@ namespace shipapp
                 this.printPackages = (List<Models.Package>)packages;
                 dataGridLog.DataSource = logs;
                 cmboClerk.Show();
+                btnPrint.Enabled = false;
             }
             else if (identity == 2)
             {
@@ -396,6 +397,16 @@ namespace shipapp
         private void PrintPreview_Load(object sender, EventArgs e)
         {
             Connections.DataConnections.DataConnectionClass.DataLists.UsersList.ForEach(i => cmboClerk.Items.Add(i));
+        }
+
+        private void cmboClerk_Leave(object sender, EventArgs e)
+        {
+            MessageBox.Show("You left!");
+        }
+
+        private void cmboClerk_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            btnPrint.Enabled = true;
         }
     }
 }

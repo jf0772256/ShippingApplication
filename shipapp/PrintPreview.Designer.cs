@@ -96,6 +96,8 @@
             this.cmboClerk.Size = new System.Drawing.Size(180, 28);
             this.cmboClerk.TabIndex = 3;
             this.cmboClerk.SelectedIndexChanged += new System.EventHandler(this.cmboClerk_SelectedIndexChanged);
+            this.cmboClerk.SelectionChangeCommitted += new System.EventHandler(this.cmboClerk_SelectionChangeCommitted);
+            this.cmboClerk.Leave += new System.EventHandler(this.cmboClerk_Leave);
             // 
             // PrintPreview
             // 
