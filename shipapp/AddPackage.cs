@@ -320,56 +320,38 @@ namespace shipapp
         }
         private void cmboStatus_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (message == "ADD")
+            switch (cmboStatus.SelectedItem)
             {
-                string selText = cmboStatus.SelectedItem.ToString();
-                if (selText == "Not Recieved")
-                {
-                    newPackage.Status = Package.DeliveryStatus.Not_Received;
-                }
-                else if (selText == "Recieved")
-                {
+                case "Received":
                     newPackage.Status = Package.DeliveryStatus.Received;
-                }
-                else if (selText == "Out For Delivery")
-                {
+                    break;
+                case "OutForDelivery":
                     newPackage.Status = Package.DeliveryStatus.OutForDelivery;
-                }
-                else if (selText == "Delivered")
-                {
+                    break;
+                case "Delivery":
                     newPackage.Status = Package.DeliveryStatus.Delivered;
-                }
-                else
-                {
+                    break;
+                default:
                     newPackage.Status = Package.DeliveryStatus.Not_Received;
-                }
+                    break;
             }
         }
         private void cmboStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (message == "ADD")
+            switch (cmboStatus.SelectedItem)
             {
-                string selText = cmboStatus.SelectedItem.ToString();
-                if (selText == "Not Recieved")
-                {
-                    newPackage.Status = Package.DeliveryStatus.Not_Received;
-                }
-                else if (selText == "Recieved")
-                {
+                case "Received":
                     newPackage.Status = Package.DeliveryStatus.Received;
-                }
-                else if (selText == "Out For Delivery")
-                {
+                    break;
+                case "OutForDelivery":
                     newPackage.Status = Package.DeliveryStatus.OutForDelivery;
-                }
-                else if (selText == "Delivered")
-                {
+                    break;
+                case "Delivery":
                     newPackage.Status = Package.DeliveryStatus.Delivered;
-                }
-                else
-                {
+                    break;
+                default:
                     newPackage.Status = Package.DeliveryStatus.Not_Received;
-                }
+                    break;
             }
         }
         #region For creation of the person id on the fly
