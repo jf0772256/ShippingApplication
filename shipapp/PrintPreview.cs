@@ -112,15 +112,18 @@ namespace shipapp
 
                 //
                 dataGridLog.Columns[0].Width = 50;
-                dataGridLog.Columns[1].Width = 50;
-                dataGridLog.Columns[2].Width = 50;
-                dataGridLog.Columns[3].Width = 50;
-                dataGridLog.Columns[4].Width = 50;
+                dataGridLog.Columns[1].Width = 30;
+                dataGridLog.Columns[2].Width = 33;
+                dataGridLog.Columns[3].Width = 33;
+                dataGridLog.Columns[4].Width = 30;
                 dataGridLog.Columns[5].Width = 50;
                 dataGridLog.Columns[6].Width = 50;
                 dataGridLog.Columns[7].Width = 50;
                 dataGridLog.Columns[8].Width = 50;
-                dataGridLog.Columns[9].Width = 50;
+                dataGridLog.Columns[9].Width = 33;
+                dataGridLog.Columns[10].Width = 33;
+                dataGridLog.Columns[11].Width = 42;
+                dataGridLog.Columns[12].Width = 32;
             }
             else if (identity == 3)
             {
