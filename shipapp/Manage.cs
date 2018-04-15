@@ -225,6 +225,13 @@ namespace shipapp
             currentTable = 3;
             DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
 
+            pictureBox1.Enabled = true;
+            pictureBox1.BackColor = Color.Transparent;
+            pcBxEdit.Enabled = true;
+            pcBxEdit.BackColor = Color.Transparent;
+            pcBxDelete.Enabled = true;
+            pcBxDelete.BackColor = Color.Transparent;
+
             if (role == 2)
             {
                 pictureBox1.Enabled = true;
@@ -254,6 +261,13 @@ namespace shipapp
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             DataConnectionClass.UserConn.GetManyUsers(this);
+
+            pictureBox1.Enabled = true;
+            pictureBox1.BackColor = Color.Transparent;
+            pcBxEdit.Enabled = true;
+            pcBxEdit.BackColor = Color.Transparent;
+            pcBxDelete.Enabled = true;
+            pcBxDelete.BackColor = Color.Transparent;
 
             if (role == 2)
             {
@@ -301,6 +315,13 @@ namespace shipapp
                 pictureBox1.Enabled = false;
                 pictureBox1.BackColor = Color.Transparent;
             }
+
+            pictureBox1.Enabled = true;
+            pictureBox1.BackColor = Color.Transparent;
+            pcBxEdit.Enabled = true;
+            pcBxEdit.BackColor = Color.Transparent;
+            pcBxDelete.Enabled = true;
+            pcBxDelete.BackColor = Color.Transparent;
         }
 
 
@@ -316,6 +337,13 @@ namespace shipapp
                 pictureBox1.Enabled = false;
                 pictureBox1.BackColor = Color.Transparent;
             }
+
+            pictureBox1.Enabled = true;
+            pictureBox1.BackColor = Color.Transparent;
+            pcBxEdit.Enabled = true;
+            pcBxEdit.BackColor = Color.Transparent;
+            pcBxDelete.Enabled = true;
+            pcBxDelete.BackColor = Color.Transparent;
         }
 
 
@@ -334,6 +362,13 @@ namespace shipapp
                 pictureBox1.Enabled = false;
                 pictureBox1.BackColor = Color.Transparent;
             }
+
+            pictureBox1.Enabled = true;
+            pictureBox1.BackColor = Color.Transparent;
+            pcBxEdit.Enabled = true;
+            pcBxEdit.BackColor = Color.Transparent;
+            pcBxDelete.Enabled = true;
+            pcBxDelete.BackColor = Color.Transparent;
         }
 
 
@@ -344,6 +379,13 @@ namespace shipapp
                 pictureBox1.Enabled = false;
                 pictureBox1.BackColor = Color.Transparent;
             }
+
+            pictureBox1.Enabled = false;
+            pictureBox1.BackColor = Color.LightPink;
+            pcBxEdit.Enabled = false;
+            pcBxEdit.BackColor = Color.LightPink;
+            pcBxDelete.Enabled = false;
+            pcBxDelete.BackColor = Color.LightPink;
 
             ClearBackColor();
             btnOther.BackColor = SystemColors.ButtonHighlight;
