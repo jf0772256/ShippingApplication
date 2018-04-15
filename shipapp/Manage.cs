@@ -134,23 +134,24 @@ namespace shipapp
                 pcBxDelete.BackColor = Color.Transparent;
                 pcBxEdit.BackColor = Color.Transparent;
                 pictureBox1.BackColor = Color.Transparent;
-                pcBxPrint.Show();
+                pcBxPrint.BackColor = Color.Transparent;
 
+                btnVendors.BackColor = SystemColors.ButtonFace;
                 btnVendors.Enabled = true;
-                btnFaculty.Show();
+                btnFaculty.BackColor = SystemColors.ButtonFace;
                 btnFaculty.Enabled = true;
-                btnBuildings.Show();
+                btnBuildings.BackColor = SystemColors.ButtonFace;
                 btnBuildings.Enabled = true;
-                btnCarriers.Show();
+                btnCarriers.BackColor = SystemColors.ButtonFace;
                 btnCarriers.Enabled = true;
+                btnOther.BackColor = SystemColors.ButtonFace;
                 btnOther.Enabled = true;
-                btnOther.Show();
             }
             else if (role == 2)
             {
                 // Do nothing
                 pcBxDelete.Enabled = false;
-                pcBxDelete.Hide();
+                pcBxDelete.BackColor = Color.LightPink;
                 pcBxEdit.Enabled = true;
                 pictureBox1.Enabled = true;
                 pcBxPrint.Enabled = true;
@@ -158,17 +159,18 @@ namespace shipapp
                 pcBxDelete.BackColor = Color.Transparent;
                 pcBxEdit.BackColor = Color.Transparent;
                 pictureBox1.BackColor = Color.Transparent;
-                pcBxPrint.Show();
+                pcBxPrint.BackColor = Color.Transparent;
 
                 btnVendors.Enabled = true;
-                btnFaculty.Show();
+                btnFaculty.BackColor = SystemColors.ButtonFace;
                 btnFaculty.Enabled = true;
-                btnBuildings.Show();
+                btnFaculty.BackColor = SystemColors.ButtonFace;
                 btnBuildings.Enabled = true;
-                btnCarriers.Show();
+                btnFaculty.BackColor = SystemColors.ButtonFace;
                 btnCarriers.Enabled = true;
+                btnCarriers.BackColor = SystemColors.ButtonFace;
                 btnOther.Enabled = true;
-                btnOther.Show();
+                btnFaculty.BackColor = SystemColors.ButtonFace;
             }
             else if (role == 3)
             {
@@ -181,33 +183,32 @@ namespace shipapp
                 pcBxDelete.BackColor = Color.LightPink;
                 pcBxEdit.BackColor = Color.LightPink;
                 pictureBox1.BackColor = Color.LightPink;
-                pcBxPrint.Hide();
+                pcBxPrint.BackColor = Color.LightPink;
+
 
                 btnVendors.Enabled = true;
-                btnFaculty.Show();
+                btnFaculty.BackColor = SystemColors.ButtonFace;
                 btnFaculty.Enabled = true;
-                btnBuildings.Show();
+                btnBuildings.BackColor = SystemColors.ButtonFace;
                 btnBuildings.Enabled = true;
-                btnCarriers.Show();
+                btnCarriers.BackColor = SystemColors.ButtonFace;
                 btnCarriers.Enabled = true;
                 btnOther.Enabled = true;
-                btnOther.Show();
-                // TODO: Restrict view of password
+                btnOther.BackColor = SystemColors.ButtonFace;
             }
             else if ( role == 0)
             {
                 btnUsers.Enabled = true;
-                btnUsers.BackColor = Color.White;
-                btnVendors.Hide();
+                btnUsers.BackColor = SystemColors.ButtonFace;
                 btnVendors.Enabled = false;
-                btnFaculty.Hide();
+                btnFaculty.BackColor = Color.LightPink;
                 btnFaculty.Enabled = false;
-                btnBuildings.Hide();
+                btnBuildings.BackColor = Color.LightPink;
                 btnBuildings.Enabled = false;
-                btnCarriers.Hide();
+                btnCarriers.BackColor = Color.LightPink;
                 btnCarriers.Enabled = false;
                 btnOther.Enabled = false;
-                btnOther.Hide();
+                btnOther.BackColor = Color.LightPink;
             }
             btnUsers_Click_1(this, e);
         }
@@ -244,13 +245,6 @@ namespace shipapp
         }
         #endregion
 
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-
         private void btnUsers_Click_1(object sender, EventArgs e)
         {
             ClearBackColor();
@@ -264,7 +258,7 @@ namespace shipapp
             if (role == 2)
             {
                 pictureBox1.Enabled = false;
-                pictureBox1.Hide();
+                pictureBox1.BackColor = Color.Transparent;
             }
 
             //change header text for roles
@@ -304,8 +298,8 @@ namespace shipapp
 
             if (role == 2)
             {
-                pictureBox1.Enabled = true;
-                pictureBox1.Show();
+                pictureBox1.Enabled = false;
+                pictureBox1.BackColor = Color.Transparent;
             }
         }
 
@@ -319,8 +313,8 @@ namespace shipapp
 
             if (role == 2)
             {
-                pictureBox1.Enabled = true;
-                pictureBox1.Show();
+                pictureBox1.Enabled = false;
+                pictureBox1.BackColor = Color.Transparent;
             }
         }
 
@@ -337,14 +331,20 @@ namespace shipapp
 
             if (role == 2)
             {
-                pictureBox1.Enabled = true;
-                pictureBox1.Show();
+                pictureBox1.Enabled = false;
+                pictureBox1.BackColor = Color.Transparent;
             }
         }
 
 
         private void btnOther_Click_1(object sender, EventArgs e)
         {
+            if (role == 2)
+            {
+                pictureBox1.Enabled = false;
+                pictureBox1.BackColor = Color.Transparent;
+            }
+
             ClearBackColor();
             btnOther.BackColor = SystemColors.ButtonHighlight;
             currentTable = 6;

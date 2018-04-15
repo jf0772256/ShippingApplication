@@ -61,35 +61,39 @@ namespace shipapp
             if (role == 1)
             {
                 btnAdd.Enabled = true;
-                btnAdd.Show();
+                btnAdd.BackColor = Color.Transparent;
                 pcBxEdit.Enabled = true;
-                pcBxEdit.Show();
+                pcBxEdit.BackColor = Color.Transparent;
                 pictureBox3.Enabled = true;
-                pictureBox3.Show();
+                pictureBox3.BackColor = Color.Transparent;
                 pcBxPrint.Enabled = true;
-                pcBxPrint.Show();
+                pcBxPrint.BackColor = Color.Transparent;
             }
             else if (role == 2)
             {
                 btnAdd.Enabled = true;
-                btnAdd.Show();
+                btnAdd.BackColor = Color.Transparent;
                 pcBxEdit.Enabled = true;
-                pcBxEdit.Show();
+                pcBxEdit.BackColor = Color.Transparent;
                 pictureBox3.Enabled = true;
-                pictureBox3.Show();
+                pictureBox3.BackColor = Color.Transparent;
                 pcBxPrint.Enabled = true;
-                pcBxPrint.Show();
+                pcBxPrint.BackColor = Color.Transparent;
             }
             else if (role == 3)
             {
                 btnAdd.Enabled = false;
-                btnAdd.Hide();
+                btnAdd.BackColor = Color.LightPink;
                 pcBxEdit.Enabled = false;
-                pcBxEdit.Hide();
+                pcBxEdit.BackColor = Color.LightPink;
                 pictureBox3.Enabled = false;
-                pictureBox3.Hide();
+                pictureBox3.BackColor = Color.LightPink;
                 pcBxPrint.Enabled = false;
-                pcBxPrint.Hide();
+                pcBxPrint.BackColor = Color.LightPink;
+            }
+            else if (role == 4)
+            {
+
             }
         }
         /// <summary>

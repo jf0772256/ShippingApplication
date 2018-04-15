@@ -152,7 +152,6 @@
             this.groupBox1.Size = new System.Drawing.Size(775, 469);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // lblSearch
             // 
@@ -161,9 +160,8 @@
             this.lblSearch.Location = new System.Drawing.Point(270, 67);
             this.lblSearch.Name = "lblSearch";
             this.lblSearch.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lblSearch.Size = new System.Drawing.Size(57, 20);
+            this.lblSearch.Size = new System.Drawing.Size(0, 20);
             this.lblSearch.TabIndex = 11;
-            this.lblSearch.Text = "label2";
             this.lblSearch.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // txtSearch
