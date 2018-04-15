@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using shipapp.Models.ModelData;
 using shipapp.Models;
 using shipapp.Connections.HelperClasses;
 using shipapp.Connections.DataConnections;
@@ -25,7 +21,9 @@ namespace shipapp.Connections.DataConnections.Classes
         public void AddRecordToAudit(string whatdidtheydo)
         {
             string who = DataConnectionClass.AuthenticatedUser.ToString();
-            Write(whatdidtheydo, who, GetTimeStamp());
+            string goodsgoods = GetTimeStamp();
+            string[] parts = goodsgoods.Split(' ');
+            Write(whatdidtheydo, who, parts[0], parts[2]);
         }
         public async void GetAuditLog(object sender = null)
         {

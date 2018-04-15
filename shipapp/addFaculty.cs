@@ -118,11 +118,11 @@ namespace shipapp
         }
         private void AddFaculty_Load(object sender, EventArgs e)
         {
-            if (message != "EDIT")
-            {
-                BtnAddNote.Enabled = false;
-                BtnViewNotes.Enabled = false;
-            }
+            //if (message != "EDIT")
+            //{
+            //    BtnAddNote.Enabled = false;
+            //    BtnViewNotes.Enabled = false;
+            //}
             DataConnectionClass.buildingConn.GetBuildingList(this);
         }
         public void AddFacultyToDb()

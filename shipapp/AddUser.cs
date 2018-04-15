@@ -22,8 +22,8 @@ namespace shipapp
         private string message;
         private User userToBeEdited;
         private char c = '\u2022';
-
-
+        private User newUser = new User();
+        
         /// <summary>
         /// Form constructor for adding
         /// </summary>
@@ -74,8 +74,8 @@ namespace shipapp
             }
             else
             {
-                BtnAddNote.Enabled = false;
-                BtnViewNote.Enabled = false;
+                //BtnAddNote.Enabled = false;
+                //BtnViewNote.Enabled = false;
             }
         }
 
@@ -93,9 +93,6 @@ namespace shipapp
             // Test data before writing to the DB
             if (ValidateData() && message == "ADD") // If adding a user
             {
-                // Create usedr entity
-                User newUser = new User();
-
                 // Fill entity
                 newUser.FirstName = txtFirstName.Text;
                 newUser.LastName = txtLastName.Text;
@@ -298,17 +295,37 @@ namespace shipapp
 
         private void BtnViewNote_Click(object sender, EventArgs e)
         {
-            using (AddNote note = new AddNote(userToBeEdited, true))
+            if (message == "ADD")
             {
-                note.ShowDialog();
+                using (AddNote note = new AddNote(newUser, true))
+                {
+                    note.ShowDialog();
+                }
+            }
+            else
+            {
+                using (AddNote note = new AddNote(userToBeEdited, true))
+                {
+                    note.ShowDialog();
+                }
             }
         }
 
         private void BtnAddNote_Click(object sender, EventArgs e)
         {
-            using (AddNote note = new AddNote(userToBeEdited, false))
+            if (message == "ADD")
             {
-                note.ShowDialog();
+                using (AddNote note = new AddNote(newUser, false))
+                {
+                    note.ShowDialog();
+                }
+            }
+            else
+            {
+                using (AddNote note = new AddNote(userToBeEdited, false))
+                {
+                    note.ShowDialog();
+                }
             }
         }
 

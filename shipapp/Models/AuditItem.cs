@@ -16,12 +16,12 @@ namespace shipapp.Models
         /// </summary>
         public string Item { get; set; }
         /// <summary>
-        /// pretty prints data to value
+        /// date of occurence
         /// </summary>
-        /// <returns>String</returns>
-        public override string ToString()
-        {
-            return Item.ToString();
-        }
+        public string Date { get; set; }
+        /// <summary>
+        /// Time of occurance
+        /// </summary>
+        public string Time { get; set; }
     }
 }

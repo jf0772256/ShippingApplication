@@ -88,7 +88,7 @@ namespace shipapp.Connections
                     
                     "CREATE TABLE IF NOT EXISTS packages(package_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,package_po varchar(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date VARCHAR(50),package_deliv_bldg VARCHAR(100), package_deliver_date VARCHAR(50), package_notes_id VARCHAR(1000) NOT NULL UNIQUE,package_status INT DEFAULT 0, last_modified VARCHAR(100) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS idcounter(id BIGINT NOT NULL PRIMARY KEY, id_value BIGINT NOT NULL, last_id VARCHAR(1000) DEFAULT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS db_audit_history(record_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, action_taken VARCHAR(1000) NOT NULL, action_initiated_by VARCHAR(50) NOT NULL, action_timestamp VARCHAR(100) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; "
+                    "CREATE TABLE IF NOT EXISTS db_audit_history(record_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, action_taken VARCHAR(1000) NOT NULL, action_initiated_by VARCHAR(50) NOT NULL, action_date VARCHAR(20) NOT NULL, action_time VARCHAR(20) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; "
                 };
             }
             else if (DBType == SQLHelperClass.DatabaseType.MSSQL)
@@ -108,7 +108,7 @@ namespace shipapp.Connections
 
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'packages')CREATE TABLE packages(package_id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,package_po VARCHAR(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date VARCHAR(50),package_deliv_bldg VARCHAR(100), package_deliver_date VARCHAR(50), package_note_id VARCHAR(1000) NOT NULL, package_status INT DEFAULT 0, last_modified VARCHAR(100) NOT NULL, CONSTRAINT UC_NID UNIQUE(package_note_id));",
                     "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'idcounter')CREATE TABLE idcounter(id BIGINT NOT NULL PRIMARY KEY, id_value BIGINT NOT NULL, last_id VARCHAR(1000) DEFAULT NULL);",
-                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'db_audit_history')CREATE TABLE db_audit_history(record_id BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1), action_taken VARCHAR(1000) NOT NULL, action_initiated_by VARCHAR(50) NOT NULL, action_timestamp VARCHAR(100) NOT NULL);",
+                    "IF NOT EXISTS(SELECT [name] FROM sys.tables WHERE [name] = 'db_audit_history')CREATE TABLE db_audit_history(record_id BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1), action_taken VARCHAR(1000) NOT NULL, action_initiated_by VARCHAR(50) NOT NULL, action_date VARCHAR(20) NOT NULL, action_time VARCHAR(20) NOT NULL);",
                     "IF (SELECT COUNT(*) FROM sys.symmetric_keys WHERE name = 'secure_data')=0 CREATE SYMMETRIC KEY secure_data WITH ALGORITHM = AES_128 ENCRYPTION BY PASSWORD = '" + EncodeKey +"';"
                 };
             }
@@ -643,7 +643,7 @@ namespace shipapp.Connections
                 }
             }
         }
-        protected void Write(string auditaction, string auditperson, string audittime)
+        protected void Write(string auditaction, string auditperson, string auditdate, string audittime)
         {
             ConnString = DataConnectionClass.ConnectionString;
             DBType = DataConnectionClass.DBType;
@@ -655,11 +655,12 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "INSERT INTO db_audit_history(action_taken,action_initiated_by,action_timestamp)VALUES(?,?,?);";
+                    cmd.CommandText = "INSERT INTO db_audit_history(action_taken,action_initiated_by,action_date,action_time)VALUES(?,?,?,?);";
                     cmd.Parameters.AddRange(new OdbcParameter[]
                     {
                         new OdbcParameter("taken",auditaction),
                         new OdbcParameter("by",auditperson),
+                        new OdbcParameter("date",auditdate),
                         new OdbcParameter("time",audittime)
                     });
                     try
@@ -1822,12 +1823,17 @@ namespace shipapp.Connections
                 c.Open();
                 using (OdbcCommand cmd = new OdbcCommand("",c))
                 {
-                    cmd.CommandText = "SELECT action_taken,action_initiated_by,action_timestamp FROM db_audit_history ORDER BY action_timestamp DESC;";
+                    cmd.CommandText = "SELECT action_taken,action_initiated_by,action_date,action_time FROM db_audit_history ORDER BY action_date DESC, action_time;";
                     using (OdbcDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            rval.Add(new AuditItem() { Item = reader["action_initiated_by"].ToString() + " has " + reader["action_taken"].ToString() + " on " + reader["action_timestamp"].ToString() });
+                            rval.Add(new AuditItem()
+                            {
+                                Item = reader["action_initiated_by"].ToString() + " has " + reader["action_taken"].ToString(),
+                                Date = reader["action_date"].ToString(),
+                                Time = reader["action_time"].ToString()
+                            });
                         }
                     }
                 }
@@ -2037,7 +2043,7 @@ namespace shipapp.Connections
                                 sql += ";\n";
                             }
                         }
-                        cmd.CommandText = "SELECT package_po, package_carrier, package_vendor, package_deliv_to, package_deliv_by, package_signed_for_by, package_tracking_number, package_receive_date, package_deliver_date, package_note_id, package_status, package_deliv_bldg FROM packages;";
+                        cmd.CommandText = "SELECT package_po, package_carrier, package_vendor, package_deliv_to, package_deliv_by, package_signed_for_by, package_tracking_number, package_receive_date, package_deliver_date, package_note_id, package_status, package_deliv_bldg, last_modified FROM packages;";
                         using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
                             if (reader.HasRows == true)
@@ -2048,11 +2054,11 @@ namespace shipapp.Connections
                                 {
                                     if (!done)
                                     {
-                                        sql += "('" + reader["package_po"].ToString() + "','" + reader["package_carrier"].ToString() + "','" + reader["package_vendor"].ToString() + "','" + reader["package_deliv_to"].ToString() + "','" + reader["package_deliv_by"].ToString() + "','" + reader["package_signed_for_by"].ToString() + "','" + reader["package_tracking_number"].ToString() + "','" + reader["package_receive_date"].ToString() + "','" + reader["package_deliver_date"].ToString() + "','" + reader["package_note_id"].ToString() + "'," + Convert.ToInt64(reader["package_status"].ToString()) + ",'" + reader["package_deliv_bldg"].ToString() + "')";
+                                        sql += "('" + reader["package_po"].ToString() + "','" + reader["package_carrier"].ToString() + "','" + reader["package_vendor"].ToString() + "','" + reader["package_deliv_to"].ToString() + "','" + reader["package_deliv_by"].ToString() + "','" + reader["package_signed_for_by"].ToString() + "','" + reader["package_tracking_number"].ToString() + "','" + reader["package_receive_date"].ToString() + "','" + reader["package_deliver_date"].ToString() + "','" + reader["package_note_id"].ToString() + "'," + Convert.ToInt64(reader["package_status"].ToString()) + ",'" + reader["package_deliv_bldg"].ToString() + "','" + reader["last_modified"].ToString() + "')";
                                         done = true;
                                         continue;
                                     }
-                                    sql += ",('" + reader["package_po"].ToString() + "','" + reader["package_carrier"].ToString() + "','" + reader["package_vendor"].ToString() + "','" + reader["package_deliv_to"].ToString() + "','" + reader["package_deliv_by"].ToString() + "','" + reader["package_signed_for_by"].ToString() + "','" + reader["package_tracking_number"].ToString() + "','" + reader["package_receive_date"].ToString() + "','" + reader["package_deliver_date"].ToString() + "','" + reader["package_note_id"].ToString() + "'," + Convert.ToInt64(reader["package_status"].ToString()) + ",'" + reader["package_deliv_bldg"].ToString() + "')";
+                                    sql += ",('" + reader["package_po"].ToString() + "','" + reader["package_carrier"].ToString() + "','" + reader["package_vendor"].ToString() + "','" + reader["package_deliv_to"].ToString() + "','" + reader["package_deliv_by"].ToString() + "','" + reader["package_signed_for_by"].ToString() + "','" + reader["package_tracking_number"].ToString() + "','" + reader["package_receive_date"].ToString() + "','" + reader["package_deliver_date"].ToString() + "','" + reader["package_note_id"].ToString() + "'," + Convert.ToInt64(reader["package_status"].ToString()) + ",'" + reader["package_deliv_bldg"].ToString() + "','" + reader["last_modified"].ToString() + "')";
                                 }
                                 sql += ";\n";
                             }
@@ -2086,20 +2092,20 @@ namespace shipapp.Connections
                                 sql += "\n";
                             }
                         }
-                        cmd.CommandText = "SELECT record_id,action_taken,action_initiated_by,action_timestamp FROM db_audit_history;";
+                        cmd.CommandText = "SELECT record_id,action_taken,action_initiated_by,action_date,action_time FROM db_audit_history;";
                         using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            sql += "INSERT INTO db_audit_history(record_id,action_taken,action_initiated_by,action_timestamp)VALUES";
+                            sql += "INSERT INTO db_audit_history(record_id,action_taken,action_initiated_by,action_date,action_time)VALUES";
                             bool done = false;
                             while (reader.Read())
                             {
                                 if (!done)
                                 {
-                                    sql += "(" + Convert.ToInt64(reader["record_id"].ToString()) + ",'" + reader["action_taken"].ToString() + "','" + reader["action_initiated_by"].ToString() + "','" + reader["action_timestamp"].ToString() + "')";
+                                    sql += "(" + Convert.ToInt64(reader["record_id"].ToString()) + ",'" + reader["action_taken"].ToString() + "','" + reader["action_initiated_by"].ToString() + "','" + reader["action_date"].ToString() + "','" + reader["action_time"].ToString() + "')";
                                     done = true;
                                     continue;
                                 }
-                                sql += ",(" + Convert.ToInt64(reader["record_id"].ToString()) + ",'" + reader["action_taken"].ToString() + "','" + reader["action_initiated_by"].ToString() + "','" + reader["action_timestamp"].ToString() + "')";
+                                sql += ",(" + Convert.ToInt64(reader["record_id"].ToString()) + ",'" + reader["action_taken"].ToString() + "','" + reader["action_initiated_by"].ToString() + "','" + reader["action_date"].ToString() + "','" + reader["action_time"].ToString() + "')";
                             }
                             sql += ";\n";
                         }

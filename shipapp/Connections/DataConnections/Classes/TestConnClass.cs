@@ -39,14 +39,17 @@ namespace shipapp.Connections.DataConnections.Classes
         }
         public void ResetAllDatabaseTables()
         {
-            Drop_Tables(new List<string>() { "notes","idcounter","buildings","packages","employees","vendors","carriers","users","roles"});
+            Drop_Tables(new List<string>() { "notes","idcounter","buildings","packages","employees","vendors","carriers","users","roles", "db_audit_history" });
             Create_Tables();
         }
         public void Checktables()
         {
             try
             {
-                Create_Tables();
+                if (!CheckTablesExist(DataConnectionClass.Dbname))
+                {
+                    Create_Tables();
+                }
             }
             catch (Exception)
             {

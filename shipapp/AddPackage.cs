@@ -357,7 +357,7 @@ namespace shipapp
         #region For creation of the person id on the fly
         private void txtPO_Leave(object sender, EventArgs e)
         {
-            if (message != "EDIT")
+            if (message != "EDIT" || (message == "ADD" && newPackage.Notes.Count == 0))
             {
                 if (!String.IsNullOrWhiteSpace(txtPO.Text))
                 {
@@ -434,7 +434,7 @@ namespace shipapp
         }
         private void cmboCarrier_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (message != "EDIT")
+            if (message != "EDIT" || (message == "ADD" && newPackage.Notes.Count == 0))
             {
                 cmboCarrier.Text = cmboCarrier.SelectedItem.ToString();
                 if (!String.IsNullOrWhiteSpace(txtPO.Text))
@@ -512,7 +512,7 @@ namespace shipapp
         }
         private void cmboVendor_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (message != "EDIT")
+            if (message != "EDIT" || (message == "ADD" && newPackage.Notes.Count == 0))
             {
                 cmboVendor.Text = cmboVendor.SelectedItem.ToString();
                 if (!String.IsNullOrWhiteSpace(txtPO.Text))
@@ -594,7 +594,7 @@ namespace shipapp
         }
         private void cmboRecipiant_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (message != "EDIT")
+            if (message != "EDIT" || (message == "ADD" && newPackage.Notes.Count == 0))
             {
                 cmboRecipiant.Text = cmboRecipiant.SelectedItem.ToString();
                 if (!String.IsNullOrWhiteSpace(txtPO.Text))
@@ -691,7 +691,7 @@ namespace shipapp
         }
         private void cmboBuilding_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if (message != "EDIT")
+            if (message != "EDIT" || (message == "ADD" && newPackage.Notes.Count == 0))
             {
                 cmboBuilding.Text = cmboBuilding.SelectedItem.ToString();
                 if (!String.IsNullOrWhiteSpace(txtPO.Text))
@@ -765,6 +765,7 @@ namespace shipapp
                 }
                 DataConnectionClass.CreatePersonId(WorkingPID);
                 txtRoleId.Text = DataConnectionClass.PersonIdGenerated;
+                newPackage.Package_PersonId = txtRoleId.Text;
             }
             newPackage.DelivBuildingShortName = cmboBuilding.Text;
         }

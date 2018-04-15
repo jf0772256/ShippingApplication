@@ -747,13 +747,13 @@ namespace shipapp
                 AddVendor addVendor = new AddVendor(message);
                 addVendor.ShowDialog();
                 btnVendors_Click_1(this, e);
+                DataConnectionClass.VendorConn.GetVendorList(this);
             }
             else if (currentTable == 3)
             {
                 AddFaculty addFaculty = new AddFaculty(message);
                 addFaculty.ShowDialog();
-                dataGridView1.DataSource = null;
-                dataGridView1.Columns.Clear();
+                DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
             }
             else if (currentTable == 4)
             {
@@ -764,6 +764,7 @@ namespace shipapp
                     addbuilding.Dispose();
                     GC.Collect();
                     btnBuildings_Click_1(this, e);
+                    DataConnectionClass.buildingConn.GetBuildingList(this);
                 }
             }
             else if (currentTable == 5)
@@ -771,6 +772,7 @@ namespace shipapp
                 AddCarrier addCarrier = new AddCarrier(message);
                 addCarrier.ShowDialog();
                 btnCarriers_Click_1(this, e);
+                DataConnectionClass.CarrierConn.GetCarrierList(this);
             }
             else if (currentTable == 6)
             {

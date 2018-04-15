@@ -67,19 +67,19 @@ namespace shipapp
                 if (Fac as Faculty != null)
                 {
                     Fac.Notes.Add(new Note() { Note_Value = textBox1.Text + ". Added by: " + DataConnectionClass.AuthenticatedUser.ToString() });
-                    DataConnectionClass.EmployeeConn.UpdateFaculty(Fac);
+                    //DataConnectionClass.EmployeeConn.UpdateFaculty(Fac);
                     Close();
                 }
                 else if (Usr as User != null)
                 {
                     Usr.Notes.Add(new Note() { Note_Value = textBox1.Text + ". Added by: " + DataConnectionClass.AuthenticatedUser.ToString() });
-                    DataConnectionClass.UserConn.Update1User(Usr);
+                    //DataConnectionClass.UserConn.Update1User(Usr);
                     Close();
                 }
                 else if (Pck as Package != null)
                 {
                     Pck.Notes.Add(new Note() { Note_Value = textBox1.Text + ". Added by: " + DataConnectionClass.AuthenticatedUser.ToString() });
-                    DataConnectionClass.PackageConnClass.UpdatePackage(Pck);
+                    //DataConnectionClass.PackageConnClass.UpdatePackage(Pck);
                     Close();
                 }
             }
