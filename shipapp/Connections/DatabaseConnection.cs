@@ -2092,20 +2092,20 @@ namespace shipapp.Connections
                                 sql += "\n";
                             }
                         }
-                        cmd.CommandText = "SELECT record_id,action_taken,action_initiated_by,action_date,action_time FROM db_audit_history;";
+                        cmd.CommandText = "SELECT action_taken,action_initiated_by,action_date,action_time FROM db_audit_history;";
                         using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            sql += "INSERT INTO db_audit_history(record_id,action_taken,action_initiated_by,action_date,action_time)VALUES";
+                            sql += "INSERT INTO db_audit_history(action_taken,action_initiated_by,action_date,action_time)VALUES";
                             bool done = false;
                             while (reader.Read())
                             {
                                 if (!done)
                                 {
-                                    sql += "(" + Convert.ToInt64(reader["record_id"].ToString()) + ",'" + reader["action_taken"].ToString() + "','" + reader["action_initiated_by"].ToString() + "','" + reader["action_date"].ToString() + "','" + reader["action_time"].ToString() + "')";
+                                    sql += "('" + reader["action_taken"].ToString() + "','" + reader["action_initiated_by"].ToString() + "','" + reader["action_date"].ToString() + "','" + reader["action_time"].ToString() + "')";
                                     done = true;
                                     continue;
                                 }
-                                sql += ",(" + Convert.ToInt64(reader["record_id"].ToString()) + ",'" + reader["action_taken"].ToString() + "','" + reader["action_initiated_by"].ToString() + "','" + reader["action_date"].ToString() + "','" + reader["action_time"].ToString() + "')";
+                                sql += ",('" + reader["action_taken"].ToString() + "','" + reader["action_initiated_by"].ToString() + "','" + reader["action_date"].ToString() + "','" + reader["action_time"].ToString() + "')";
                             }
                             sql += ";\n";
                         }
@@ -2202,12 +2202,13 @@ namespace shipapp.Connections
                                 cmd.ExecuteNonQuery();
                             }
                             cmd.Transaction.Commit();
+                            System.Windows.Forms.MessageBox.Show("Database data restore completed successully!", "Restoration Success", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
                         }
                     }
                     catch (Exception e)
                     {
                         cmd.Transaction.Rollback();
-                        throw new DatabaseConnectionException("There was an error reading data into database. Review inner exception for details.", e);
+                        System.Windows.Forms.MessageBox.Show("Ooops Looks like we have a problem with the recovery.\nPlease jot down the following information and contact support:\n" + e.Message + "\n Which happend when attempting database restore.", "Restoration Has Failed", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Asterisk);
                     }
                 }
             }
