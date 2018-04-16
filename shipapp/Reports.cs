@@ -20,11 +20,16 @@ namespace shipapp
     /// </summary>
     public partial class Reports : Form
     {
-        // Class level variabels
+        /// Class level variabels
+        // Objects
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
-        private int role;
         private ListSortDirection[] ColumnDirection { get; set; }
 
+        // Helpers
+        private int role;
+
+
+        #region History Setup
         /// <summary>
         /// Main constructor
         /// </summary>
@@ -33,16 +38,7 @@ namespace shipapp
             InitializeComponent();
         }
         /// <summary>
-        /// When the back button is clicked, close this form
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-        /// <summary>
-        /// Upon form load, do this
+        /// Set the form based on user role
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -52,11 +48,13 @@ namespace shipapp
             GetPackages();
             SetRole();
 
+            // Set the date search values to yesterday and 6 months ago respectfuly
             dTTo.Value = DateTime.Today.AddMonths(-6);
             dTFrom.Value = DateTime.Today.AddDays(-1);
             dTTo.MaxDate = DateTime.Today;
             dTFrom.MaxDate = DateTime.Today;
 
+            // Set form base on role
             if (role == 1)
             {
                 pcBxAddToDaily.Enabled = true;
@@ -77,45 +75,17 @@ namespace shipapp
                 pcBxAddToDaily.Enabled = false;
                 pcBxAddToDaily.Hide();
             }
+
+            // Set search field
             lblSearch.Text = "";
             txtSearch.Enabled = false;
         }
         /// <summary>
-        /// Alert user if an atempt to logout occurs
+        /// Fill the list with packages
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void label1_Click(object sender, EventArgs e)
+        public void GetPackages()
         {
-            SignOut();
-        }
-        /// <summary>
-        /// Alert user if an atempt to logout occurs
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pictureBox7_Click(object sender, EventArgs e)
-        {
-            SignOut();
-        }
-        /// <summary>
-        /// If the user attempts to log out. inform them to go back to the main menu
-        /// </summary>
-        public void SignOut()
-        {
-            MessageBox.Show(DataConnectionClass.AuthenticatedUser.LastName + ", " + DataConnectionClass.AuthenticatedUser.FirstName + "\r\n" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + "\r\n\r\nTo Logout exit to the Main Menu.");
-        }
-        /// <summary>
-        /// When the user clicks the button, add all selected packages to the daily receiving list
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pcBxAddToDaily_Click(object sender, EventArgs e)
-        {
-            if (datGridHistory.SelectedRows.Count > 0)
-            {
-                AddPackageToDaily();
-            }
+            DataConnectionClass.PackageConnClass.GetPackageHistoryList(this);
         }
         /// <summary>
         /// Set role to match the user
@@ -140,32 +110,60 @@ namespace shipapp
             }
         }
         /// <summary>
+        /// Rename headers here and hide columns to beautify the grid
+        /// </summary>
+        private void datGridHistory_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            datGridHistory.Columns["PackageId"].Visible = false;
+            datGridHistory.Columns["Package_PersonId"].Visible = false;
+            datGridHistory.Columns["PONumber"].HeaderText = "PO Number";
+            datGridHistory.Columns["PackageCarrier"].HeaderText = "Carrier";
+            datGridHistory.Columns["PackageVendor"].HeaderText = "Vendor";
+            datGridHistory.Columns["PackageDeliveredTo"].HeaderText = "Delivered To";
+            datGridHistory.Columns["PackageDeleveredBy"].HeaderText = "Delivered By";
+            datGridHistory.Columns["PackageSignedForBy"].HeaderText = "Signed For By";
+            datGridHistory.Columns["PackageTrackingNumber"].HeaderText = "Tracking Number";
+            datGridHistory.Columns["PackageReceivedDate"].HeaderText = "Received Date";
+            datGridHistory.Columns["PackageDeliveredDate"].HeaderText = "Delivered Date";
+            datGridHistory.Columns["Status"].HeaderText = "Delivery Status";
+            datGridHistory.Columns["DelivBuildingShortName"].HeaderText = "Deliver To Short Name";
+        }
+        #endregion
+
+        #region Buttons
+        /// <summary>
+        /// Add all selected packages to the daily receiving list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pcBxAddToDaily_Click(object sender, EventArgs e)
+        {
+            if (datGridHistory.SelectedRows.Count > 0)
+            {
+                AddPackageToDaily();
+            }
+        }
+        /// <summary>
         /// Add selected packages to daily receiving
         /// </summary>
         public void AddPackageToDaily()
         {
-            //
+            // Method levele variables
             string message = "Success!\r\n";
             int count = 0;
 
+            // Send all selected packages to receiveing
             for (int i = 0; i < datGridHistory.SelectedRows.Count; i++)
             {
                 DataConnectionClass.PackageConnClass.UpdateLastModified((Package)datGridHistory.SelectedRows[i].DataBoundItem);
                 count++;
             }
 
-            //
+            // Refresh the list
             DataConnectionClass.PackageConnClass.GetPackageHistoryList(this);
 
-            //
-            MessageBox.Show(message + count +" have been added to todays receiving list.");
-        }
-        /// <summary>
-        /// Fill the lsit with packages
-        /// </summary>
-        public void GetPackages()
-        {
-            DataConnectionClass.PackageConnClass.GetPackageHistoryList(this);
+            // Alert the user that the packages have been sent to the receiveing 
+            MessageBox.Show(message + count + " have been added to todays receiving list.");
         }
         /// <summary>
         /// Refreash list
@@ -185,7 +183,42 @@ namespace shipapp
             MessageBox.Show("The list has refreshed");
         }
         /// <summary>
-        /// Query packages
+        /// Print the seleceted packages
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pcBxPrint_Click(object sender, EventArgs e)
+        {
+            Print();
+        }
+        /// <summary>
+        /// Print the selected packages
+        /// </summary>
+        public void Print()
+        {
+            PrintPreview printPreview = new PrintPreview(CreateListFromSelectedRows(), 2, null);
+            printPreview.ShowDialog();
+        }
+        /// <summary>
+        /// Create a package list from the selected packages for printing
+        /// </summary>
+        /// <returns></returns>
+        public Object CreateListFromSelectedRows()
+        {
+            BindingList<Package> packages = new BindingList<Package>();
+
+            for (int i = 0; i < datGridHistory.SelectedRows.Count; i++)
+            {
+                packages.Add((Package)datGridHistory.SelectedRows[i].DataBoundItem);
+            }
+
+            return packages;
+        }
+        #endregion
+
+        #region Search
+        /// <summary>
+        /// Query packages based on selected column
         /// </summary>
         public void QueryPackages(string searchTerm)
         {
@@ -255,6 +288,11 @@ namespace shipapp
             }
             datGridHistory.DataSource = bs;
         }
+        /// <summary>
+        /// Select column for searching 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void datGridHistory_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             lblSearch.Text = datGridHistory.Columns[datGridHistory.SelectedCells[0].ColumnIndex].HeaderText;
@@ -267,39 +305,17 @@ namespace shipapp
                 txtSearch.Enabled = true;
             }
         }
-        private void datGridHistory_Click(object sender, EventArgs e)
-        {
-
-        }
+        /// <summary>
+        /// Search history
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtSearch_KeyUp(object sender, KeyEventArgs e)
         {
             QueryPackages(txtSearch.Text);
         }
-        private void pcBxPrint_Click(object sender, EventArgs e)
-        {
-            Print();
-        }
         /// <summary>
-        /// Print the selected packages
-        /// </summary>
-        public void Print()
-        {
-            PrintPreview printPreview = new PrintPreview(CreateListFromSelectedRows(), 2, null);
-            printPreview.ShowDialog();
-        }
-        public Object CreateListFromSelectedRows()
-        {
-            BindingList<Package> packages = new BindingList<Package>();
-            
-            for (int i = 0; i < datGridHistory.SelectedRows.Count; i++)
-            {
-                packages.Add((Package)datGridHistory.SelectedRows[i].DataBoundItem);
-            }
-
-            return packages;
-        }
-        /// <summary>
-        /// for consistancy
+        /// For consistancy : Need Jesse to expalin whats going on here
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -315,27 +331,7 @@ namespace shipapp
             }
         }
         /// <summary>
-        /// things to do once the binding of the lists has been completed -- rename headers here hide columns here
-        /// </summary>
-        private void datGridHistory_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            datGridHistory.Columns["PackageId"].Visible = false;
-            datGridHistory.Columns["Package_PersonId"].Visible = false;
-            datGridHistory.Columns["PONumber"].HeaderText = "PO Number";
-            datGridHistory.Columns["PackageCarrier"].HeaderText = "Carrier";
-            datGridHistory.Columns["PackageVendor"].HeaderText = "Vendor";
-            datGridHistory.Columns["PackageDeliveredTo"].HeaderText = "Delivered To";
-            datGridHistory.Columns["PackageDeleveredBy"].HeaderText = "Delivered By";
-            datGridHistory.Columns["PackageSignedForBy"].HeaderText = "Signed For By";
-            datGridHistory.Columns["PackageTrackingNumber"].HeaderText = "Tracking Number";
-            datGridHistory.Columns["PackageReceivedDate"].HeaderText = "Received Date";
-            datGridHistory.Columns["PackageDeliveredDate"].HeaderText = "Delivered Date";
-            datGridHistory.Columns["Status"].HeaderText = "Delivery Status";
-            datGridHistory.Columns["DelivBuildingShortName"].HeaderText = "Deliver To Short Name";
-        }
-
-        /// <summary>
-        /// 
+        /// Update history search max date
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -344,19 +340,63 @@ namespace shipapp
             // Logic for changing the TO date
             UpdateHistorySearchTimePara();
         }
-
+        /// <summary>
+        /// Update history search min date
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dTTo_ValueChanged(object sender, EventArgs e)
         {
             // Logic for changeing the from date
             UpdateHistorySearchTimePara();
         }
-
         /// <summary>
-        /// 
+        /// Update history min and max date
         /// </summary>
         public void UpdateHistorySearchTimePara()
         {
-            DataConnectionClass.PackageConnClass.GetPackageHistoryList(dTFrom.Value.ToString(),dTTo.Value.ToString(), this);
+            DataConnectionClass.PackageConnClass.GetPackageHistoryList(dTFrom.Value.ToString(), dTTo.Value.ToString(), this);
         }
+        #endregion
+
+        #region Signout
+        /// <summary>
+        /// Alert user if an atempt to logout occurs
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void label1_Click(object sender, EventArgs e)
+        {
+            SignOut();
+        }
+        /// <summary>
+        /// Alert user if an atempt to logout occurs
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox7_Click(object sender, EventArgs e)
+        {
+            SignOut();
+        }
+        /// <summary>
+        /// If the user attempts to log out. inform them to go back to the main menu
+        /// </summary>
+        public void SignOut()
+        {
+            MessageBox.Show(DataConnectionClass.AuthenticatedUser.LastName + ", " + DataConnectionClass.AuthenticatedUser.FirstName + "\r\n" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + "\r\n\r\nTo Logout exit to the Main Menu.");
+        }
+        #endregion
+
+        #region History Functionality
+        /// <summary>
+        /// Close this form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        #endregion
     }
 }
