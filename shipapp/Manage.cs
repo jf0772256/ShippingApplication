@@ -155,8 +155,7 @@ namespace shipapp
                 pcBxEdit.Enabled = true;
                 pictureBox1.Enabled = true;
                 pcBxPrint.Enabled = true;
-
-                pcBxDelete.BackColor = Color.Transparent;
+                
                 pcBxEdit.BackColor = Color.Transparent;
                 pictureBox1.BackColor = Color.Transparent;
                 pcBxPrint.BackColor = Color.Transparent;

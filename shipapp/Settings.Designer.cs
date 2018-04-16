@@ -89,7 +89,6 @@
             this.dbhost.Name = "dbhost";
             this.dbhost.Size = new System.Drawing.Size(189, 26);
             this.dbhost.TabIndex = 1;
-            this.dbhost.Text = "stusql.ckwia8qkgyyj.us-east-1.rds.amazonaws.com";
             this.toolTip1.SetToolTip(this.dbhost, "Database host urls are what teslls the application to look at a certian server fo" +
         "r your database. It may be a local database, or a remote database.");
             // 
@@ -100,7 +99,6 @@
             this.dbname.Name = "dbname";
             this.dbname.Size = new System.Drawing.Size(189, 26);
             this.dbname.TabIndex = 2;
-            this.dbname.Text = "otcshipping";
             // 
             // dbuser
             // 
@@ -109,7 +107,6 @@
             this.dbuser.Name = "dbuser";
             this.dbuser.Size = new System.Drawing.Size(189, 26);
             this.dbuser.TabIndex = 3;
-            this.dbuser.Text = "otcshippingadmin";
             // 
             // dbpass
             // 
@@ -119,7 +116,6 @@
             this.dbpass.PasswordChar = '*';
             this.dbpass.Size = new System.Drawing.Size(189, 26);
             this.dbpass.TabIndex = 4;
-            this.dbpass.Text = "cis260SP18Ship";
             // 
             // dbport
             // 
