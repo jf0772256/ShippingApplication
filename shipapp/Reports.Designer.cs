@@ -91,7 +91,6 @@
             this.datGridHistory.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.datGridHistory_CellMouseClick);
             this.datGridHistory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.datGridHistory_CellMouseClick);
             this.datGridHistory.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.datGridHistory_DataBindingComplete);
-            this.datGridHistory.Click += new System.EventHandler(this.datGridHistory_Click);
             // 
             // label1
             // 

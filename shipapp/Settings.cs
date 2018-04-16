@@ -12,29 +12,50 @@ namespace shipapp
 {
     public partial class Settings : Form
     {
+        /// <summary>
+        /// Class level variables
+        /// Objects
+        /// </summary>
         private Connections.HelperClasses.SQLHelperClass.DatabaseType DatabaseType { get; set; }
+
+
+        #region Setup
+        /// <summary>
+        /// Public constructor
+        /// </summary>
         public Settings()
         {
             InitializeComponent();
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
+        /// <summary>
+        /// On load center
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Settings_Load(object sender, EventArgs e)
         {
             this.CenterToParent();
         }
+        #endregion
 
+        #region Buttons
+        /// <summary>
+        /// Test the connection to the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnTest_Click(object sender, EventArgs e)
         {
             Connections.DataConnections.DataConnectionClass.ConnectionString = Connections.DataConnections.DataConnectionClass.SQLHelper.SetDatabaseType(DatabaseType).SetDBHost(dbhost.Text).SetDBName(dbname.Text).SetUserName(dbuser.Text).SetPassword(dbpass.Text).SetPortNumber(Convert.ToInt32(dbport.Text)).BuildConnectionString().GetConnectionString();
             Connections.DataConnections.DataConnectionClass.DBType = DatabaseType;
             Connections.DataConnections.DataConnectionClass.TestConn.TestConnectionToDatabase();
         }
-
+        /// <summary>
+        /// Create connection based on selected databse type
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
             comboBox2.SelectedItem = null;
@@ -52,24 +73,36 @@ namespace shipapp
                 DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.Unset;
             }
         }
-
+        /// <summary>
+        /// Save the database connection, and close the program
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             Connections.DataConnections.DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added a new or changed exising database connection");
             Connections.DataConnections.DataConnectionClass.SaveDatabaseData(new string[] { Connections.DataConnections.DataConnectionClass.DBType.ToString(), Connections.DataConnections.DataConnectionClass.ConnectionString, Connections.DataConnections.DataConnectionClass.EncodeString });
-            MessageBox.Show("The new Connection has been saved!\r\n You must restart the application for the new connection to take effect.\r\n The application will now Exit", "Database Connection Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("The new Databae Connection has been saved!\r\n The application must restart for the new connection to take effect.\r\n The application will now Restart", "Database Connection Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
             DialogResult = DialogResult.OK;
             this.Close();
-            Application.Exit();
+            Application.Restart();
         }
-
+        /// <summary>
+        /// Create manual backup
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             Connections.DataConnections.DataConnectionClass.AuditLogConnClass.AddRecordToAudit("created a manual database backup");
             Connections.HelperClasses.SQLHelperClass.DatabaseType type = (DatabaseType == Connections.HelperClasses.SQLHelperClass.DatabaseType.Unset) ? Connections.DataConnections.DataConnectionClass.DBType : DatabaseType;
             Connections.DataConnections.DataConnectionClass.Backup_DB.DoBackup(type);
         }
-
+        /// <summary>
+        /// Slect databse type
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboBox2_SelectionChangeCommitted(object sender, EventArgs e)
         {
             comboBox1.SelectedItem = null;
@@ -87,7 +120,11 @@ namespace shipapp
                 DatabaseType = Connections.HelperClasses.SQLHelperClass.DatabaseType.Unset;
             }
         }
-
+        /// <summary>
+        /// Restore database from backup file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             OpenSQLFile.InitialDirectory = Environment.CurrentDirectory + "\\Connections\\Backup";
@@ -99,5 +136,20 @@ namespace shipapp
                 Connections.DataConnections.DataConnectionClass.Backup_DB.RestoreDBBackup(fin);
             }
         }
+        #endregion
+
+        #region Functionality
+       /// <summary>
+       /// Close the form
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
+       private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        #endregion
+
+
     }
 }
