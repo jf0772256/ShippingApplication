@@ -48,46 +48,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddBuilding.cs">
+    <Compile Include="Forms\AddBuilding.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddBuilding.Designer.cs">
+    <Compile Include="Forms\AddBuilding.Designer.cs">
       <DependentUpon>AddBuilding.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddCarrier.cs">
+    <Compile Include="Forms\AddCarrier.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddCarrier.Designer.cs">
+    <Compile Include="Forms\AddCarrier.Designer.cs">
       <DependentUpon>AddCarrier.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddFaculty.cs">
+    <Compile Include="Forms\AddFaculty.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddFaculty.Designer.cs">
+    <Compile Include="Forms\AddFaculty.Designer.cs">
       <DependentUpon>AddFaculty.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddNote.cs">
+    <Compile Include="Forms\AddNote.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddNote.Designer.cs">
+    <Compile Include="Forms\AddNote.Designer.cs">
       <DependentUpon>AddNote.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddPackage.cs">
+    <Compile Include="Forms\AddPackage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddPackage.Designer.cs">
+    <Compile Include="Forms\AddPackage.Designer.cs">
       <DependentUpon>AddPackage.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddUser.cs">
+    <Compile Include="Forms\AddUser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddUser.Designer.cs">
+    <Compile Include="Forms\AddUser.Designer.cs">
       <DependentUpon>AddUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddVendor.cs">
+    <Compile Include="Forms\AddVendor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddVendor.Designer.cs">
+    <Compile Include="Forms\AddVendor.Designer.cs">
       <DependentUpon>AddVendor.cs</DependentUpon>
     </Compile>
     <Compile Include="Connections\DataConnections\Classes\Database_Audit.cs" />
@@ -111,22 +111,22 @@
     <Compile Include="Models\Carrier.cs" />
     <Compile Include="Connections\DatabaseConnection.cs" />
     <Compile Include="Models\Faculty.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Forms\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="Forms\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="LogIn.cs">
+    <Compile Include="Forms\LogIn.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LogIn.Designer.cs">
+    <Compile Include="Forms\LogIn.Designer.cs">
       <DependentUpon>LogIn.cs</DependentUpon>
     </Compile>
-    <Compile Include="Manage.cs">
+    <Compile Include="Forms\Manage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Manage.Designer.cs">
+    <Compile Include="Forms\Manage.Designer.cs">
       <DependentUpon>Manage.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ModelData\BuildingClass.cs" />
@@ -134,64 +134,64 @@
     <Compile Include="Models\ModelData\Role.cs" />
     <Compile Include="Models\Package.cs" />
     <Compile Include="Models\Vendors.cs" />
-    <Compile Include="PrintPreview.cs">
+    <Compile Include="Forms\PrintPreview.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PrintPreview.Designer.cs">
+    <Compile Include="Forms\PrintPreview.Designer.cs">
       <DependentUpon>PrintPreview.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Receiving.cs">
+    <Compile Include="Forms\Receiving.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Receiving.Designer.cs">
+    <Compile Include="Forms\Receiving.Designer.cs">
       <DependentUpon>Receiving.cs</DependentUpon>
     </Compile>
-    <Compile Include="Reports.cs">
+    <Compile Include="Forms\Reports.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports.Designer.cs">
+    <Compile Include="Forms\Reports.Designer.cs">
       <DependentUpon>Reports.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs">
+    <Compile Include="Forms\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings.Designer.cs">
+    <Compile Include="Forms\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs" />
-    <EmbeddedResource Include="AddBuilding.resx">
+    <EmbeddedResource Include="Forms\AddBuilding.resx">
       <DependentUpon>AddBuilding.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddCarrier.resx">
+    <EmbeddedResource Include="Forms\AddCarrier.resx">
       <DependentUpon>AddCarrier.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddFaculty.resx">
+    <EmbeddedResource Include="Forms\AddFaculty.resx">
       <DependentUpon>AddFaculty.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddNote.resx">
+    <EmbeddedResource Include="Forms\AddNote.resx">
       <DependentUpon>AddNote.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddPackage.resx">
+    <EmbeddedResource Include="Forms\AddPackage.resx">
       <DependentUpon>AddPackage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddUser.resx">
+    <EmbeddedResource Include="Forms\AddUser.resx">
       <DependentUpon>AddUser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddVendor.resx">
+    <EmbeddedResource Include="Forms\AddVendor.resx">
       <DependentUpon>AddVendor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="Forms\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogIn.resx">
+    <EmbeddedResource Include="Forms\LogIn.resx">
       <DependentUpon>LogIn.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Manage.resx">
+    <EmbeddedResource Include="Forms\Manage.resx">
       <DependentUpon>Manage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PrintPreview.resx">
+    <EmbeddedResource Include="Forms\PrintPreview.resx">
       <DependentUpon>PrintPreview.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -204,13 +204,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Receiving.resx">
+    <EmbeddedResource Include="Forms\Receiving.resx">
       <DependentUpon>Receiving.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports.resx">
+    <EmbeddedResource Include="Forms\Reports.resx">
       <DependentUpon>Reports.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings.resx">
+    <EmbeddedResource Include="Forms\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
