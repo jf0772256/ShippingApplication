@@ -9,10 +9,3 @@
     <string></string>
   </strings>
 </settings>
-<!--
-<host>192.168.1.9</host>
-<database_name>CsharpTest</database_name>
-<user_name>CsharpTest</user_name>
-<password>shelby67</password>
-<port>0</port>
--->

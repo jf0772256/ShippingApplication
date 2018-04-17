@@ -261,7 +261,6 @@
     <None Include="Resources\android-archive.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Connections\Assets\settings - Copy.xml" />
     <Content Include="Connections\Assets\settings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

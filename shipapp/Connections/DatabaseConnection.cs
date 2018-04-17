@@ -1233,59 +1233,67 @@ namespace shipapp.Connections
         /// <returns>user class object</returns>
         protected User GetUser(long id)
         {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c, tr))
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    OdbcTransaction tr = c.BeginTransaction();
+                    using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                     {
-                        cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
-                        cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id,person_id FROM users WHERE users.user_id = ?;";
-                        cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
-                    }
-                    else if (DBType == SQLHelperClass.DatabaseType.MySQL)
-                    {
-                        cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id,person_id FROM users WHERE users.user_id = ?;";
-                    }
-                    cmd.Parameters.AddWithValue("userId", id);
-                    User u = new User();
-                    long rid = 0;
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
+                        if (DBType == SQLHelperClass.DatabaseType.MSSQL)
                         {
-                            u.Id = Convert.ToInt64(reader["user_id"].ToString());
-                            u.FirstName = reader["user_fname"].ToString();
-                            u.LastName = reader["user_lname"].ToString();
-                            u.Username = reader["user_name"].ToString();
-                            u.PassWord = reader["Password"].ToString();
-                            rid = Convert.ToInt64(reader["user_role_id"].ToString());
-                            u.Person_Id = reader["person_id"].ToString();
+                            cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
+                            cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id,person_id FROM users WHERE users.user_id = ?;";
+                            cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
                         }
-                    }
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?";
-                    cmd.Parameters.AddWithValue("role_id", rid);
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
+                        else if (DBType == SQLHelperClass.DatabaseType.MySQL)
                         {
-                            u.Level = new Role()
+                            cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id,person_id FROM users WHERE users.user_id = ?;";
+                        }
+                        cmd.Parameters.AddWithValue("userId", id);
+                        User u = new User();
+                        long rid = 0;
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
                             {
-                                Role_id = Convert.ToInt64(reader["role_id"].ToString()),
-                                Role_Title = reader["role_title"].ToString()
-                            };
+                                u.Id = Convert.ToInt64(reader["user_id"].ToString());
+                                u.FirstName = reader["user_fname"].ToString();
+                                u.LastName = reader["user_lname"].ToString();
+                                u.Username = reader["user_name"].ToString();
+                                u.PassWord = reader["Password"].ToString();
+                                rid = Convert.ToInt64(reader["user_role_id"].ToString());
+                                u.Person_Id = reader["person_id"].ToString();
+                            }
                         }
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?";
+                        cmd.Parameters.AddWithValue("role_id", rid);
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                u.Level = new Role()
+                                {
+                                    Role_id = Convert.ToInt64(reader["role_id"].ToString()),
+                                    Role_Title = reader["role_title"].ToString()
+                                };
+                            }
+                        }
+                        u.Notes = GetNotesListById(u.Person_Id);
+                        return u;
                     }
-                    u.Notes = GetNotesListById(u.Person_Id);
-                    return u;
                 }
+            }
+            catch (Exception)
+            {
+                //Throws only on new settings file
+                return new User();
             }
         }
         /// <summary>
@@ -1295,58 +1303,66 @@ namespace shipapp.Connections
         /// <returns>User Object</returns>
         protected User GetUser(string username)
         {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
-                        cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
-                        cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id,person_id FROM users WHERE users.user_name = ?;";
-                        cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
-                    }
-                    else if (DBType == SQLHelperClass.DatabaseType.MySQL)
-                    {
-                        cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id,person_id FROM users WHERE users.user_name = ?;";
-                    }
-                    cmd.Parameters.AddWithValue("userName", username);
-                    User u = new User();
-                    long rid = 0;
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
+                        if (DBType == SQLHelperClass.DatabaseType.MSSQL)
                         {
-                            u.Id = Convert.ToInt64(reader[0].ToString());
-                            u.FirstName = reader[1].ToString();
-                            u.LastName = reader[2].ToString();
-                            u.Username = reader[3].ToString();
-                            u.PassWord = reader[4].ToString();
-                            rid = Convert.ToInt64(reader[5].ToString());
-                            u.Person_Id = reader[6].ToString();
+                            cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
+                            cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id,person_id FROM users WHERE users.user_name = ?;";
+                            cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
                         }
-                    }
-                    cmd.Parameters.Clear();
-                    cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?";
-                    cmd.Parameters.AddWithValue("role_id", rid);
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
+                        else if (DBType == SQLHelperClass.DatabaseType.MySQL)
                         {
-                            u.Level = new Models.ModelData.Role()
+                            cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id,person_id FROM users WHERE users.user_name = ?;";
+                        }
+                        cmd.Parameters.AddWithValue("userName", username);
+                        User u = new User();
+                        long rid = 0;
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
                             {
-                                Role_id = Convert.ToInt64(reader[0].ToString()),
-                                Role_Title = reader[1].ToString()
-                            };
+                                u.Id = Convert.ToInt64(reader[0].ToString());
+                                u.FirstName = reader[1].ToString();
+                                u.LastName = reader[2].ToString();
+                                u.Username = reader[3].ToString();
+                                u.PassWord = reader[4].ToString();
+                                rid = Convert.ToInt64(reader[5].ToString());
+                                u.Person_Id = reader[6].ToString();
+                            }
                         }
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?";
+                        cmd.Parameters.AddWithValue("role_id", rid);
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                u.Level = new Models.ModelData.Role()
+                                {
+                                    Role_id = Convert.ToInt64(reader[0].ToString()),
+                                    Role_Title = reader[1].ToString()
+                                };
+                            }
+                        }
+                        u.Notes = GetNotesListById(u.Person_Id);
+                        return u;
                     }
-                    u.Notes = GetNotesListById(u.Person_Id);
-                    return u;
                 }
+            }
+            catch (Exception)
+            {
+                //only throws on new settings file
+                return new User();
             }
         }
         /// <summary>
@@ -1354,111 +1370,118 @@ namespace shipapp.Connections
         /// </summary>
         protected SortableBindingList<User> GetUserList()
         {
-            //DataConnectionClass.DataLists.UsersList.Clear();
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            SortableBindingList<User> usr = new SortableBindingList<User>();
-
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                SortableBindingList<User> usr = new SortableBindingList<User>();
+
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
-                        cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
-                        cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id,person_id FROM users;";
-                        cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
-                        List<long> rids = new List<long>() { };
-                        using (OdbcDataReader reader = cmd.ExecuteReader())
+                        if (DBType == SQLHelperClass.DatabaseType.MSSQL)
                         {
-                            while (reader.Read())
-                            {
-                                User u = new User()
-                                {
-                                    Id = Convert.ToInt64(reader["user_id"].ToString()),
-                                    FirstName = reader["user_fname"].ToString(),
-                                    LastName = reader["user_lname"].ToString(),
-                                    Username = reader["user_name"].ToString(),
-                                    PassWord = reader["Password"].ToString(),
-                                    Person_Id = reader["person_id"].ToString()
-                                };
-                                rids.Add(Convert.ToInt64(reader["user_role_id"].ToString()));
-                                usr.Add(u);
-                            }
-                        }
-                        int cnt = 0;
-                        foreach (User u in usr)
-                        {
-                            cmd.Parameters.Clear();
-                            cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?;";
-                            cmd.Parameters.AddWithValue("role_id", rids[cnt]);
+                            cmd.CommandText = "OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';";
+                            cmd.CommandText += "SELECT users.user_id, users.user_fname,users.user_lname,users.user_name,CONVERT(nvarchar, DecryptByKey(users.user_password)) AS 'Password',users.user_role_id,person_id FROM users;";
+                            cmd.CommandText += "CLOSE SYMMETRIC KEY secure_data;";
+                            List<long> rids = new List<long>() { };
                             using (OdbcDataReader reader = cmd.ExecuteReader())
                             {
                                 while (reader.Read())
                                 {
-                                    u.Level = new Role()
+                                    User u = new User()
                                     {
-                                        Role_id = Convert.ToInt64(reader[0].ToString()),
-                                        Role_Title = reader[1].ToString()
+                                        Id = Convert.ToInt64(reader["user_id"].ToString()),
+                                        FirstName = reader["user_fname"].ToString(),
+                                        LastName = reader["user_lname"].ToString(),
+                                        Username = reader["user_name"].ToString(),
+                                        PassWord = reader["Password"].ToString(),
+                                        Person_Id = reader["person_id"].ToString()
                                     };
+                                    rids.Add(Convert.ToInt64(reader["user_role_id"].ToString()));
+                                    usr.Add(u);
                                 }
                             }
-                            u.Notes = GetNotesListById(u.Person_Id);
-                            cnt++;
-                        }
-                    }
-                    else if (DBType == SQLHelperClass.DatabaseType.MySQL)
-                    {
-                        List<long> rids = new List<long>() { };
-                        cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id,person_id FROM users;";
-                        using (OdbcDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
+                            int cnt = 0;
+                            foreach (User u in usr)
                             {
-                                User u = new User()
+                                cmd.Parameters.Clear();
+                                cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?;";
+                                cmd.Parameters.AddWithValue("role_id", rids[cnt]);
+                                using (OdbcDataReader reader = cmd.ExecuteReader())
                                 {
-                                    Id = Convert.ToInt64(reader["user_id"].ToString()),
-                                    FirstName = reader["user_fname"].ToString(),
-                                    LastName = reader["user_lname"].ToString(),
-                                    Username = reader["user_name"].ToString(),
-                                    PassWord = reader["Password"].ToString(),
-                                    Person_Id = reader["person_id"].ToString()
-                                };
-                                rids.Add(Convert.ToInt64(reader["user_role_id"].ToString()));
-                                usr.Add(u);
+                                    while (reader.Read())
+                                    {
+                                        u.Level = new Role()
+                                        {
+                                            Role_id = Convert.ToInt64(reader[0].ToString()),
+                                            Role_Title = reader[1].ToString()
+                                        };
+                                    }
+                                }
+                                u.Notes = GetNotesListById(u.Person_Id);
+                                cnt++;
                             }
                         }
-                        int cnt = 0;
-                        foreach (User u in usr)
+                        else if (DBType == SQLHelperClass.DatabaseType.MySQL)
                         {
-                            cmd.Parameters.Clear();
-                            cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?;";
-                            cmd.Parameters.AddWithValue("role_id", rids[cnt]);
+                            List<long> rids = new List<long>() { };
+                            cmd.CommandText = "SELECT user_id, user_fname, user_lname, user_name, CAST(AES_DECRYPT(user_password,'" + EncodeKey + "') AS CHAR(300)) AS 'Password',user_role_id,person_id FROM users;";
                             using (OdbcDataReader reader = cmd.ExecuteReader())
                             {
                                 while (reader.Read())
                                 {
-                                    u.Level = new Models.ModelData.Role()
+                                    User u = new User()
                                     {
-                                        Role_id = Convert.ToInt64(reader["role_id"].ToString()),
-                                        Role_Title = reader["role_title"].ToString()
+                                        Id = Convert.ToInt64(reader["user_id"].ToString()),
+                                        FirstName = reader["user_fname"].ToString(),
+                                        LastName = reader["user_lname"].ToString(),
+                                        Username = reader["user_name"].ToString(),
+                                        PassWord = reader["Password"].ToString(),
+                                        Person_Id = reader["person_id"].ToString()
                                     };
+                                    rids.Add(Convert.ToInt64(reader["user_role_id"].ToString()));
+                                    usr.Add(u);
                                 }
                             }
-                            u.Notes = GetNotesListById(u.Person_Id);
-                            cnt++;
+                            int cnt = 0;
+                            foreach (User u in usr)
+                            {
+                                cmd.Parameters.Clear();
+                                cmd.CommandText = "SELECT * FROM roles WHERE role_id = ?;";
+                                cmd.Parameters.AddWithValue("role_id", rids[cnt]);
+                                using (OdbcDataReader reader = cmd.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        u.Level = new Models.ModelData.Role()
+                                        {
+                                            Role_id = Convert.ToInt64(reader["role_id"].ToString()),
+                                            Role_Title = reader["role_title"].ToString()
+                                        };
+                                    }
+                                }
+                                u.Notes = GetNotesListById(u.Person_Id);
+                                cnt++;
+                            }
                         }
-                    }
-                    else
-                    {
-                        DatabaseConnectionException e = new DatabaseConnectionException("You Must select a valid database type", new Exception());
+                        else
+                        {
+                            DatabaseConnectionException e = new DatabaseConnectionException("You Must select a valid database type", new Exception());
+                        }
                     }
                 }
+                return usr;
             }
-            return usr;
+            catch (Exception)
+            {
+                //only throws on new settings file
+                return new SortableBindingList<User>();
+            }
         }
         /// <summary>
         /// Gets selected vendor from list by id
@@ -1466,379 +1489,467 @@ namespace shipapp.Connections
         /// <returns></returns>
         protected Vendors GetVendor_From_Database(long id)
         {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            Vendors v = new Vendors() { };
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                Vendors v = new Vendors() { };
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    cmd.CommandText = "SELECT vend_id, vendor_name FROM vendors WHERE vend_id = ?;";
-                    cmd.Parameters.AddWithValue("vend_id", id);
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
-                        while (reader.Read())
+                        cmd.CommandText = "SELECT vend_id, vendor_name FROM vendors WHERE vend_id = ?;";
+                        cmd.Parameters.AddWithValue("vend_id", id);
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            v.VendorId = Convert.ToInt64(reader[0].ToString());
-                            v.VendorName = reader[1].ToString();
+                            while (reader.Read())
+                            {
+                                v.VendorId = Convert.ToInt64(reader[0].ToString());
+                                v.VendorName = reader[1].ToString();
+                            }
                         }
                     }
                 }
+                return v;
             }
-            return v;
+            catch (Exception)
+            {
+                //only throws on new settings file
+                return new Vendors();
+            }
         }
         /// <summary>
         /// Gets all vendors from the database
         /// </summary>
         protected SortableBindingList<Vendors> GetVendorsList()
         {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            SortableBindingList<Vendors> ven = new SortableBindingList<Vendors>();
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                SortableBindingList<Vendors> ven = new SortableBindingList<Vendors>();
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    cmd.CommandText = "SELECT vend_id, vendor_name FROM vendors;";
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
-                        while (reader.Read())
+                        cmd.CommandText = "SELECT vend_id, vendor_name FROM vendors;";
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            Vendors v = new Vendors() { };
-                            v.VendorId = Convert.ToInt64(reader[0].ToString());
-                            v.VendorName = reader[1].ToString();
-                            ven.Add(v);
+                            while (reader.Read())
+                            {
+                                Vendors v = new Vendors() { };
+                                v.VendorId = Convert.ToInt64(reader[0].ToString());
+                                v.VendorName = reader[1].ToString();
+                                ven.Add(v);
+                            }
                         }
+                        return ven;
                     }
-                    return ven;
                 }
+            }
+            catch (Exception)
+            {
+                //only throws when new settings file
+                return new SortableBindingList<Vendors>();
             }
         }
         protected Carrier Get_Carrier(long id)
         {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    Carrier car = null;
-                    cmd.CommandText = "SELECT carrier_id, carrier_name FROM carriers WHERE carrier_id = ?;";
-                    cmd.Parameters.Add(new OdbcParameter("carid", id));
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
-                        while (reader.Read())
+                        Carrier car = null;
+                        cmd.CommandText = "SELECT carrier_id, carrier_name FROM carriers WHERE carrier_id = ?;";
+                        cmd.Parameters.Add(new OdbcParameter("carid", id));
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            car = new Carrier()
+                            while (reader.Read())
                             {
-                                CarrierId = Convert.ToInt64(reader[0].ToString()),
-                                CarrierName = reader[1].ToString()
-                            };
+                                car = new Carrier()
+                                {
+                                    CarrierId = Convert.ToInt64(reader[0].ToString()),
+                                    CarrierName = reader[1].ToString()
+                                };
+                            }
                         }
+                        return car;
                     }
-                    return car;
                 }
+            }
+            catch (Exception)
+            {
+                //only throws when new settings file
+                return new Carrier();
             }
         }
         protected SortableBindingList<Carrier> Get_Carrier_List()
         {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    Carrier car = null;
-                    SortableBindingList<Carrier> carList = new SortableBindingList<Carrier>() { };
-                    cmd.CommandText = "SELECT carrier_id, carrier_name FROM carriers;";
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
-                        while (reader.Read())
+                        Carrier car = null;
+                        SortableBindingList<Carrier> carList = new SortableBindingList<Carrier>() { };
+                        cmd.CommandText = "SELECT carrier_id, carrier_name FROM carriers;";
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            car = new Carrier()
+                            while (reader.Read())
                             {
-                                CarrierId = Convert.ToInt64(reader[0].ToString()),
-                                CarrierName = reader[1].ToString()
-                            };
-                            carList.Add(car);
+                                car = new Carrier()
+                                {
+                                    CarrierId = Convert.ToInt64(reader[0].ToString()),
+                                    CarrierName = reader[1].ToString()
+                                };
+                                carList.Add(car);
+                            }
                         }
+                        return carList;
                     }
-                    return carList;
                 }
+            }
+            catch (Exception)
+            {
+                //throws only on new settings file
+                return new SortableBindingList<Carrier>();
             }
         }
         protected Faculty Get_Faculty(long id)
         {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            Faculty f = null;
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                Faculty f = null;
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    cmd.CommandText = "SELECT empl_id, empl_fname, empl_lname, person_id, building_id,building_room_number FROM employees WHERE empl_id = ?;";
-                    cmd.Parameters.Add(new OdbcParameter("id", id));
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    OdbcTransaction tr = c.BeginTransaction();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
-                        while (reader.Read())
+                        cmd.CommandText = "SELECT empl_id, empl_fname, empl_lname, person_id, building_id,building_room_number FROM employees WHERE empl_id = ?;";
+                        cmd.Parameters.Add(new OdbcParameter("id", id));
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            f = new Faculty()
+                            while (reader.Read())
                             {
-                                Id = Convert.ToInt64(reader[0].ToString()),
-                                FirstName = reader[1].ToString(),
-                                LastName = reader[2].ToString(),
-                                Faculty_PersonId = reader[3].ToString(),
-                                Building_Id = Convert.ToInt64(reader[4].ToString()),
-                                RoomNumber = reader[5].ToString()
-                            };
+                                f = new Faculty()
+                                {
+                                    Id = Convert.ToInt64(reader[0].ToString()),
+                                    FirstName = reader[1].ToString(),
+                                    LastName = reader[2].ToString(),
+                                    Faculty_PersonId = reader[3].ToString(),
+                                    Building_Id = Convert.ToInt64(reader[4].ToString()),
+                                    RoomNumber = reader[5].ToString()
+                                };
+                            }
                         }
+                        f.Notes = GetNotesListById(f.Faculty_PersonId);
+                        return f;
                     }
-                    f.Notes = GetNotesListById(f.Faculty_PersonId);
-                    return f;
                 }
+            }
+            catch (Exception)
+            {
+                //only throws on new settings file
+                return new Faculty();
             }
         }
         protected SortableBindingList<Faculty> Get_Faculty_List()
         {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            SortableBindingList<Faculty> f = new SortableBindingList<Faculty>() { };
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                SortableBindingList<Faculty> f = new SortableBindingList<Faculty>() { };
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    cmd.CommandText = "SELECT empl_id, empl_fname, empl_lname, person_id, building_id,building_room_number FROM employees;";
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
-                        while (reader.Read())
+                        cmd.CommandText = "SELECT empl_id, empl_fname, empl_lname, person_id, building_id,building_room_number FROM employees;";
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            f.Add(new Faculty()
+                            while (reader.Read())
                             {
-                                Id = Convert.ToInt64(reader[0].ToString()),
-                                FirstName = reader[1].ToString(),
-                                LastName = reader[2].ToString(),
-                                Faculty_PersonId = reader[3].ToString(),
-                                Building_Id = Convert.ToInt64(reader[4].ToString()),
-                                RoomNumber = reader[5].ToString()
-                            });
+                                f.Add(new Faculty()
+                                {
+                                    Id = Convert.ToInt64(reader[0].ToString()),
+                                    FirstName = reader[1].ToString(),
+                                    LastName = reader[2].ToString(),
+                                    Faculty_PersonId = reader[3].ToString(),
+                                    Building_Id = Convert.ToInt64(reader[4].ToString()),
+                                    RoomNumber = reader[5].ToString()
+                                });
+                            }
                         }
+                        foreach (Faculty fac in f)
+                        {
+                            fac.Building_Name = (GetBuilding(fac.Building_Id).ToString());
+                            fac.Notes = GetNotesListById(fac.Faculty_PersonId);
+                        }
+                        return f;
                     }
-                    foreach (Faculty fac in f)
-                    {
-                        fac.Building_Name = (GetBuilding(fac.Building_Id).ToString());
-                        fac.Notes = GetNotesListById(fac.Faculty_PersonId);
-                    }
-                    return f;
                 }
+            }
+            catch (Exception)
+            {
+                //only throws on new settings file
+                return new SortableBindingList<Faculty>();
             }
         }
         protected Package Get_Package(long id)
         {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    Package p = new Package() { };
-                    cmd.CommandText = "SELECT package_id,package_po,package_carrier,package_vendor,package_deliv_to,package_deliv_by,package_signed_for_by,package_tracking_number,package_receive_date,package_deliver_date,package_note_id,package_status,package_deliv_bldg FROM packages WHERE package_id=?;";
-                    cmd.Parameters.AddWithValue("pid", id);
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
-                        while (reader.Read())
+                        Package p = new Package() { };
+                        cmd.CommandText = "SELECT package_id,package_po,package_carrier,package_vendor,package_deliv_to,package_deliv_by,package_signed_for_by,package_tracking_number,package_receive_date,package_deliver_date,package_note_id,package_status,package_deliv_bldg FROM packages WHERE package_id=?;";
+                        cmd.Parameters.AddWithValue("pid", id);
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            p = new Package()
+                            while (reader.Read())
                             {
-                                PackageId = Convert.ToInt64(reader["package_id"].ToString()),
-                                PONumber = reader["package_po"].ToString(),
-                                PackageTrackingNumber = reader["package_tracking_number"].ToString(),
-                                PackageCarrier = reader["package_carrier"].ToString(),
-                                PackageVendor = reader["package_vendor"].ToString(),
-                                PackageDeleveredBy = reader["package_deliv_by"].ToString(),
-                                PackageDeliveredTo = reader["package_deliv_to"].ToString(),
-                                PackageSignedForBy = reader["package_signed_for_by"].ToString(),
-                                PackageReceivedDate = reader["package_receive_date"].ToString(),
-                                PackageDeliveredDate = reader["package_deliver_date"].ToString(),
-                                Package_PersonId = reader["package_note_id"].ToString(),
-                                Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString()),
-                                DelivBuildingShortName = reader["package_deliv_bldg"].ToString()
-                            };
+                                p = new Package()
+                                {
+                                    PackageId = Convert.ToInt64(reader["package_id"].ToString()),
+                                    PONumber = reader["package_po"].ToString(),
+                                    PackageTrackingNumber = reader["package_tracking_number"].ToString(),
+                                    PackageCarrier = reader["package_carrier"].ToString(),
+                                    PackageVendor = reader["package_vendor"].ToString(),
+                                    PackageDeleveredBy = reader["package_deliv_by"].ToString(),
+                                    PackageDeliveredTo = reader["package_deliv_to"].ToString(),
+                                    PackageSignedForBy = reader["package_signed_for_by"].ToString(),
+                                    PackageReceivedDate = reader["package_receive_date"].ToString(),
+                                    PackageDeliveredDate = reader["package_deliver_date"].ToString(),
+                                    Package_PersonId = reader["package_note_id"].ToString(),
+                                    Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString()),
+                                    DelivBuildingShortName = reader["package_deliv_bldg"].ToString()
+                                };
+                            }
                         }
+                        p.Notes = GetNotesListById(p.Package_PersonId);
+                        return p;
                     }
-                    p.Notes = GetNotesListById(p.Package_PersonId);
-                    return p;
                 }
+            }
+            catch (Exception)
+            {
+                //only throws when new settings file
+                return new Package();
             }
         }
         protected SortableBindingList<Package> Get_Package_List(string datetoget)
         {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            SortableBindingList<Package> pkg = new SortableBindingList<Package>();
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                SortableBindingList<Package> pkg = new SortableBindingList<Package>();
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    Package p = new Package() { };
-                    cmd.CommandText = "SELECT package_id,package_po,package_carrier,package_vendor,package_deliv_to,package_deliv_by,package_signed_for_by,package_tracking_number,package_receive_date,package_deliver_date,package_note_id,package_status,package_deliv_bldg FROM packages WHERE last_modified = '" + datetoget + "';";
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
-                        while (reader.Read())
+                        Package p = new Package() { };
+                        cmd.CommandText = "SELECT package_id,package_po,package_carrier,package_vendor,package_deliv_to,package_deliv_by,package_signed_for_by,package_tracking_number,package_receive_date,package_deliver_date,package_note_id,package_status,package_deliv_bldg FROM packages WHERE last_modified = '" + datetoget + "';";
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            p = new Package()
+                            while (reader.Read())
                             {
-                                PackageId = Convert.ToInt64(reader["package_id"].ToString()),
-                                PackageTrackingNumber = reader["package_tracking_number"].ToString(),
-                                PONumber = reader["package_po"].ToString(),
-                                PackageCarrier = reader["package_carrier"].ToString(),
-                                PackageVendor = reader["package_vendor"].ToString(),
-                                PackageDeleveredBy = reader["package_deliv_by"].ToString(),
-                                PackageDeliveredTo = reader["package_deliv_to"].ToString(),
-                                PackageSignedForBy = reader["package_signed_for_by"].ToString(),
-                                PackageReceivedDate = reader["package_receive_date"].ToString(),
-                                PackageDeliveredDate = reader["package_deliver_date"].ToString(),
-                                Package_PersonId = reader["package_note_id"].ToString(),
-                                Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString()),
-                                DelivBuildingShortName = reader["package_deliv_bldg"].ToString()
-                            };
-                            pkg.Add(p);
+                                p = new Package()
+                                {
+                                    PackageId = Convert.ToInt64(reader["package_id"].ToString()),
+                                    PackageTrackingNumber = reader["package_tracking_number"].ToString(),
+                                    PONumber = reader["package_po"].ToString(),
+                                    PackageCarrier = reader["package_carrier"].ToString(),
+                                    PackageVendor = reader["package_vendor"].ToString(),
+                                    PackageDeleveredBy = reader["package_deliv_by"].ToString(),
+                                    PackageDeliveredTo = reader["package_deliv_to"].ToString(),
+                                    PackageSignedForBy = reader["package_signed_for_by"].ToString(),
+                                    PackageReceivedDate = reader["package_receive_date"].ToString(),
+                                    PackageDeliveredDate = reader["package_deliver_date"].ToString(),
+                                    Package_PersonId = reader["package_note_id"].ToString(),
+                                    Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString()),
+                                    DelivBuildingShortName = reader["package_deliv_bldg"].ToString()
+                                };
+                                pkg.Add(p);
+                            }
                         }
+                        foreach (Package pac in pkg)
+                        {
+                            pac.Notes = GetNotesListById(pac.Package_PersonId);
+                        }
+                        return pkg;
                     }
-                    foreach (Package pac in pkg)
-                    {
-                        pac.Notes = GetNotesListById(pac.Package_PersonId);
-                    }
-                    return pkg;
                 }
+            }
+            catch (Exception)
+            {
+                //only errors on new setting xml
+                return new SortableBindingList<Package>();
             }
         }
         protected SortableBindingList<Package> Get_Package_List(string startdate,string enddate)
         {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            SortableBindingList<Package> pkg = new SortableBindingList<Package>();
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                SortableBindingList<Package> pkg = new SortableBindingList<Package>();
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    Package p = new Package() { };
-                    cmd.CommandText = "SELECT package_id,package_po,package_carrier,package_vendor,package_deliv_to,package_deliv_by,package_signed_for_by,package_tracking_number,package_receive_date,package_deliver_date,package_note_id,package_status,package_deliv_bldg FROM packages where last_modified BETWEEN '" + startdate + "' AND '" + enddate + "';";
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
-                        while (reader.Read())
+                        Package p = new Package() { };
+                        cmd.CommandText = "SELECT package_id,package_po,package_carrier,package_vendor,package_deliv_to,package_deliv_by,package_signed_for_by,package_tracking_number,package_receive_date,package_deliver_date,package_note_id,package_status,package_deliv_bldg FROM packages where last_modified BETWEEN '" + startdate + "' AND '" + enddate + "';";
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            p = new Package()
+                            while (reader.Read())
                             {
-                                PackageId = Convert.ToInt64(reader["package_id"].ToString()),
-                                PackageTrackingNumber = reader["package_tracking_number"].ToString(),
-                                PONumber = reader["package_po"].ToString(),
-                                PackageCarrier = reader["package_carrier"].ToString(),
-                                PackageVendor = reader["package_vendor"].ToString(),
-                                PackageDeleveredBy = reader["package_deliv_by"].ToString(),
-                                PackageDeliveredTo = reader["package_deliv_to"].ToString(),
-                                PackageSignedForBy = reader["package_signed_for_by"].ToString(),
-                                PackageReceivedDate = reader["package_receive_date"].ToString(),
-                                PackageDeliveredDate = reader["package_deliver_date"].ToString(),
-                                Package_PersonId = reader["package_note_id"].ToString(),
-                                Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString()),
-                                DelivBuildingShortName = reader["package_deliv_bldg"].ToString()
-                            };
-                            pkg.Add(p);
+                                p = new Package()
+                                {
+                                    PackageId = Convert.ToInt64(reader["package_id"].ToString()),
+                                    PackageTrackingNumber = reader["package_tracking_number"].ToString(),
+                                    PONumber = reader["package_po"].ToString(),
+                                    PackageCarrier = reader["package_carrier"].ToString(),
+                                    PackageVendor = reader["package_vendor"].ToString(),
+                                    PackageDeleveredBy = reader["package_deliv_by"].ToString(),
+                                    PackageDeliveredTo = reader["package_deliv_to"].ToString(),
+                                    PackageSignedForBy = reader["package_signed_for_by"].ToString(),
+                                    PackageReceivedDate = reader["package_receive_date"].ToString(),
+                                    PackageDeliveredDate = reader["package_deliver_date"].ToString(),
+                                    Package_PersonId = reader["package_note_id"].ToString(),
+                                    Status = (Package.DeliveryStatus)Convert.ToInt32(reader["package_status"].ToString()),
+                                    DelivBuildingShortName = reader["package_deliv_bldg"].ToString()
+                                };
+                                pkg.Add(p);
+                            }
                         }
+                        foreach (Package pac in pkg)
+                        {
+                            pac.Notes = GetNotesListById(pac.Package_PersonId);
+                        }
+                        return pkg;
                     }
-                    foreach (Package pac in pkg)
-                    {
-                        pac.Notes = GetNotesListById(pac.Package_PersonId);
-                    }
-                    return pkg;
                 }
+            }
+            catch (Exception)
+            {
+                //exception caused while connection string is null, this is only if teh file is deleted, or new instance so is ok to ignore
+                return new SortableBindingList<Package>();
             }
         }
         protected SortableBindingList<BuildingClass> Get_Building_List()
         {
-            SortableBindingList<BuildingClass> bl = new SortableBindingList<BuildingClass>() { };
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
+                SortableBindingList<BuildingClass> bl = new SortableBindingList<BuildingClass>() { };
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    cmd.CommandText = "SELECT building_short_name,building_long_name,building_id FROM buildings ORDER BY building_long_name ASC;";
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
-                        while (reader.Read())
+                        cmd.CommandText = "SELECT building_short_name,building_long_name,building_id FROM buildings ORDER BY building_long_name ASC;";
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            bl.Add(new BuildingClass()
+                            while (reader.Read())
                             {
-                                BuildingId = Convert.ToInt64(reader[2].ToString()),
-                                BuildingLongName = reader[1].ToString(),
-                                BuildingShortName = reader[0].ToString()
-                            });
+                                bl.Add(new BuildingClass()
+                                {
+                                    BuildingId = Convert.ToInt64(reader[2].ToString()),
+                                    BuildingLongName = reader[1].ToString(),
+                                    BuildingShortName = reader[0].ToString()
+                                });
+                            }
                         }
                     }
                 }
+                return bl;
             }
-            return bl;
+            catch (Exception)
+            {
+                // only errors when new or deleted settings file.
+                return new SortableBindingList<BuildingClass>();
+            }
         }
         protected SortableBindingList<AuditItem> Get_Audit_Log()
         {
-            SortableBindingList<AuditItem> rval = new SortableBindingList<AuditItem>();
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("",c))
+                SortableBindingList<AuditItem> rval = new SortableBindingList<AuditItem>();
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    cmd.CommandText = "SELECT action_taken,action_initiated_by,action_date,action_time FROM db_audit_history ORDER BY action_date DESC, action_time;";
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
-                        while (reader.Read())
+                        cmd.CommandText = "SELECT action_taken,action_initiated_by,action_date,action_time FROM db_audit_history ORDER BY action_date DESC, action_time;";
+                        using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
-                            rval.Add(new AuditItem()
+                            while (reader.Read())
                             {
-                                Item = reader["action_initiated_by"].ToString() + " has " + reader["action_taken"].ToString(),
-                                Date = reader["action_date"].ToString(),
-                                Time = reader["action_time"].ToString()
-                            });
+                                rval.Add(new AuditItem()
+                                {
+                                    Item = reader["action_initiated_by"].ToString() + " has " + reader["action_taken"].ToString(),
+                                    Date = reader["action_date"].ToString(),
+                                    Time = reader["action_time"].ToString()
+                                });
+                            }
                         }
                     }
                 }
+                return rval;
             }
-            return rval;
+            catch (Exception)
+            {
+                //throws only when thereis a new settings file
+                return new SortableBindingList<AuditItem>();
+            }
         }
         internal long GetLastNumericalId()
         {
@@ -2217,68 +2328,85 @@ namespace shipapp.Connections
         #region private gets
         private List<Note>GetNotesListById(string person_id)
         {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            List<Note> nte = new List<Note>() { };
-            using (OdbcConnection c = new OdbcConnection())
+            try
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                List<Note> nte = new List<Note>() { };
+                using (OdbcConnection c = new OdbcConnection())
                 {
-                    cmd.CommandText = "SELECT * FROM notes WHERE note_id = ?;";
-                    cmd.Parameters.AddWithValue("pid", person_id);
-                    try
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
                     {
+                        cmd.CommandText = "SELECT * FROM notes WHERE note_id = ?;";
+                        cmd.Parameters.AddWithValue("pid", person_id);
+                        try
+                        {
+                            using (OdbcDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    nte.Add(new Note
+                                    {
+                                        Note_Id = Convert.ToInt64(reader[0].ToString()),
+                                        Note_Value = reader[2].ToString()
+                                    });
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            // do nothing
+                            return new List<Note>();
+                        }
+                    }
+                }
+                return nte;
+            }
+            catch (Exception)
+            {
+                //in the first case will only throw when new setting
+                return new List<Note>();
+            }
+        }
+        private BuildingClass GetBuilding(long id)
+        {
+            try
+            {
+                ConnString = DataConnectionClass.ConnectionString;
+                DBType = DataConnectionClass.DBType;
+                EncodeKey = DataConnectionClass.EncodeString;
+                using (OdbcConnection c = new OdbcConnection())
+                {
+                    c.ConnectionString = ConnString;
+                    c.Open();
+                    BuildingClass b = new BuildingClass();
+                    using (OdbcCommand cmd = new OdbcCommand("", c))
+                    {
+                        cmd.CommandText = "SELECT * FROM buildings WHERE building_id = ?;";
+                        cmd.Parameters.AddWithValue("pid", id);
                         using (OdbcDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                nte.Add(new Note
+                                b = new BuildingClass()
                                 {
-                                    Note_Id = Convert.ToInt64(reader[0].ToString()),
-                                    Note_Value = reader[2].ToString()
-                                });
+                                    BuildingId = Convert.ToInt64(reader[0].ToString()),
+                                    BuildingLongName = reader[1].ToString(),
+                                    BuildingShortName = reader[2].ToString()
+                                };
                             }
                         }
-                    }
-                    catch (Exception)
-                    {
-                        // do nothing
+                        return b;
                     }
                 }
             }
-            return nte;
-        }
-        private BuildingClass GetBuilding(long id)
-        {
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
+            catch (Exception)
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                BuildingClass b = new BuildingClass();
-                using (OdbcCommand cmd = new OdbcCommand("", c))
-                {
-                    cmd.CommandText = "SELECT * FROM buildings WHERE building_id = ?;";
-                    cmd.Parameters.AddWithValue("pid", id);
-                    using (OdbcDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            b = new BuildingClass()
-                            {
-                                BuildingId = Convert.ToInt64(reader[0].ToString()),
-                                BuildingLongName = reader[1].ToString(),
-                                BuildingShortName = reader[2].ToString()
-                            };
-                        }
-                    }
-                    return b;
-                }
+                //throws only on new settins file
+                return new BuildingClass();
             }
         }
         #endregion

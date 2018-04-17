@@ -138,81 +138,88 @@ namespace shipapp.Connections.DataConnections
         /// </summary>
         public static void GetDatabaseData()
         {
-            XDocument doc = new XDocument();
-            string filepath = Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml";
-            doc = XDocument.Load(filepath);
-            var dbelements = from ele in doc.Descendants("default_connections").Elements() select ele;
-            foreach (XElement item in dbelements)
+            try
             {
-                if (item.HasAttributes)
+                XDocument doc = new XDocument();
+                string filepath = Environment.CurrentDirectory + "\\Connections\\Assets\\settings.xml";
+                doc = XDocument.Load(filepath);
+                var dbelements = from ele in doc.Descendants("default_connections").Elements() select ele;
+                foreach (XElement item in dbelements)
                 {
-                    if (item.FirstAttribute.Value == "master")
+                    if (item.HasAttributes)
                     {
-                        string test = Serialization.DeSerializeValue(item.Value);
-                        if (test == SQLHelperClass.DatabaseType.MSSQL.ToString())
+                        if (item.FirstAttribute.Value == "master")
                         {
-                            DBType = SQLHelperClass.DatabaseType.MSSQL;
+                            string test = Serialization.DeSerializeValue(item.Value);
+                            if (test == SQLHelperClass.DatabaseType.MSSQL.ToString())
+                            {
+                                DBType = SQLHelperClass.DatabaseType.MSSQL;
+                            }
+                            else if (test == SQLHelperClass.DatabaseType.MySQL.ToString())
+                            {
+                                DBType = SQLHelperClass.DatabaseType.MySQL;
+                            }
+                            else
+                            {
+                                DBType = SQLHelperClass.DatabaseType.Unset;
+                            }
                         }
-                        else if (test == SQLHelperClass.DatabaseType.MySQL.ToString())
+                        else if (item.FirstAttribute.Value == "MSSQL")
                         {
-                            DBType = SQLHelperClass.DatabaseType.MySQL;
+                            if (!String.IsNullOrWhiteSpace(item.Value))
+                            {
+                                ConnectionString = Serialization.DeSerializeValue(item.Value);
+                            }
+                        }
+                        else if (item.FirstAttribute.Value == "MySQL")
+                        {
+                            if (!String.IsNullOrWhiteSpace(item.Value))
+                            {
+                                ConnectionString = Serialization.DeSerializeValue(item.Value);
+                            }
                         }
                         else
                         {
-                            DBType = SQLHelperClass.DatabaseType.Unset;
+                            item.SetValue("");
                         }
-                    }
-                    else if (item.FirstAttribute.Value == "MSSQL")
-                    {
-                        if (!String.IsNullOrWhiteSpace(item.Value))
+                        if (ConnectionString != null)
                         {
-                            ConnectionString = Serialization.DeSerializeValue(item.Value);
-                        }
-                    }
-                    else if (item.FirstAttribute.Value == "MySQL")
-                    {
-                        if (!String.IsNullOrWhiteSpace(item.Value))
-                        {
-                            ConnectionString = Serialization.DeSerializeValue(item.Value);
-                        }
-                    }
-                    else
-                    {
-                        item.SetValue("");
-                    }
-                    if (ConnectionString != null)
-                    {
-                        string[] cracked = ConnectionString.Split(';');
-                        if (DBType == SQLHelperClass.DatabaseType.MSSQL)
-                        {
-                            string[] db = cracked[2].Split('=');
-                            Dbname = db[1];
-                        }
-                        else if (DBType == SQLHelperClass.DatabaseType.MySQL)
-                        {
-                            if (cracked[2].Substring(0, 4) == "Port")
-                            {
-                                string[] db = cracked[3].Split('=');
-                                Dbname = db[1];
-                            }
-                            else
+                            string[] cracked = ConnectionString.Split(';');
+                            if (DBType == SQLHelperClass.DatabaseType.MSSQL)
                             {
                                 string[] db = cracked[2].Split('=');
                                 Dbname = db[1];
                             }
+                            else if (DBType == SQLHelperClass.DatabaseType.MySQL)
+                            {
+                                if (cracked[2].Substring(0, 4) == "Port")
+                                {
+                                    string[] db = cracked[3].Split('=');
+                                    Dbname = db[1];
+                                }
+                                else
+                                {
+                                    string[] db = cracked[2].Split('=');
+                                    Dbname = db[1];
+                                }
+                            }
+                            TestConn.Checktables();
                         }
-                        TestConn.Checktables();
                     }
                 }
+                var enc = from ele in doc.Descendants("strings").Elements() select ele;
+                foreach (XElement strings in enc)
+                {
+                    EncodeString = Serialization.DeSerializeValue(strings.Value);
+                }
+                if (String.IsNullOrWhiteSpace(EncodeString))
+                {
+                    EncodeString = Properties.Resources.backupstring;
+                }
             }
-            var enc = from ele in doc.Descendants("strings").Elements() select ele;
-            foreach (XElement strings in enc)
+            catch (Exception)
             {
-                EncodeString = Serialization.DeSerializeValue(strings.Value);
-            }
-            if (String.IsNullOrWhiteSpace(EncodeString))
-            {
-                EncodeString = Properties.Resources.backupstring;
+                ///connection string is missing
             }
         }
         /// <summary>
