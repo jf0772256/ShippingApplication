@@ -32,19 +32,15 @@ namespace shipapp
         private BindingList<BuildingClass> buildings;
         private BindingList<User> users;
         private char c = '\u2022';
-
-
+        //Search Vars Uses
+        private BindingSource bs = new BindingSource();
         public object ObjectToBeEditied { get => objectToBeEditied; set => objectToBeEditied = value; }
-
-
         public Manage()
         {
             InitializeComponent();
             dataGridView1.DataError += DataGridView1_DataError;
             dataGridView1.ColumnHeaderMouseClick += DataGridView1_ColumnHeaderMouseClick;
         }
-
-
         private void DataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
@@ -95,8 +91,6 @@ namespace shipapp
                 //do nothing but quietly handle error
             }
         }
-        
-        
         /// <summary>
         /// used to hide data conversion errors even though they are resolved through the getStrings and toStrings methods
         /// </summary>
@@ -104,8 +98,6 @@ namespace shipapp
         {
             //
         }
-        
-        
         /// <summary>
         /// Close the Form
         /// </summary>
@@ -115,8 +107,6 @@ namespace shipapp
         {
             this.Close();
         }
-
-
         private void Manage_Load(object sender, EventArgs e)
         {
             this.CenterToParent();
@@ -222,6 +212,8 @@ namespace shipapp
             ClearBackColor();
             btnFaculty.BackColor = SystemColors.ButtonHighlight;
             currentTable = 3;
+            lblSearch.Text = "";
+            txtSearch.Text = "";
             DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
 
             pictureBox1.Enabled = true;
@@ -250,7 +242,6 @@ namespace shipapp
                 AddEntity(e);
         }
         #endregion
-
         private void btnUsers_Click_1(object sender, EventArgs e)
         {
             ClearBackColor();
@@ -260,6 +251,8 @@ namespace shipapp
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             DataConnectionClass.UserConn.GetManyUsers(this);
+            lblSearch.Text = "";
+            txtSearch.Text = "";
 
             pictureBox1.Enabled = true;
             pictureBox1.BackColor = Color.Transparent;
@@ -297,8 +290,6 @@ namespace shipapp
                 dataGridView1.Update();
             }
         }
-
-
         private void btnVendors_Click_1(object sender, EventArgs e)
         {
             ClearBackColor();
@@ -308,7 +299,8 @@ namespace shipapp
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             DataConnectionClass.VendorConn.GetVendorList(this);
-
+            lblSearch.Text = "";
+            txtSearch.Text = "";
             if (role == 2)
             {
                 pictureBox1.Enabled = false;
@@ -322,15 +314,14 @@ namespace shipapp
             pcBxDelete.Enabled = true;
             pcBxDelete.BackColor = Color.Transparent;
         }
-
-
         private void btnBuildings_Click_1(object sender, EventArgs e)
         {
             ClearBackColor();
             btnBuildings.BackColor = SystemColors.ButtonHighlight;
             currentTable = 4;
             DataConnectionClass.buildingConn.GetBuildingList(this);
-
+            lblSearch.Text = "";
+            txtSearch.Text = "";
             if (role == 2)
             {
                 pictureBox1.Enabled = false;
@@ -344,8 +335,6 @@ namespace shipapp
             pcBxDelete.Enabled = true;
             pcBxDelete.BackColor = Color.Transparent;
         }
-
-
         private void btnCarriers_Click_1(object sender, EventArgs e)
         {
             ClearBackColor();
@@ -355,7 +344,8 @@ namespace shipapp
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             DataConnectionClass.CarrierConn.GetCarrierList(this);
-
+            lblSearch.Text = "";
+            txtSearch.Text = "";
             if (role == 2)
             {
                 pictureBox1.Enabled = false;
@@ -369,8 +359,6 @@ namespace shipapp
             pcBxDelete.Enabled = true;
             pcBxDelete.BackColor = Color.Transparent;
         }
-
-
         private void btnOther_Click_1(object sender, EventArgs e)
         {
             if (role == 2)
@@ -378,7 +366,7 @@ namespace shipapp
                 pictureBox1.Enabled = false;
                 pictureBox1.BackColor = Color.Transparent;
             }
-
+            lblSearch.Text = "";
             pictureBox1.Enabled = false;
             pictureBox1.BackColor = Color.LightPink;
             pcBxEdit.Enabled = false;
@@ -391,8 +379,6 @@ namespace shipapp
             currentTable = 6;
             DataConnectionClass.AuditLogConnClass.GetAuditLog(this);
         }
-
-
         /// <summary>
         /// Delete an object from the designated table
         /// </summary>
@@ -449,8 +435,6 @@ namespace shipapp
                 MessageBox.Show("You must select a table before you can delete an item.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
         /// <summary>
         /// When this event fires, delete the currently selected entity from the database
         /// </summary>
@@ -463,8 +447,6 @@ namespace shipapp
                 DeleteEntity();
             }
         }
-
-
         /// <summary>
         /// Send a user to the edit form then edit the user
         /// </summary>
@@ -534,8 +516,6 @@ namespace shipapp
 
             message = "REST";
         }
-
-
         /// <summary>
         /// When this button fires grab the correct entity and edit it to the DB
         /// </summary>
@@ -548,8 +528,6 @@ namespace shipapp
                 EditEntity();
             }
         }
-
-
         public void SetRole()
         {
             if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Administrator")
@@ -573,26 +551,18 @@ namespace shipapp
                 role = 0;
             }
         }
-
-
         private void pictureBox8_Click(object sender, EventArgs e)
         {
             SignOut();
         }
-
-
         private void label1_Click(object sender, EventArgs e)
         {
             SignOut();
         }
-
-
         public void SignOut()
         {
             MessageBox.Show(DataConnectionClass.AuthenticatedUser.LastName + ", " + DataConnectionClass.AuthenticatedUser.FirstName + "\r\n" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + "\r\n\r\nTo Logout exit to the Main Menu.");
         }
-
-        
         /// <summary>
         /// Print the selected report
         /// </summary>
@@ -602,8 +572,6 @@ namespace shipapp
         {
             PrintReport();
         }
-
-
         /// <summary>
         /// Print the selected report
         /// </summary>
@@ -614,8 +582,6 @@ namespace shipapp
                 Print();
             }
         }
-
-
         /// <summary>
         /// Display a list of objects that match the text in the search bar
         /// </summary>
@@ -625,23 +591,201 @@ namespace shipapp
         {
             SearchData();
         }
-
-
         public void SearchData()
         {
-            // Determine Table
-            // -- If column selected and search bar not equal null or whitespace, else do nothing
+            string lblTxt = lblSearch.Text;
+            string sText = txtSearch.Text;
+            if (String.IsNullOrWhiteSpace(sText) || String.IsNullOrWhiteSpace(lblTxt))
+            {
+                if (currentTable == 1)
+                {
+                    bs.DataSource = DataConnectionClass.DataLists.UsersList;
+                }
+                else if (currentTable == 2)
+                {
+                    bs.DataSource = DataConnectionClass.DataLists.Vendors;
+                }
+                else if (currentTable == 3)
+                {
+                    bs.DataSource = DataConnectionClass.DataLists.FacultyList;
+                }
+                else if (currentTable == 4)
+                {
+                    bs.DataSource = DataConnectionClass.DataLists.BuildingNames;
+                }
+                else if (currentTable == 5)
+                {
+                    bs.DataSource = DataConnectionClass.DataLists.CarriersList;
+                }
+                else if (currentTable == 6)
+                {
+                    bs.DataSource = DataConnectionClass.DataLists.AuditLog;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            if (currentTable == 1)
+            {
+                List<User> sList = new List<User>();
+                SortableBindingList<User> fList = new SortableBindingList<User>();
+                //users
+                switch (lblTxt)
+                {
+                    case "FirstName":
+                        sList = DataConnectionClass.DataLists.UsersList.Where(i => i.FirstName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    case "LastName":
+                        sList = DataConnectionClass.DataLists.UsersList.Where(i => i.LastName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    case "Level":
+                        sList = DataConnectionClass.DataLists.UsersList.Where(i => i.Level.Role_Title.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    case "UserName":
+                        sList = DataConnectionClass.DataLists.UsersList.Where(i => i.Username.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    default:
+                        bs.DataSource = DataConnectionClass.DataLists.UsersList;
+                        break;
+                }
+            }
+            else if (currentTable == 2)
+            {
+                List<Vendors> sList = new List<Vendors>();
+                SortableBindingList<Vendors> fList = new SortableBindingList<Vendors>();
+                //vendor
+                switch (lblTxt)
+                {
+                    case "VendorName":
+                        sList = DataConnectionClass.DataLists.Vendors.Where(i => i.VendorName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    default:
+                        bs.DataSource = DataConnectionClass.DataLists.Vendors;
+                        break;
+                }
+            }
+            else if (currentTable == 3)
+            {
+                List<Faculty> sList = new List<Faculty>();
+                SortableBindingList<Faculty> fList = new SortableBindingList<Faculty>();
+                //faculty
+                switch (lblTxt)
+                {
+                    case "FirstName":
+                        sList = DataConnectionClass.DataLists.FacultyList.Where(i => i.FirstName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    case "LastName":
+                        sList = DataConnectionClass.DataLists.FacultyList.Where(i => i.LastName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    case "BuildingName":
+                        sList = DataConnectionClass.DataLists.FacultyList.Where(i => i.Building_Name.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    case "RoomNumber":
+                        sList = DataConnectionClass.DataLists.FacultyList.Where(i => i.RoomNumber.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    default:
+                        bs.DataSource = DataConnectionClass.DataLists.FacultyList;
+                        break;
+                }
+            }
+            else if (currentTable == 4)
+            {
+                List<BuildingClass> sList = new List<BuildingClass>();
+                SortableBindingList<BuildingClass> fList = new SortableBindingList<BuildingClass>();
+                //building
+                switch (lblTxt)
+                {
+                    case "BuildingLongName":
+                        sList = DataConnectionClass.DataLists.BuildingNames.Where(i => i.BuildingLongName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    case "BuildingShortName":
+                        sList = DataConnectionClass.DataLists.BuildingNames.Where(i => i.BuildingShortName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    default:
+                        bs.DataSource = DataConnectionClass.DataLists.BuildingNames;
+                        break;
+                }
+            }
+            else if (currentTable == 5)
+            {
+                List<Carrier> sList = new List<Carrier>();
+                SortableBindingList<Carrier> fList = new SortableBindingList<Carrier>();
+                //carriers
+                switch (lblTxt)
+                {
+                    case "CarrierName":
+                        sList = DataConnectionClass.DataLists.CarriersList.Where(i => i.CarrierName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    default:
+                        bs.DataSource = DataConnectionClass.DataLists.CarriersList;
+                        break;
+                }
+            }
+            else if (currentTable == 6)
+            {
+                List<AuditItem> sList = new List<AuditItem>();
+                SortableBindingList<AuditItem> fList = new SortableBindingList<AuditItem>();
+                //history
+                switch (lblTxt)
+                {
+                    case "Item":
+                        sList = DataConnectionClass.DataLists.AuditLog.Where(i => i.Item.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    case "Date":
+                        sList = DataConnectionClass.DataLists.AuditLog.Where(i => i.Date.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    case "Time":
+                        sList = DataConnectionClass.DataLists.AuditLog.Where(i => i.Time.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
+                        sList.ForEach(i => fList.Add(i));
+                        bs.DataSource = sList;
+                        break;
+                    default:
+                        bs.DataSource = DataConnectionClass.DataLists.AuditLog;
+                        break;
+                }
+            }
+            else
+            {
+                //invalid table
+                return;
+            }
             // -- -- Query database and return results
+            dataGridView1.DataSource = bs;
         }
-
-
         private void dataGridView1_CellDoubleClick_1(object sender, DataGridViewCellEventArgs e)
         {
             //MessageBox.Show("It worked: " + dataGridView1.SelectedCells[0].ColumnIndex + "\r\n" + dataGridView1.Columns[dataGridView1.SelectedCells[0].ColumnIndex].DataPropertyName);
             lblSearch.Text = dataGridView1.Columns[dataGridView1.SelectedCells[0].ColumnIndex].DataPropertyName;
         }
-
-
         public void Print()
         {
             if (currentTable == 1)
@@ -685,8 +829,6 @@ namespace shipapp
                 MessageBox.Show("It seems something went wrong.\r\nPlease try again.", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
-
-
         /// <summary>
         /// Fill a list with the selected items
         /// </summary>
@@ -765,7 +907,6 @@ namespace shipapp
                 MessageBox.Show("It seems something went wrong.\r\nTry again", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
-
         public void AddEntity(EventArgs e)
         {
             message = "ADD";
@@ -823,8 +964,6 @@ namespace shipapp
             // Reset message
             message = "REST";
         }
-
-
         public string ValueToPassWord(String password)
         {
             
@@ -835,8 +974,6 @@ namespace shipapp
 
             return password;
         }
-
-
         public void ClearBackColor()
         {
             btnUsers.BackColor = SystemColors.ButtonFace;

@@ -135,6 +135,7 @@ namespace shipapp
             NewFaculty.Building_Name = g.BuildingShortName;
             NewFaculty.RoomNumber = txtRoomNumber.Text;
             // Add to DB
+            DataConnectionClass.SavePersonId();
             DataConnectionClass.EmployeeConn.AddFaculty(NewFaculty);
             DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added a new faculty member: " + newFaculty.ToNormalNameString());
             this.Close();
