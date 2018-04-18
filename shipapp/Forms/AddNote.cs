@@ -34,14 +34,17 @@ namespace shipapp
             if (sender is Faculty)
             {
                 Fac = (Faculty)sender;
+                Fac.Notes = DataConnectionClass.EmployeeConn.GetNotesList(Fac.Faculty_PersonId);
             }
             else if (sender is User)
             {
                 Usr = (User)sender;
+                Usr.Notes = DataConnectionClass.UserConn.GetNotesList(Usr.Person_Id);
             }
             else if (sender is Package)
             {
                 Pck = (Package)sender;
+                Pck.Notes = DataConnectionClass.PackageConnClass.GetNotesList(Pck.Package_PersonId);
             }
             else
             {

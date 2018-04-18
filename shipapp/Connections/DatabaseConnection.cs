@@ -1423,7 +1423,6 @@ namespace shipapp.Connections
                                         };
                                     }
                                 }
-                                u.Notes = GetNotesListById(u.Person_Id);
                                 cnt++;
                             }
                         }
@@ -1465,7 +1464,6 @@ namespace shipapp.Connections
                                         };
                                     }
                                 }
-                                u.Notes = GetNotesListById(u.Person_Id);
                                 cnt++;
                             }
                         }
@@ -1707,11 +1705,6 @@ namespace shipapp.Connections
                                 });
                             }
                         }
-                        foreach (Faculty fac in f)
-                        {
-                            fac.Building_Name = (GetBuilding(fac.Building_Id).ToString());
-                            fac.Notes = GetNotesListById(fac.Faculty_PersonId);
-                        }
                         return f;
                     }
                 }
@@ -1810,10 +1803,6 @@ namespace shipapp.Connections
                                 pkg.Add(p);
                             }
                         }
-                        foreach (Package pac in pkg)
-                        {
-                            pac.Notes = GetNotesListById(pac.Package_PersonId);
-                        }
                         return pkg;
                     }
                 }
@@ -1862,10 +1851,6 @@ namespace shipapp.Connections
                                 };
                                 pkg.Add(p);
                             }
-                        }
-                        foreach (Package pac in pkg)
-                        {
-                            pac.Notes = GetNotesListById(pac.Package_PersonId);
                         }
                         return pkg;
                     }
@@ -2326,7 +2311,7 @@ namespace shipapp.Connections
         }
         #endregion
         #region private gets
-        private List<Note>GetNotesListById(string person_id)
+        protected List<Note>GetNotesListById(string person_id)
         {
             try
             {

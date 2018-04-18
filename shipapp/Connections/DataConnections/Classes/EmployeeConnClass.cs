@@ -7,6 +7,7 @@ using shipapp.Models;
 using shipapp.Models.ModelData;
 using System.Windows.Forms;
 using shipapp.Connections.HelperClasses;
+using Extentions;
 
 namespace shipapp.Connections.DataConnections.Classes
 {
@@ -43,6 +44,11 @@ namespace shipapp.Connections.DataConnections.Classes
             }
             Sender = sender;
             SortableBindingList<Faculty> fac = await Task.Run(() => Get_Faculty_List());
+            SortableBindingList<BuildingClass> b = Get_Building_List();
+            foreach (Faculty f in fac)
+            {
+                f.Building_Name = b.FirstOrDefault(i => f.Building_Id == i.BuildingId).ToString();
+            }
             if (Sender is Manage)
             {
                 Manage t = (Manage)Sender;
@@ -71,6 +77,10 @@ namespace shipapp.Connections.DataConnections.Classes
         public void DeleteFaculty(Faculty f)
         {
             Delete(f);
+        }
+        public List<Note> GetNotesList(string pid)
+        {
+            return GetNotesListById(pid);
         }
     }
 }

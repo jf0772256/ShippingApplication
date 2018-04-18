@@ -204,5 +204,10 @@ namespace shipapp.Connections.DataConnections.Classes
             day = dt.Day.ToString();
             return mo + "/" + day + "/" + yr;
         }
+
+        public List<Note> GetNotesList(string pid)
+        {
+            return GetNotesListById(pid);
+        }
     }
 }

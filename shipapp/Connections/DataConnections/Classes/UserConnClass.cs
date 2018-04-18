@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using shipapp.Models;
 using System.Windows.Forms;
 using shipapp.Connections.HelperClasses;
+using shipapp.Models.ModelData;
 
 namespace shipapp.Connections.DataConnections.Classes
 {
@@ -78,6 +79,10 @@ namespace shipapp.Connections.DataConnections.Classes
         public void DeleteUser(User u)
         {
             Delete(u);
+        }
+        public List<Note> GetNotesList(string pid)
+        {
+            return GetNotesListById(pid);
         }
     }
     class Authenticating
