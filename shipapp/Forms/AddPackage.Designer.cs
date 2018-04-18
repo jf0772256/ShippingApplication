@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddPackage));
             this.lblPO = new System.Windows.Forms.Label();
             this.txtPO = new System.Windows.Forms.TextBox();
             this.lblCarrier = new System.Windows.Forms.Label();
@@ -400,6 +401,7 @@
             this.Controls.Add(this.lblCarrier);
             this.Controls.Add(this.txtPO);
             this.Controls.Add(this.lblPO);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddPackage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add Package";
