@@ -120,7 +120,7 @@ namespace shipapp
             string oldname = newBuilding.BuildingLongName;
             newBuilding.BuildingLongName = textBox1.Text;
             newBuilding.BuildingShortName = textBox2.Text;
-            DataConnectionClass.buildingConn.WriteBuilding(newBuilding);
+            DataConnectionClass.buildingConn.UpdateBuilding(newBuilding);
             DataConnectionClass.AuditLogConnClass.AddRecordToAudit("edited building from " + oldname + " to " + newBuilding.BuildingLongName);
             this.DialogResult = DialogResult.OK;
             this.Close();
