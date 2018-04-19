@@ -15,6 +15,7 @@ namespace shipapp
 {
     /// <summary>
     /// This class allows the user to add a validated user to the database
+    /// and to edit an existing on
     /// </summary>
     public partial class AddUser : Form
     {
@@ -25,7 +26,7 @@ namespace shipapp
         private User newUser = new User();
         
         /// <summary>
-        /// Form constructor for adding
+        /// Form constructor
         /// </summary>
         /// <param name="message"></param>
         public AddUser(string message)
@@ -33,8 +34,6 @@ namespace shipapp
             InitializeComponent();
             this.message = message;
         }
-
-
         /// <summary>
         /// Form constructer for editing
         /// </summary>
@@ -46,8 +45,6 @@ namespace shipapp
             this.message = message;
             this.userToBeEdited = (User)objectToBeEditied;
         }
-
-
         /// <summary>
         /// Fill the form with the information of the object and change the button to edit
         /// </summary>
@@ -73,14 +70,7 @@ namespace shipapp
                 this.Text = "Edit Users";
                 btnAdd.Text = "EDIT";
             }
-            else
-            {
-                //BtnAddNote.Enabled = false;
-                //BtnViewNote.Enabled = false;
-            }
         }
-
-
         /// <summary>
         /// When the user clicks this button validate the data and write it to the database
         /// </summary>
@@ -110,7 +100,7 @@ namespace shipapp
             }
             else if (ValidateData() && message == "EDIT") // If editing the user
             {
-                // Create usedr entity
+                // Create user entity
                 User newUser = new User();
 
                 // Fill entity
@@ -138,8 +128,6 @@ namespace shipapp
                 MessageBox.Show("All fields must have correct data!", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
-
-
         /// <summary>
         /// Reset the back color after errors
         /// </summary>
@@ -152,10 +140,8 @@ namespace shipapp
             txtPassword.BackColor = Color.White;
             txtBoxPersonId.BackColor = Color.White;
         }
-
-
         /// <summary>
-        /// Validate the data
+        /// Validate the data and check for errors
         /// </summary>
         /// <returns></returns>
         private bool ValidateData()
@@ -202,8 +188,6 @@ namespace shipapp
 
             return pass;
         }
-
-
         /// <summary>
         /// When editing the form return the correct int for the role
         /// </summary>
@@ -237,24 +221,32 @@ namespace shipapp
 
             return roleId;
         }
-
+        /// <summary>
+        /// Create part of the use id from the fist name field
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtFirstName_Leave(object sender, EventArgs e)
         {
             if (!String.IsNullOrWhiteSpace(txtFirstName.Text) && message != "EDIT")
             {
                 if (txtFirstName.Text.Length < 4)
                 {
-                    Connections.DataConnections.DataConnectionClass.CreatePersonId(txtFirstName.Text.ToLower().Substring(0, txtFirstName.Text.Length));
-                    txtBoxPersonId.Text = Connections.DataConnections.DataConnectionClass.PersonIdGenerated;
+                    DataConnectionClass.CreatePersonId(txtFirstName.Text.ToLower().Substring(0, txtFirstName.Text.Length));
+                    txtBoxPersonId.Text = DataConnectionClass.PersonIdGenerated;
                 }
                 else
                 {
-                    Connections.DataConnections.DataConnectionClass.CreatePersonId(txtFirstName.Text.ToLower().Substring(0, 4));
-                    txtBoxPersonId.Text = Connections.DataConnections.DataConnectionClass.PersonIdGenerated;
+                    DataConnectionClass.CreatePersonId(txtFirstName.Text.ToLower().Substring(0, 4));
+                    txtBoxPersonId.Text = DataConnectionClass.PersonIdGenerated;
                 }
             }
         }
-
+        /// <summary>
+        /// Create part of the user id from the last name field
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtLastName_Leave(object sender, EventArgs e)
         {
             if (!String.IsNullOrWhiteSpace(txtFirstName.Text)  && !String.IsNullOrWhiteSpace(txtLastName.Text) && message != "EDIT")
@@ -276,24 +268,28 @@ namespace shipapp
                 {
                     pidstring += txtLastName.Text.ToLower().Substring(0, 4);
                 }
-                Connections.DataConnections.DataConnectionClass.CreatePersonId(pidstring);
-                txtBoxPersonId.Text = Connections.DataConnections.DataConnectionClass.PersonIdGenerated;
+                DataConnectionClass.CreatePersonId(pidstring);
+                txtBoxPersonId.Text = DataConnectionClass.PersonIdGenerated;
             }
             else if (!String.IsNullOrWhiteSpace(txtLastName.Text) && message != "EDIT")
             {
                 if (txtLastName.Text.Length < 4)
                 {
-                    Connections.DataConnections.DataConnectionClass.CreatePersonId(txtLastName.Text.ToLower().Substring(0, txtLastName.Text.Length));
-                    txtBoxPersonId.Text = Connections.DataConnections.DataConnectionClass.PersonIdGenerated;
+                    DataConnectionClass.CreatePersonId(txtLastName.Text.ToLower().Substring(0, txtLastName.Text.Length));
+                    txtBoxPersonId.Text = DataConnectionClass.PersonIdGenerated;
                 }
                 else
                 {
-                    Connections.DataConnections.DataConnectionClass.CreatePersonId(txtLastName.Text.ToLower().Substring(0, 4));
-                    txtBoxPersonId.Text = Connections.DataConnections.DataConnectionClass.PersonIdGenerated;
+                    DataConnectionClass.CreatePersonId(txtLastName.Text.ToLower().Substring(0, 4));
+                    txtBoxPersonId.Text = DataConnectionClass.PersonIdGenerated;
                 }
             }
         }
-
+        /// <summary>
+        /// Allow the user to view user notes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnViewNote_Click(object sender, EventArgs e)
         {
             if (message == "ADD")
@@ -311,7 +307,11 @@ namespace shipapp
                 }
             }
         }
-
+        /// <summary>
+        /// Allow a user to add user notes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnAddNote_Click(object sender, EventArgs e)
         {
             if (message == "ADD")
@@ -329,7 +329,11 @@ namespace shipapp
                 }
             }
         }
-
+        /// <summary>
+        /// Set the selected user role
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmboRole_SelectionChangeCommitted(object sender, EventArgs e)
         {
             cmboRole.Text = cmboRole.SelectedItem.ToString();
