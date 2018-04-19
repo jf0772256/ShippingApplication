@@ -71,7 +71,8 @@ namespace shipapp
         public void Print()
         {
             // Create print object
-            DGVPrinter printer = new DGVPrinter();
+            ///DGVPrinter printer = new DGVPrinter();
+            DGVPrinterHelper.DGVPrinter printer = new DGVPrinterHelper.DGVPrinter();
 
             // Set the print obejct page settings 
             printer.SubTitleFormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.NoClip;
@@ -158,10 +159,13 @@ namespace shipapp
                 printer.PageSettings.Landscape = false;
 
                 //
-                dataGridLog.Columns[0].Width = 50;
-                dataGridLog.Columns[1].Width = 50;
-                dataGridLog.Columns[2].Width = 50;
-                dataGridLog.Columns[3].Width = 50;
+                dataGridLog.Font = new Font("Microsoft Sans Serif", 16,FontStyle.Regular);
+                dataGridLog.Columns[0].Width = 0;
+                dataGridLog.Columns[1].Width = 0;
+                dataGridLog.Columns[2].Width = 75;
+                dataGridLog.Columns[3].Width = 75;
+                dataGridLog.Columns[4].Width = 25;
+                dataGridLog.Columns[5].Width = 35;
             }
             else if (identity == 6)
             {

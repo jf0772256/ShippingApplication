@@ -164,7 +164,6 @@ C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.AddPackag
 C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.AddUser.resources
 C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.AddVendor.resources
 C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.MainMenu.resources
-C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.Form2.resources
 C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.LogIn.resources
 C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.Manage.resources
 C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.Properties.Resources.resources

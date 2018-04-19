@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connections\HelperClasses\DGVPrinter.cs" />
     <Compile Include="Forms\AddBuilding.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,7 +95,6 @@
       <DependentUpon>AddVendor.cs</DependentUpon>
     </Compile>
     <Compile Include="Connections\DataConnections\Classes\Database_Audit.cs" />
-    <Compile Include="Connections\HelperClasses\Class1.cs" />
     <Compile Include="Connections\DataConnections\Classes\BuildingConnClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\CarrierConnClass.cs" />
     <Compile Include="Connections\DataConnections\Classes\EmployeeConnClass.cs" />
