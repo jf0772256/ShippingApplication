@@ -45,9 +45,18 @@ namespace shipapp.Connections.DataConnections.Classes
             Sender = sender;
             SortableBindingList<Faculty> fac = await Task.Run(() => Get_Faculty_List());
             SortableBindingList<BuildingClass> b = Get_Building_List();
+            long cnt = 0;
+            while ((b is null))
+            {
+                cnt++;
+                System.Threading.Thread.Sleep(150);
+            }
             foreach (Faculty f in fac)
             {
-                f.Building_Name = b.FirstOrDefault(i => f.Building_Id == i.BuildingId).ToString();
+                if (b.Any(g => f.Building_Id == g.BuildingId))
+                {
+                    f.Building_Name = b.FirstOrDefault(i => f.Building_Id == i.BuildingId).ToString();
+                }
             }
             if (Sender is Manage)
             {
