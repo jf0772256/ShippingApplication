@@ -228,12 +228,21 @@ namespace DGVPrinterHelper //AllocationRequest
         }
 
     }
-    
+
     #endregion
 
     /// <summary>
-    /// Data Grid View Printer. Print functions for a datagridview, since MS
+    ///  Data Grid View Printer. Print functions for a datagridview, since MS
     /// didn't see fit to do it.
+    /// =====================================================================
+    /// Note From Capstone SP18
+    /// ---------------------------------------------------------------------
+    ///  This class allows the formted printing of DatGridViews. The code in 
+    /// this class was created by a third party and hosted by Code Project.
+    /// ---------------------------------------------------------------------
+    /// Licence: Code Project Open Licence (CPOL)
+    /// Source: https://www.codeproject.com/KB/printing/DGVPrinter/dgvprinter.zip
+    /// 
     /// </summary>
     public class DGVPrinter
     {
