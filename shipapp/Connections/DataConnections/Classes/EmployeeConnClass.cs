@@ -57,6 +57,10 @@ namespace shipapp.Connections.DataConnections.Classes
                 {
                     f.Building_Name = b.FirstOrDefault(i => f.Building_Id == i.BuildingId).ToString();
                 }
+                else
+                {
+                    f.Building_Name = "Needs Updated";
+                }
             }
             if (Sender is Manage)
             {
