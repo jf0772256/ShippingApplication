@@ -51,6 +51,7 @@ namespace shipapp
                 txtName.Text = vendorToBeEdited.VendorName;
 
                 // Set button
+                this.Text = "Edit Vendor";
                 btnAdd.Text = "EDIT";
             }
         }

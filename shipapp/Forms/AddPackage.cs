@@ -124,6 +124,11 @@ namespace shipapp
                 {
                     lblroom.Text = "";
                 }
+
+                // Set form for edit
+                this.Text = "Edit Package";
+                btnReceive.Text = "EDIT";
+
             }
             else if (message == "ADD")
             {

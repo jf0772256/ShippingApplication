@@ -42,6 +42,8 @@ namespace shipapp
         {
             if (message == "EDIT")
             {
+                this.Text = "Edit Carrier";
+                btnAdd.Text = "EDIT";
                 txtName.Text = newCarrier.CarrierName;
             }
         }

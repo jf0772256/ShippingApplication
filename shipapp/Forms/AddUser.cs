@@ -70,6 +70,7 @@ namespace shipapp
                 txtPassword.Text = userToBeEdited.PassWord;
 
                 // Change Button Text
+                this.Text = "Edit Users";
                 btnAdd.Text = "EDIT";
             }
             else

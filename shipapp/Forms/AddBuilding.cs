@@ -41,6 +41,8 @@ namespace shipapp
         {
             if (message == "EDIT")
             {
+                this.Text = "Edit Building";
+                btnAdd.Text = "EDIT";
                 textBox1.Text = newBuilding.BuildingLongName;
                 textBox2.Text = newBuilding.BuildingShortName;
             }

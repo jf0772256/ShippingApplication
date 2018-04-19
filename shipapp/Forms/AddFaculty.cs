@@ -51,6 +51,8 @@ namespace shipapp
 
             if (message == "EDIT")
             {
+                this.Text = "Edit Faculty";
+                btnAdd.Text = "EDIT";
                 txtFirstName.Text = newFaculty.FirstName;
                 txtLastName.Text = newFaculty.LastName;
                 txtId2.Text = newFaculty.Faculty_PersonId;
@@ -118,11 +120,6 @@ namespace shipapp
         }
         private void AddFaculty_Load(object sender, EventArgs e)
         {
-            //if (message != "EDIT")
-            //{
-            //    BtnAddNote.Enabled = false;
-            //    BtnViewNotes.Enabled = false;
-            //}
             DataConnectionClass.buildingConn.GetBuildingList(this);
         }
         public void AddFacultyToDb()
