@@ -29,111 +29,59 @@ namespace shipapp
     public partial class Manage : Form
     {
         /// Class level variables
-        private int currentTable = 0;
-        private string message = "REST";
-        private int role;
+        // Objects
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
-        private object objectToBeEditied;
+        private BindingSource bs = new BindingSource();
         private BindingList<Faculty> faculties;
         private BindingList<Vendors> vendors;
         private BindingList<Carrier> carriers;
         private BindingList<BuildingClass> buildings;
         private BindingList<User> users;
-        private char c = '\u2022';
-        //Search Vars Uses
-        private BindingSource bs = new BindingSource();
+
+        // Helpers
         public object ObjectToBeEditied { get => objectToBeEditied; set => objectToBeEditied = value; }
+        private int currentTable = 0;
+        private string message = "REST";
+        private int role;
+        private object objectToBeEditied;
+        private char c = '\u2022';
+
+        #region Setup
+        /// <summary>
+        /// Main Constructor
+        /// </summary>
         public Manage()
         {
             InitializeComponent();
-            dataGridView1.DataError += DataGridView1_DataError;
+            //dataGridView1.DataError += DataGridView1_DataError;
             dataGridView1.ColumnHeaderMouseClick += DataGridView1_ColumnHeaderMouseClick;
         }
-        private void DataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            try
-            {
-                // reset column values lost during sort
-                if (currentTable == 1)
-                {
-                    dataGridView1.Columns["Level"].HeaderText = "Role";
-                    for (int i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
-                    {
-                        long a = Convert.ToInt64(dataGridView1.Rows[i].Cells[0].Value);
-                        User res = DataConnectionClass.DataLists.UsersList.FirstOrDefault(m => m.Id == a);
-                        dataGridView1.Rows[i].Cells["note_count"].Value = res.Notes.Count.ToString();
-                        dataGridView1.Rows[i].Cells["Level"].Value = res.Level.ToString();
-                    }
-                }
-                else if (currentTable == 2)
-                {
-
-                }
-                else if (currentTable == 3)
-                {
-                    for (int i = 0; i < DataConnectionClass.DataLists.FacultyList.Count; i++)
-                    {
-                        long a = Convert.ToInt64(dataGridView1.Rows[i].Cells[0].Value);
-                        Faculty res = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(m => m.Id == a);
-                    }
-                }
-                else if (currentTable == 4)
-                {
-
-                }
-                else if (currentTable == 5)
-                {
-
-                }
-                else if (currentTable == 6)
-                {
-
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException("Current table value is out of range");
-                }
-            }
-            catch (Exception)
-            {
-                //do nothing but quietly handle error
-            }
-        }
         /// <summary>
-        /// used to hide data conversion errors even though they are resolved through the getStrings and toStrings methods
-        /// </summary>
-        private void DataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
-        {
-            //
-        }
-        /// <summary>
-        /// Close the Form
+        /// Set the form up based on the user role
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void pictureBox7_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
         private void Manage_Load(object sender, EventArgs e)
         {
             this.CenterToParent();
             SetRole();
 
-            //
+            // Set form by role
             if (role == 1)
             {
-                // Do nothing
+                // Enable to disable features
                 pcBxDelete.Enabled = true;
                 pcBxEdit.Enabled = true;
                 pictureBox1.Enabled = true;
                 pcBxPrint.Enabled = true;
 
+                // Warn user
                 pcBxDelete.BackColor = Color.Transparent;
                 pcBxEdit.BackColor = Color.Transparent;
                 pictureBox1.BackColor = Color.Transparent;
                 pcBxPrint.BackColor = Color.Transparent;
 
+                // Enable or disable buttons
                 btnVendors.BackColor = SystemColors.ButtonFace;
                 btnVendors.Enabled = true;
                 btnFaculty.BackColor = SystemColors.ButtonFace;
@@ -147,17 +95,19 @@ namespace shipapp
             }
             else if (role == 2)
             {
-                // Do nothing
+                // Enable to disable features
                 pcBxDelete.Enabled = false;
                 pcBxDelete.BackColor = Color.LightPink;
                 pcBxEdit.Enabled = true;
                 pictureBox1.Enabled = true;
                 pcBxPrint.Enabled = true;
-                
+
+                // Warn user
                 pcBxEdit.BackColor = Color.Transparent;
                 pictureBox1.BackColor = Color.Transparent;
                 pcBxPrint.BackColor = Color.Transparent;
 
+                // Enable or disable buttons
                 btnVendors.Enabled = true;
                 btnFaculty.BackColor = SystemColors.ButtonFace;
                 btnFaculty.Enabled = true;
@@ -171,18 +121,19 @@ namespace shipapp
             }
             else if (role == 3)
             {
-
+                // Enable to disable features
                 pcBxDelete.Enabled = false;
                 pcBxEdit.Enabled = false;
                 pictureBox1.Enabled = false;
                 pcBxPrint.Enabled = false;
 
+                // Warn user
                 pcBxDelete.BackColor = Color.LightPink;
                 pcBxEdit.BackColor = Color.LightPink;
                 pictureBox1.BackColor = Color.LightPink;
                 pcBxPrint.BackColor = Color.LightPink;
 
-
+                // Enable or disable buttons
                 btnVendors.Enabled = true;
                 btnFaculty.BackColor = SystemColors.ButtonFace;
                 btnFaculty.Enabled = true;
@@ -193,8 +144,9 @@ namespace shipapp
                 btnOther.Enabled = true;
                 btnOther.BackColor = SystemColors.ButtonFace;
             }
-            else if ( role == 0)
+            else if (role == 0)
             {
+                // Enable to disable features
                 btnUsers.Enabled = true;
                 btnUsers.BackColor = SystemColors.ButtonFace;
                 btnVendors.Enabled = false;
@@ -209,59 +161,31 @@ namespace shipapp
             }
             btnUsers_Click_1(this, e);
         }
-        #region Table Buttons
-        /// <summary>
-        /// Faculty
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button2_Click(object sender, EventArgs e)
-        {
-            ClearBackColor();
-            btnFaculty.BackColor = SystemColors.ButtonHighlight;
-            currentTable = 3;
-            lblSearch.Text = "";
-            txtSearch.Text = "";
-            DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
-
-            pictureBox1.Enabled = true;
-            pictureBox1.BackColor = Color.Transparent;
-            pcBxEdit.Enabled = true;
-            pcBxEdit.BackColor = Color.Transparent;
-            pcBxDelete.Enabled = true;
-            pcBxDelete.BackColor = Color.Transparent;
-
-            if (role == 2)
-            {
-                pictureBox1.Enabled = true;
-                pictureBox1.Show();
-            }
-        }
-        #endregion // When the user clicks one of these button they will assign the active table and fiil the grid with data.
-        #region Grid Buttons
-        /// <summary>
-        /// Allow the application to know what table to add and
-        /// bring the appropriate form to the front.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-                AddEntity(e);
-        }
         #endregion
+
+        #region Buttons Table
+        /// <summary>
+        /// Set grid for users and fill
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnUsers_Click_1(object sender, EventArgs e)
         {
+            // Highlight Button
             ClearBackColor();
             btnUsers.BackColor = SystemColors.ButtonHighlight;
+
+            // Set Table
             currentTable = 1;
-            //TODO Fill list with query from Database
+
+            // Set Grid
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             DataConnectionClass.UserConn.GetManyUsers(this);
             lblSearch.Text = "";
             txtSearch.Text = "";
 
+            //  Set table buttons
             pictureBox1.Enabled = true;
             pictureBox1.BackColor = Color.Transparent;
             pcBxEdit.Enabled = true;
@@ -275,15 +199,14 @@ namespace shipapp
                 pictureBox1.BackColor = Color.Transparent;
             }
 
-            //change header text for roles
+            // Change header text for roles
             try
             {
                 dataGridView1.Columns["Level"].HeaderText = "Role";
-                
-                //dgvch.AddCustomColumn(dataGridView1, "Note Count", "note_count", "", 10);
                 int i = 0;
-                // sets the value of the text to role title rather than the class namespace and name
-                // see tostring override in roles to see how this was hanled, may need to change based on what we do for other classes
+                
+                // Sets the value of the text to role title rather than the class namespace and name
+                // See tostring override in roles to see how this was hanled, may need to change based on what we do for other classes
                 for (i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
                 {
                     dataGridView1.Rows[i].Cells["Level"].Value = DataConnectionClass.DataLists.UsersList[i].Level.ToString();
@@ -291,7 +214,7 @@ namespace shipapp
             }
             catch (Exception)
             {
-
+                // Fall through
             }
             finally
             {
@@ -303,7 +226,7 @@ namespace shipapp
             ClearBackColor();
             btnVendors.BackColor = SystemColors.ButtonHighlight;
             currentTable = 2;
-            //TODO Fill list with query from Database
+            
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             DataConnectionClass.VendorConn.GetVendorList(this);
@@ -387,6 +310,112 @@ namespace shipapp
             currentTable = 6;
             DataConnectionClass.AuditLogConnClass.GetAuditLog(this);
         }
+        #endregion
+
+
+
+        private void DataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                // reset column values lost during sort
+                if (currentTable == 1)
+                {
+                    dataGridView1.Columns["Level"].HeaderText = "Role";
+                    for (int i = 0; i < DataConnectionClass.DataLists.UsersList.Count; i++)
+                    {
+                        long a = Convert.ToInt64(dataGridView1.Rows[i].Cells[0].Value);
+                        User res = DataConnectionClass.DataLists.UsersList.FirstOrDefault(m => m.Id == a);
+                        dataGridView1.Rows[i].Cells["note_count"].Value = res.Notes.Count.ToString();
+                        dataGridView1.Rows[i].Cells["Level"].Value = res.Level.ToString();
+                    }
+                }
+                else if (currentTable == 2)
+                {
+
+                }
+                else if (currentTable == 3)
+                {
+                    for (int i = 0; i < DataConnectionClass.DataLists.FacultyList.Count; i++)
+                    {
+                        long a = Convert.ToInt64(dataGridView1.Rows[i].Cells[0].Value);
+                        Faculty res = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(m => m.Id == a);
+                    }
+                }
+                else if (currentTable == 4)
+                {
+
+                }
+                else if (currentTable == 5)
+                {
+
+                }
+                else if (currentTable == 6)
+                {
+
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("Current table value is out of range");
+                }
+            }
+            catch (Exception)
+            {
+                //do nothing but quietly handle error
+            }
+        }
+        /// <summary>
+        /// Close the Form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox7_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        #region Table Buttons
+        /// <summary>
+        /// Faculty
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ClearBackColor();
+            btnFaculty.BackColor = SystemColors.ButtonHighlight;
+            currentTable = 3;
+            lblSearch.Text = "";
+            txtSearch.Text = "";
+            DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
+
+            pictureBox1.Enabled = true;
+            pictureBox1.BackColor = Color.Transparent;
+            pcBxEdit.Enabled = true;
+            pcBxEdit.BackColor = Color.Transparent;
+            pcBxDelete.Enabled = true;
+            pcBxDelete.BackColor = Color.Transparent;
+
+            if (role == 2)
+            {
+                pictureBox1.Enabled = true;
+                pictureBox1.Show();
+            }
+        }
+        #endregion // When the user clicks one of these button they will assign the active table and fiil the grid with data.
+        #region Grid Buttons
+        /// <summary>
+        /// Allow the application to know what table to add and
+        /// bring the appropriate form to the front.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+                AddEntity(e);
+        }
+        #endregion
+
         /// <summary>
         /// Delete an object from the designated table
         /// </summary>
