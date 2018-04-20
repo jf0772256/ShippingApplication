@@ -15,12 +15,20 @@ using shipapp.Connections.DataConnections;
 namespace shipapp
 {
     /// <summary>
-    /// This class will allow the program to track and update table information
-    /// Note 0: THe class keeps track of which table is active by testing the variable current table
+    ///  This form will track all major tables in the database and 
+    /// allow the user to add, edit, and delete objects in the 
+    /// database.
+    /// ----------------------------------------------------------
+    /// Table 1: Users
+    /// Table 2: Vendors
+    /// Table 3: Faculty
+    /// Table 4: Building
+    /// Table 5: Carriers
+    /// Table 6: Activity History
     /// </summary>
     public partial class Manage : Form
     {
-        // Class level variables
+        /// Class level variables
         private int currentTable = 0;
         private string message = "REST";
         private int role;
@@ -541,6 +549,11 @@ namespace shipapp
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 EditEntity();
+            }
+            else
+            {
+                // Alert User
+                MessageBox.Show("Please select a single row");
             }
         }
         public void SetRole()
