@@ -163,7 +163,7 @@ namespace shipapp
         }
         #endregion
 
-        #region Buttons Table
+        #region Buttons Tables
         /// <summary>
         /// Set grid for users and fill
         /// </summary>
@@ -608,14 +608,27 @@ namespace shipapp
                 role = 0;
             }
         }
+        /// <summary>
+        /// Alert the user on attemt to sign out
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBox8_Click(object sender, EventArgs e)
         {
             SignOut();
         }
+        /// <summary>
+        /// Alert the user on attempt to sign out
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void label1_Click(object sender, EventArgs e)
         {
             SignOut();
         }
+        /// <summary>
+        /// Alert the user on an attempt to sign out to go back to the main menu
+        /// </summary>
         public void SignOut()
         {
             MessageBox.Show(DataConnectionClass.AuthenticatedUser.LastName + ", " + DataConnectionClass.AuthenticatedUser.FirstName + "\r\n" + DataConnectionClass.AuthenticatedUser.Level.Role_Title + "\r\n\r\nTo Logout exit to the Main Menu.");

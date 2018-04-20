@@ -146,7 +146,7 @@ namespace shipapp
         private void pictureBox3_Click(object sender, EventArgs e)
         {
             // Test that a row is selected before deletion
-            if (dataGridPackages.SelectedRows.Count > 0)
+            if (dataGridPackages.SelectedRows.Count == 1)
             {
                 DeletePackage();
 
@@ -201,7 +201,7 @@ namespace shipapp
         /// <param name="e"></param>
         private void pcBxEdit_Click(object sender, EventArgs e)
         {
-            if (dataGridPackages.SelectedRows.Count > 0)
+            if (dataGridPackages.SelectedRows.Count == 1)
             {
                 EditPackage();
             }
