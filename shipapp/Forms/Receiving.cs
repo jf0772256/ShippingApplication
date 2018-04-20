@@ -149,6 +149,14 @@ namespace shipapp
             if (dataGridPackages.SelectedRows.Count > 0)
             {
                 DeletePackage();
+
+                // Alert User
+                MessageBox.Show("Packages Successfuly Deleted");
+            }
+            else
+            {
+                // Alert User
+                MessageBox.Show("Please select a signle package");
             }
         }
         /// <summary>
@@ -196,6 +204,11 @@ namespace shipapp
             if (dataGridPackages.SelectedRows.Count > 0)
             {
                 EditPackage();
+            }
+            else
+            {
+                // Alert User
+                MessageBox.Show("Please select a single package");
             }
         }
         /// <summary>

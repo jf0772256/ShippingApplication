@@ -392,6 +392,9 @@ namespace shipapp
                 DataConnectionClass.UserConn.DeleteUser(userToBeDeleted);
                 DataConnectionClass.AuditLogConnClass.AddRecordToAudit("deleted user " + userToBeDeleted.ToString());
                 DataConnectionClass.UserConn.GetManyUsers(this);
+
+                // Alert User
+                MessageBox.Show("User Successfuly Deleted");
             }
             else if (currentTable == 2)
             {
@@ -400,6 +403,9 @@ namespace shipapp
                 DataConnectionClass.VendorConn.DeleteVendor(vendorToBeDeleted);
                 DataConnectionClass.AuditLogConnClass.AddRecordToAudit("deleted vendor " + vendorToBeDeleted.VendorName);
                 DataConnectionClass.VendorConn.GetVendorList(this);
+
+                // Alert User
+                MessageBox.Show("Vendor Successfuly Deleted");
             }
             else if (currentTable == 3)
             {
@@ -408,6 +414,9 @@ namespace shipapp
                 DataConnectionClass.EmployeeConn.DeleteFaculty(facultyToBeDeleted);
                 DataConnectionClass.AuditLogConnClass.AddRecordToAudit("deleted faculty member " + facultyToBeDeleted.ToNormalNameString());
                 DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
+
+                // Alert User
+                MessageBox.Show("Faculty Successfuly Deleted");
             }
             else if (currentTable == 4)
             {
@@ -416,6 +425,9 @@ namespace shipapp
                 DataConnectionClass.buildingConn.RemoveBuilding(buildingToBeDeleted);
                 DataConnectionClass.AuditLogConnClass.AddRecordToAudit("deleted a building: " + buildingToBeDeleted.BuildingLongName);
                 DataConnectionClass.buildingConn.GetBuildingList(this);
+
+                // Alert User
+                MessageBox.Show("Building Successfuly Deleted");
             }
             else if (currentTable == 5)
             {
@@ -424,6 +436,9 @@ namespace shipapp
                 DataConnectionClass.CarrierConn.DeleteCarrier(carrierToBeDeleted);
                 DataConnectionClass.AuditLogConnClass.AddRecordToAudit("deleted carrier " + carrierToBeDeleted.CarrierName);
                 DataConnectionClass.CarrierConn.GetCarrierList(this);
+
+                // Alert User
+                MessageBox.Show("Carrier Successfuly Deleted");
             }
             else if (currentTable == 6)
             {
