@@ -348,8 +348,16 @@ namespace shipapp
 
             // Create package form and set it to edit
             Package packageToBeEdited = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0].Value));
-            AddPackage addPackage = new AddPackage(message, packageToBeEdited, this);
-            addPackage.ShowDialog();
+            if (!(packageToBeEdited is null))
+            {
+                AddPackage addPackage = new AddPackage(message, packageToBeEdited, this);
+                addPackage.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("There was an error fetching the package!\r\nPlease try again.");
+            }
+            
         }
         #endregion
 

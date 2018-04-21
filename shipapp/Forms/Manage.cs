@@ -890,7 +890,6 @@ namespace shipapp
         }
         private void dataGridView1_CellDoubleClick_1(object sender, DataGridViewCellEventArgs e)
         {
-            //MessageBox.Show("It worked: " + dataGridView1.SelectedCells[0].ColumnIndex + "\r\n" + dataGridView1.Columns[dataGridView1.SelectedCells[0].ColumnIndex].DataPropertyName);
             lblSearch.Text = dataGridView1.Columns[dataGridView1.SelectedCells[0].ColumnIndex].DataPropertyName;
         }
         public void Print()
