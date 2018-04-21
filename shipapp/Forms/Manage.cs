@@ -161,6 +161,32 @@ namespace shipapp
             }
             btnUsers_Click_1(this, e);
         }
+        /// <summary>
+        /// Set the role for the user
+        /// </summary>
+        public void SetRole()
+        {
+            if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Administrator")
+            {
+                role = 1;
+            }
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Dock Supervisor")
+            {
+                role = 2;
+            }
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Supervisor")
+            {
+                role = 3;
+            }
+            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "User")
+            {
+                role = 4;
+            }
+            else
+            {
+                role = 0;
+            }
+        }
         #endregion
 
         #region Buttons Tables
@@ -221,23 +247,35 @@ namespace shipapp
                 dataGridView1.Update();
             }
         }
+        /// <summary>
+        /// Set grid for for vendors and fill
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnVendors_Click_1(object sender, EventArgs e)
         {
+            // Set table buttons
             ClearBackColor();
             btnVendors.BackColor = SystemColors.ButtonHighlight;
             currentTable = 2;
-            
+
+            // Fill grid
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             DataConnectionClass.VendorConn.GetVendorList(this);
+
+            // Set search
             lblSearch.Text = "";
             txtSearch.Text = "";
+
+            // Set roll restrictions
             if (role == 2)
             {
                 pictureBox1.Enabled = false;
                 pictureBox1.BackColor = Color.Transparent;
             }
 
+            // Set datagrid buttons
             pictureBox1.Enabled = true;
             pictureBox1.BackColor = Color.Transparent;
             pcBxEdit.Enabled = true;
@@ -245,8 +283,14 @@ namespace shipapp
             pcBxDelete.Enabled = true;
             pcBxDelete.BackColor = Color.Transparent;
         }
+        /// <summary>
+        /// Set tables to buildings
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnBuildings_Click_1(object sender, EventArgs e)
         {
+            // Set table buttons
             ClearBackColor();
             btnBuildings.BackColor = SystemColors.ButtonHighlight;
             currentTable = 4;
@@ -266,12 +310,18 @@ namespace shipapp
             pcBxDelete.Enabled = true;
             pcBxDelete.BackColor = Color.Transparent;
         }
+        /// <summary>
+        /// Set table to Carriers
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCarriers_Click_1(object sender, EventArgs e)
         {
+            // Set table buttons
             ClearBackColor();
             btnCarriers.BackColor = SystemColors.ButtonHighlight;
             currentTable = 5;
-            //TODO Fill list with query from Database
+
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             DataConnectionClass.CarrierConn.GetCarrierList(this);
@@ -305,6 +355,7 @@ namespace shipapp
             pcBxDelete.Enabled = false;
             pcBxDelete.BackColor = Color.LightPink;
 
+            // Set table buttons
             ClearBackColor();
             btnOther.BackColor = SystemColors.ButtonHighlight;
             currentTable = 6;
@@ -376,12 +427,13 @@ namespace shipapp
 
         #region Table Buttons
         /// <summary>
-        /// Faculty
+        /// Select Faculty button
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
+            // Set table buttons
             ClearBackColor();
             btnFaculty.BackColor = SystemColors.ButtonHighlight;
             currentTable = 3;
@@ -494,9 +546,13 @@ namespace shipapp
         /// <param name="e"></param>
         private void pcBxDelete_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count > 0)
+            if (dataGridView1.SelectedRows.Count == 1)
             {
                 DeleteEntity();
+            }
+            else
+            {
+                MessageBox.Show("Please select a single item");
             }
         }
         /// <summary>
@@ -575,7 +631,7 @@ namespace shipapp
         /// <param name="e"></param>
         private void pcBxEdit_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count > 0)
+            if (dataGridView1.SelectedRows.Count == 1)
             {
                 EditEntity();
             }
@@ -585,29 +641,7 @@ namespace shipapp
                 MessageBox.Show("Please select a single row");
             }
         }
-        public void SetRole()
-        {
-            if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Administrator")
-            {
-                role = 1;
-            }
-            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Dock Supervisor")
-            {
-                role = 2;
-            }
-            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "Supervisor")
-            {
-                role = 3;
-            }
-            else if (DataConnectionClass.AuthenticatedUser.Level.Role_Title == "User")
-            {
-                role = 4;
-            }
-            else
-            {
-                role = 0;
-            }
-        }
+
         /// <summary>
         /// Alert the user on attemt to sign out
         /// </summary>
@@ -661,6 +695,9 @@ namespace shipapp
         {
             SearchData();
         }
+        /// <summary>
+        /// Search though data
+        /// </summary>
         public void SearchData()
         {
             string lblTxt = lblSearch.Text;
@@ -706,22 +743,22 @@ namespace shipapp
                     case "FirstName":
                         sList = DataConnectionClass.DataLists.UsersList.Where(i => i.FirstName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     case "LastName":
                         sList = DataConnectionClass.DataLists.UsersList.Where(i => i.LastName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     case "Level":
                         sList = DataConnectionClass.DataLists.UsersList.Where(i => i.Level.Role_Title.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     case "UserName":
                         sList = DataConnectionClass.DataLists.UsersList.Where(i => i.Username.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     default:
                         bs.DataSource = DataConnectionClass.DataLists.UsersList;
@@ -890,9 +927,7 @@ namespace shipapp
             }
             else if (currentTable == 6)
             {
-                //// TODO History
-                //PrintPreview printPreview = new PrintPreview();
-                //printPreview.ShowDialog();
+                // Fall through
             }
             else
             {
@@ -962,9 +997,6 @@ namespace shipapp
             }
             else if (currentTable == 6)
             {
-                //// TODO History
-                //list = new BindingList<Log>();
-
                 // Fill list with logs
                 for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
                 {
@@ -979,8 +1011,10 @@ namespace shipapp
         }
         public void AddEntity(EventArgs e)
         {
+            // Send add message
             message = "ADD";
 
+            // Select correct table to add
             if (currentTable == 0)
             {
                 MessageBox.Show("You must select a table before you can add an item!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1034,9 +1068,13 @@ namespace shipapp
             // Reset message
             message = "REST";
         }
+        /// <summary>
+        /// Set password chars to the length of the password`
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public string ValueToPassWord(String password)
         {
-            
             for (int i = 0; i < password.Length; i++)
             {
                  password.ToCharArray()[i] = c;
@@ -1044,6 +1082,9 @@ namespace shipapp
 
             return password;
         }
+        /// <summary>
+        /// Clear the back colors of the table buttons
+        /// </summary>
         public void ClearBackColor()
         {
             btnUsers.BackColor = SystemColors.ButtonFace;
