@@ -265,13 +265,6 @@ namespace shipapp
             lblSearch.Text = "";
             txtSearch.Text = "";
 
-            // Set roll restrictions
-            if (role == 2)
-            {
-                pictureBox1.Enabled = false;
-                pictureBox1.BackColor = Color.Transparent;
-            }
-
             // Set datagrid buttons
             pictureBox1.Enabled = true;
             pictureBox1.BackColor = Color.Transparent;
@@ -291,15 +284,13 @@ namespace shipapp
             ClearBackColor();
             btnBuildings.BackColor = SystemColors.ButtonHighlight;
             currentTable = 4;
+            
+            // Fill grid
             DataConnectionClass.buildingConn.GetBuildingList(this);
             lblSearch.Text = "";
             txtSearch.Text = "";
-            if (role == 2)
-            {
-                pictureBox1.Enabled = false;
-                pictureBox1.BackColor = Color.Transparent;
-            }
 
+            // Set grid button
             pictureBox1.Enabled = true;
             pictureBox1.BackColor = Color.Transparent;
             pcBxEdit.Enabled = true;
@@ -319,17 +310,14 @@ namespace shipapp
             btnCarriers.BackColor = SystemColors.ButtonHighlight;
             currentTable = 5;
 
+            // Set grid
             dataGridView1.DataSource = null;
             dataGridView1.Columns.Clear();
             DataConnectionClass.CarrierConn.GetCarrierList(this);
             lblSearch.Text = "";
             txtSearch.Text = "";
-            if (role == 2)
-            {
-                pictureBox1.Enabled = false;
-                pictureBox1.BackColor = Color.Transparent;
-            }
 
+            // Set grid buttons
             pictureBox1.Enabled = true;
             pictureBox1.BackColor = Color.Transparent;
             pcBxEdit.Enabled = true;
@@ -337,13 +325,14 @@ namespace shipapp
             pcBxDelete.Enabled = true;
             pcBxDelete.BackColor = Color.Transparent;
         }
+        /// <summary>
+        /// Set form to Activity history
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnOther_Click_1(object sender, EventArgs e)
         {
-            if (role == 2)
-            {
-                pictureBox1.Enabled = false;
-                pictureBox1.BackColor = Color.Transparent;
-            }
+            // Set form
             lblSearch.Text = "";
             pictureBox1.Enabled = false;
             pictureBox1.BackColor = Color.LightPink;
@@ -356,17 +345,21 @@ namespace shipapp
             ClearBackColor();
             btnOther.BackColor = SystemColors.ButtonHighlight;
             currentTable = 6;
+
+            // Fill grid
             DataConnectionClass.AuditLogConnClass.GetAuditLog(this);
         }
         #endregion
-
-
-
+        /// <summary>
+        ///  TODO: Have Jesse add commetn to this event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             try
             {
-                // reset column values lost during sort
+                // Reset column values lost during sort
                 if (currentTable == 1)
                 {
                     dataGridView1.Columns["Level"].HeaderText = "Role";
@@ -436,22 +429,20 @@ namespace shipapp
             currentTable = 3;
             lblSearch.Text = "";
             txtSearch.Text = "";
+
+            // Fill grid
             DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
 
+            // Set grid controls
             pictureBox1.Enabled = true;
             pictureBox1.BackColor = Color.Transparent;
             pcBxEdit.Enabled = true;
             pcBxEdit.BackColor = Color.Transparent;
             pcBxDelete.Enabled = true;
             pcBxDelete.BackColor = Color.Transparent;
-
-            if (role == 2)
-            {
-                pictureBox1.Enabled = true;
-                pictureBox1.Show();
-            }
         }
-        #endregion // When the user clicks one of these button they will assign the active table and fiil the grid with data.
+        #endregion 
+
         #region Grid Buttons
         /// <summary>
         /// Allow the application to know what table to add and
@@ -528,12 +519,12 @@ namespace shipapp
             }
             else if (currentTable == 6)
             {
-                // TODO: 
-                MessageBox.Show("This button does not yet have a function", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                // Alert User
+                MessageBox.Show("Activity logs cannot be deleted");
             }
             else// Provide an error message if no table is selected
             {
-                MessageBox.Show("You must select a table before you can delete an item.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("You must select a table before you can delete an item.", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         /// <summary>
@@ -553,7 +544,7 @@ namespace shipapp
             }
         }
         /// <summary>
-        /// Send a user to the edit form then edit the user
+        /// Send a user to the edit form
         /// </summary>
         public void EditEntity()
         {
@@ -564,17 +555,10 @@ namespace shipapp
             if (currentTable == 1)
             {
                 // Edit user object 
-                if (dataGridView1.SelectedRows.Count > 0)
-                {
-                    User userToBeEdited = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                    AddUser addUser = new AddUser(message, userToBeEdited);
-                    addUser.ShowDialog();
-                    DataConnectionClass.UserConn.GetManyUsers(this);
-                }
-                else
-                {
-                    MessageBox.Show("Sorry, you must select the row to proceed.","Row to modify is null");
-                }
+                User userToBeEdited = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
+                AddUser addUser = new AddUser(message, userToBeEdited);
+                addUser.ShowDialog();
+                DataConnectionClass.UserConn.GetManyUsers(this);
             }
             else if (currentTable == 2)
             {
@@ -611,7 +595,7 @@ namespace shipapp
             else if (currentTable == 6)
             {
                 // Edit other object
-                MessageBox.Show("This table is not setup yet", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Activity logs can not be changed");
             }
             else
             {

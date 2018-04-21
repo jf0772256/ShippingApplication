@@ -213,9 +213,6 @@ C:\Users\kalin\Desktop\TestEnviroment\ShippingApplication\shipapp\obj\Debug\ship
 C:\Users\kalin\Desktop\TestEnviroment\ShippingApplication\shipapp\obj\Debug\shipapp.csproj.CopyComplete
 C:\Users\kalin\Desktop\TestEnviroment\ShippingApplication\shipapp\obj\Debug\shipapp.exe
 C:\Users\kalin\Desktop\TestEnviroment\ShippingApplication\shipapp\obj\Debug\shipapp.pdb
-C:\Users\kalin\Desktop\ShippingApplication\shipapp\bin\Debug\log4net.dll
-C:\Users\kalin\Desktop\ShippingApplication\shipapp\bin\Debug\log4net.xml
-C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.csproj.CopyComplete
 C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.PrintPreview.resources
 C:\Users\jf0772256\Desktop\ShippingApp\shipapp\bin\Debug\Connections\Backup\DoNotModify.txt
 C:\Users\jf0772256\Desktop\ShippingApp\shipapp\bin\Debug\log4net.dll
@@ -284,3 +281,6 @@ C:\Users\Jesse Fender\Desktop\datatest\shipapp\obj\Debug\shipapp.csproj.Generate
 C:\Users\Jesse Fender\Desktop\datatest\shipapp\obj\Debug\shipapp.csproj.CoreCompileInputs.cache
 C:\Users\Jesse Fender\Desktop\datatest\shipapp\obj\Debug\shipapp.exe
 C:\Users\Jesse Fender\Desktop\datatest\shipapp\obj\Debug\shipapp.pdb
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\bin\Debug\log4net.dll
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\bin\Debug\log4net.xml
+C:\Users\kalin\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.csproj.CopyComplete
