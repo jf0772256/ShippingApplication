@@ -775,7 +775,7 @@ namespace shipapp
                     case "VendorName":
                         sList = DataConnectionClass.DataLists.Vendors.Where(i => i.VendorName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     default:
                         bs.DataSource = DataConnectionClass.DataLists.Vendors;
@@ -792,22 +792,22 @@ namespace shipapp
                     case "FirstName":
                         sList = DataConnectionClass.DataLists.FacultyList.Where(i => i.FirstName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     case "LastName":
                         sList = DataConnectionClass.DataLists.FacultyList.Where(i => i.LastName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     case "BuildingName":
                         sList = DataConnectionClass.DataLists.FacultyList.Where(i => i.Building_Name.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     case "RoomNumber":
                         sList = DataConnectionClass.DataLists.FacultyList.Where(i => i.RoomNumber.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     default:
                         bs.DataSource = DataConnectionClass.DataLists.FacultyList;
@@ -824,12 +824,12 @@ namespace shipapp
                     case "BuildingLongName":
                         sList = DataConnectionClass.DataLists.BuildingNames.Where(i => i.BuildingLongName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     case "BuildingShortName":
                         sList = DataConnectionClass.DataLists.BuildingNames.Where(i => i.BuildingShortName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     default:
                         bs.DataSource = DataConnectionClass.DataLists.BuildingNames;
@@ -846,7 +846,7 @@ namespace shipapp
                     case "CarrierName":
                         sList = DataConnectionClass.DataLists.CarriersList.Where(i => i.CarrierName.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     default:
                         bs.DataSource = DataConnectionClass.DataLists.CarriersList;
@@ -863,17 +863,17 @@ namespace shipapp
                     case "Item":
                         sList = DataConnectionClass.DataLists.AuditLog.Where(i => i.Item.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     case "Date":
                         sList = DataConnectionClass.DataLists.AuditLog.Where(i => i.Date.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     case "Time":
                         sList = DataConnectionClass.DataLists.AuditLog.Where(i => i.Time.ToLower().IndexOf(sText.ToLower()) >= 0).ToList();
                         sList.ForEach(i => fList.Add(i));
-                        bs.DataSource = sList;
+                        bs.DataSource = fList;
                         break;
                     default:
                         bs.DataSource = DataConnectionClass.DataLists.AuditLog;
