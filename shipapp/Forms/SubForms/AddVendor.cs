@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using shipapp.Connections.DataConnections;
 using shipapp.Models;
-using shipapp.Connections.DataConnections;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace shipapp
 {
