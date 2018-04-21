@@ -35,6 +35,7 @@ namespace shipapp
         private BindingList<Carrier> carriers;
         private BindingList<BuildingClass> buildings;
         private BindingList<User> users;
+        private BindingList<AuditItem> auditItems; 
 
         // Helpers
         public object ObjectToBeEditied { get => objectToBeEditied; set => objectToBeEditied = value; }
@@ -915,7 +916,9 @@ namespace shipapp
             }
             else if (currentTable == 6)
             {
-                // Fall through
+                CreateLogList();
+                PrintPreview printPreview = new PrintPreview(auditItems, currentTable + 2, null);
+                printPreview.ShowDialog();
             }
             else
             {
@@ -985,11 +988,13 @@ namespace shipapp
             }
             else if (currentTable == 6)
             {
+                auditItems = new BindingList<AuditItem>();
+
                 // Fill list with logs
                 for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
                 {
                     // Convert packages to logs
-                    users.Add((User)dataGridView1.SelectedRows[i].DataBoundItem);
+                    auditItems.Add((AuditItem)dataGridView1.SelectedRows[i].DataBoundItem);
                 }
             }
             else

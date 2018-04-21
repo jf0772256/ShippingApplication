@@ -49,7 +49,7 @@ namespace shipapp
             {
                 if (String.IsNullOrWhiteSpace(cmboClerk.SelectedItem.ToString()))
                 {
-                    MessageBox.Show("You must select a clerk to deleiver the packages!", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("You must select a clerk to deliever the packages!", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
                 else
                 {
@@ -101,7 +101,7 @@ namespace shipapp
                 dataGridLog.Columns[5].Width = 85;
                 dataGridLog.Columns[6].Width = 125;
 
-                // 
+                // Update the package clerk and status
                 UpdatePackages();
             }
             else if (identity == 2)
@@ -194,12 +194,12 @@ namespace shipapp
                 // Set headers
                 printer.Title = "Activity History";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+                printer.PageSettings.Landscape = false;
 
                 // Set page widths
-                dataGridLog.Columns[0].Width = 50;
-                dataGridLog.Columns[1].Width = 50;
-                dataGridLog.Columns[2].Width = 50;
-                dataGridLog.Columns[3].Width = 50;
+                dataGridLog.Columns[0].Width = 75;
+                dataGridLog.Columns[1].Width = 10;
+                dataGridLog.Columns[2].Width = 15;
             }
             else
             {
@@ -263,8 +263,6 @@ namespace shipapp
         {
             clerk = cmboClerk.SelectedItem.ToString();
         }
-
-
         /// <summary>
         /// Set print form to match entity
         /// </summary>
@@ -321,7 +319,6 @@ namespace shipapp
                 dataGridLog.Columns[3].HeaderText = "Role";
                 dataGridLog.Columns[4].Visible = false;
                 dataGridLog.Columns[6].Visible = false;
-
             }
             else if (identity == 4)
             {
@@ -381,8 +378,9 @@ namespace shipapp
                 cmboClerk.Hide();
 
                 // Set grid columns
-
-
+                dataGridLog.Columns[0].HeaderText = "Item";
+                dataGridLog.Columns[1].HeaderText = "Date";
+                dataGridLog.Columns[2].HeaderText = "Time";
             }
             else
             {
@@ -390,10 +388,12 @@ namespace shipapp
                 this.Close();
             }
         }
-
-
+        /// <summary>
+        /// When printing a dailey receiving log, uodate the packages with clerk and new status
+        /// </summary>
         public void UpdatePackages()
         {
+            // Update each package
             for (int i = 0; i < printPackages.Count; i++)
             {
                 printPackages[i].PackageDeleveredBy = clerk;
@@ -401,17 +401,20 @@ namespace shipapp
                 Connections.DataConnections.DataConnectionClass.PackageConnClass.UpdatePackage(printPackages[i]);
             }
         }
-
+        /// <summary>
+        /// When the form loads fill the clerk combobox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PrintPreview_Load(object sender, EventArgs e)
         {
             Connections.DataConnections.DataConnectionClass.DataLists.UsersList.ForEach(i => cmboClerk.Items.Add(i));
         }
-
-        private void cmboClerk_Leave(object sender, EventArgs e)
-        {
-            MessageBox.Show("You left!");
-        }
-
+        /// <summary>
+        /// Check that a clerk has been selected before printing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmboClerk_SelectionChangeCommitted(object sender, EventArgs e)
         {
             btnPrint.Enabled = true;
