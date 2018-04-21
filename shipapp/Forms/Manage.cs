@@ -681,8 +681,11 @@ namespace shipapp
         /// </summary>
         public void SearchData()
         {
+            // Grab the search strings
             string lblTxt = lblSearch.Text;
             string sText = txtSearch.Text;
+
+            // Test for bad strings then filter list
             if (String.IsNullOrWhiteSpace(sText) || String.IsNullOrWhiteSpace(lblTxt))
             {
                 if (currentTable == 1)
@@ -718,7 +721,7 @@ namespace shipapp
             {
                 List<User> sList = new List<User>();
                 SortableBindingList<User> fList = new SortableBindingList<User>();
-                //users
+                // Sort users
                 switch (lblTxt)
                 {
                     case "FirstName":
@@ -750,7 +753,7 @@ namespace shipapp
             {
                 List<Vendors> sList = new List<Vendors>();
                 SortableBindingList<Vendors> fList = new SortableBindingList<Vendors>();
-                //vendor
+                // Sort vendor
                 switch (lblTxt)
                 {
                     case "VendorName":
@@ -767,7 +770,7 @@ namespace shipapp
             {
                 List<Faculty> sList = new List<Faculty>();
                 SortableBindingList<Faculty> fList = new SortableBindingList<Faculty>();
-                //faculty
+                // Sort faculty
                 switch (lblTxt)
                 {
                     case "FirstName":
@@ -799,7 +802,7 @@ namespace shipapp
             {
                 List<BuildingClass> sList = new List<BuildingClass>();
                 SortableBindingList<BuildingClass> fList = new SortableBindingList<BuildingClass>();
-                //building
+                // Sort building
                 switch (lblTxt)
                 {
                     case "BuildingLongName":
@@ -821,7 +824,7 @@ namespace shipapp
             {
                 List<Carrier> sList = new List<Carrier>();
                 SortableBindingList<Carrier> fList = new SortableBindingList<Carrier>();
-                //carriers
+                // Sort carriers
                 switch (lblTxt)
                 {
                     case "CarrierName":
@@ -838,7 +841,7 @@ namespace shipapp
             {
                 List<AuditItem> sList = new List<AuditItem>();
                 SortableBindingList<AuditItem> fList = new SortableBindingList<AuditItem>();
-                //history
+                // Sort history
                 switch (lblTxt)
                 {
                     case "Item":
@@ -863,16 +866,24 @@ namespace shipapp
             }
             else
             {
-                //invalid table
+                // Invalid table
                 return;
             }
-            // -- -- Query database and return results
+            // Query database and return results
             dataGridView1.DataSource = bs;
         }
+        /// <summary>
+        /// When the user clicks on a cell set the search to the correct column
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridView1_CellDoubleClick_1(object sender, DataGridViewCellEventArgs e)
         {
             lblSearch.Text = dataGridView1.Columns[dataGridView1.SelectedCells[0].ColumnIndex].DataPropertyName;
         }
+        /// <summary>
+        /// Print the selected items in the gird
+        /// </summary>
         public void Print()
         {
             if (currentTable == 1)
@@ -915,7 +926,7 @@ namespace shipapp
             }
         }
         /// <summary>
-        /// Fill a list with the selected items
+        /// Fill a list with the selected items for printing
         /// </summary>
         public void CreateLogList()
         {
@@ -989,6 +1000,10 @@ namespace shipapp
                 MessageBox.Show("It seems something went wrong.\r\nTry again", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
+        /// <summary>
+        /// Add an object of the selected type to the database 
+        /// </summary>
+        /// <param name="e"></param>
         public void AddEntity(EventArgs e)
         {
             // Send add message
