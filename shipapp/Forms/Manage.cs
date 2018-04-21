@@ -230,7 +230,7 @@ namespace shipapp
             if (role == 2)
             {
                 pictureBox1.Enabled = false;
-                pictureBox1.BackColor = Color.Transparent;
+                pictureBox1.BackColor = Color.LightPink;
             }
 
             // Change header text for roles
@@ -461,10 +461,6 @@ namespace shipapp
                         dataGridView1.Rows[i].Cells["Level"].Value = res.Level.ToString();
                     }
                 }
-                else if (currentTable == 2)
-                {
-
-                }
                 else if (currentTable == 3)
                 {
                     for (int i = 0; i < DataConnectionClass.DataLists.FacultyList.Count; i++)
@@ -472,18 +468,6 @@ namespace shipapp
                         long a = Convert.ToInt64(dataGridView1.Rows[i].Cells[0].Value);
                         Faculty res = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(m => m.Id == a);
                     }
-                }
-                else if (currentTable == 4)
-                {
-
-                }
-                else if (currentTable == 5)
-                {
-
-                }
-                else if (currentTable == 6)
-                {
-
                 }
                 else
                 {
@@ -549,6 +533,7 @@ namespace shipapp
             {
                 List<User> sList = new List<User>();
                 SortableBindingList<User> fList = new SortableBindingList<User>();
+                
                 // Sort users
                 switch (lblTxt)
                 {
@@ -581,6 +566,7 @@ namespace shipapp
             {
                 List<Vendors> sList = new List<Vendors>();
                 SortableBindingList<Vendors> fList = new SortableBindingList<Vendors>();
+                
                 // Sort vendor
                 switch (lblTxt)
                 {
@@ -598,6 +584,7 @@ namespace shipapp
             {
                 List<Faculty> sList = new List<Faculty>();
                 SortableBindingList<Faculty> fList = new SortableBindingList<Faculty>();
+                
                 // Sort faculty
                 switch (lblTxt)
                 {
@@ -630,6 +617,7 @@ namespace shipapp
             {
                 List<BuildingClass> sList = new List<BuildingClass>();
                 SortableBindingList<BuildingClass> fList = new SortableBindingList<BuildingClass>();
+                
                 // Sort building
                 switch (lblTxt)
                 {
@@ -652,6 +640,7 @@ namespace shipapp
             {
                 List<Carrier> sList = new List<Carrier>();
                 SortableBindingList<Carrier> fList = new SortableBindingList<Carrier>();
+                
                 // Sort carriers
                 switch (lblTxt)
                 {
@@ -669,6 +658,7 @@ namespace shipapp
             {
                 List<AuditItem> sList = new List<AuditItem>();
                 SortableBindingList<AuditItem> fList = new SortableBindingList<AuditItem>();
+                
                 // Sort history
                 switch (lblTxt)
                 {
