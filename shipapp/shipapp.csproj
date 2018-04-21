@@ -275,6 +275,8 @@
     <None Include="Resources\social-dropbox.png" />
     <None Include="Resources\loop.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Forms\SubForms\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
