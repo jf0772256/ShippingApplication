@@ -11,6 +11,9 @@ using shipapp.Connections.HelperClasses;
 using shipapp.Models;
 using shipapp.Models.ModelData;
 using shipapp.Connections.DataConnections;
+using shipapp.Models;
+using shipapp.Models.ModelData;
+using shipapp.Connections.DataConnections;
 
 
 namespace shipapp
@@ -28,6 +31,7 @@ namespace shipapp
         private BindingList<Log> logList;
         private List<Log> logs = new List<Log>();
         private List<Package> printPackages = new List<Package>();
+        
         //  Other variabels
         private string message = "";
         private int role;

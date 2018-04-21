@@ -1,16 +1,14 @@
-﻿using System;
+﻿using shipapp.Connections.DataConnections;
+using shipapp.Connections.HelperClasses;
+using shipapp.Models;
+using shipapp.Models.ModelData;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using shipapp.Connections.HelperClasses;
-using shipapp.Models;
-using shipapp.Models.ModelData;
-using shipapp.Connections.DataConnections;
 
 namespace shipapp
 {
@@ -53,7 +51,6 @@ namespace shipapp
         public Manage()
         {
             InitializeComponent();
-            //dataGridView1.DataError += DataGridView1_DataError;
             dataGridView1.ColumnHeaderMouseClick += DataGridView1_ColumnHeaderMouseClick;
         }
         /// <summary>
