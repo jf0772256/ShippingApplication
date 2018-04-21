@@ -24,6 +24,7 @@ namespace shipapp
         private BindingList<Models.Carrier> carriers;
         private BindingList<Models.ModelData.BuildingClass> buildings;
         private BindingList<Models.User> users;
+        private BindingList<Models.AuditItem> auditItems;
         private List<Models.Package> printPackages;
 
 
@@ -34,19 +35,16 @@ namespace shipapp
         public PrintPreview(Object list, int identity, object packages)
         {
             InitializeComponent();
-
             CreateCorrectPrintForm(identity, list, packages);
         }
-
-
         /// <summary>
-        /// Print the log
+        /// Print the Delivery log
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            //
+            // If list is from daily receiving
             if (identity == 1)
             {
                 if (String.IsNullOrWhiteSpace(cmboClerk.SelectedItem.ToString()))
@@ -62,16 +60,17 @@ namespace shipapp
             }
             else
             {
+                // Else print other types
                 Print();
                 this.Close();
             }
         }
-
-
+        /// <summary>
+        /// Print the selected list with correct formatting
+        /// </summary>
         public void Print()
         {
             // Create print object
-            ///DGVPrinter printer = new DGVPrinter();
             DGVPrinterHelper.DGVPrinter printer = new DGVPrinterHelper.DGVPrinter();
 
             // Set the print obejct page settings 
@@ -88,12 +87,12 @@ namespace shipapp
             // Set column widths
             if (identity == 1)
             {
-                //
+                // Set daily and clerk info
                 printer.Title = "Delivery Log";
                 printer.SubTitle = "Clerk: " + clerk;
                 printer.SubTitle += ", Date: " + DateTime.Today.ToShortDateString();
 
-                //
+                // Set page widths
                 dataGridLog.Columns[0].Width = 35;
                 dataGridLog.Columns[1].Width = 50;
                 dataGridLog.Columns[2].Width = 35;
@@ -102,16 +101,16 @@ namespace shipapp
                 dataGridLog.Columns[5].Width = 85;
                 dataGridLog.Columns[6].Width = 125;
 
-                //
+                // 
                 UpdatePackages();
             }
             else if (identity == 2)
             {
-                //
+                // Set header
                 printer.Title = "History";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
 
-                //
+                // Set page widths
                 dataGridLog.Columns[0].Width = 50;
                 dataGridLog.Columns[1].Width = 30;
                 dataGridLog.Columns[2].Width = 33;
@@ -128,11 +127,11 @@ namespace shipapp
             }
             else if (identity == 3)
             {
-                //
+                // Set headers
                 printer.Title = "Users";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
 
-                //
+                // Set pages widths
                 dataGridLog.Columns[0].Width = 50;
                 dataGridLog.Columns[1].Width = 50;
                 dataGridLog.Columns[2].Width = 50;
@@ -142,23 +141,23 @@ namespace shipapp
             }
             else if (identity == 4)
             {
-                //
+                // Set headers
                 printer.Title = "Vendors";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
                 printer.PageSettings.Landscape = false;
 
-                //
+                // Set page widths
                 dataGridLog.Columns[0].Width = 50;
                 dataGridLog.Columns[1].Width = 50;
             }
             else if (identity == 5)
             {
-                //
+                // Set headers
                 printer.Title = "Faculty";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
                 printer.PageSettings.Landscape = false;
 
-                //
+                // Set page widths and font style
                 dataGridLog.Font = new Font("Microsoft Sans Serif", 16,FontStyle.Regular);
                 dataGridLog.Columns[0].Width = 0;
                 dataGridLog.Columns[1].Width = 0;
@@ -169,34 +168,34 @@ namespace shipapp
             }
             else if (identity == 6)
             {
-                //
+                // Set headers
                 printer.Title = "Buildings";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
                 printer.PageSettings.Landscape = false;
 
-                //
+                // Set page widths
                 dataGridLog.Columns[0].Width = 50;
                 dataGridLog.Columns[1].Width = 50;
                 dataGridLog.Columns[2].Width = 50;
             }
             else if (identity == 7)
             {
-                //
+                // Set Headers
                 printer.Title = "Carriers";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
                 printer.PageSettings.Landscape = false;
 
-                //
+                // Set page widths
                 dataGridLog.Columns[0].Width = 50;
                 dataGridLog.Columns[1].Width = 50;
             }
             else if (identity == 8)
             {
-                //
+                // Set headers
                 printer.Title = "Activity History";
                 printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
 
-                //
+                // Set page widths
                 dataGridLog.Columns[0].Width = 50;
                 dataGridLog.Columns[1].Width = 50;
                 dataGridLog.Columns[2].Width = 50;
@@ -210,8 +209,6 @@ namespace shipapp
             // Print the Object
             printer.PrintDataGridView(dataGridLog);
         }
-
-
         /// <summary>
         ///  Make the PO pretty
         /// </summary>
@@ -240,8 +237,6 @@ namespace shipapp
                 return newValue.ToString();
             }
         }
-
-
         /// <summary>
         /// Returns a string containing the clerk assigned to the log
         /// </summary>
@@ -250,8 +245,6 @@ namespace shipapp
         {
             return clerk;
         }
-
-
         /// <summary>
         /// Close the application
         /// </summary>
@@ -261,8 +254,6 @@ namespace shipapp
         {
             this.Close();
         }
-
-
         /// <summary>
         /// Select a clerk to deliver the package
         /// </summary>
@@ -274,6 +265,12 @@ namespace shipapp
         }
 
 
+        /// <summary>
+        /// Set print form to match entity
+        /// </summary>
+        /// <param name="identity"></param>
+        /// <param name="list"></param>
+        /// <param name="packages"></param>
         public void CreateCorrectPrintForm(int identity, Object list, Object packages)
         {
             this.identity = identity;
@@ -295,7 +292,7 @@ namespace shipapp
                 dataGridLog.DataSource = this.packages;
                 cmboClerk.Hide();
 
-                //
+                // Set grid headers
                 dataGridLog.Columns["PackageId"].Visible = false;
                 dataGridLog.Columns["Package_PersonId"].Visible = false;
                 dataGridLog.Columns["PONumber"].HeaderText = "PO Number";
@@ -317,7 +314,7 @@ namespace shipapp
                 dataGridLog.DataSource = users;
                 cmboClerk.Hide();
 
-                //
+                // Set grid columns
                 dataGridLog.Columns[0].Visible = false;
                 dataGridLog.Columns[1].HeaderText = "First Name";
                 dataGridLog.Columns[2].HeaderText = "Last Name";
@@ -333,7 +330,7 @@ namespace shipapp
                 dataGridLog.DataSource = vendors;
                 cmboClerk.Hide();
 
-                //
+                // Set grid columns
                 dataGridLog.Columns[0].Visible = false;
                 dataGridLog.Columns[1].HeaderText = "Vendor";
             }
@@ -344,7 +341,7 @@ namespace shipapp
                 dataGridLog.DataSource = Faculties;
                 cmboClerk.Hide();
 
-                //
+                // Set grid columns
                 dataGridLog.Columns[0].Visible = false;
                 dataGridLog.Columns[1].Visible = false;
                 dataGridLog.Columns[2].HeaderText = "First Name";
@@ -360,7 +357,7 @@ namespace shipapp
                 dataGridLog.DataSource = buildings;
                 cmboClerk.Hide();
 
-                //
+                // Set grid columns
                 dataGridLog.Columns[0].Visible = false;
                 dataGridLog.Columns[1].HeaderText = "Long Name";
                 dataGridLog.Columns[2].HeaderText = "Short Name";
@@ -372,16 +369,20 @@ namespace shipapp
                 dataGridLog.DataSource = carriers;
                 cmboClerk.Hide();
 
-                //
+                // Set grid columns
                 dataGridLog.Columns[0].Visible = false;
                 dataGridLog.Columns[1].HeaderText = "Carrier";
             }
             else if (identity == 8)
             {
-                // List is Activity History TODO
-                this.logs = (BindingList<Log>)list;
-                dataGridLog.DataSource = logs;
+                // List is activity history
+                this.auditItems = (BindingList<Models.AuditItem>)list;
+                dataGridLog.DataSource = auditItems;
                 cmboClerk.Hide();
+
+                // Set grid columns
+
+
             }
             else
             {
