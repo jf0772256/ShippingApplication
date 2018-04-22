@@ -9,16 +9,40 @@ using System.IO;
 
 namespace shipapp.Connections
 {
+    /// <summary>
+    /// Database connection Class handles data communication with the database
+    /// </summary>
     class DatabaseConnection
     {
         #region Class Vars
+        /// <summary>
+        /// Connection string place holder for use in class only... 
+        /// </summary>
         private string ConnString { get; set; }
+        /// <summary>
+        /// database type simular Dataconnection class but just a place holder
+        /// </summary>
         private SQLHelperClass.DatabaseType DBType { get; set; }
+        /// <summary>
+        /// Encode string holder for data to encrypt data in database
+        /// </summary>
         private string EncodeKey { get; set; }
+        /// <summary>
+        /// Serialiazation Class instance seperate from DataConnectionClass
+        /// </summary>
         private Serialize Serialization { get; set; }
+        /// <summary>
+        /// SQL Helper class Instance seperate from DataConnectionClass (Not really used at this point)
+        /// </summary>
         private SQLHelperClass SQLHelper { get; set; }
         #endregion
         #region Constructors and Tests
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="connection">Connection string</param>
+        /// <param name="encode">encode string</param>
+        /// <param name="dbt">database type</param>
         internal DatabaseConnection(string connection, string encode, SQLHelperClass.DatabaseType dbt)
         {
             DBType = dbt;
@@ -137,6 +161,9 @@ namespace shipapp.Connections
                 DoDefaultInserts();
             }
         }
+        /// <summary>
+        /// Does the insert of initial values
+        /// </summary>
         private void DoDefaultInserts()
         {
             ConnString = DataConnectionClass.ConnectionString;
