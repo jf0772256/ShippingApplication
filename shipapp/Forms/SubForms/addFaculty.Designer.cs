@@ -54,7 +54,7 @@
             // 
             // txtLastName
             // 
-            this.txtLastName.Location = new System.Drawing.Point(114, 44);
+            this.txtLastName.Location = new System.Drawing.Point(114, 41);
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(266, 26);
             this.txtLastName.TabIndex = 1;
@@ -82,7 +82,7 @@
             // 
             // txtId2
             // 
-            this.txtId2.Location = new System.Drawing.Point(114, 74);
+            this.txtId2.Location = new System.Drawing.Point(114, 73);
             this.txtId2.Name = "txtId2";
             this.txtId2.ReadOnly = true;
             this.txtId2.Size = new System.Drawing.Size(266, 26);
@@ -92,7 +92,7 @@
             // 
             this.lblId2.AutoSize = true;
             this.lblId2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblId2.Location = new System.Drawing.Point(12, 80);
+            this.lblId2.Location = new System.Drawing.Point(14, 76);
             this.lblId2.Name = "lblId2";
             this.lblId2.Size = new System.Drawing.Size(87, 20);
             this.lblId2.TabIndex = 6;
@@ -101,9 +101,9 @@
             // btnAdd
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(246, 183);
+            this.btnAdd.Location = new System.Drawing.Point(241, 183);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(134, 33);
+            this.btnAdd.Size = new System.Drawing.Size(139, 33);
             this.btnAdd.TabIndex = 7;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -113,7 +113,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(14, 113);
+            this.label1.Location = new System.Drawing.Point(12, 114);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(124, 20);
             this.label1.TabIndex = 20;
@@ -123,16 +123,16 @@
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(145, 111);
+            this.comboBox1.Location = new System.Drawing.Point(134, 111);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(235, 28);
+            this.comboBox1.Size = new System.Drawing.Size(246, 28);
             this.comboBox1.TabIndex = 3;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(18, 152);
+            this.label2.Location = new System.Drawing.Point(12, 154);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(123, 20);
             this.label2.TabIndex = 22;
@@ -140,15 +140,15 @@
             // 
             // txtRoomNumber
             // 
-            this.txtRoomNumber.Location = new System.Drawing.Point(145, 151);
+            this.txtRoomNumber.Location = new System.Drawing.Point(134, 151);
             this.txtRoomNumber.Name = "txtRoomNumber";
-            this.txtRoomNumber.Size = new System.Drawing.Size(235, 26);
+            this.txtRoomNumber.Size = new System.Drawing.Size(246, 26);
             this.txtRoomNumber.TabIndex = 4;
             // 
             // BtnAddNote
             // 
             this.BtnAddNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnAddNote.Location = new System.Drawing.Point(134, 183);
+            this.BtnAddNote.Location = new System.Drawing.Point(129, 183);
             this.BtnAddNote.Name = "BtnAddNote";
             this.BtnAddNote.Size = new System.Drawing.Size(106, 32);
             this.BtnAddNote.TabIndex = 6;
@@ -159,9 +159,9 @@
             // BtnViewNotes
             // 
             this.BtnViewNotes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnViewNotes.Location = new System.Drawing.Point(22, 183);
+            this.BtnViewNotes.Location = new System.Drawing.Point(16, 183);
             this.BtnViewNotes.Name = "BtnViewNotes";
-            this.BtnViewNotes.Size = new System.Drawing.Size(106, 31);
+            this.BtnViewNotes.Size = new System.Drawing.Size(102, 31);
             this.BtnViewNotes.TabIndex = 5;
             this.BtnViewNotes.Text = "View Notes";
             this.BtnViewNotes.UseVisualStyleBackColor = true;
@@ -172,7 +172,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.ClientSize = new System.Drawing.Size(399, 227);
+            this.ClientSize = new System.Drawing.Size(387, 227);
             this.Controls.Add(this.BtnViewNotes);
             this.Controls.Add(this.BtnAddNote);
             this.Controls.Add(this.txtRoomNumber);
