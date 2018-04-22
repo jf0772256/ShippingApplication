@@ -1,17 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Extentions;
+using shipapp.Connections.HelperClasses;
 using shipapp.Models;
 using shipapp.Models.ModelData;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using shipapp.Connections.HelperClasses;
-using Extentions;
-
 namespace shipapp.Connections.DataConnections.Classes
 {
+    /// <summary>
+    /// Package Class
+    /// </summary>
     class PackageConnectionClass:DatabaseConnection
     {
+        /// <summary>
+        /// Form Object
+        /// </summary>
         object Sender { get; set; }
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public PackageConnectionClass() : base() { }
         /// <summary>
         /// Gets specified package by id 
@@ -202,7 +210,11 @@ namespace shipapp.Connections.DataConnections.Classes
             day = dt.Day.ToString();
             return mo + "/" + day + "/" + yr;
         }
-
+        /// <summary>
+        /// Gets notes list
+        /// </summary>
+        /// <param name="pid">Person id</param>
+        /// <returns>List of note objects</returns>
         public List<Note> GetNotesList(string pid)
         {
             return GetNotesListById(pid);

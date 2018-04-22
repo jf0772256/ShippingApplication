@@ -1,21 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using shipapp.Connections.HelperClasses;
 using shipapp.Models;
 using shipapp.Models.ModelData;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using shipapp.Connections.HelperClasses;
-using Extentions;
-
 namespace shipapp.Connections.DataConnections.Classes
 {
+    /// <summary>
+    /// Employee class (Faculty)
+    /// </summary>
     class EmployeeConnClass:DatabaseConnection
     {
+        /// <summary>
+        /// Form Object
+        /// </summary>
         object Sender { get; set; }
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public EmployeeConnClass() : base() { }
-
+        /// <summary>
+        /// Gets Faculty by id
+        /// </summary>
+        /// <param name="id">Faculty Id</param>
+        /// <returns></returns>
         public Faculty GetFaculty(long id)
         {
             return Get_Faculty(id);
@@ -36,6 +46,10 @@ namespace shipapp.Connections.DataConnections.Classes
         {
             Update(f);
         }
+        /// <summary>
+        /// Gets a faculty list
+        /// </summary>
+        /// <param name="sender">Form object</param>
         public async void GetAllAfaculty(object sender = null)
         {
             if (String.IsNullOrWhiteSpace(DataConnectionClass.ConnectionString))
@@ -87,10 +101,19 @@ namespace shipapp.Connections.DataConnections.Classes
                 DataConnectionClass.DataLists.FacultyList = fac;
             }
         }
+        /// <summary>
+        /// Removes Faculty from database
+        /// </summary>
+        /// <param name="f">Faculty to remove</param>
         public void DeleteFaculty(Faculty f)
         {
             Delete(f);
         }
+        /// <summary>
+        /// Gets notes for Faculty
+        /// </summary>
+        /// <param name="pid">Person Id</param>
+        /// <returns>List of note object</returns>
         public List<Note> GetNotesList(string pid)
         {
             return GetNotesListById(pid);

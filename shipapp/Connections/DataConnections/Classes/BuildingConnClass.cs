@@ -1,18 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using shipapp.Connections.HelperClasses;
 using shipapp.Models.ModelData;
+using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using shipapp.Connections.HelperClasses;
-
 namespace shipapp.Connections.DataConnections.Classes
 {
+    /// <summary>
+    /// Building Class
+    /// </summary>
     class BuildingConnClass : DatabaseConnection
     {
+        /// <summary>
+        /// Form Object
+        /// </summary>
         object Sender { get; set; }
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public BuildingConnClass():base() { }
+        /// <summary>
+        /// Gets a list of buildings 
+        /// </summary>
+        /// <param name="sender">Form object</param>
         public async void GetBuildingList(object sender = null)
         {
             if (String.IsNullOrWhiteSpace(DataConnectionClass.ConnectionString))
@@ -53,14 +62,26 @@ namespace shipapp.Connections.DataConnections.Classes
                 DataConnectionClass.DataLists.BuildingNames = b;
             }
         }
+        /// <summary>
+        /// Adds building to the database
+        /// </summary>
+        /// <param name="building">Building object to add</param>
         public void WriteBuilding(BuildingClass building)
         {
             Write(building);
         }
+        /// <summary>
+        /// Deletes building from the database
+        /// </summary>
+        /// <param name="building">Building object to remove</param>
         public void RemoveBuilding(BuildingClass building)
         {
             Delete(building);
         }
+        /// <summary>
+        /// Update building
+        /// </summary>
+        /// <param name="building">Building object to update</param>
         public void UpdateBuilding(BuildingClass building)
         {
             Update(building);

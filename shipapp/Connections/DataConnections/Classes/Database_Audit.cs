@@ -1,14 +1,18 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using shipapp.Connections.HelperClasses;
 using shipapp.Models;
-using shipapp.Connections.HelperClasses;
-using shipapp.Connections.DataConnections;
+using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-
 namespace shipapp.Connections.DataConnections.Classes
 {
+    /// <summary>
+    /// Db audit class
+    /// </summary>
     class Database_Audit:DatabaseConnection
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Database_Audit() : base()
         {
 
@@ -25,6 +29,10 @@ namespace shipapp.Connections.DataConnections.Classes
             string[] parts = goodsgoods.Split(' ');
             Write(whatdidtheydo, who, parts[0], parts[2]);
         }
+        /// <summary>
+        /// Gets the audit log
+        /// </summary>
+        /// <param name="sender">Form object</param>
         public async void GetAuditLog(object sender = null)
         {
             SortableBindingList<AuditItem> al = await Task.Run(() => Get_Audit_Log());

@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using shipapp.Connections.HelperClasses;
 using shipapp.Models;
-using shipapp.Models.ModelData;
+using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using shipapp.Connections.HelperClasses;
-
 namespace shipapp.Connections.DataConnections.Classes
 {
+    /// <summary>
+    /// Carrier Connectio Class
+    /// </summary>
     class CarrierConnClass:DatabaseConnection
     {
+        /// <summary>
+        /// Form Object
+        /// </summary>
         object Sender { get; set; }
-        public CarrierConnClass() : base()
-        {
-            //
-        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public CarrierConnClass() : base() { }
         /// <summary>
         /// Creates a new carrier
         /// </summary>
@@ -71,11 +72,15 @@ namespace shipapp.Connections.DataConnections.Classes
         /// Collects a single specific carrier from the database - this is important, You must include a valid database id as long.
         /// </summary>
         /// <param name="id">ID of the master carrier, from there we will get the rest of the data.</param>
-        /// <returns></returns>
+        /// <returns>Carrier Object</returns>
         public Carrier GetCarrier(long id)
         {
             return Get_Carrier(id);
         }
+        /// <summary>
+        /// Method to remove a carrier
+        /// </summary>
+        /// <param name="c">Carrier to remove</param>
         public void DeleteCarrier(Carrier c)
         {
             Delete(c);
