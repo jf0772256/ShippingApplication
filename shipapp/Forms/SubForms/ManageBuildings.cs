@@ -9,21 +9,21 @@ namespace shipapp
     /// <summary>
     /// Allow the addition and editing of buildings
     /// </summary>
-    public partial class AddBuilding : Form
+    public partial class ManageBuilding : Form
     {
         // Class level variables
         private string message;
         private BuildingClass newBuilding;
 
 
-        public AddBuilding(string message)
+        public ManageBuilding(string message)
         {
             InitializeComponent();
             this.message = message;
         }
 
 
-        public AddBuilding(string message, Object buildingToBeEdited)
+        public ManageBuilding(string message, Object buildingToBeEdited)
         {
             InitializeComponent();
             this.message = message;

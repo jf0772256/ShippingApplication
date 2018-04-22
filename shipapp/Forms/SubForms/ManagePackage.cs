@@ -11,7 +11,7 @@ namespace shipapp
     /// <summary>
     /// This form allows for the creation and editing of new packages
     /// </summary>
-    public partial class AddPackage : Form
+    public partial class ManagePackage : Form
     {
         // Class level variabels
         private Package newPackage;
@@ -23,7 +23,7 @@ namespace shipapp
         private object selecteditem = null;
 
         #region form basic
-        public AddPackage(string message, Receiving parent)
+        public ManagePackage(string message, Receiving parent)
         {
             ParentForm = parent;
             InitializeComponent();
@@ -34,7 +34,7 @@ namespace shipapp
             cmboStatus.Items.Add("Delivered");
             RefreshLists();
         }
-        public AddPackage(string message, object packageToBeEdited, Receiving parent)
+        public ManagePackage(string message, object packageToBeEdited, Receiving parent)
         {
             InitializeComponent();
             newPackage = (Package)packageToBeEdited;
@@ -777,7 +777,7 @@ namespace shipapp
 
         private void btnAddNote_Click(object sender, EventArgs e)
         {
-            using (AddNote note = new AddNote(newPackage, false))
+            using (ManageNotes note = new ManageNotes(newPackage, false))
             {
                 note.ShowDialog();
             }
@@ -785,7 +785,7 @@ namespace shipapp
 
         private void btnViewNote_Click(object sender, EventArgs e)
         {
-            using (AddNote note = new AddNote(newPackage, true))
+            using (ManageNotes note = new ManageNotes(newPackage, true))
             {
                 note.ShowDialog();
             }

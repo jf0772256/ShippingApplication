@@ -749,7 +749,7 @@ namespace shipapp
             {
                 // Edit user object 
                 User userToBeEdited = DataConnectionClass.DataLists.UsersList.FirstOrDefault(uid => uid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                AddUser addUser = new AddUser(message, userToBeEdited);
+                ManageUsers addUser = new ManageUsers(message, userToBeEdited);
                 addUser.ShowDialog();
                 DataConnectionClass.UserConn.GetManyUsers(this);
             }
@@ -757,7 +757,7 @@ namespace shipapp
             {
                 // Edit vendor object
                 Vendors vendorToBeEdited = DataConnectionClass.DataLists.Vendors.FirstOrDefault(vid => vid.VendorId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                AddVendor addVendor = new AddVendor(message, vendorToBeEdited);
+                ManageVendors addVendor = new ManageVendors(message, vendorToBeEdited);
                 addVendor.ShowDialog();
                 DataConnectionClass.VendorConn.GetVendorList(this);
             }
@@ -765,7 +765,7 @@ namespace shipapp
             {
                 // Edit faculty object
                 Faculty facultyToBeEdited = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(fid => fid.Id == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                AddFaculty addFaculty = new AddFaculty(message, facultyToBeEdited);
+                ManageFaculty addFaculty = new ManageFaculty(message, facultyToBeEdited);
                 addFaculty.ShowDialog();
                 DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
             }
@@ -773,7 +773,7 @@ namespace shipapp
             {
                 // Edit building object
                 BuildingClass buildingToBeEdited = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(bid => bid.BuildingId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                AddBuilding addBuilding = new AddBuilding(message, buildingToBeEdited);
+                ManageBuilding addBuilding = new ManageBuilding(message, buildingToBeEdited);
                 addBuilding.ShowDialog();
                 DataConnectionClass.buildingConn.GetBuildingList(this);
             }
@@ -781,7 +781,7 @@ namespace shipapp
             {
                 // Edit carrier object
                 Carrier carrierToBeEdited = DataConnectionClass.DataLists.CarriersList.FirstOrDefault(cid => cid.CarrierId == Convert.ToInt64(dataGridView1.SelectedRows[0].Cells[0].Value));
-                AddCarrier addCarrier = new AddCarrier(message, carrierToBeEdited);
+                ManageCarrier addCarrier = new ManageCarrier(message, carrierToBeEdited);
                 addCarrier.ShowDialog();
                 DataConnectionClass.CarrierConn.GetCarrierList(this);
             }
@@ -1008,7 +1008,7 @@ namespace shipapp
             }
             else if (currentTable == 1)
             {
-                AddUser addUser = new AddUser(message);
+                ManageUsers addUser = new ManageUsers(message);
                 addUser.ShowDialog();
                 dataGridView1.DataSource = null;
                 dataGridView1.Columns.Clear();
@@ -1017,20 +1017,20 @@ namespace shipapp
             }
             else if (currentTable == 2)
             {
-                AddVendor addVendor = new AddVendor(message);
+                ManageVendors addVendor = new ManageVendors(message);
                 addVendor.ShowDialog();
                 btnVendors_Click_1(this, e);
                 DataConnectionClass.VendorConn.GetVendorList(this);
             }
             else if (currentTable == 3)
             {
-                AddFaculty addFaculty = new AddFaculty(message);
+                ManageFaculty addFaculty = new ManageFaculty(message);
                 addFaculty.ShowDialog();
                 DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
             }
             else if (currentTable == 4)
             {
-                AddBuilding addbuilding = new AddBuilding(message);
+                ManageBuilding addbuilding = new ManageBuilding(message);
                 DialogResult dr = addbuilding.ShowDialog();
                 if (dr == DialogResult.OK)
                 {
@@ -1042,7 +1042,7 @@ namespace shipapp
             }
             else if (currentTable == 5)
             {
-                AddCarrier addCarrier = new AddCarrier(message);
+                ManageCarrier addCarrier = new ManageCarrier(message);
                 addCarrier.ShowDialog();
                 btnCarriers_Click_1(this, e);
                 DataConnectionClass.CarrierConn.GetCarrierList(this);

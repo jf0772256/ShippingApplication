@@ -11,7 +11,7 @@ namespace shipapp
     /// This class allows the user to add a validated user to the database
     /// and to edit an existing on
     /// </summary>
-    public partial class AddUser : Form
+    public partial class ManageUsers : Form
     {
         // Class level variables
         private string message;
@@ -23,7 +23,7 @@ namespace shipapp
         /// Form constructor
         /// </summary>
         /// <param name="message"></param>
-        public AddUser(string message)
+        public ManageUsers(string message)
         {
             InitializeComponent();
             this.message = message;
@@ -33,7 +33,7 @@ namespace shipapp
         /// </summary>
         /// <param name="message"></param>
         /// <param name="objectToBeEditied"></param>
-        public AddUser(string message, Object objectToBeEditied)
+        public ManageUsers(string message, Object objectToBeEditied)
         {
             InitializeComponent();
             this.message = message;
@@ -288,14 +288,14 @@ namespace shipapp
         {
             if (message == "ADD")
             {
-                using (AddNote note = new AddNote(newUser, true))
+                using (ManageNotes note = new ManageNotes(newUser, true))
                 {
                     note.ShowDialog();
                 }
             }
             else
             {
-                using (AddNote note = new AddNote(userToBeEdited, true))
+                using (ManageNotes note = new ManageNotes(userToBeEdited, true))
                 {
                     note.ShowDialog();
                 }
@@ -310,14 +310,14 @@ namespace shipapp
         {
             if (message == "ADD")
             {
-                using (AddNote note = new AddNote(newUser, false))
+                using (ManageNotes note = new ManageNotes(newUser, false))
                 {
                     note.ShowDialog();
                 }
             }
             else
             {
-                using (AddNote note = new AddNote(userToBeEdited, false))
+                using (ManageNotes note = new ManageNotes(userToBeEdited, false))
                 {
                     note.ShowDialog();
                 }

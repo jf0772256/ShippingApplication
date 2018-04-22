@@ -11,7 +11,7 @@ namespace shipapp
     /// <summary>
     /// This class allows the user to add a faculty to the database
     /// </summary>
-    public partial class AddFaculty : Form
+    public partial class ManageFaculty : Form
     {
         // Class level variables
         private Faculty newFaculty;
@@ -28,7 +28,7 @@ namespace shipapp
         /// <summary>
         /// Add a fauctly to the database
         /// </summary>
-        public AddFaculty(string message)
+        public ManageFaculty(string message)
         {
             InitializeComponent();
             NewFaculty = new Faculty();
@@ -37,7 +37,7 @@ namespace shipapp
         /// <summary>
         /// Add a fauctly to the database
         /// </summary>
-        public AddFaculty(string message, Object facultyToBeEdited)
+        public ManageFaculty(string message, Object facultyToBeEdited)
         {
             InitializeComponent();
             NewFaculty = (Faculty)facultyToBeEdited;
@@ -203,7 +203,7 @@ namespace shipapp
 
         private void BtnViewNotes_Click(object sender, EventArgs e)
         {
-            using (AddNote note = new AddNote(newFaculty, true))
+            using (ManageNotes note = new ManageNotes(newFaculty, true))
             {
                 note.ShowDialog();
             }
@@ -211,7 +211,7 @@ namespace shipapp
 
         private void BtnAddNote_Click(object sender, EventArgs e)
         {
-            using (AddNote note = new AddNote(newFaculty, false))
+            using (ManageNotes note = new ManageNotes(newFaculty, false))
             {
                 note.ShowDialog();
             }

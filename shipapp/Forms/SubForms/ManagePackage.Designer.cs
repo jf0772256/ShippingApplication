@@ -1,6 +1,6 @@
 ﻿namespace shipapp
 {
-    partial class AddPackage
+    partial class ManagePackage
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddPackage));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagePackage));
             this.lblPO = new System.Windows.Forms.Label();
             this.txtPO = new System.Windows.Forms.TextBox();
             this.lblCarrier = new System.Windows.Forms.Label();

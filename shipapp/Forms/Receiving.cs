@@ -330,7 +330,7 @@ namespace shipapp
         public void AddPackageToGrid()
         {
             message = "ADD";
-            AddPackage addPackage = new AddPackage(message, this);
+            ManagePackage addPackage = new ManagePackage(message, this);
             addPackage.ShowDialog();
         }
         #endregion
@@ -348,7 +348,7 @@ namespace shipapp
             Package packageToBeEdited = DataConnectionClass.DataLists.Packages.FirstOrDefault(pid => pid.PackageId == Convert.ToInt64(dataGridPackages.SelectedRows[0].Cells[0].Value));
             if (!(packageToBeEdited is null))
             {
-                AddPackage addPackage = new AddPackage(message, packageToBeEdited, this);
+                ManagePackage addPackage = new ManagePackage(message, packageToBeEdited, this);
                 addPackage.ShowDialog();
             }
             else

@@ -9,21 +9,21 @@ namespace shipapp
     /// <summary>
     /// This class will allow the users to add edit users
     /// </summary>
-    public partial class AddVendor : Form
+    public partial class ManageVendors : Form
     {
         // Class level variables
         private string message;
         private Vendors vendorToBeEdited;
 
 
-        public AddVendor(string message)
+        public ManageVendors(string message)
         {
             InitializeComponent();
             this.message = message;
         }
 
 
-        public AddVendor(string message, object vendorToBeEdited)
+        public ManageVendors(string message, object vendorToBeEdited)
         {
             InitializeComponent();
             this.message = message;

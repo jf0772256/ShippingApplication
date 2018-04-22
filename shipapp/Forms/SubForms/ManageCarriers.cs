@@ -9,21 +9,21 @@ namespace shipapp
     /// <summary>
     /// This class will allow the application to add and edit carriers
     /// </summary>
-    public partial class AddCarrier : Form
+    public partial class ManageCarrier : Form
     {
         // Class level variables
         private string message;
         private Carrier newCarrier;
 
 
-        public AddCarrier(string message)
+        public ManageCarrier(string message)
         {
             InitializeComponent();
             this.message = message;
         }
 
 
-        public AddCarrier(string message, Object carrierToBeEdited)
+        public ManageCarrier(string message, Object carrierToBeEdited)
         {
             InitializeComponent();
             this.message = message;

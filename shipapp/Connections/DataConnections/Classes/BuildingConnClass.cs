@@ -39,9 +39,9 @@ namespace shipapp.Connections.DataConnections.Classes
                     //
                 }
             }
-            else if (Sender is AddFaculty)
+            else if (Sender is ManageFaculty)
             {
-                shipapp.AddFaculty t = (shipapp.AddFaculty)Sender;
+                shipapp.ManageFaculty t = (shipapp.ManageFaculty)Sender;
                 DataConnectionClass.DataLists.BuildingNames = b;
                 foreach (BuildingClass bldg in DataConnectionClass.DataLists.BuildingNames)
                 {

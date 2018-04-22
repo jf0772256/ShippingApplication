@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace shipapp
 {
-    public partial class AddNote : Form
+    public partial class ManageNotes : Form
     {
         private Faculty Fac { get; set; }
         private User Usr { get; set; }
@@ -22,7 +22,7 @@ namespace shipapp
         /// </summary>
         /// <param name="sender">Object to get and add notes from/to</param>
         /// <param name="readOnly">Bool value if only for view</param>
-        public AddNote(object sender, bool readOnly)
+        public ManageNotes(object sender, bool readOnly)
         {
             AsReadOnly = readOnly;
             if (sender is Faculty)
