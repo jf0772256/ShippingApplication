@@ -6,12 +6,12 @@ using System.Windows.Forms;
 namespace shipapp
 {
     /// <summary>
-    /// Thic class handles the logging in of users
+    /// This class handles the logging in of users
     /// </summary>
     public partial class LogIn : Form
     {
         /// Class level variables
-        // Hard coded User
+        // Hard coded admin username and password chosen by Danny Lane
         private string testUsername = "admin";
         private string testPassword = "admin";
 
@@ -20,7 +20,7 @@ namespace shipapp
 
         #region Login Setup
         /// <summary>
-        /// Check the databse and load the data
+        /// Check the database and load the data
         /// </summary>
         public LogIn()
         {
@@ -55,7 +55,6 @@ namespace shipapp
         /// When the user attempts to login:
         /// On succed, login and proceed to main menu.
         /// On fail, promt the user to tray again.
-        /// STUB: TODO; Remove this line
         /// </summary>
         public void UserAuthenticating()
         {
@@ -64,30 +63,25 @@ namespace shipapp
             DataConnectionClass.UserConn.Authenticate.Password = txtBxPassword.Text;
 
             // Auth system for hardcoded admin value
-            if (txtBxUsername.Text == testUsername)// Test for first time setup with Hard coded username
+            if (txtBxUsername.Text == testUsername && txtBxPassword.Text == testPassword)// Test for first time setup with Hard coded username
             {
-                if (txtBxPassword.Text == testPassword)
+                
+                DataConnectionClass.AuthenticatedUser = new User()
                 {
-                    DataConnectionClass.AuthenticatedUser = new User()
+                    FirstName = "Super",
+                    LastName = "Admin",
+                    Level = new Models.ModelData.Role()
                     {
-                        FirstName = "Super",
-                        LastName = "Admin",
-                        Level = new Models.ModelData.Role()
-                        {
-                            Role_id = 0,
-                            Role_Title = "Super Admin"
-                        }
-                    };
-                    OnLoginSucceed();
-                }
-                else
-                {
-                    MessageBox.Show("Incorrect Username or Password.\r\nPlease try again...", "Try Again", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                        Role_id = 0,
+                        Role_Title = "Super Admin"
+                    }
+                };
+                OnLoginSucceed();
             }
-            // Test for users in database
+            // Test that user exist in database
             else
             {
+                // Grab the username and test the password
                 User Valid = DataConnectionClass.UserConn.Get1User(DataConnectionClass.UserConn.Authenticate.UserName);
                 DataConnectionClass.SuccessAuthenticating = DataConnectionClass.UserConn.CheckAuth(Valid);
                 if (DataConnectionClass.SuccessAuthenticating)
@@ -97,7 +91,7 @@ namespace shipapp
                 }
                 else
                 {
-                    MessageBox.Show("Incorrect Username or Password.\r\nPlease try again...", "Try Again", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Incorrect Username or Password.\r\nPlease try again...", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
