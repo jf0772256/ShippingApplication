@@ -20,7 +20,7 @@ namespace shipapp
         int role;
 
         // Access the login form
-        LogIn LogInForm { get; set; }
+        Login LogInForm { get; set; }
 
         #region MainMenu Setup
         /// <summary>
@@ -31,7 +31,7 @@ namespace shipapp
         /// -Back up to database if wither tuesday or thursday
         /// </summary>
         /// <param name="lif"></param>
-        public MainMenu(LogIn lif)
+        public MainMenu(Login lif)
         {
             InitializeComponent();
 

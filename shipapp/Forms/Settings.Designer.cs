@@ -62,7 +62,7 @@
             this.btnSubmit.BackColor = System.Drawing.Color.Transparent;
             this.btnSubmit.BackgroundImage = global::shipapp.Properties.Resources.android_archive;
             this.btnSubmit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnSubmit.Location = new System.Drawing.Point(218, 381);
+            this.btnSubmit.Location = new System.Drawing.Point(203, 326);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(48, 48);
             this.btnSubmit.TabIndex = 3;
@@ -86,7 +86,7 @@
             // dbhost
             // 
             this.dbhost.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dbhost.Location = new System.Drawing.Point(73, 46);
+            this.dbhost.Location = new System.Drawing.Point(62, 32);
             this.dbhost.Name = "dbhost";
             this.dbhost.Size = new System.Drawing.Size(189, 26);
             this.dbhost.TabIndex = 1;
@@ -96,7 +96,7 @@
             // dbname
             // 
             this.dbname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dbname.Location = new System.Drawing.Point(73, 102);
+            this.dbname.Location = new System.Drawing.Point(62, 84);
             this.dbname.Name = "dbname";
             this.dbname.Size = new System.Drawing.Size(189, 26);
             this.dbname.TabIndex = 2;
@@ -104,7 +104,7 @@
             // dbuser
             // 
             this.dbuser.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dbuser.Location = new System.Drawing.Point(73, 156);
+            this.dbuser.Location = new System.Drawing.Point(62, 136);
             this.dbuser.Name = "dbuser";
             this.dbuser.Size = new System.Drawing.Size(189, 26);
             this.dbuser.TabIndex = 3;
@@ -112,7 +112,7 @@
             // dbpass
             // 
             this.dbpass.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dbpass.Location = new System.Drawing.Point(73, 208);
+            this.dbpass.Location = new System.Drawing.Point(62, 188);
             this.dbpass.Name = "dbpass";
             this.dbpass.PasswordChar = '*';
             this.dbpass.Size = new System.Drawing.Size(189, 26);
@@ -121,7 +121,7 @@
             // dbport
             // 
             this.dbport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.dbport.Location = new System.Drawing.Point(73, 261);
+            this.dbport.Location = new System.Drawing.Point(62, 240);
             this.dbport.Name = "dbport";
             this.dbport.Size = new System.Drawing.Size(189, 26);
             this.dbport.TabIndex = 5;
@@ -131,7 +131,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(73, 23);
+            this.label2.Location = new System.Drawing.Point(65, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(173, 20);
             this.label2.TabIndex = 9;
@@ -141,7 +141,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(73, 75);
+            this.label3.Location = new System.Drawing.Point(66, 61);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(140, 20);
             this.label3.TabIndex = 10;
@@ -151,7 +151,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(73, 131);
+            this.label4.Location = new System.Drawing.Point(66, 113);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(176, 20);
             this.label4.TabIndex = 11;
@@ -161,7 +161,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(73, 185);
+            this.label5.Location = new System.Drawing.Point(65, 165);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(171, 20);
             this.label5.TabIndex = 12;
@@ -171,7 +171,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(76, 237);
+            this.label6.Location = new System.Drawing.Point(65, 217);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(211, 20);
             this.label6.TabIndex = 13;
@@ -180,7 +180,7 @@
             // BtnTest
             // 
             this.BtnTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnTest.Location = new System.Drawing.Point(77, 381);
+            this.BtnTest.Location = new System.Drawing.Point(62, 326);
             this.BtnTest.Name = "BtnTest";
             this.BtnTest.Size = new System.Drawing.Size(135, 48);
             this.BtnTest.TabIndex = 9;
@@ -192,7 +192,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(77, 294);
+            this.label1.Location = new System.Drawing.Point(66, 269);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(132, 20);
             this.label1.TabIndex = 15;
@@ -208,7 +208,7 @@
             "Select Database Type",
             "MySQL",
             "MS SQL Server"});
-            this.comboBox1.Location = new System.Drawing.Point(73, 317);
+            this.comboBox1.Location = new System.Drawing.Point(62, 292);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(189, 28);
             this.comboBox1.TabIndex = 6;
@@ -227,7 +227,7 @@
             this.groupBox1.Controls.Add(this.comboBox2);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Location = new System.Drawing.Point(21, 435);
+            this.groupBox1.Location = new System.Drawing.Point(15, 380);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(286, 81);
             this.groupBox1.TabIndex = 21;
@@ -284,7 +284,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.ClientSize = new System.Drawing.Size(336, 517);
+            this.ClientSize = new System.Drawing.Size(314, 471);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label1);

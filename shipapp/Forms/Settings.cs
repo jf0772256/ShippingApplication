@@ -141,8 +141,7 @@ namespace shipapp
         {
             this.Close();
         }
+
         #endregion
-
-
     }
 }

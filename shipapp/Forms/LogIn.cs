@@ -8,7 +8,7 @@ namespace shipapp
     /// <summary>
     /// This class handles the logging in of users
     /// </summary>
-    public partial class LogIn : Form
+    public partial class Login : Form
     {
         /// Class level variables
         // Hard coded admin username and password chosen by Danny Lane
@@ -22,7 +22,7 @@ namespace shipapp
         /// <summary>
         /// Check the database and load the data
         /// </summary>
-        public LogIn()
+        public Login()
         {
             InitializeComponent();
             DataConnectionClass.GetDatabaseData();

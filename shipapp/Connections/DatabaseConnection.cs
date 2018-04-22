@@ -695,7 +695,6 @@ namespace shipapp.Connections
                 using (OdbcCommand cmd = new OdbcCommand("",c,tr))
                 {
                     cmd.CommandText = "INSERT INTO notes (note_id,note_value)VALUES";
-                    int cnt = 0;
                     foreach (Note note in v)
                     {
                         if (note.Note_Id == 0)
