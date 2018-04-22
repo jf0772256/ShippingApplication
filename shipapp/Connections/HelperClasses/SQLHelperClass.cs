@@ -1,49 +1,98 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
 
 namespace shipapp.Connections.HelperClasses
 {
+    /// <summary>
+    /// SQL Helper class is a class that is designed to assist with the building on connection string parameters that are passed from settings to build the connection string that will function with either mssql or mysql.
+    /// </summary>
     class SQLHelperClass
     {
         #region Properties
+        /// <summary>
+        /// Location of db server
+        /// </summary>
         private string HostAddress { get; set; }
+        /// <summary>
+        /// Database name to use
+        /// </summary>
         private string DatabaseName { get; set; }
+        /// <summary>
+        /// user name to log in to the db server with
+        /// </summary>
         private string UserName { get; set; }
+        /// <summary>
+        /// user name password for the user that is attempting to conect to the database
+        /// </summary>
         private string Password { get; set; }
+        /// <summary>
+        /// Port number is optional but may be required in some cases
+        /// </summary>
         private int PortNumber { get; set; }
+        /// <summary>
+        /// The only part of this class used outside connection string building: Sets the database type, used heavily with the Database connection class.
+        /// </summary>
         private DatabaseType DatabaseConnectionType { get; set; }
+        /// <summary>
+        /// location to temp store the connection string until retreived and storted in a more permanant location.
+        /// </summary>
         private string BuiltConnectionString { get; set; }
         #endregion
         #region setters
+        /// <summary>
+        /// Method that will set the dbhost
+        /// </summary>
+        /// <param name="value">DB location</param>
+        /// <returns>SQLHelperClass</returns>
         public SQLHelperClass SetDBHost(string value)
         {
             HostAddress = value;
             return this;
         }
+        /// <summary>
+        /// Method that will set the dbname
+        /// </summary>
+        /// <param name="value">DB name</param>
+        /// <returns>SQLHelperClass</returns>
         public SQLHelperClass SetDBName(string value)
         {
             DatabaseName = value;
             return this;
         }
+        /// <summary>
+        /// Method that will set the dbusername
+        /// </summary>
+        /// <param name="value">DB username</param>
+        /// <returns>SQLHelperClass</returns>
         public SQLHelperClass SetUserName(string value)
         {
             UserName = value;
             return this;
         }
+        /// <summary>
+        /// Method that will set the dbuser password
+        /// </summary>
+        /// <param name="value">DB password</param>
+        /// <returns>SQLHelperClass</returns>
         public SQLHelperClass SetPassword(string value)
         {
             Password = value;
             return this;
         }
+        /// <summary>
+        /// Method that will set the dbport
+        /// </summary>
+        /// <param name="value">DB Portnumber</param>
+        /// <returns>SQLHelperClass</returns>
         public SQLHelperClass SetPortNumber(int value)
         {
             PortNumber = value;
             return this;
         }
+        /// <summary>
+        /// Method that will set the dbType
+        /// </summary>
+        /// <param name="value">DB type</param>
+        /// <returns>SQLHelperClass</returns>
         public SQLHelperClass SetDatabaseType(DatabaseType value)
         {
             DatabaseConnectionType = value;
@@ -51,13 +100,22 @@ namespace shipapp.Connections.HelperClasses
         }
         #endregion
         #region Enums
+        /// <summary>
+        /// The database type that the application will be connecting to
+        /// </summary>
         public enum DatabaseType
         {
             /// <summary>
             /// DO NOT USE THIS VALUE!!!
             /// </summary>
             Unset = 0,
+            /// <summary>
+            /// DB is a Microsoft SQL Server
+            /// </summary>
             MSSQL = 1,
+            /// <summary>
+            /// DB is a MySQL Server
+            /// </summary>
             MySQL = 2,
         }
         #endregion
@@ -78,6 +136,10 @@ namespace shipapp.Connections.HelperClasses
         }
         #endregion
         #region Methods
+        /// <summary>
+        /// Builds connection string and prepares it to be used by the application
+        /// </summary>
+        /// <returns>SQLHelperClass</returns>
         public SQLHelperClass BuildConnectionString()
         {
             string cs = null;
@@ -113,18 +175,48 @@ namespace shipapp.Connections.HelperClasses
             BuiltConnectionString = cs;
             return this;
         }
+        /// <summary>
+        /// Gets compiled connectionstring to test and or save in the main application
+        /// </summary>
+        /// <returns>String of the db connectionstring</returns>
         public string GetConnectionString()
         {
             return BuiltConnectionString;
         }
         #endregion
     }
+    /// <summary>
+    /// Exception handeler for exceptions when using this class
+    /// </summary>
     class SQLHelperException:Exception
     {
-        public string Message { get; private set; }
+        /// <summary>
+        /// exception message
+        /// </summary>
+        private string message;
+        /// <summary>
+        /// Gets the message in this instance
+        /// </summary>
+        /// <returns>xstring</returns>
+        public string GetMessage()
+        {
+            return message;
+        }
+        /// <summary>
+        /// sets message for the exception
+        /// </summary>
+        /// <param name="value">message to display</param>
+        private void SetMessage(string value)
+        {
+            message = value;
+        }
+        /// <summary>
+        /// constructor to exception
+        /// </summary>
+        /// <param name="message">Message to use</param>
         public SQLHelperException(string message)
         {
-            Message = message;
+            SetMessage(message);
         }
     }
 }

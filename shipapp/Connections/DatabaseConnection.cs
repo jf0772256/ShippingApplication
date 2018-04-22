@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Odbc;
-using System.Xml.Linq;
-using System.IO;
+﻿using shipapp.Connections.DataConnections;
 using shipapp.Connections.HelperClasses;
-using shipapp.Connections.DataConnections;
 using shipapp.Models;
 using shipapp.Models.ModelData;
+using System;
+using System.Collections.Generic;
+using System.Data.Odbc;
+using System.IO;
 
 namespace shipapp.Connections
 {
@@ -350,6 +344,10 @@ namespace shipapp.Connections
         #region Write Data To Database
         #region Writes
         #region Protected Writes
+        /// <summary>
+        /// Write user to the database
+        /// </summary>
+        /// <param name="newU">New User to write</param>
         protected void Write(User newU)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -446,6 +444,10 @@ namespace shipapp.Connections
                 throw new DatabaseConnectionException("You Must select a valid database type.", new ArgumentException(DBType.ToString() + " is invalid."));
             }
         }
+        /// <summary>
+        /// Write vendor to the database
+        /// </summary>
+        /// <param name="v">vendors</param>
         protected void Write(Vendors v)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -475,6 +477,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Write a new role to the database
+        /// </summary>
+        /// <param name="value">Role to write</param>
         protected void Write(Role value)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -502,6 +508,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Write Carrier to the database
+        /// </summary>
+        /// <param name="value">Carrier to write</param>
         protected void Write(Carrier value)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -532,6 +542,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Writes a faculty member to the database
+        /// </summary>
+        /// <param name="f">Faculty to add</param>
         protected void Write(Faculty f)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -567,6 +581,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Add building to the list
+        /// </summary>
+        /// <param name="v">Building to add</param>
         protected void Write(BuildingClass v)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -598,6 +616,11 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Write a package to the database
+        /// </summary>
+        /// <param name="p">Package to write</param>
+        /// <param name="datestring">last modify date - should be today</param>
         protected void Write(Package p, string datestring)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -643,6 +666,13 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Write audit data to the database
+        /// </summary>
+        /// <param name="auditaction">Action taken</param>
+        /// <param name="auditperson">Person taking action</param>
+        /// <param name="auditdate">Date of action</param>
+        /// <param name="audittime">Time of action</param>
         protected void Write(string auditaction, string auditperson, string auditdate, string audittime)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -678,6 +708,11 @@ namespace shipapp.Connections
         }
         #endregion
         #region Private Writes
+        /// <summary>
+        /// Writes new notes to notes table
+        /// </summary>
+        /// <param name="v">Notes object List</param>
+        /// <param name="personID">person id to associate the notes to</param>
         private void PWrite(List<Note> v, string personID)
         {
             if (v.Count <= 0)
@@ -731,6 +766,10 @@ namespace shipapp.Connections
         #endregion
         #endregion
         #region Updates
+        /// <summary>
+        /// Updates user in the database
+        /// </summary>
+        /// <param name="v">User object to update</param>
         protected void Update(User v)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -787,6 +826,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Update the vendor in the database
+        /// </summary>
+        /// <param name="v">Vendor to update</param>
         protected void Update(Vendors v)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -823,6 +866,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Updates Role Title
+        /// </summary>
+        /// <param name="value">Role to update</param>
         protected void Update(Role value)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -851,6 +898,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Updates carrier in the database
+        /// </summary>
+        /// <param name="value">Carrier Object</param>
         protected void Update(Carrier value)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -882,6 +933,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Update Faculty
+        /// </summary>
+        /// <param name="f">Faculty Object to update</param>
         protected void Update(Faculty f)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -916,6 +971,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Updates a package in the database
+        /// </summary>
+        /// <param name="p">Package Object to update</param>
         protected void Update(Package p)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -960,6 +1019,11 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Migrate package to todays list by updating last mod
+        /// </summary>
+        /// <param name="p">Package object to be edited</param>
+        /// <param name="datestring">todays date string</param>
         protected void Update(Package p,string datestring)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -993,6 +1057,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Update Building
+        /// </summary>
+        /// <param name="b">Building object to update</param>
         protected void Update(BuildingClass b)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -1022,6 +1090,11 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Updates the IDCounter table that handles the increment counter for the ids.
+        /// </summary>
+        /// <param name="i">counter used</param>
+        /// <param name="lid">id that was generated</param>
         internal void Update(long i, string lid)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -1053,6 +1126,10 @@ namespace shipapp.Connections
         }
         #endregion
         #region Deletes
+        /// <summary>
+        /// Deletes User from database
+        /// </summary>
+        /// <param name="v">User object to delete</param>
         protected void Delete(User v)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -1082,6 +1159,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Deletes faculty from the database
+        /// </summary>
+        /// <param name="v">Faculty</param>
         protected void Delete(Faculty v)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -1111,6 +1192,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Deletes Vendor from the database
+        /// </summary>
+        /// <param name="v">Vendors Object</param>
         protected void Delete(Vendors v)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -1138,6 +1223,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Deletes carrier from the database
+        /// </summary>
+        /// <param name="v">Carrier Object</param>
         protected void Delete(Carrier v)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -1165,6 +1254,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Deletes a Package from teh database 
+        /// </summary>
+        /// <param name="v">Package Object</param>
         protected void Delete(Package v)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -1194,6 +1287,10 @@ namespace shipapp.Connections
                 }
             }
         }
+        /// <summary>
+        /// Deletes a building from the database
+        /// </summary>
+        /// <param name="v">building object</param>
         protected void Delete(BuildingClass v)
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -1367,6 +1464,7 @@ namespace shipapp.Connections
         /// <summary>
         /// returns all users to dataconnection classes datalists class users binding list
         /// </summary>
+        /// <returns>Sortable Binding List of users</returns>
         protected SortableBindingList<User> GetUserList()
         {
             try
@@ -1521,6 +1619,7 @@ namespace shipapp.Connections
         /// <summary>
         /// Gets all vendors from the database
         /// </summary>
+        /// <returns>Sortable binding list of vendors</returns>
         protected SortableBindingList<Vendors> GetVendorsList()
         {
             try
@@ -1556,6 +1655,11 @@ namespace shipapp.Connections
                 return new SortableBindingList<Vendors>();
             }
         }
+        /// <summary>
+        /// Gets a carrier from the database
+        /// </summary>
+        /// <param name="id">Carrier id</param>
+        /// <returns>Carrier object</returns>
         protected Carrier Get_Carrier(long id)
         {
             try
@@ -1593,6 +1697,10 @@ namespace shipapp.Connections
                 return new Carrier();
             }
         }
+        /// <summary>
+        /// Gets a list of all carriers from inside the database
+        /// </summary>
+        /// <returns>Sortable binding list of carriers</returns>
         protected SortableBindingList<Carrier> Get_Carrier_List()
         {
             try
@@ -1631,6 +1739,11 @@ namespace shipapp.Connections
                 return new SortableBindingList<Carrier>();
             }
         }
+        /// <summary>
+        /// gets a single faculty from the database
+        /// </summary>
+        /// <param name="id">The id number of the faculty</param>
+        /// <returns>Faculty object</returns>
         protected Faculty Get_Faculty(long id)
         {
             try
@@ -1674,6 +1787,10 @@ namespace shipapp.Connections
                 return new Faculty();
             }
         }
+        /// <summary>
+        /// Gets a list of all faculty in the database
+        /// </summary>
+        /// <returns>Sortable Binding List of Faculty</returns>
         protected SortableBindingList<Faculty> Get_Faculty_List()
         {
             try
@@ -1714,6 +1831,11 @@ namespace shipapp.Connections
                 return new SortableBindingList<Faculty>();
             }
         }
+        /// <summary>
+        /// Gets a single Package object
+        /// </summary>
+        /// <param name="id"> Package Id Number to get</param>
+        /// <returns>Package Object</returns>
         protected Package Get_Package(long id)
         {
             try
@@ -1763,6 +1885,11 @@ namespace shipapp.Connections
                 return new Package();
             }
         }
+        /// <summary>
+        /// Gets a list of poackages that meet the date requested (Modified date)
+        /// </summary>
+        /// <param name="datetoget">date last modified to get</param>
+        /// <returns>Sortable Binding List of packages</returns>
         protected SortableBindingList<Package> Get_Package_List(string datetoget)
         {
             try
@@ -1812,6 +1939,12 @@ namespace shipapp.Connections
                 return new SortableBindingList<Package>();
             }
         }
+        /// <summary>
+        /// Gets a list of poackages that meet the date requested (Modified date) to date end by (modified date)
+        /// </summary>
+        /// <param name="startdate">date to start with</param>
+        /// <param name="enddate">date to end with</param>
+        /// <returns>Sortable Binding List of packages</returns>
         protected SortableBindingList<Package> Get_Package_List(string startdate,string enddate)
         {
             try
@@ -1861,6 +1994,10 @@ namespace shipapp.Connections
                 return new SortableBindingList<Package>();
             }
         }
+        /// <summary>
+        /// Gets a list of all buildings
+        /// </summary>
+        /// <returns>Sortable binding list of buildings</returns>
         protected SortableBindingList<BuildingClass> Get_Building_List()
         {
             try
@@ -1898,6 +2035,10 @@ namespace shipapp.Connections
                 return new SortableBindingList<BuildingClass>();
             }
         }
+        /// <summary>
+        /// Gets a list of activity logged by the auditor
+        /// </summary>
+        /// <returns>Sortable buinding list of Audit Items</returns>
         protected SortableBindingList<AuditItem> Get_Audit_Log()
         {
             try
@@ -1935,6 +2076,10 @@ namespace shipapp.Connections
                 return new SortableBindingList<AuditItem>();
             }
         }
+        /// <summary>
+        /// Gets the last numerical person id increment
+        /// </summary>
+        /// <returns>Long integer</returns>
         internal long GetLastNumericalId()
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -1959,6 +2104,10 @@ namespace shipapp.Connections
             }
             return i;
         }
+        /// <summary>
+        /// Gets the last person id saved to the database
+        /// </summary>
+        /// <returns>string</returns>
         internal string GetLastStringId()
         {
             ConnString = DataConnectionClass.ConnectionString;
@@ -2310,6 +2459,11 @@ namespace shipapp.Connections
         }
         #endregion
         #region private gets
+        /// <summary>
+        /// Gets the list of notes associated to a user via the person id
+        /// </summary>
+        /// <param name="person_id">Unique identifier that is created when the parent class is created. In classes will typically be identified as person id or note id</param>
+        /// <returns>list of note objects</returns>
         protected List<Note>GetNotesListById(string person_id)
         {
             try
@@ -2355,6 +2509,11 @@ namespace shipapp.Connections
                 return new List<Note>();
             }
         }
+        /// <summary>
+        /// This method is rarely used any longer with the sped up method this method is probably depricatible.
+        /// </summary>
+        /// <param name="id">Building Id to recover</param>
+        /// <returns>Building object</returns>
         private BuildingClass GetBuilding(long id)
         {
             try

@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace shipapp.Connections.HelperClasses
 {
+    /// <summary>
+    /// Class to try to minimize the ability for a general lookie leu from seeing contentce with out strong encryption that was unfeesible for clients systems and needs
+    /// </summary>
     class Serialize
     {
+        /// <summary>
+        /// Constructor (Note this is statically constructed fro project wide use, see DataConnectionClass)
+        /// </summary>
         public Serialize()
         {
 

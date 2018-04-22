@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using shipapp.Connections.DataConnections;
+using System;
 using System.Threading.Tasks;
-using shipapp.Connections.DataConnections;
-using shipapp.Connections.HelperClasses;
 
 namespace shipapp.Connections.HelperClasses
 {

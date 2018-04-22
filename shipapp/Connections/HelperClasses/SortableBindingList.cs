@@ -2,10 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Threading;
-using System.Threading.Tasks;
-using Extentions;
-using shipapp.Connections.HelperClasses;
 
 namespace shipapp.Connections.HelperClasses
 {
@@ -151,8 +147,17 @@ namespace shipapp.Connections.HelperClasses
 /// </summary>
 namespace Extentions
 {
+    /// <summary>
+    /// Exrends the SortibleBindingList to include some missing methods (foreach linq style, others) 
+    /// </summary>
     internal static class Extentions
     {
+        /// <summary>
+        /// For each method takes parameter and action then conducts the said action on parameter T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumeration">I value of the list items</param>
+        /// <param name="action">Action to be completed on I</param>
         public static void ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
         {
             foreach (T item in enumeration)
@@ -160,6 +165,11 @@ namespace Extentions
                 action(item);
             }
         }
+        /// <summary>
+        /// uppercases the first letter of a word passed to it retruning string
+        /// </summary>
+        /// <param name="value">word to be capitalized</param>
+        /// <returns>String that has been transformed</returns>
         public static string UppercaseFirstLetter(this string value)
         {
             // Uppercase the first letter in the string.

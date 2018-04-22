@@ -8,26 +8,54 @@ using shipapp.Connections.DataConnections.Classes;
 
 namespace shipapp.Connections.DataConnections
 {
+    /// <summary>
+    /// Static application wide control class
+    /// </summary>
     class DataConnectionClass
     {
+        /// <summary>
+        /// database name for use with in this class only
+        /// </summary>
         internal static string Dbname { get; set; }
+        /// <summary>
+        /// Static public instance of the SQL Helper Class
+        /// </summary>
         public static SQLHelperClass SQLHelper { get; set; }
+        /// <summary>
+        /// Static public of the database type enum; used through out the application
+        /// <see cref="SQLHelperClass"/>
+        /// </summary>
         public static SQLHelperClass.DatabaseType DBType { get; set; }
+        /// <summary>
+        /// Static public instance of the serialize class
+        /// </summary>
         public static Serialize Serialization { get; set; }
+        /// <summary>
+        /// public static connectionstring property
+        /// </summary>
         public static string ConnectionString { get; set; }
+        /// <summary>
+        /// public static long integer for use whin building unique identifiers.
+        /// </summary>
         private static long PersonIdNumberCounter { get; set; }
+        /// <summary>
+        /// person id as generated as a public static string
+        /// </summary>
         public static string PersonIdGenerated { get; set; }
+        /// <summary>
+        /// String of values to be uised in incrypting and decrypting the user passwords
+        /// </summary>
         public static string EncodeString { get; set; }
         /// <summary>
         /// methods to handle the back up and restore of the databse data
         /// </summary>
         public static Backup_DB_Class Backup_DB { get; set; }
         /// <summary>
-        /// Tester connection class and its methods amd properties
+        /// Tester connection class and its methods and properties
         /// </summary>
         public static TestConnClass TestConn { get; set; }
         /// <summary>
-        /// Users connection class and its methods amd properties
+        /// Users connection class and its methods and properties
         /// </summary>
         public static UserConnClass UserConn { get; set; }
         /// <summary>
@@ -70,6 +98,9 @@ namespace shipapp.Connections.DataConnections
         /// Successfully athenticated user object for use with in the application
         /// </summary>
         public static User AuthenticatedUser { get; set; }
+        /// <summary>
+        /// Instances the static vars
+        /// </summary>
         static DataConnectionClass()
         {
             Serialization = new Serialize();
@@ -86,6 +117,9 @@ namespace shipapp.Connections.DataConnections
             DataLists = new Lists();
             AuditLogConnClass = new Database_Audit();
         }
+        /// <summary>
+        /// called once during startup.
+        /// </summary>
         public DataConnectionClass()
         {
             GetDatabaseData();
