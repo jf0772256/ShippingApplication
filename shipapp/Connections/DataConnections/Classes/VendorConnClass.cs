@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using shipapp.Connections.HelperClasses;
 using shipapp.Models;
+using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using shipapp.Connections.HelperClasses;
 
 namespace shipapp.Connections.DataConnections.Classes
 {
@@ -14,12 +11,27 @@ namespace shipapp.Connections.DataConnections.Classes
     /// </summary>
     class VendorConnClass:DatabaseConnection
     {
+        /// <summary>
+        /// Form object sent.
+        /// </summary>
         object Sender { get; set; }
+        /// <summary>
+        /// constructor
+        /// </summary>
         public VendorConnClass():base() { }
+        /// <summary>
+        /// Gets single vendor object and returns
+        /// </summary>
+        /// <param name="id">Id to get</param>
+        /// <returns>Vendor object</returns>
         public Vendors GetVendor(long id)
         {
             return GetVendor_From_Database(id);
         }
+        /// <summary>
+        /// Gets vendors as a list - binds them to the datagrids in respective forms
+        /// </summary>
+        /// <param name="sender">Form object</param>
         public async void GetVendorList(object sender = null)
         {
             if (String.IsNullOrWhiteSpace(DataConnectionClass.ConnectionString))
@@ -51,6 +63,10 @@ namespace shipapp.Connections.DataConnections.Classes
                 DataConnectionClass.DataLists.Vendors = vend;
             }
         }
+        /// <summary>
+        /// passes new vendor to method to write it to the database
+        /// </summary>
+        /// <param name="value">Vendor to add</param>
         public void AddVendor(Vendors value)
         {
             Write(value);
@@ -59,10 +75,18 @@ namespace shipapp.Connections.DataConnections.Classes
         /// do not use yet.
         /// </summary>
         public void WriteAllVendors() { }
+        /// <summary>
+        /// Updates vendor in the database by calling the enclosed protected method to do so in the database
+        /// </summary>
+        /// <param name="value">Vendor object to update</param>
         public void UpdateVendor(Vendors value)
         {
             Update(value);
         }
+        /// <summary>
+        /// Deletes vendor from database
+        /// </summary>
+        /// <param name="v">Vendor to remove</param>
         public void DeleteVendor(Vendors v)
         {
             Delete(v);
