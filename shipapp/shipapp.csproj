@@ -52,47 +52,47 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connections\HelperClasses\DGVPrinter.cs" />
-    <Compile Include="Forms\SubForms\AddBuilding.cs">
+    <Compile Include="Forms\SubForms\ManageBuildings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\SubForms\AddBuilding.Designer.cs">
-      <DependentUpon>AddBuilding.cs</DependentUpon>
+    <Compile Include="Forms\SubForms\ManageBuildings.Designer.cs">
+      <DependentUpon>ManageBuildings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SubForms\AddCarrier.cs">
+    <Compile Include="Forms\SubForms\ManageCarriers.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\SubForms\AddCarrier.Designer.cs">
-      <DependentUpon>AddCarrier.cs</DependentUpon>
+    <Compile Include="Forms\SubForms\ManageCarriers.Designer.cs">
+      <DependentUpon>ManageCarriers.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SubForms\AddFaculty.cs">
+    <Compile Include="Forms\SubForms\ManageFacutly.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\SubForms\AddFaculty.Designer.cs">
-      <DependentUpon>AddFaculty.cs</DependentUpon>
+    <Compile Include="Forms\SubForms\ManageFacutly.Designer.cs">
+      <DependentUpon>ManageFacutly.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SubForms\AddNote.cs">
+    <Compile Include="Forms\SubForms\ManageNotes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\SubForms\AddNote.Designer.cs">
-      <DependentUpon>AddNote.cs</DependentUpon>
+    <Compile Include="Forms\SubForms\ManageNotes.Designer.cs">
+      <DependentUpon>ManageNotes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SubForms\AddPackage.cs">
+    <Compile Include="Forms\SubForms\ManagePackage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\SubForms\AddPackage.Designer.cs">
-      <DependentUpon>AddPackage.cs</DependentUpon>
+    <Compile Include="Forms\SubForms\ManagePackage.Designer.cs">
+      <DependentUpon>ManagePackage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SubForms\AddUser.cs">
+    <Compile Include="Forms\SubForms\ManageUsers.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\SubForms\AddUser.Designer.cs">
-      <DependentUpon>AddUser.cs</DependentUpon>
+    <Compile Include="Forms\SubForms\ManageUsers.Designer.cs">
+      <DependentUpon>ManageUsers.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SubForms\AddVendor.cs">
+    <Compile Include="Forms\SubForms\ManageVendors.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\SubForms\AddVendor.Designer.cs">
-      <DependentUpon>AddVendor.cs</DependentUpon>
+    <Compile Include="Forms\SubForms\ManageVendors.Designer.cs">
+      <DependentUpon>ManageVendors.cs</DependentUpon>
     </Compile>
     <Compile Include="Connections\DataConnections\Classes\Database_Audit.cs" />
     <Compile Include="Connections\DataConnections\Classes\BuildingConnClass.cs" />
@@ -164,26 +164,26 @@
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs" />
-    <EmbeddedResource Include="Forms\SubForms\AddBuilding.resx">
-      <DependentUpon>AddBuilding.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SubForms\ManageBuildings.resx">
+      <DependentUpon>ManageBuildings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SubForms\AddCarrier.resx">
-      <DependentUpon>AddCarrier.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SubForms\ManageCarriers.resx">
+      <DependentUpon>ManageCarriers.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SubForms\AddFaculty.resx">
-      <DependentUpon>AddFaculty.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SubForms\ManageFacutly.resx">
+      <DependentUpon>ManageFacutly.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SubForms\AddNote.resx">
-      <DependentUpon>AddNote.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SubForms\ManageNotes.resx">
+      <DependentUpon>ManageNotes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SubForms\AddPackage.resx">
-      <DependentUpon>AddPackage.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SubForms\ManagePackage.resx">
+      <DependentUpon>ManagePackage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SubForms\AddUser.resx">
-      <DependentUpon>AddUser.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SubForms\ManageUsers.resx">
+      <DependentUpon>ManageUsers.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SubForms\AddVendor.resx">
-      <DependentUpon>AddVendor.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\SubForms\ManageVendors.resx">
+      <DependentUpon>ManageVendors.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
