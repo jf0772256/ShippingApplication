@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using shipapp.Models.ModelData;
-
-namespace shipapp.Models
+﻿namespace shipapp.Models
 {
     /// <summary>
     /// Vendor Model Class
@@ -23,6 +16,10 @@ namespace shipapp.Models
         public Vendors()
         {
         }
+        /// <summary>
+        /// Overriding the tostring method
+        /// </summary>
+        /// <returns>String</returns>
         public override string ToString()
         {
             return VendorName;

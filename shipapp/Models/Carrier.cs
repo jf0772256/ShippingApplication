@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using shipapp.Models.ModelData;
-
-namespace shipapp.Models
+﻿namespace shipapp.Models
 {
     /// <summary>
     /// Carrier Model Class

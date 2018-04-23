@@ -1,10 +1,5 @@
-﻿using System;
+﻿using shipapp.Models.ModelData;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using shipapp.Models.ModelData;
-
 namespace shipapp.Models
 {
     /// <summary>
@@ -64,6 +59,9 @@ namespace shipapp.Models
         /// Package Status as either int or string(enum)
         /// </summary>
         public DeliveryStatus Status { get; set; }
+        /// <summary>
+        /// Building short name, as in abbreviation or known alias
+        /// </summary>
         public string DelivBuildingShortName { get; set; }
         /// <summary>
         /// constructor
