@@ -119,27 +119,27 @@ namespace shipapp.Connections.DataConnections.Classes
             string[] t = time.Split(':', '.');
             if (Convert.ToInt32(d[0]) <= 9)
             {
-                d[0] = "0" + d[0];
+                d[0] = "0" + Convert.ToInt32(d[0]).ToString();
             }
             if (Convert.ToInt32(d[1]) <= 9)
             {
-                d[1] = "0" + d[1];
+                d[1] = "0" + Convert.ToInt32(d[1]).ToString();
             }
             if (Convert.ToInt32(d[2]) <= 9)
             {
-                d[2] = "0" + d[2];
+                d[2] = "0" + Convert.ToInt32(d[2]).ToString();
             }
             if (Convert.ToInt32(t[0]) <= 9)
             {
-                t[0] = "0" + t[0];
+                t[0] = "0" + Convert.ToInt32(t[0]).ToString();
             }
             if (Convert.ToInt32(t[1]) <= 9)
             {
-                t[1] = "0" + t[1];
+                t[1] = "0" + Convert.ToInt32(t[1]).ToString();
             }
             if (Convert.ToInt32(t[2]) <= 9)
             {
-                t[2] = "0" + t[2];
+                t[2] = "0" + Convert.ToInt32(t[2]).ToString();
             }
             date = d[0] + "/" + d[1] + "/" + d[2];
             time = t[0] + ":" + t[1] + ":" + t[2] + "." + t[3];
