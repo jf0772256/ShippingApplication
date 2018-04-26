@@ -826,6 +826,7 @@ namespace shipapp
 
         private void cmboSignedBy_TextChanged(object sender, EventArgs e)
         {
+            selecteditem = cmboRecipiant.SelectedItem;
             if (cmboSignedBy.Text == "")
             {
                 isSlectedItem[2] = true;
@@ -847,6 +848,7 @@ namespace shipapp
 
         private void cmboVendor_SelectedIndexChanged(object sender, EventArgs e)
         {
+            cmboVendor_SelectionChangeCommitted(sender, e);
             if (selecteditem != null && selecteditem.ToString() == cmboVendor.Text)
             {
                 isSlectedItem[0] = true;
@@ -861,9 +863,11 @@ namespace shipapp
 
         private void cmboRecipiant_SelectedIndexChanged(object sender, EventArgs e)
         {
+            cmboRecipiant_SelectionChangeCommitted(sender, e);
             if (selecteditem != null && selecteditem.ToString() == cmboRecipiant.Text)
             {
                 isSlectedItem[1] = true;
+
             }
             else
             {
