@@ -35,7 +35,8 @@ namespace shipapp
         private BindingList<Carrier> carriers;
         private BindingList<BuildingClass> buildings;
         private BindingList<User> users;
-        private BindingList<AuditItem> auditItems; 
+        private BindingList<AuditItem> auditItems;
+        private BindingList<MailingList> mailingLists;
 
         // Helpers
         public object ObjectToBeEditied { get => objectToBeEditied; set => objectToBeEditied = value; }
@@ -888,8 +889,8 @@ namespace shipapp
             }
             else if (currentTable == 3)
             {
-                CreateLogList();
-                PrintPreview printPreview = new PrintPreview(faculties, currentTable + 2, null);
+                CreateMailingList();
+                PrintPreview printPreview = new PrintPreview(mailingLists, currentTable + 2, null);
                 printPreview.ShowDialog();
             }
             else if (currentTable == 4)
@@ -1080,6 +1081,27 @@ namespace shipapp
             btnCarriers.BackColor = SystemColors.ButtonFace;
             btnBuildings.BackColor = SystemColors.ButtonFace;
             btnOther.BackColor = SystemColors.ButtonFace;
+        }
+        /// <summary>
+        /// Fill a mailinglist with the selected items.
+        /// </summary>
+        public void CreateMailingList()
+        {
+            // Test for old list
+            if (mailingLists != null)
+            {
+                mailingLists.Clear();
+            }
+
+            // Create new list object
+            mailingLists = new BindingList<MailingList>();
+
+            // Fill list with logs
+            for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
+            {
+                // Convert packages to logs
+                mailingLists.Add(MailingList.ConveretToMailingListItem((Faculty)dataGridView1.SelectedRows[i].DataBoundItem));
+            }
         }
         #endregion
     }

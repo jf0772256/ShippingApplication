@@ -150,18 +150,19 @@ namespace shipapp
             else if (identity == 5)
             {
                 // Set headers
-                printer.Title = "Faculty";
-                printer.SubTitle += "Date: " + DateTime.Today.ToShortDateString();
+                printer.PrintRowHeaders = false;
                 printer.PageSettings.Landscape = false;
+                printer.PrintColumnHeaders = false;
+                printer.PrintFooter = false;
+                printer.PrintHeader = false;
+                
 
                 // Set page widths and font style
                 dataGridLog.Font = new Font("Microsoft Sans Serif", 16,FontStyle.Regular);
                 dataGridLog.Columns[0].Width = 0;
                 dataGridLog.Columns[1].Width = 0;
-                dataGridLog.Columns[2].Width = 75;
-                dataGridLog.Columns[3].Width = 75;
-                dataGridLog.Columns[4].Width = 25;
-                dataGridLog.Columns[5].Width = 35;
+                dataGridLog.Columns[2].Width = 0;
+                dataGridLog.Columns[3].Width = 0;
             }
             else if (identity == 6)
             {
@@ -331,18 +332,15 @@ namespace shipapp
             else if (identity == 5)
             {
                 // List is Faculty
-                this.Faculties = (BindingList<Models.Faculty>)list;
-                dataGridLog.DataSource = Faculties;
+                this.mailingLists = (BindingList<MailingList>)list;
+                dataGridLog.DataSource = mailingLists;
                 cmboClerk.Hide();
 
                 // Set grid columns
-                dataGridLog.Columns[0].Visible = false;
-                dataGridLog.Columns[1].Visible = false;
-                dataGridLog.Columns[2].HeaderText = "First Name";
-                dataGridLog.Columns[3].HeaderText = "Last Name";
-                dataGridLog.Columns[4].Visible = false;
-                dataGridLog.Columns[5].HeaderText = "Building";
-                dataGridLog.Columns[6].HeaderText = "Room #";
+                dataGridLog.Columns[0].HeaderText = "Name";
+                dataGridLog.Columns[1].HeaderText = "Building";
+                dataGridLog.Columns[2].HeaderText = "MailBox #";
+                dataGridLog.Columns[3].HeaderText = "Spacing";
             }
             else if (identity == 6)
             {

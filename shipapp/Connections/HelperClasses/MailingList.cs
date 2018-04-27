@@ -35,5 +35,17 @@ namespace shipapp.Connections.HelperClasses
         public string Location { get => location; set => location = value; }
         public string Mailbox { get => mailbox; set => mailbox = value; }
         public string PrintPadding { get => printPadding; set => printPadding = value; }
+
+
+
+        public static MailingList ConveretToMailingListItem(Models.Faculty faculty)
+        {
+            MailingList mailing = new MailingList();
+
+            mailing.Name = faculty.LastName + ", " + faculty.FirstName;
+            mailing.location = faculty.Building_Name;
+
+            return mailing;
+        }
     }
 }
