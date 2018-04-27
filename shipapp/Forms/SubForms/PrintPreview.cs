@@ -14,6 +14,7 @@ namespace shipapp
         private string clerk = "Null!";
         private int identity = 0;
         private BindingList<Log> logs;
+        private BindingList<MailingList> mailingLists;
         private BindingList<Models.Package> packages;
         private BindingList<Models.Faculty> Faculties;
         private BindingList<Models.Vendors> vendors;
