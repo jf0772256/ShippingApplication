@@ -254,13 +254,6 @@ namespace shipapp
                 cmboRecipiant.BackColor = Color.LightPink;
                 errorMsg += "\t-Must select a recipiant.\r\n";
             }
-            // Check that the package has a tracking number
-            if (String.IsNullOrWhiteSpace(txtTracking.Text))
-            {
-                pass = false;
-                txtTracking.BackColor = Color.LightPink;
-                errorMsg += "\t-Must include a tracking number.\r\n";
-            }
             // If the data is not correct alert the user with a message
             if (!pass)
             {
@@ -770,10 +763,6 @@ namespace shipapp
             newPackage.DelivBuildingShortName = cmboBuilding.Text;
         }
         #endregion
-        private void dTDel_MouseDown(object sender, MouseEventArgs e)
-        {
-            //dTDel.CalendarForeColor = Color.Black;
-        }
 
         private void btnAddNote_Click(object sender, EventArgs e)
         {

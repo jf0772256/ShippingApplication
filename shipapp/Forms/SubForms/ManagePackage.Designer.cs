@@ -314,7 +314,6 @@
             this.dTDel.Size = new System.Drawing.Size(158, 26);
             this.dTDel.TabIndex = 10;
             this.dTDel.Value = new System.DateTime(2018, 3, 30, 0, 0, 0, 0);
-            this.dTDel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dTDel_MouseDown);
             // 
             // label9
             // 
@@ -367,7 +366,7 @@
             this.lblroom.Size = new System.Drawing.Size(0, 20);
             this.lblroom.TabIndex = 40;
             // 
-            // AddPackage
+            // ManagePackage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -402,7 +401,7 @@
             this.Controls.Add(this.txtPO);
             this.Controls.Add(this.lblPO);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "AddPackage";
+            this.Name = "ManagePackage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add Package";
             this.Load += new System.EventHandler(this.AddPackage_Load);
