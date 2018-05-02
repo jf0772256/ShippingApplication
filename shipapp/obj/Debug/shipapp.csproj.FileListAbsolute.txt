@@ -284,3 +284,30 @@ C:\Users\Jesse Fender\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.Mana
 C:\Users\Jesse Fender\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.ManagePackage.resources
 C:\Users\Jesse Fender\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.ManageUsers.resources
 C:\Users\Jesse Fender\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.ManageVendors.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\bin\Debug\Connections\Assets\settings.xml
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\bin\Debug\Connections\Backup\DoNotModify.txt
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\bin\Debug\shipapp.exe.config
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\bin\Debug\shipapp.exe
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\bin\Debug\shipapp.pdb
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\bin\Debug\log4net.dll
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\bin\Debug\log4net.xml
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.csprojResolveAssemblyReference.cache
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.ManageBuilding.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.ManageCarrier.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.ManageFaculty.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.ManageNotes.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.ManagePackage.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.ManageUsers.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.ManageVendors.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.MainMenu.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.Login.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.Manage.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.PrintPreview.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.Properties.Resources.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.Receiving.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.Reports.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.Settings.resources
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.csproj.GenerateResource.Cache
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.csproj.CoreCompileInputs.cache
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.exe
+C:\Users\jf0772256\Desktop\ShipApp\shipapp\obj\Debug\shipapp.pdb

@@ -43,7 +43,7 @@ namespace shipapp.Connections.HelperClasses
             MailingList mailing = new MailingList();
 
             mailing.Name = faculty.LastName + ", " + faculty.FirstName;
-            mailing.location = faculty.Building_Name;
+            mailing.location = faculty.Building_Name + "     " + faculty.RoomNumber;
 
             return mailing;
         }
