@@ -115,6 +115,7 @@
             this.pcBxAddToDaily.Size = new System.Drawing.Size(35, 35);
             this.pcBxAddToDaily.TabIndex = 3;
             this.pcBxAddToDaily.TabStop = false;
+            this.toolTip1.SetToolTip(this.pcBxAddToDaily, "Send to Receiving");
             this.pcBxAddToDaily.Click += new System.EventHandler(this.pcBxAddToDaily_Click);
             // 
             // pictureBox7
@@ -127,6 +128,7 @@
             this.pictureBox7.Size = new System.Drawing.Size(35, 35);
             this.pictureBox7.TabIndex = 8;
             this.pictureBox7.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBox7, "User");
             this.pictureBox7.Click += new System.EventHandler(this.pictureBox7_Click);
             // 
             // lblSearch
@@ -139,7 +141,7 @@
             this.lblSearch.TabIndex = 10;
             this.lblSearch.Text = "Deliver To Short Name";
             this.lblSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolTip1.SetToolTip(this.lblSearch, "Click to Sign Out");
+            this.toolTip1.SetToolTip(this.lblSearch, "Search Catagory");
             // 
             // pcBxRefreash
             // 
@@ -151,6 +153,7 @@
             this.pcBxRefreash.Size = new System.Drawing.Size(35, 35);
             this.pcBxRefreash.TabIndex = 9;
             this.pcBxRefreash.TabStop = false;
+            this.toolTip1.SetToolTip(this.pcBxRefreash, "Refresh");
             this.pcBxRefreash.Click += new System.EventHandler(this.pcBxRefreash_Click);
             // 
             // txtSearch
@@ -160,6 +163,7 @@
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(185, 26);
             this.txtSearch.TabIndex = 11;
+            this.toolTip1.SetToolTip(this.txtSearch, "Search Box");
             this.txtSearch.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSearch_KeyUp);
             // 
             // dTFrom
@@ -171,6 +175,8 @@
             this.dTFrom.Name = "dTFrom";
             this.dTFrom.Size = new System.Drawing.Size(146, 26);
             this.dTFrom.TabIndex = 12;
+            this.toolTip1.SetToolTip(this.dTFrom, "End Date");
+            this.dTFrom.UseWaitCursor = true;
             this.dTFrom.ValueChanged += new System.EventHandler(this.dTFrom_ValueChanged);
             // 
             // label2
@@ -192,6 +198,7 @@
             this.label3.Size = new System.Drawing.Size(29, 20);
             this.label3.TabIndex = 15;
             this.label3.Text = "To";
+            this.toolTip1.SetToolTip(this.label3, "Start Date");
             // 
             // dTTo
             // 
@@ -214,6 +221,7 @@
             this.pcBxPrint.Size = new System.Drawing.Size(35, 35);
             this.pcBxPrint.TabIndex = 16;
             this.pcBxPrint.TabStop = false;
+            this.toolTip1.SetToolTip(this.pcBxPrint, "Print History");
             this.pcBxPrint.Click += new System.EventHandler(this.pcBxPrint_Click);
             // 
             // Reports

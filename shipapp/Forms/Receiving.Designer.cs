@@ -102,6 +102,7 @@
             this.pictureBox8.Size = new System.Drawing.Size(38, 35);
             this.pictureBox8.TabIndex = 10;
             this.pictureBox8.TabStop = false;
+            this.toolTip1.SetToolTip(this.pictureBox8, "User");
             this.pictureBox8.Click += new System.EventHandler(this.pictureBox8_Click);
             // 
             // pictureBox6
@@ -127,6 +128,7 @@
             this.pcBXRefreash.Size = new System.Drawing.Size(35, 35);
             this.pcBXRefreash.TabIndex = 7;
             this.pcBXRefreash.TabStop = false;
+            this.toolTip1.SetToolTip(this.pcBXRefreash, "Refresh");
             this.pcBXRefreash.Click += new System.EventHandler(this.pcBXRefreash_Click);
             // 
             // pcBxPrint
@@ -191,6 +193,7 @@
             this.txtSearch.Size = new System.Drawing.Size(186, 26);
             this.txtSearch.TabIndex = 11;
             this.txtSearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.toolTip1.SetToolTip(this.txtSearch, "Search Box");
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // lblSearch
@@ -202,6 +205,7 @@
             this.lblSearch.TabIndex = 12;
             this.lblSearch.Text = "Deliver To Short Name";
             this.lblSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTip1.SetToolTip(this.lblSearch, "Search Catagory");
             // 
             // Receiving
             // 

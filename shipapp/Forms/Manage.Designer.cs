@@ -172,6 +172,7 @@
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(170, 26);
             this.txtSearch.TabIndex = 10;
+            this.txtSearch.Text = "Search Box";
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // label1
