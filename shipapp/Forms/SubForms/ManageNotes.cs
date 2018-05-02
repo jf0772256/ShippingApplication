@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace shipapp
 {
+    /// <summary>
+    /// This class alows the user to create and view notes
+    /// </summary>
     public partial class ManageNotes : Form
     {
         private Faculty Fac { get; set; }
@@ -81,6 +84,11 @@ namespace shipapp
                 }
             }
         }
+        /// <summary>
+        /// Determine if read only and type of note
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddNote_Load(object sender, EventArgs e)
         {
             if (AsReadOnly)

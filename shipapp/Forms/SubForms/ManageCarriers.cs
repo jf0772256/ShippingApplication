@@ -16,6 +16,10 @@ namespace shipapp
         private Carrier newCarrier;
 
 
+        /// <summary>
+        /// Set Add
+        /// </summary>
+        /// <param name="message"></param>
         public ManageCarrier(string message)
         {
             InitializeComponent();
@@ -23,6 +27,11 @@ namespace shipapp
         }
 
 
+        /// <summary>
+        /// Set edit
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="carrierToBeEdited"></param>
         public ManageCarrier(string message, Object carrierToBeEdited)
         {
             InitializeComponent();
@@ -31,6 +40,11 @@ namespace shipapp
         }
 
 
+        /// <summary>
+        /// Set set for to edit oif message is edit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddCarrier_Load(object sender, EventArgs e)
         {
             if (message == "EDIT")

@@ -23,6 +23,11 @@ namespace shipapp
         private object selecteditem = null;
 
         #region form basic
+        /// <summary>
+        /// Cronstructor for adding a package
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="parent"></param>
         public ManagePackage(string message, Receiving parent)
         {
             ParentForm = parent;
@@ -34,6 +39,12 @@ namespace shipapp
             cmboStatus.Items.Add("Delivered");
             RefreshLists();
         }
+        /// <summary>
+        /// Constructor for editing a package
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="packageToBeEdited"></param>
+        /// <param name="parent"></param>
         public ManagePackage(string message, object packageToBeEdited, Receiving parent)
         {
             InitializeComponent();
@@ -46,6 +57,9 @@ namespace shipapp
             cmboStatus.Items.Add("Delivered");
             RefreshLists();
         }
+        /// <summary>
+        /// Refresh the data lists
+        /// </summary>
         private void RefreshLists()
         {
             DataConnectionClass.UserConn.GetManyUsers();
@@ -54,6 +68,11 @@ namespace shipapp
             DataConnectionClass.buildingConn.GetBuildingList();
             DataConnectionClass.EmployeeConn.GetAllAfaculty();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddPackage_Load(object sender, EventArgs e)
         {
             isSlectedItem[0] = false;
@@ -89,7 +108,8 @@ namespace shipapp
                 {
                     cmboDelBy.Items.Add(usr.ToFormattedString());
                 }
-                // TODO: Filter ComboBoxe with correct info  
+
+                // Set fields to correct data
                 txtPO.Text = newPackage.PONumber;
                 txtTracking.Text = newPackage.PackageTrackingNumber;
                 cmboCarrier.SelectedItem = newPackage.PackageCarrier;
@@ -102,6 +122,7 @@ namespace shipapp
                 string[] parts = newPackage.DelivBuildingShortName.Split(' ');
                 cmboBuilding.SelectedItem = parts[0];
 
+                // Test for receiving status
                 if (newPackage.Status == Package.DeliveryStatus.Not_Received)
                 {
                     dTRec.Enabled = true;
@@ -111,6 +132,7 @@ namespace shipapp
                     dTRec.Enabled = false;
                 }
 
+                // Format room number
                 if (parts.Length == 2)
                 {
                     lblroom.Text = parts[1];
@@ -278,6 +300,8 @@ namespace shipapp
             newPackage.PackageReceivedDate = dTRec.Value.ToShortDateString();
             newPackage.PackageDeliveredDate = dTDel.Value.ToShortDateString();
             newPackage.Package_PersonId = txtRoleId.Text;
+
+            // Iclude a room number if one exist
             if (!String.IsNullOrWhiteSpace(lblroom.Text))
             {
                 newPackage.DelivBuildingShortName = cmboBuilding.Text + " " + lblroom.Text;
@@ -311,6 +335,11 @@ namespace shipapp
 
             return 0;
         }
+        /// <summary>
+        /// Set delivery status
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmboStatus_SelectionChangeCommitted(object sender, EventArgs e)
         {
             switch (cmboStatus.SelectedItem)
@@ -329,6 +358,11 @@ namespace shipapp
                     break;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmboStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (cmboStatus.SelectedItem)
@@ -348,6 +382,11 @@ namespace shipapp
             }
         }
         #region For creation of the person id on the fly
+        /// <summary>
+        /// formate PID
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtPO_Leave(object sender, EventArgs e)
         {
             if (message != "EDIT" || (message == "ADD" && newPackage.Notes.Count == 0))
@@ -425,6 +464,11 @@ namespace shipapp
                 txtRoleId.Text = DataConnectionClass.PersonIdGenerated;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmboCarrier_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (message != "EDIT" || (message == "ADD" && newPackage.Notes.Count == 0))
@@ -764,6 +808,11 @@ namespace shipapp
         }
         #endregion
 
+        /// <summary>
+        /// Add Note
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddNote_Click(object sender, EventArgs e)
         {
             using (ManageNotes note = new ManageNotes(newPackage, false))
@@ -772,6 +821,11 @@ namespace shipapp
             }
         }
 
+        /// <summary>
+        /// View Note
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnViewNote_Click(object sender, EventArgs e)
         {
             using (ManageNotes note = new ManageNotes(newPackage, true))
@@ -780,6 +834,10 @@ namespace shipapp
             }
         }
 
+        /// <summary>
+        /// Test that required fields are present in combo boxes
+        /// </summary>
+        /// <returns></returns>
         public bool IsRequiredItemsSelected()
         {
             bool pass = true;
@@ -806,6 +864,11 @@ namespace shipapp
             return pass;
         }
 
+        /// <summary>
+        /// Set signed by
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmboSignedBy_SelectionChangeCommitted(object sender, EventArgs e)
         {
             isSlectedItem[2] = true;
@@ -813,6 +876,11 @@ namespace shipapp
             btnReceive.Enabled = IsRequiredItemsSelected();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmboSignedBy_TextChanged(object sender, EventArgs e)
         {
             selecteditem = cmboRecipiant.SelectedItem;

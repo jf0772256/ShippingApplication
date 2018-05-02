@@ -16,6 +16,10 @@ namespace shipapp
         private BuildingClass newBuilding;
 
 
+        /// <summary>
+        /// Set to Add
+        /// </summary>
+        /// <param name="message"></param>
         public ManageBuilding(string message)
         {
             InitializeComponent();
@@ -23,6 +27,11 @@ namespace shipapp
         }
 
 
+        /// <summary>
+        /// Set to Edit
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="buildingToBeEdited"></param>
         public ManageBuilding(string message, Object buildingToBeEdited)
         {
             InitializeComponent();
@@ -31,6 +40,11 @@ namespace shipapp
         }
 
 
+        /// <summary>
+        /// If message is edit set form to edit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddBuilding_Load(object sender, EventArgs e)
         {
             if (message == "EDIT")
@@ -63,6 +77,10 @@ namespace shipapp
         }
 
 
+        /// <summary>
+        /// Validate data
+        /// </summary>
+        /// <returns></returns>
         public bool ValidateData()
         {
             // Method level variables
@@ -92,6 +110,9 @@ namespace shipapp
         }
 
 
+        /// <summary>
+        /// Reset error colors
+        /// </summary>
         public void ResetError()
         {
             textBox1.BackColor = Color.White;
@@ -99,6 +120,9 @@ namespace shipapp
         }
 
 
+        /// <summary>
+        /// Grab the data and add it to the database
+        /// </summary>
         public void AddBuildingToDb()
         {
             newBuilding = new BuildingClass();
@@ -111,6 +135,9 @@ namespace shipapp
         }
 
 
+        /// <summary>
+        /// Grab the data and edit the building in the databse
+        /// </summary>
         public void EditBuilding()
         {
             string oldname = newBuilding.BuildingLongName;

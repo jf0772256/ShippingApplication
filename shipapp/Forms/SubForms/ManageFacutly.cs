@@ -112,10 +112,18 @@ namespace shipapp
             txtLastName.BackColor = Color.White;
             txtId2.BackColor = Color.White;
         }
+        /// <summary>
+        /// Get the building list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddFaculty_Load(object sender, EventArgs e)
         {
             DataConnectionClass.buildingConn.GetBuildingList(this);
         }
+        /// <summary>
+        /// Grab the data and add it to the database
+        /// </summary>
         public void AddFacultyToDb()
         {
             NewFaculty.FirstName = txtFirstName.Text;
@@ -131,6 +139,9 @@ namespace shipapp
             DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added a new faculty member: " + newFaculty.ToNormalNameString());
             this.Close();
         }
+        /// <summary>
+        /// Edit a faculty memeber
+        /// </summary>
         public void EditFaculty()
         {
             NewFaculty.FirstName = txtFirstName.Text;
@@ -146,6 +157,11 @@ namespace shipapp
             DataConnectionClass.AuditLogConnClass.AddRecordToAudit("edited faculty member: " + NewFaculty.ToNormalNameString());
             this.Close();
         }
+        /// <summary>
+        /// On Add create a personid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtFirstName_Leave(object sender, EventArgs e)
         {
             if (!String.IsNullOrWhiteSpace(txtFirstName.Text) && message != "EDIT")
@@ -162,6 +178,11 @@ namespace shipapp
                 }
             }
         }
+        /// <summary>
+        ///  On Add create a peroson Id
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtLastName_Leave(object sender, EventArgs e)
         {
             if (!String.IsNullOrWhiteSpace(txtFirstName.Text) && !String.IsNullOrWhiteSpace(txtLastName.Text) && message != "EDIT")
@@ -201,7 +222,12 @@ namespace shipapp
             }
         }
 
-        private void BtnViewNotes_Click(object sender, EventArgs e)
+       /// <summary>
+       /// Show read olny notes
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
+       private void BtnViewNotes_Click(object sender, EventArgs e)
         {
             using (ManageNotes note = new ManageNotes(newFaculty, true))
             {
@@ -209,6 +235,11 @@ namespace shipapp
             }
         }
 
+        /// <summary>
+        /// show view and add notes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnAddNote_Click(object sender, EventArgs e)
         {
             using (ManageNotes note = new ManageNotes(newFaculty, false))

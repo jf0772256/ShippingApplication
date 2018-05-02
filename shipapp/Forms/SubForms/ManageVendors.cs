@@ -16,21 +16,26 @@ namespace shipapp
         private Vendors vendorToBeEdited;
 
 
+        /// <summary>
+        /// Add Constructor
+        /// </summary>
+        /// <param name="message"></param>
         public ManageVendors(string message)
         {
             InitializeComponent();
             this.message = message;
         }
-
-
+        /// <summary>
+        /// Edit Constructor
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="vendorToBeEdited"></param>
         public ManageVendors(string message, object vendorToBeEdited)
         {
             InitializeComponent();
             this.message = message;
             this.vendorToBeEdited = (Vendors)vendorToBeEdited;
         }
-
-
         /// <summary>
         /// IF the user trys to edit a vendor set the form to edit
         /// </summary>
@@ -49,8 +54,6 @@ namespace shipapp
                 btnAdd.Text = "EDIT";
             }
         }
-
-
         /// <summary>
         /// Whene the user clicks this button it will check the data, add it to the DB, and close the form.
         /// </summary>
@@ -86,8 +89,6 @@ namespace shipapp
                 MessageBox.Show("All fields must have correct data!", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
-
-
         /// <summary>
         /// Reset the back color after an error
         /// </summary>
@@ -95,8 +96,6 @@ namespace shipapp
         {
             txtName.BackColor = Color.White;
         }
-
-
         /// <summary>
         /// Test the data before writing it to the database
         /// </summary>
@@ -123,8 +122,6 @@ namespace shipapp
 
             return pass;
         }
-
-
         /// <summary>
         /// Add vendor to the database
         /// </summary>
@@ -141,8 +138,6 @@ namespace shipapp
             DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added a new vendor " + vendorToBeAdded.VendorName);
             
         }
-
-        
         /// <summary>
         /// Edit a vendor in the DB
         /// </summary>
