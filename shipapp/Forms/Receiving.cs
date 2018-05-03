@@ -431,6 +431,10 @@ namespace shipapp
         public void Refreash()
         {
             DataConnectionClass.PackageConnClass.GetPackageList(this);
+            DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
+            DataConnectionClass.VendorConn.GetVendorList(this);
+            DataConnectionClass.CarrierConn.GetCarrierList(this);
+            DataConnectionClass.buildingConn.GetBuildingList(this);
         }
         #endregion
 
