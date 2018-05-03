@@ -72,6 +72,16 @@ namespace shipapp.Models
             Status = 0;
         }
         /// <summary>
+        /// Converts normal string to 'lastname, firstname'
+        /// </summary>
+        /// <param name="unformatted">name as 'firstname lastname'</param>
+        /// <returns>formatted string</returns>
+        public string ReFormattedString(string unformatted)
+        {
+            string[] parts = unformatted.Split(' ');
+            return parts[1] + ", " + parts[0];
+        }
+        /// <summary>
         /// ENUM of Package statuses
         /// </summary>
         public enum DeliveryStatus

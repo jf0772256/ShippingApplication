@@ -229,6 +229,8 @@
             this.cmboDelBy.Name = "cmboDelBy";
             this.cmboDelBy.Size = new System.Drawing.Size(158, 28);
             this.cmboDelBy.TabIndex = 8;
+            this.cmboDelBy.SelectedIndexChanged += new System.EventHandler(this.cmboDelBy_SelectedIndexChanged);
+            this.cmboDelBy.SelectionChangeCommitted += new System.EventHandler(this.cmboDelBy_SelectionChangeCommitted);
             // 
             // cmboSignedBy
             // 

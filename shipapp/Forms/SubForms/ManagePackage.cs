@@ -126,7 +126,7 @@ namespace shipapp
                 cmboVendor.SelectedItem = newPackage.PackageVendor;
                 cmboRecipiant.SelectedItem = newPackage.PackageDeliveredTo;
                 cmboSignedBy.SelectedItem = newPackage.PackageSignedForBy;
-                cmboDelBy.SelectedItem = newPackage.PackageDeleveredBy;
+                cmboDelBy.SelectedItem = newPackage.ReFormattedString(newPackage.PackageDeleveredBy);
                 cmboStatus.SelectedItem = newPackage.Status.ToString();
                 txtRoleId.Text = newPackage.Package_PersonId;
                 string[] parts = newPackage.DelivBuildingShortName.Split(' ');
@@ -997,6 +997,17 @@ namespace shipapp
             }
             selecteditem = null;
             btnReceive.Enabled = IsRequiredItemsSelected();
+        }
+
+        private void cmboDelBy_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            selecteditem = cmboDelBy.SelectedItem;
+            cmboDelBy.Text = selecteditem.ToString();
+        }
+
+        private void cmboDelBy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cmboDelBy_SelectionChangeCommitted(this, e);
         }
     }
 }
