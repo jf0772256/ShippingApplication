@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Linq;
 namespace shipapp.Connections.DataConnections.Classes
 {
     /// <summary>
@@ -57,6 +58,9 @@ namespace shipapp.Connections.DataConnections.Classes
             {
                 pack.ForEach(i => { i.PackageDeliveredDate = ReturnUSStandardDateFormat(i.PackageDeliveredDate); i.PackageReceivedDate = ReturnUSStandardDateFormat(i.PackageReceivedDate); });
                 Receiving t = (Receiving)Sender;
+                List<Package> tempLst = new List<Package>();
+                pack.ForEach(i => tempLst.Add(i));
+                pack = new SortableBindingList<Package>(tempLst.OrderBy(i => i.DelivBuildingShortName).ToList());
                 DataConnectionClass.DataLists.Packages = pack;
                 BindingSource bs = new BindingSource
                 {
@@ -80,6 +84,9 @@ namespace shipapp.Connections.DataConnections.Classes
             Sender = sender;
             string test1 = FormatDateString(dt1.ToString()), test2 = FormatDateString(dt2.ToString());
             SortableBindingList<Package> hist = await Task.Run(() => Get_Package_List(test2, test1));
+            List<Package> tempLst = new List<Package>();
+            hist.ForEach(i => tempLst.Add(i));
+            hist = new SortableBindingList<Package>(tempLst.OrderBy(i => i.Status).ToList());
             if (Sender is Reports t)
             {
                 DataConnectionClass.DataLists.PackageHistory = hist;
@@ -102,6 +109,9 @@ namespace shipapp.Connections.DataConnections.Classes
             Sender = sender;
             string test1 = FormatDateString(dt1.ToString()), test2 = FormatDateString(dt2.ToString());
             SortableBindingList<Package> hist = await Task.Run(() => Get_Package_List(test2, test1));
+            List<Package> tempLst = new List<Package>();
+            hist.ForEach(i => tempLst.Add(i));
+            hist = new SortableBindingList<Package>(tempLst.OrderBy(i => i.Status).ToList());
             if (Sender is Reports t)
             {
                 DataConnectionClass.DataLists.PackageHistory = hist;
@@ -125,6 +135,9 @@ namespace shipapp.Connections.DataConnections.Classes
             Sender = sender;
             string test1 = FormatDateString(dt1.ToString()), test2 = FormatDateString(dt2.ToString());
             SortableBindingList<Package> hist = await Task.Run(() => Get_Package_List(test2, test1));
+            List<Package> tempLst = new List<Package>();
+            hist.ForEach(i => tempLst.Add(i));
+            hist = new SortableBindingList<Package>(tempLst.OrderBy(i => i.Status).ToList());
             if (Sender is Reports t)
             {
                 DataConnectionClass.DataLists.PackageHistory = hist;
