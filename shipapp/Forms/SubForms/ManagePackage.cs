@@ -101,7 +101,6 @@ namespace shipapp
                 foreach (Faculty fac in DataConnectionClass.DataLists.FacultyList)
                 {
                     cmboRecipiant.Items.Add(fac.ToString());
-                    cmboRecipiant.Sorted = true;
                     cmboSignedBy.Items.Add(fac.ToString());
                 }
                 foreach (BuildingClass bldg in DataConnectionClass.DataLists.BuildingNames)
@@ -172,7 +171,6 @@ namespace shipapp
                 foreach (Faculty fac in DataConnectionClass.DataLists.FacultyList)
                 {
                     cmboRecipiant.Items.Add(fac.ToString());
-                    cmboRecipiant.Sorted = true;
                     cmboSignedBy.Items.Add(fac.ToString());
                 }
                 foreach (BuildingClass bldg in DataConnectionClass.DataLists.BuildingNames)
@@ -184,6 +182,10 @@ namespace shipapp
                     cmboDelBy.Items.Add(usr.ToFormattedString());
                 }
             }
+            cmboRecipiant.Sorted = true;
+            cmboSignedBy.Sorted = true;
+            cmboVendor.Sorted = true;
+            cmboCarrier.Sorted = true;
         }
         #endregion
         #region Form Add
