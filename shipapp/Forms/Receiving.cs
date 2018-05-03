@@ -53,6 +53,7 @@ namespace shipapp
             SetRole();
             GetPackages();
             lblSearch.Text = "";
+            DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
             // Disable search until a column is selected
             if (lblSearch.Text.Length == 0)
             {

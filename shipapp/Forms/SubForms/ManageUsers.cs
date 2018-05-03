@@ -19,6 +19,7 @@ namespace shipapp
         private char c = '\u2022';
         private User newUser = new User();
         
+        
         /// <summary>
         /// Form constructor
         /// </summary>
