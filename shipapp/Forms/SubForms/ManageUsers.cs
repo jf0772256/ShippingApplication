@@ -4,6 +4,7 @@ using shipapp.Models.ModelData;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace shipapp
 {
@@ -18,8 +19,9 @@ namespace shipapp
         private User userToBeEdited;
         private char c = '\u2022';
         private User newUser = new User();
-        
-        
+        private Regex passwordReg = new Regex(@"(?=^.{8,15}$)(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?!.*\s).*$");
+
+
         /// <summary>
         /// Form constructor
         /// </summary>
@@ -77,7 +79,7 @@ namespace shipapp
             ResetError();
 
             // Test data before writing to the DB
-            if (ValidateData() && message == "ADD") // If adding a user
+            if (message == "ADD" && ValidateData()) // If adding a user
             {
                 // Fill entity
                 newUser.FirstName = txtFirstName.Text;
@@ -93,7 +95,7 @@ namespace shipapp
                 DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added a new user: " + newUser.ToString());
                 this.Close();
             }
-            else if (ValidateData() && message == "EDIT") // If editing the user
+            else if (message == "EDIT" && ValidateData()) // If editing the user
             {
                 // Create user entity
                 User newUser = new User();
@@ -179,6 +181,20 @@ namespace shipapp
             {
                 pass = false;
                 txtBoxPersonId.BackColor = Color.LightPink;
+            }
+
+            if (!passwordReg.IsMatch(txtPassword.Text))
+            {
+                pass = false;
+                txtPassword.BackColor = Color.LightPink;
+
+                // alert user of bad password
+                MessageBox.Show("It looks like there was an issue with your Password.\r\n" +
+                    "Passwords must be:\r\n"
+                    + c.ToString() + "between 8 and 15 characters long\r\n" 
+                    + c.ToString() + "contain at least one number\r\n" 
+                    + c.ToString() + "contain at least one uppercase letter\r\n" 
+                    + c.ToString() + "must contain at least one lowercase letter", "Uh-oh", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
             return pass;
