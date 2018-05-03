@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using shipapp.Models;
+using shipapp.Models.ModelData;
+using System.Linq;
 
 namespace shipapp
 {
@@ -13,16 +16,16 @@ namespace shipapp
         // Class level variabels
         private string clerk = "Null!";
         private int identity = 0;
-        private BindingList<Log> logs;
-        private BindingList<MailingList> mailingLists;
-        private BindingList<Models.Package> packages;
-        private BindingList<Models.Faculty> Faculties;
-        private BindingList<Models.Vendors> vendors;
-        private BindingList<Models.Carrier> carriers;
-        private BindingList<Models.ModelData.BuildingClass> buildings;
-        private BindingList<Models.User> users;
-        private BindingList<Models.AuditItem> auditItems;
-        private List<Models.Package> printPackages;
+        private List<Log> logs;
+        private List<MailingList> mailingLists;
+        private List<Package> packages;
+        private List<Vendors> vendors;
+        private List<Carrier> carriers;
+        private List<BuildingClass> buildings;
+        private List<User> users;
+        private List<AuditItem> auditItems;
+        private List<Package> printPackages;
+        private BindingSource bs = new BindingSource();
 
 
         /// <summary>
@@ -275,17 +278,19 @@ namespace shipapp
             if (identity == 1)
             {
                 // List is Package
-                this.logs = (BindingList<Log>)list;
-                this.printPackages = (List<Models.Package>)packages;
-                dataGridLog.DataSource = logs;
+                logs = (List<Log>)list;
+                printPackages = (List<Package>)packages;
+                bs.DataSource = logs;
+                dataGridLog.DataSource = bs;
                 cmboClerk.Show();
                 btnPrint.Enabled = false;
             }
             else if (identity == 2)
             {
                 // List is Package History TODO
-                this.packages = (BindingList<Models.Package>)list;
-                dataGridLog.DataSource = this.packages;
+                this.packages = (List<Package>)list;
+                bs.DataSource = this.packages;
+                dataGridLog.DataSource = bs;
                 cmboClerk.Hide();
 
                 // Set grid headers
@@ -306,8 +311,9 @@ namespace shipapp
             else if (identity == 3)
             {
                 // List is Users
-                this.users = (BindingList<Models.User>)list;
-                dataGridLog.DataSource = users;
+                users = (List<User>)list;
+                bs.DataSource = users;
+                dataGridLog.DataSource = bs;
                 cmboClerk.Hide();
 
                 // Set grid columns
@@ -321,8 +327,9 @@ namespace shipapp
             else if (identity == 4)
             {
                 // List is Vendor
-                this.vendors = (BindingList<Models.Vendors>)list;
-                dataGridLog.DataSource = vendors;
+                vendors = (List<Vendors>)list;
+                bs.DataSource = vendors;
+                dataGridLog.DataSource = bs;
                 cmboClerk.Hide();
 
                 // Set grid columns
@@ -332,8 +339,10 @@ namespace shipapp
             else if (identity == 5)
             {
                 // List is Faculty
-                this.mailingLists = (BindingList<MailingList>)list;
-                dataGridLog.DataSource = mailingLists;
+                mailingLists = (List<MailingList>)list;
+                mailingLists = mailingLists.OrderBy(i => i.Name).ToList();
+                bs.DataSource = mailingLists;
+                dataGridLog.DataSource = bs;
                 cmboClerk.Hide();
 
                 // Set grid columns
@@ -345,8 +354,9 @@ namespace shipapp
             else if (identity == 6)
             {
                 // List is Building
-                this.buildings = (BindingList<Models.ModelData.BuildingClass>)list;
-                dataGridLog.DataSource = buildings;
+                buildings = (List<BuildingClass>)list;
+                bs.DataSource = buildings;
+                dataGridLog.DataSource = bs;
                 cmboClerk.Hide();
 
                 // Set grid columns
@@ -357,8 +367,9 @@ namespace shipapp
             else if (identity == 7)
             {
                 // List is Carrier
-                this.carriers = (BindingList<Models.Carrier>)list;
-                dataGridLog.DataSource = carriers;
+                carriers = (List<Carrier>)list;
+                bs.DataSource = carriers;
+                dataGridLog.DataSource = bs;
                 cmboClerk.Hide();
 
                 // Set grid columns
@@ -368,8 +379,9 @@ namespace shipapp
             else if (identity == 8)
             {
                 // List is activity history
-                this.auditItems = (BindingList<Models.AuditItem>)list;
-                dataGridLog.DataSource = auditItems;
+                auditItems = (List<AuditItem>)list;
+                bs.DataSource = auditItems;
+                dataGridLog.DataSource = bs;
                 cmboClerk.Hide();
 
                 // Set grid columns
@@ -380,7 +392,7 @@ namespace shipapp
             else
             {
                 MessageBox.Show("Something went wrong\r\nTry again.", "Uh-oh!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
+                Close();
             }
         }
         /// <summary>
@@ -392,7 +404,7 @@ namespace shipapp
             for (int i = 0; i < printPackages.Count; i++)
             {
                 printPackages[i].PackageDeleveredBy = clerk;
-                printPackages[i].Status = (Models.Package.DeliveryStatus)2;
+                printPackages[i].Status = (Package.DeliveryStatus)2;
                 Connections.DataConnections.DataConnectionClass.PackageConnClass.UpdatePackage(printPackages[i]);
             }
         }

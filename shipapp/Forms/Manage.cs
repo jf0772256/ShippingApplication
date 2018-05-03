@@ -30,13 +30,13 @@ namespace shipapp
         // Objects
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
         private BindingSource bs = new BindingSource();
-        private BindingList<Faculty> faculties;
-        private BindingList<Vendors> vendors;
-        private BindingList<Carrier> carriers;
-        private BindingList<BuildingClass> buildings;
-        private BindingList<User> users;
-        private BindingList<AuditItem> auditItems;
-        private BindingList<MailingList> mailingLists;
+        private List<Faculty> faculties;
+        private List<Vendors> vendors;
+        private List<Carrier> carriers;
+        private List<BuildingClass> buildings;
+        private List<User> users;
+        private List<AuditItem> auditItems;
+        private List<MailingList> mailingLists;
 
         // Helpers
         public object ObjectToBeEditied { get => objectToBeEditied; set => objectToBeEditied = value; }
@@ -924,7 +924,7 @@ namespace shipapp
             // Create new list object
             if (currentTable == 1)
             {
-                users = new BindingList<User>();
+                users = new List<User>();
 
                 // Fill list with logs
                 for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
@@ -935,7 +935,7 @@ namespace shipapp
             }
             else if (currentTable == 2)
             {
-                vendors = new BindingList<Vendors>();
+                vendors = new List<Vendors>();
 
                 // Fill list with logs
                 for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
@@ -946,7 +946,7 @@ namespace shipapp
             }
             else if (currentTable == 3)
             {
-                faculties = new BindingList<Faculty>();
+                faculties = new List<Faculty>();
 
                 // Fill list with logs
                 for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
@@ -957,7 +957,7 @@ namespace shipapp
             }
             else if (currentTable == 4)
             {
-                buildings = new BindingList<BuildingClass>();
+                buildings = new List<BuildingClass>();
 
                 // Fill list with logs
                 for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
@@ -968,7 +968,7 @@ namespace shipapp
             }
             else if (currentTable == 5)
             {
-                carriers = new BindingList<Carrier>();
+                carriers = new List<Carrier>();
 
                 // Fill list with logs
                 for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
@@ -979,7 +979,7 @@ namespace shipapp
             }
             else if (currentTable == 6)
             {
-                auditItems = new BindingList<AuditItem>();
+                auditItems = new List<AuditItem>();
 
                 // Fill list with logs
                 for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
@@ -1094,7 +1094,7 @@ namespace shipapp
             }
 
             // Create new list object
-            mailingLists = new BindingList<MailingList>();
+            mailingLists = new List<MailingList>();
 
             // Fill list with logs
             for (int i = 0; i < dataGridView1.SelectedRows.Count; i++)
@@ -1104,5 +1104,13 @@ namespace shipapp
             }
         }
         #endregion
+        /// <summary>
+        /// Do NOT remove.
+        /// This helps keep the annoying dgv errors from popping up due to a tostring method issue.
+        /// </summary>
+        private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            //
+        }
     }
 }

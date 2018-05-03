@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Extentions;
 
 
 namespace shipapp
@@ -22,10 +23,12 @@ namespace shipapp
         //  Data list
         private DataGridViewColumnHelper dgvch = new DataGridViewColumnHelper();
         private ListSortDirection[] ColumnDirection { get; set; }
-        private BindingList<Log> logList;
+        private List<Log> logList;
         private List<Log> logs = new List<Log>();
         private List<Package> printPackages = new List<Package>();
-        
+        private List<Package> bindMe = new List<Package>();
+        private BindingSource bs = new BindingSource();
+
         //  Other variabels
         private string message = "";
         private int role;
@@ -402,7 +405,7 @@ namespace shipapp
             }
 
             // Create new list object
-            logList = new BindingList<Log>();
+            logList = new List<Log>();
 
             // Fill list with logs
             for (int i = 0; i < dataGridPackages.SelectedRows.Count; i++)

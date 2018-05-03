@@ -37,7 +37,7 @@ namespace shipapp
         /// <summary>
         /// Add a fauctly to the database
         /// </summary>
-        public ManageFaculty(string message, Object facultyToBeEdited)
+        public ManageFaculty(string message, object facultyToBeEdited)
         {
             InitializeComponent();
             NewFaculty = (Faculty)facultyToBeEdited;
