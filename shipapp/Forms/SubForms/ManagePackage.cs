@@ -33,7 +33,7 @@ namespace shipapp
             ParentForm = parent;
             InitializeComponent();
             this.message = message;
-            cmboStatus.Items.Add("Not_Recieved");
+            //cmboStatus.Items.Add("Not_Recieved");
             cmboStatus.Items.Add("Received");
             cmboStatus.Items.Add("OutForDelivery");
             cmboStatus.Items.Add("Delivered");
@@ -51,7 +51,7 @@ namespace shipapp
             newPackage = (Package)packageToBeEdited;
             ParentForm = parent;
             this.message = message;
-            cmboStatus.Items.Add("Not_Recieved");
+            //cmboStatus.Items.Add("Not_Recieved");
             cmboStatus.Items.Add("Received");
             cmboStatus.Items.Add("OutForDelivery");
             cmboStatus.Items.Add("Delivered");
@@ -108,7 +108,8 @@ namespace shipapp
                 {
                     cmboDelBy.Items.Add(usr.ToFormattedString());
                 }
-
+                //get package notes list.
+                newPackage.Notes = DataConnectionClass.PackageConnClass.GetNotesList(newPackage.Package_PersonId);
                 // Set fields to correct data
                 txtPO.Text = newPackage.PONumber;
                 txtTracking.Text = newPackage.PackageTrackingNumber;
@@ -333,7 +334,7 @@ namespace shipapp
                 return 3;
             }
 
-            return 0;
+            return 1;
         }
         /// <summary>
         /// Set delivery status
@@ -350,11 +351,11 @@ namespace shipapp
                 case "OutForDelivery":
                     newPackage.Status = Package.DeliveryStatus.OutForDelivery;
                     break;
-                case "Delivery":
+                case "Delivered":
                     newPackage.Status = Package.DeliveryStatus.Delivered;
                     break;
                 default:
-                    newPackage.Status = Package.DeliveryStatus.Not_Received;
+                    newPackage.Status = Package.DeliveryStatus.Received;
                     break;
             }
         }
@@ -373,11 +374,11 @@ namespace shipapp
                 case "OutForDelivery":
                     newPackage.Status = Package.DeliveryStatus.OutForDelivery;
                     break;
-                case "Delivery":
+                case "Delivered":
                     newPackage.Status = Package.DeliveryStatus.Delivered;
                     break;
                 default:
-                    newPackage.Status = Package.DeliveryStatus.Not_Received;
+                    newPackage.Status = Package.DeliveryStatus.Received;
                     break;
             }
         }
@@ -818,6 +819,7 @@ namespace shipapp
             using (ManageNotes note = new ManageNotes(newPackage, false))
             {
                 note.ShowDialog();
+                newPackage = (Package)note.GetObjectData;
             }
         }
 

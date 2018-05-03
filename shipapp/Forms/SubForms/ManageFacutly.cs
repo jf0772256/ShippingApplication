@@ -51,6 +51,7 @@ namespace shipapp
                 txtLastName.Text = newFaculty.LastName;
                 txtId2.Text = newFaculty.Faculty_PersonId;
                 //comboBox1.SelectedIndex = (int)newFaculty.Building_Id;
+                newFaculty.Notes = DataConnectionClass.EmployeeConn.GetNotesList(newFaculty.Faculty_PersonId);
             }
         }
         /// <summary>
@@ -223,7 +224,7 @@ namespace shipapp
         }
 
        /// <summary>
-       /// Show read olny notes
+       /// Show read only notes
        /// </summary>
        /// <param name="sender"></param>
        /// <param name="e"></param>
@@ -245,6 +246,7 @@ namespace shipapp
             using (ManageNotes note = new ManageNotes(newFaculty, false))
             {
                 note.ShowDialog();
+                newFaculty = (Faculty)note.GetObjectData;
             }
         }
     }

@@ -33,11 +33,11 @@ namespace shipapp
         /// </summary>
         /// <param name="message"></param>
         /// <param name="objectToBeEditied"></param>
-        public ManageUsers(string message, Object objectToBeEditied)
+        public ManageUsers(string message, object objectToBeEditied)
         {
             InitializeComponent();
             this.message = message;
-            this.userToBeEdited = (User)objectToBeEditied;
+            userToBeEdited = (User)objectToBeEditied;
         }
         /// <summary>
         /// Fill the form with the information of the object and change the button to edit
@@ -59,9 +59,9 @@ namespace shipapp
                 cmboRole.Text = userToBeEdited.Level.ToString();
                 txtUsername.Text = userToBeEdited.Username;
                 txtPassword.Text = userToBeEdited.PassWord;
-
+                userToBeEdited.Notes = DataConnectionClass.UserConn.GetNotesList(userToBeEdited.Person_Id);
                 // Change Button Text
-                this.Text = "Edit Users";
+                Text = "Edit Users";
                 btnAdd.Text = "EDIT";
             }
         }
@@ -313,6 +313,7 @@ namespace shipapp
                 using (ManageNotes note = new ManageNotes(newUser, false))
                 {
                     note.ShowDialog();
+                    newUser = (User)note.GetObjectData;
                 }
             }
             else
@@ -320,6 +321,7 @@ namespace shipapp
                 using (ManageNotes note = new ManageNotes(userToBeEdited, false))
                 {
                     note.ShowDialog();
+                    userToBeEdited = (User)note.GetObjectData;
                 }
             }
         }

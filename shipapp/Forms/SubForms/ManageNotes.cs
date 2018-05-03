@@ -12,9 +12,15 @@ namespace shipapp
     /// </summary>
     public partial class ManageNotes : Form
     {
-        private Faculty Fac { get; set; }
-        private User Usr { get; set; }
-        private Package Pck { get; set; }
+        Faculty Fac { get; set; }
+        User Usr { get; set; }
+        Package Pck { get; set; }
+        /// <summary>
+        /// Public gettable value which is set on close
+        /// Objects will have to be tested and cast before they can be used.
+        /// </summary>
+        public object GetObjectData { get; set; }
+
         private bool AsReadOnly { get; set; }
         /// <summary>
         /// Add Note form, also may act as view
@@ -31,17 +37,17 @@ namespace shipapp
             if (sender is Faculty)
             {
                 Fac = (Faculty)sender;
-                Fac.Notes = DataConnectionClass.EmployeeConn.GetNotesList(Fac.Faculty_PersonId);
+                //Fac.Notes = DataConnectionClass.EmployeeConn.GetNotesList(Fac.Faculty_PersonId);
             }
             else if (sender is User)
             {
                 Usr = (User)sender;
-                Usr.Notes = DataConnectionClass.UserConn.GetNotesList(Usr.Person_Id);
+                //Usr.Notes = DataConnectionClass.UserConn.GetNotesList(Usr.Person_Id);
             }
             else if (sender is Package)
             {
                 Pck = (Package)sender;
-                Pck.Notes = DataConnectionClass.PackageConnClass.GetNotesList(Pck.Package_PersonId);
+                //Pck.Notes = DataConnectionClass.PackageConnClass.GetNotesList(Pck.Package_PersonId);
             }
             else
             {
@@ -67,18 +73,21 @@ namespace shipapp
                 if (Fac as Faculty != null)
                 {
                     Fac.Notes.Add(new Note() { Note_Value = textBox1.Text + ". Added by: " + DataConnectionClass.AuthenticatedUser.ToString() });
+                    GetObjectData = Fac;
                     //DataConnectionClass.EmployeeConn.UpdateFaculty(Fac);
                     Close();
                 }
                 else if (Usr as User != null)
                 {
                     Usr.Notes.Add(new Note() { Note_Value = textBox1.Text + ". Added by: " + DataConnectionClass.AuthenticatedUser.ToString() });
+                    GetObjectData = Usr;
                     //DataConnectionClass.UserConn.Update1User(Usr);
                     Close();
                 }
                 else if (Pck as Package != null)
                 {
                     Pck.Notes.Add(new Note() { Note_Value = textBox1.Text + ". Added by: " + DataConnectionClass.AuthenticatedUser.ToString() });
+                    GetObjectData = Pck;
                     //DataConnectionClass.PackageConnClass.UpdatePackage(Pck);
                     Close();
                 }
