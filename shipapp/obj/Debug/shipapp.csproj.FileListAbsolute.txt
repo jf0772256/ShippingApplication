@@ -119,13 +119,6 @@ C:\Users\jf0772256\Desktop\ShippingApp\shipapp\bin\Debug\shipapp.exe.config
 C:\Users\jf0772256\Desktop\ShippingApp\shipapp\bin\Debug\shipapp.exe
 C:\Users\jf0772256\Desktop\ShippingApp\shipapp\bin\Debug\shipapp.pdb
 C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.csprojResolveAssemblyReference.cache
-C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.AddBuilding.resources
-C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.AddCarrier.resources
-C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.AddFaculty.resources
-C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.AddNote.resources
-C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.AddPackage.resources
-C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.AddUser.resources
-C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.AddVendor.resources
 C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.MainMenu.resources
 C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.LogIn.resources
 C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.Manage.resources
@@ -311,3 +304,10 @@ C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.ManageNot
 C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.ManagePackage.resources
 C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.ManageUsers.resources
 C:\Users\bowdenk\Desktop\ShippingApplication\shipapp\obj\Debug\shipapp.ManageVendors.resources
+C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.ManageBuilding.resources
+C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.ManageCarrier.resources
+C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.ManageFaculty.resources
+C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.ManageNotes.resources
+C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.ManagePackage.resources
+C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.ManageUsers.resources
+C:\Users\jf0772256\Desktop\ShippingApp\shipapp\obj\Debug\shipapp.ManageVendors.resources

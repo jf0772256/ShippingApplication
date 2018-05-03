@@ -111,6 +111,12 @@ namespace shipapp
                 {
                     cmboDelBy.Items.Add(usr.ToFormattedString());
                 }
+
+                cmboRecipiant.Sorted = true;
+                cmboSignedBy.Sorted = true;
+                cmboVendor.Sorted = true;
+                cmboCarrier.Sorted = true;
+
                 //get package notes list.
                 newPackage.Notes = DataConnectionClass.PackageConnClass.GetNotesList(newPackage.Package_PersonId);
                 // Set fields to correct data
@@ -181,11 +187,11 @@ namespace shipapp
                 {
                     cmboDelBy.Items.Add(usr.ToFormattedString());
                 }
+                cmboRecipiant.Sorted = true;
+                cmboSignedBy.Sorted = true;
+                cmboVendor.Sorted = true;
+                cmboCarrier.Sorted = true;
             }
-            cmboRecipiant.Sorted = true;
-            cmboSignedBy.Sorted = true;
-            cmboVendor.Sorted = true;
-            cmboCarrier.Sorted = true;
         }
         #endregion
         #region Form Add
