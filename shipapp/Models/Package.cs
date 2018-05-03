@@ -78,6 +78,10 @@ namespace shipapp.Models
         /// <returns>formatted string</returns>
         public string ReFormattedString(string unformatted)
         {
+            if (string.IsNullOrWhiteSpace(unformatted))
+            {
+                return null;
+            }
             string[] parts = unformatted.Split(' ');
             return parts[1] + ", " + parts[0];
         }
