@@ -5,6 +5,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Extentions;
 
 namespace shipapp
 {
@@ -87,6 +88,8 @@ namespace shipapp
             // If edit, fill form with the pakcage info
             if (message == "EDIT")
             {
+                
+
                 foreach (Carrier car in DataConnectionClass.DataLists.CarriersList)
                 {
                     cmboCarrier.Items.Add(car.ToString());
@@ -98,6 +101,7 @@ namespace shipapp
                 foreach (Faculty fac in DataConnectionClass.DataLists.FacultyList)
                 {
                     cmboRecipiant.Items.Add(fac.ToString());
+                    cmboRecipiant.Sorted = true;
                     cmboSignedBy.Items.Add(fac.ToString());
                 }
                 foreach (BuildingClass bldg in DataConnectionClass.DataLists.BuildingNames)
@@ -168,6 +172,7 @@ namespace shipapp
                 foreach (Faculty fac in DataConnectionClass.DataLists.FacultyList)
                 {
                     cmboRecipiant.Items.Add(fac.ToString());
+                    cmboRecipiant.Sorted = true;
                     cmboSignedBy.Items.Add(fac.ToString());
                 }
                 foreach (BuildingClass bldg in DataConnectionClass.DataLists.BuildingNames)
