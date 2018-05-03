@@ -67,7 +67,7 @@ namespace shipapp
             DataConnectionClass.VendorConn.GetVendorList();
             DataConnectionClass.CarrierConn.GetCarrierList();
             DataConnectionClass.buildingConn.GetBuildingList();
-            DataConnectionClass.EmployeeConn.GetAllAfaculty();
+            //DataConnectionClass.EmployeeConn.GetAllAfaculty();
         }
         /// <summary>
         /// 
@@ -722,8 +722,30 @@ namespace shipapp
             }
             else
             {
-                fac = DataConnectionClass.DataLists.FacultyList.FirstOrDefault(i => i.ToString() == cmboRecipiant.Text);
-                BuildingClass b = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(i => i.BuildingId == fac.Building_Id);
+                string compairer = cmboRecipiant.Text;
+                foreach (Faculty f in DataConnectionClass.DataLists.FacultyList)
+                {
+                    string fname = f.ToString();
+                    if (fname == compairer)
+                    {
+                        fac = f;
+                        break;
+                    }
+                }
+                if (fac == null)
+                {
+                    MessageBox.Show("Null Fcaulty object. abortting.","error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                }
+                //break point
+                BuildingClass b = new BuildingClass();
+                foreach (BuildingClass build in DataConnectionClass.DataLists.BuildingNames)
+                {
+                    if (build.BuildingId == fac.Building_Id)
+                    {
+                        b = build;
+                        break;
+                    }
+                }
                 cmboBuilding.SelectedItem = b.BuildingShortName;
                 cmboBuilding_SelectionChangeCommitted(this, e);
                 lblroom.Text = fac.RoomNumber;
