@@ -13,7 +13,7 @@ namespace shipapp
         /// Class level variables
         // Hard coded admin username and password chosen by Danny Lane
         private string testUsername = "admin";
-        private string testPassword = "admin";
+        private string testPassword = "RPMadmin933";
 
         // Main Menu
         private MainMenu Main { get; set; }
