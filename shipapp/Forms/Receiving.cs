@@ -53,7 +53,13 @@ namespace shipapp
             SetRole();
             GetPackages();
             lblSearch.Text = "";
+            
+            // Refresh list for combo boxes
             DataConnectionClass.EmployeeConn.GetAllAfaculty(this);
+            DataConnectionClass.VendorConn.GetVendorList(this);
+            DataConnectionClass.CarrierConn.GetCarrierList(this);
+            DataConnectionClass.buildingConn.GetBuildingList(this);
+
             // Disable search until a column is selected
             if (lblSearch.Text.Length == 0)
             {
