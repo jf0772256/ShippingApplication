@@ -396,5 +396,13 @@ namespace shipapp
             this.Close();
         }
         #endregion
+
+        private void pcBxViewNote_Click(object sender, EventArgs e)
+        {
+            using (ManageNotes note = new ManageNotes((Package)datGridHistory.SelectedRows[0].DataBoundItem, true))
+            {
+                note.ShowDialog();
+            }
+        }
     }
 }

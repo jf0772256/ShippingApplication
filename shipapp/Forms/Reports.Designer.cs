@@ -38,19 +38,21 @@
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.lblSearch = new System.Windows.Forms.Label();
-            this.pcBxRefreash = new System.Windows.Forms.PictureBox();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.dTFrom = new System.Windows.Forms.DateTimePicker();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.dTTo = new System.Windows.Forms.DateTimePicker();
             this.pcBxPrint = new System.Windows.Forms.PictureBox();
+            this.pcBxRefreash = new System.Windows.Forms.PictureBox();
+            this.pcBxViewNote = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dTTo = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datGridHistory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxAddToDaily)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pcBxRefreash)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxPrint)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcBxRefreash)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcBxViewNote)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -143,19 +145,6 @@
             this.lblSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTip1.SetToolTip(this.lblSearch, "Search Catagory");
             // 
-            // pcBxRefreash
-            // 
-            this.pcBxRefreash.BackColor = System.Drawing.Color.Transparent;
-            this.pcBxRefreash.BackgroundImage = global::shipapp.Properties.Resources.loop;
-            this.pcBxRefreash.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pcBxRefreash.Location = new System.Drawing.Point(94, 79);
-            this.pcBxRefreash.Name = "pcBxRefreash";
-            this.pcBxRefreash.Size = new System.Drawing.Size(35, 35);
-            this.pcBxRefreash.TabIndex = 9;
-            this.pcBxRefreash.TabStop = false;
-            this.toolTip1.SetToolTip(this.pcBxRefreash, "Refresh");
-            this.pcBxRefreash.Click += new System.EventHandler(this.pcBxRefreash_Click);
-            // 
             // txtSearch
             // 
             this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -179,16 +168,6 @@
             this.dTFrom.UseWaitCursor = true;
             this.dTFrom.ValueChanged += new System.EventHandler(this.dTFrom_ValueChanged);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(539, 52);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(50, 20);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "From";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -199,17 +178,6 @@
             this.label3.TabIndex = 15;
             this.label3.Text = "To";
             this.toolTip1.SetToolTip(this.label3, "Start Date");
-            // 
-            // dTTo
-            // 
-            this.dTTo.CustomFormat = "MMM dd, yyyy";
-            this.dTTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dTTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dTTo.Location = new System.Drawing.Point(595, 83);
-            this.dTTo.Name = "dTTo";
-            this.dTTo.Size = new System.Drawing.Size(146, 26);
-            this.dTTo.TabIndex = 14;
-            this.dTTo.ValueChanged += new System.EventHandler(this.dTTo_ValueChanged);
             // 
             // pcBxPrint
             // 
@@ -224,12 +192,60 @@
             this.toolTip1.SetToolTip(this.pcBxPrint, "Print History");
             this.pcBxPrint.Click += new System.EventHandler(this.pcBxPrint_Click);
             // 
+            // pcBxRefreash
+            // 
+            this.pcBxRefreash.BackColor = System.Drawing.Color.Transparent;
+            this.pcBxRefreash.BackgroundImage = global::shipapp.Properties.Resources.loop;
+            this.pcBxRefreash.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pcBxRefreash.Location = new System.Drawing.Point(137, 79);
+            this.pcBxRefreash.Name = "pcBxRefreash";
+            this.pcBxRefreash.Size = new System.Drawing.Size(35, 35);
+            this.pcBxRefreash.TabIndex = 9;
+            this.pcBxRefreash.TabStop = false;
+            this.toolTip1.SetToolTip(this.pcBxRefreash, "Refresh");
+            this.pcBxRefreash.Click += new System.EventHandler(this.pcBxRefreash_Click);
+            // 
+            // pcBxViewNote
+            // 
+            this.pcBxViewNote.BackColor = System.Drawing.Color.Transparent;
+            this.pcBxViewNote.BackgroundImage = global::shipapp.Properties.Resources.chatbox_working;
+            this.pcBxViewNote.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pcBxViewNote.Location = new System.Drawing.Point(94, 79);
+            this.pcBxViewNote.Name = "pcBxViewNote";
+            this.pcBxViewNote.Size = new System.Drawing.Size(35, 35);
+            this.pcBxViewNote.TabIndex = 17;
+            this.pcBxViewNote.TabStop = false;
+            this.toolTip1.SetToolTip(this.pcBxViewNote, "Refresh");
+            this.pcBxViewNote.Click += new System.EventHandler(this.pcBxViewNote_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(539, 52);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(50, 20);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "From";
+            // 
+            // dTTo
+            // 
+            this.dTTo.CustomFormat = "MMM dd, yyyy";
+            this.dTTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dTTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dTTo.Location = new System.Drawing.Point(595, 83);
+            this.dTTo.Name = "dTTo";
+            this.dTTo.Size = new System.Drawing.Size(146, 26);
+            this.dTTo.TabIndex = 14;
+            this.dTTo.ValueChanged += new System.EventHandler(this.dTTo_ValueChanged);
+            // 
             // Reports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(1234, 661);
+            this.Controls.Add(this.pcBxViewNote);
             this.Controls.Add(this.pcBxPrint);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dTTo);
@@ -252,8 +268,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.datGridHistory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxAddToDaily)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pcBxRefreash)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcBxPrint)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcBxRefreash)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcBxViewNote)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -267,7 +284,6 @@
         private System.Windows.Forms.ToolTip toolTip1;
         internal System.Windows.Forms.Label label1;
         internal System.Windows.Forms.DataGridView datGridHistory;
-        private System.Windows.Forms.PictureBox pcBxRefreash;
         internal System.Windows.Forms.Label lblSearch;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.DateTimePicker dTFrom;
@@ -275,5 +291,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DateTimePicker dTTo;
         private System.Windows.Forms.PictureBox pcBxPrint;
+        private System.Windows.Forms.PictureBox pcBxRefreash;
+        private System.Windows.Forms.PictureBox pcBxViewNote;
     }
 }

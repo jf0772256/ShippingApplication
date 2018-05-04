@@ -272,6 +272,7 @@
     <Content Include="Connections\Backup\DoNotModify.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\chatbox-working.png" />
     <None Include="Resources\archive.png" />
     <None Include="Resources\social-dropbox.png" />
     <None Include="Resources\loop.png" />
