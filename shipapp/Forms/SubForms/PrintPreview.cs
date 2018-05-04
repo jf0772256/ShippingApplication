@@ -100,6 +100,7 @@ namespace shipapp
                 dataGridLog.Columns[4].Width = 35;
                 dataGridLog.Columns[5].Width = 85;
                 dataGridLog.Columns[6].Width = 125;
+                dataGridLog.Columns[6].HeaderText = "Please Sign & Print";
 
                 // Update the package clerk and status
                 UpdatePackages();
