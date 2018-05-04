@@ -82,8 +82,15 @@ namespace shipapp.Models
             {
                 return null;
             }
-            string[] parts = unformatted.Split(' ');
-            return parts[1] + ", " + parts[0];
+            else if (unformatted.IndexOf(',') > 0)
+            {
+                return unformatted;
+            }
+            else
+            {
+                string[] parts = unformatted.Split(' ');
+                return parts[1] + ", " + parts[0];
+            }
         }
         /// <summary>
         /// ENUM of Package statuses
