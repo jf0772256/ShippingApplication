@@ -399,7 +399,9 @@ namespace shipapp
 
         private void pcBxViewNote_Click(object sender, EventArgs e)
         {
-            using (ManageNotes note = new ManageNotes((Package)datGridHistory.SelectedRows[0].DataBoundItem, true))
+            Package pack = (Package)datGridHistory.SelectedRows[0].DataBoundItem;
+            pack.Notes = DataConnectionClass.PackageConnClass.GetNotesList(pack.Package_PersonId);
+            using (ManageNotes note = new ManageNotes(pack, true))
             {
                 note.ShowDialog();
             }
