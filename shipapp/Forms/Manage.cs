@@ -432,13 +432,19 @@ namespace shipapp
         /// <param name="e"></param>
         private void pcBxDelete_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count == 1)
+            // Ask user if they ment to delete
+            var result = MessageBox.Show("Are you sure you want to delete this item?", "Hmm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
             {
-                DeleteEntity();
-            }
-            else
-            {
-                MessageBox.Show("Please select a single item");
+                if (dataGridView1.SelectedRows.Count == 1)
+                {
+                    DeleteEntity();
+                }
+                else
+                {
+                    MessageBox.Show("Please select a single item");
+                }
             }
         }
         /// <summary>

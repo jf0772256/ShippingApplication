@@ -153,18 +153,24 @@ namespace shipapp
         /// <param name="e"></param>
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            // Test that a row is selected before deletion
-            if (dataGridPackages.SelectedRows.Count == 1)
-            {
-                DeletePackage();
+            // Ask user if they meant to delete
+            var result = MessageBox.Show("Are you sure you want to delete this item?", "Hmm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                // Alert User
-                MessageBox.Show("Packages Successfuly Deleted");
-            }
-            else
+            if (result == DialogResult.Yes)
             {
-                // Alert User
-                MessageBox.Show("Please select a signle package");
+                // Test that a row is selected before deletion
+                if (dataGridPackages.SelectedRows.Count == 1)
+                {
+                    DeletePackage();
+
+                    // Alert User
+                    MessageBox.Show("Packages Successfuly Deleted");
+                }
+                else
+                {
+                    // Alert User
+                    MessageBox.Show("Please select a signle package");
+                }
             }
         }
         /// <summary>
