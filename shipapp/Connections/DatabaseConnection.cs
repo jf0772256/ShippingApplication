@@ -87,24 +87,23 @@ namespace shipapp.Connections
         protected void Create_Tables()
         {
             ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
             List<string> cmdTxt = new List<string>() { };
             if (DBType == SQLHelperClass.DatabaseType.MySQL)
             {
                 cmdTxt = new List<string>(){
+                    "set global innodb_file_format = BARRACUDA;",
+                    "set global innodb_file_format_max = BARRACUDA;",
+                    "set global innodb_large_prefix=on;",
                     "CREATE TABLE IF NOT EXISTS roles(role_id BigINT NOT NULL PRIMARY KEY AUTO_INCREMENT, role_title VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS buildings(building_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, building_long_name VARCHAR(250) NOT NULL, building_short_name VARCHAR(100) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE INDEX idx_building ON buildings(building_short_name);",
-                    "CREATE TABLE IF NOT EXISTS notes(id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, note_id VARCHAR(1000) NOT NULL, note_value VARCHAR(5000) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS notes(id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, note_id VARCHAR(100) NOT NULL, note_value VARCHAR(5000) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE INDEX idx_note_ids ON notes(note_id);",
-
-                    "CREATE TABLE IF NOT EXISTS users(user_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_fname VARCHAR(100) NOT NULL, user_lname VARCHAR(100) NOT NULL, user_name VARCHAR(100) NOT NULL UNIQUE, user_password VARBINARY(500) NOT NULL, user_role_id BIGINT, person_id VARCHAR(1000) NOT NULL UNIQUE, FOREIGN KEY (user_role_id) REFERENCES roles(role_id) ON DELETE NO ACTION ON UPDATE NO ACTION)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    "CREATE TABLE IF NOT EXISTS employees(empl_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, empl_fname VARCHAR(100) NOT NULL, empl_lname VARCHAR(100), building_id BIGINT, building_room_number VARCHAR(20), person_id VARCHAR(1000) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS users(user_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, user_fname VARCHAR(100) NOT NULL, user_lname VARCHAR(100) NOT NULL, user_name VARCHAR(100) NOT NULL UNIQUE, user_password VARBINARY(500) NOT NULL, user_role_id BIGINT, person_id VARCHAR(255) NOT NULL UNIQUE, FOREIGN KEY (user_role_id) REFERENCES roles(role_id) ON DELETE NO ACTION ON UPDATE NO ACTION)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS employees(empl_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, empl_fname VARCHAR(100) NOT NULL, empl_lname VARCHAR(100), building_id BIGINT, building_room_number VARCHAR(20), person_id VARCHAR(255) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS vendors(vend_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,vendor_name VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS carriers(carrier_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, carrier_name VARCHAR(100) NOT NULL UNIQUE)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
-                    
-                    "CREATE TABLE IF NOT EXISTS packages(package_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,package_po varchar(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date VARCHAR(50),package_deliv_bldg VARCHAR(100), package_deliver_date VARCHAR(50), package_notes_id VARCHAR(1000) NOT NULL UNIQUE,package_status INT DEFAULT 0, last_modified VARCHAR(100) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
+                    "CREATE TABLE IF NOT EXISTS packages(package_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,package_po varchar(1000), package_carrier VARCHAR(1000), package_vendor VARCHAR(1000), package_deliv_to VARCHAR(1000), package_deliv_by VARCHAR(1000), package_signed_for_by VARCHAR(1000), package_tracking_number VARCHAR(50) DEFAULT NULL, package_receive_date VARCHAR(50),package_deliv_bldg VARCHAR(100), package_deliver_date VARCHAR(50), package_notes_id VARCHAR(255) NOT NULL UNIQUE,package_status INT DEFAULT 0, last_modified VARCHAR(100) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS idcounter(id BIGINT NOT NULL PRIMARY KEY, id_value BIGINT NOT NULL, last_id VARCHAR(1000) DEFAULT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;",
                     "CREATE TABLE IF NOT EXISTS db_audit_history(record_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT, action_taken VARCHAR(1000) NOT NULL, action_initiated_by VARCHAR(50) NOT NULL, action_date VARCHAR(20) NOT NULL, action_time VARCHAR(20) NOT NULL)engine=INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; "
                 };
@@ -158,43 +157,19 @@ namespace shipapp.Connections
                         throw new DatabaseConnectionException("Failed to execute, see inner exception for further details.", e);
                     }
                 }
-                DoDefaultInserts();
             }
         }
         /// <summary>
         /// Does the insert of initial values
         /// </summary>
-        private void DoDefaultInserts()
+        protected void DoDefaultInserts()
         {
             ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            List<string> cmdTxt = new List<string>() { };
-            if (DBType == SQLHelperClass.DatabaseType.MSSQL)
+            List<string> cmdTxt = new List<string>()
             {
-                cmdTxt = new List<string>()
-                {
-                    "INSERT INTO roles(role_title)VALUES('Administrator'),('Dock Supervisor'),('Supervisor'),('User');",
-                    "INSERT INTO idcounter(id,id_value)VALUES(1,0);",
-                    //"OPEN SYMMETRIC KEY secure_data DECRYPTION BY PASSWORD = '" + EncodeKey + "';",
-                    //"INSERT INTO users(users.user_fname,users.user_lname,users.user_name,users.user_password,users.user_role_id,person_id)VALUES('Danny','Lane','danny_lane',EncryptByKey(Key_GUID('secure_data'),CONVERT(nvarchar,'DannyLane')),1,'dannyl001');",
-                    //"CLOSE SYMMETRIC KEY secure_data;"
-                };
-            }
-            else if (DBType == SQLHelperClass.DatabaseType.MySQL)
-            {
-                cmdTxt = new List<string>()
-                {
-                    "INSERT INTO roles(role_title)VALUES('Administrator'),('Dock Supervisor'),('Supervisor'),('User');",
-                    "INSERT INTO idcounter(id,id_value)VALUES(1,0);",
-                    //"INSERT INTO users(users.user_fname,users.user_lname,users.user_name,users.user_password,users.user_role_id,users.person_id)VALUES('Danny','Lane','danny_lane',AES_ENCRYPT(DannyLane,"+EncodeKey+"),1,'dannyl001');"
-                };
-            }
-            else
-            {
-                //fail
-                throw new DatabaseConnectionException("Invalid server type passed.");
-            }
+                "INSERT INTO roles(role_title)VALUES('Administrator'),('Dock Supervisor'),('Supervisor'),('User');",
+                "INSERT INTO idcounter(id,id_value)VALUES(1,0);"
+            };
             using (OdbcConnection c = new OdbcConnection())
             {
                 c.ConnectionString = ConnString;
@@ -202,13 +177,13 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    foreach (string command in cmdTxt)
-                    {
-                        cmd.CommandText += command;
-                    }
                     try
                     {
-                        cmd.ExecuteNonQuery();
+                        foreach (string command in cmdTxt)
+                        {
+                            cmd.CommandText = command;
+                            cmd.ExecuteNonQuery();
+                        }
                         cmd.Transaction.Commit();
                     }
                     catch (Exception exe)
@@ -268,15 +243,29 @@ namespace shipapp.Connections
                         }
                         else
                         {
-                            cmd.CommandText = "SELECT users FROM information_schema.tables where table_schema = '?'";
+                            cmd.CommandText = "SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.STATISTICS WHERE TABLE_SCHEMA = '?';";
                             cmd.Parameters.Add("dbname", OdbcType.VarChar).Value = databasename;
                             string message = "";
-                            using (OdbcDataReader reader = cmd.ExecuteReader())
+                            try
                             {
-                                while (reader.Read())
+                                using (OdbcDataReader reader = cmd.ExecuteReader())
                                 {
-                                    message += reader[0].ToString() + "\n";
+                                    while (reader.Read())
+                                    {
+                                        message += reader[0].ToString() + "\n";
+                                    }
+                                    if (message.Length > 0)
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        return false;
+                                    }
                                 }
+                            }
+                            catch (Exception)
+                            {
                                 if (message.Length > 0)
                                 {
                                     return true;
@@ -442,17 +431,20 @@ namespace shipapp.Connections
                                 new OdbcParameter("personid", u.Person_Id),
                             }
                         );
-                        cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES";
-                        foreach (Note note in u.Notes)
+                        if (u.Notes.Count > 0)
                         {
-                            cmd.CommandText += "(?,?),";
-                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            cmd.CommandText += "INSERT INTO notes(note_id,note_value)VALUES";
+                            foreach (Note note in u.Notes)
                             {
+                                cmd.CommandText += "(?,?),";
+                                cmd.Parameters.AddRange(new OdbcParameter[]
+                                {
                                 new OdbcParameter("pid",u.Person_Id),
                                 new OdbcParameter("note_val",note.Note_Value)
-                            });
+                                });
+                            }
+                            cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1);
                         }
-                        cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1);
                         try
                         {
                             cmd.ExecuteNonQuery();

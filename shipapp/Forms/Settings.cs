@@ -73,12 +73,23 @@ namespace shipapp
         /// <param name="e"></param>
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            Connections.DataConnections.DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added a new or changed exising database connection");
-            Connections.DataConnections.DataConnectionClass.SaveDatabaseData(new string[] { Connections.DataConnections.DataConnectionClass.DBType.ToString(), Connections.DataConnections.DataConnectionClass.ConnectionString, Connections.DataConnections.DataConnectionClass.EncodeString });
-            MessageBox.Show("The new Databae Connection has been saved!\r\n The application must restart for the new connection to take effect.\r\n The application will now Restart", "Database Connection Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            DialogResult = DialogResult.OK;
-            this.Close();
-            Application.Restart();
+            try
+            {
+                Connections.DataConnections.DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added a new or changed exising database connection");
+                Connections.DataConnections.DataConnectionClass.SaveDatabaseData(new string[] { Connections.DataConnections.DataConnectionClass.DBType.ToString(), Connections.DataConnections.DataConnectionClass.ConnectionString, Connections.DataConnections.DataConnectionClass.EncodeString });
+                MessageBox.Show("The new Databae Connection has been saved!\r\n The application must restart for the new connection to take effect.\r\n The application will now Restart", "Database Connection Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.OK;
+                this.Close();
+                Application.Restart();
+            }
+            catch (Exception)
+            {
+                Connections.DataConnections.DataConnectionClass.SaveDatabaseData(new string[] { Connections.DataConnections.DataConnectionClass.DBType.ToString(), Connections.DataConnections.DataConnectionClass.ConnectionString, Connections.DataConnections.DataConnectionClass.EncodeString });
+                MessageBox.Show("The new Databae Connection has been saved!\r\n The application must restart for the new connection to take effect.\r\n The application will now Restart", "Database Connection Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.OK;
+                this.Close();
+                Application.Restart();
+            }
         }
         /// <summary>
         /// Create manual backup

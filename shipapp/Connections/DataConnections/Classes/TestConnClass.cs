@@ -49,9 +49,10 @@ namespace shipapp.Connections.DataConnections.Classes
                 if (!CheckTablesExist(DataConnectionClass.Dbname))
                 {
                     Create_Tables();
+                    DoDefaultInserts();
                 }
             }
-            catch (Exception)
+            catch (Exception re)
             {
                 //do absolutely nothing
             }
