@@ -122,15 +122,57 @@ namespace shipapp
                 // Set fields to correct data
                 txtPO.Text = newPackage.PONumber;
                 txtTracking.Text = newPackage.PackageTrackingNumber;
-                cmboCarrier.SelectedItem = newPackage.PackageCarrier;
-                cmboVendor.SelectedItem = newPackage.PackageVendor;
-                cmboRecipiant.SelectedItem = newPackage.PackageDeliveredTo;
-                cmboSignedBy.SelectedItem = newPackage.PackageSignedForBy;
-                cmboDelBy.SelectedItem = newPackage.ReFormattedString(newPackage.PackageDeleveredBy);
+                try
+                {
+                    cmboCarrier.SelectedItem = newPackage.PackageCarrier;
+                }
+                catch (Exception)
+                {
+                    cmboCarrier.Text = newPackage.PackageCarrier;
+                }
+                try
+                {
+                    cmboVendor.SelectedItem = newPackage.PackageVendor;
+                }
+                catch (Exception)
+                {
+                    cmboVendor.Text = newPackage.PackageVendor;
+                }
+                try
+                {
+                    cmboRecipiant.SelectedItem = newPackage.PackageDeliveredTo;
+                }
+                catch (Exception)
+                {
+                    cmboRecipiant.Text = newPackage.PackageDeliveredTo;
+                }
+                try
+                {
+                    cmboSignedBy.SelectedItem = newPackage.PackageSignedForBy;
+                }
+                catch (Exception)
+                {
+                    cmboSignedBy.Text = newPackage.PackageSignedForBy;
+                }
+                try
+                {
+                    cmboDelBy.SelectedItem = newPackage.ReFormattedString(newPackage.PackageDeleveredBy);
+                }
+                catch (Exception)
+                {
+                    cmboDelBy.Text = newPackage.ReFormattedString(newPackage.PackageDeleveredBy);
+                }
                 cmboStatus.SelectedItem = newPackage.Status.ToString();
                 txtRoleId.Text = newPackage.Package_PersonId;
                 string[] parts = newPackage.DelivBuildingShortName.Split(' ');
-                cmboBuilding.SelectedItem = parts[0];
+                try
+                {
+                    cmboBuilding.SelectedItem = parts[0];
+                }
+                catch (Exception)
+                {
+                    cmboBuilding.Text = parts[0];
+                }
 
                 // Test for receiving status
                 if (newPackage.Status == Package.DeliveryStatus.Not_Received)
