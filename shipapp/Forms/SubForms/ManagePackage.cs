@@ -173,6 +173,18 @@ namespace shipapp
                 {
                     cmboBuilding.Text = parts[0];
                 }
+                if (parts.Length==2)
+                {
+                    lblroom.Text = parts[1];
+                }
+                else if (parts.Length==3)
+                {
+                    lblroom.Text = parts[1] + " " + parts[2];
+                }
+                else
+                {
+                    lblroom.Text = "";
+                }
 
                 // Test for receiving status
                 if (newPackage.Status == Package.DeliveryStatus.Not_Received)
@@ -184,15 +196,15 @@ namespace shipapp
                     dTRec.Enabled = false;
                 }
 
-                // Format room number
-                if (parts.Length == 2)
-                {
-                    lblroom.Text = parts[1];
-                }
-                else
-                {
-                    lblroom.Text = "";
-                }
+                //// Format room number
+                //if (parts.Length == 2)
+                //{
+                //    lblroom.Text = parts[1];
+                //}
+                //else
+                //{
+                //    lblroom.Text = "";
+                //}
 
                 // Set form for edit
                 this.Text = "Edit Package";
@@ -782,7 +794,7 @@ namespace shipapp
                 }
                 if (fac == null)
                 {
-                    MessageBox.Show("Null Fcaulty object. abortting.","error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    MessageBox.Show("Null Faculty object. Aborting.","error",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 }
                 //break point
                 BuildingClass b = new BuildingClass();

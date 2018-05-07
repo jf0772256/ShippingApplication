@@ -734,50 +734,66 @@ namespace shipapp.Connections
         /// <param name="personID">person id to associate the notes to</param>
         private void PWrite(List<Note> v, string personID)
         {
+            int cnt = 0;
+            //check if more than 0 notes in list
             if (v.Count <= 0)
             {
                 return;
             }
-            ConnString = DataConnectionClass.ConnectionString;
-            DBType = DataConnectionClass.DBType;
-            EncodeKey = DataConnectionClass.EncodeString;
-            using (OdbcConnection c = new OdbcConnection())
+            else
             {
-                c.ConnectionString = ConnString;
-                c.Open();
-                OdbcTransaction tr = c.BeginTransaction();
-                using (OdbcCommand cmd = new OdbcCommand("",c,tr))
+                //check if any new notes
+                foreach (Note n in v)
                 {
-                    cmd.CommandText = "INSERT INTO notes (note_id,note_value)VALUES";
-                    foreach (Note note in v)
+                    if (n.Note_Id == 0)
                     {
-                        if (note.Note_Id == 0)
+                        cnt++;
+                    }
+                }
+                //exit if no notes are new
+                if (cnt == 0)
+                {
+                    return;
+                }
+                else
+                {
+                    //write new notes to database
+                    ConnString = DataConnectionClass.ConnectionString;
+                    using (OdbcConnection c = new OdbcConnection())
+                    {
+                        c.ConnectionString = ConnString;
+                        c.Open();
+                        OdbcTransaction tr = c.BeginTransaction();
+                        using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                         {
-                            cmd.CommandText += "(?,?),";
-                            cmd.Parameters.AddRange(new OdbcParameter[]
+                            cmd.CommandText = "INSERT INTO notes (note_id,note_value)VALUES";
+                            foreach (Note note in v)
                             {
-                            new OdbcParameter("pid",personID),
-                            new OdbcParameter("value",note.Note_Value)
-                            });
+                                if (note.Note_Id == 0)
+                                {
+                                    cmd.CommandText += "(?,?),";
+                                    cmd.Parameters.AddRange(new OdbcParameter[]
+                                    {
+                                        new OdbcParameter("pid",personID),
+                                        new OdbcParameter("value",note.Note_Value)
+                                    });
+                                }
+                            }
+                            if (cmd.CommandText.Length > 44)
+                            {
+                                cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1) + ";";
+                            }
+                            try
+                            {
+                                cmd.ExecuteNonQuery();
+                                cmd.Transaction.Commit();
+                            }
+                            catch (Exception e)
+                            {
+                                cmd.Transaction.Rollback();
+                                throw new DatabaseConnectionException("Failed to process request", e);
+                            }
                         }
-                    }
-                    if (cmd.CommandText.Length > 43)
-                    {
-                        cmd.CommandText = cmd.CommandText.Substring(0, cmd.CommandText.Length - 1) + ";";
-                    }
-                    else
-                    {
-                        return;
-                    }
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                        cmd.Transaction.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        cmd.Transaction.Rollback();
-                        throw new DatabaseConnectionException("Failed to process request", e);
                     }
                 }
             }
