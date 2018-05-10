@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="shipapp.Connections.HelperClasses.SQLHelperClass">
+    <Position X="0.5" Y="1.75" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="shipapp.Connections.HelperClasses.SQLHelperClass.DatabaseType">
+        <TypeIdentifier>
+          <NewMemberFileName>Connections\HelperClasses\SQLHelperClass.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>BAAAABEABAAAAAQCgAAAAAgAAAAEAAACARAAgBABAAA=</HashCode>
+      <FileName>Connections\HelperClasses\SQLHelperClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.HelperClasses.SQLHelperException">
+    <Position X="3.75" Y="11.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Connections\HelperClasses\SQLHelperClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.HelperClasses.Backup_DB_Class">
+    <Position X="8.5" Y="2.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgA=</HashCode>
+      <FileName>Connections\HelperClasses\Backup_DB_Class.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.HelperClasses.DataGridViewColumnHelper">
+    <Position X="5.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Connections\HelperClasses\DataGridViewColumnHelperClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.HelperClasses.Log">
+    <Position X="3" Y="3.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EAAAAxAAAAIACAAAgAgAAIEAAECBAABAAAAAAAAAAAE=</HashCode>
+      <FileName>Connections\HelperClasses\Log.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.HelperClasses.MailingList">
+    <Position X="5.5" Y="2" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAEAAAAAQAAEAAIABAQCAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connections\HelperClasses\MailingList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.HelperClasses.Serialize">
+    <Position X="8.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Connections\HelperClasses\Serialize.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.HelperClasses.SortableBindingList&lt;T&gt;" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACBEAAAACAAARAAEEIAAiIIABAAAAAEAA=</HashCode>
+      <FileName>Connections\HelperClasses\SortableBindingList.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DGVPrinterHelper.LogManager">
+    <Position X="9.25" Y="5.75" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="DGVPrinterHelper.LogManager.Categories">
+        <TypeIdentifier>
+          <NewMemberFileName>Connections\HelperClasses\DGVPrinter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>BAAgAAAAAgAEAIAAAAAAAAAQAAgBAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connections\HelperClasses\DGVPrinter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DGVPrinterHelper.LogWriter">
+    <Position X="8.5" Y="4.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAEAAAA=</HashCode>
+      <FileName>Connections\HelperClasses\DGVPrinter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DGVPrinterHelper.DGVCellDrawingEventArgs">
+    <Position X="3.75" Y="8.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAgAAAAAAAAAACQAAAAAAIAAAEAAAAAAA=</HashCode>
+      <FileName>Connections\HelperClasses\DGVPrinter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DGVPrinterHelper.Extensions">
+    <Position X="3" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connections\HelperClasses\DGVPrinter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DGVPrinterHelper.DGVPrinter">
+    <Position X="0.5" Y="8" Width="3" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="DGVPrinterHelper.DGVPrinter.ImbeddedImage">
+        <TypeIdentifier>
+          <NewMemberFileName>Connections\HelperClasses\DGVPrinter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Enum Name="DGVPrinterHelper.DGVPrinter.PrintLocation">
+        <TypeIdentifier>
+          <NewMemberFileName>Connections\HelperClasses\DGVPrinter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="DGVPrinterHelper.DGVPrinter.RowHeightSetting">
+        <TypeIdentifier>
+          <NewMemberFileName>Connections\HelperClasses\DGVPrinter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="DGVPrinterHelper.DGVPrinter.paging">
+        <TypeIdentifier>
+          <NewMemberFileName>Connections\HelperClasses\DGVPrinter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="DGVPrinterHelper.DGVPrinter.Location">
+        <TypeIdentifier>
+          <NewMemberFileName>Connections\HelperClasses\DGVPrinter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Class Name="DGVPrinterHelper.DGVPrinter.rowdata">
+        <TypeIdentifier>
+          <NewMemberFileName>Connections\HelperClasses\DGVPrinter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Enum Name="DGVPrinterHelper.DGVPrinter.ColumnWidthSetting">
+        <TypeIdentifier>
+          <NewMemberFileName>Connections\HelperClasses\DGVPrinter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Class Name="DGVPrinterHelper.DGVPrinter.PageDef">
+        <TypeIdentifier>
+          <NewMemberFileName>Connections\HelperClasses\DGVPrinter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Enum Name="DGVPrinterHelper.DGVPrinter.SizeType">
+        <TypeIdentifier>
+          <NewMemberFileName>Connections\HelperClasses\DGVPrinter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Class Name="DGVPrinterHelper.DGVPrinter.PrintDialogSettingsClass">
+        <TypeIdentifier>
+          <NewMemberFileName>Connections\HelperClasses\DGVPrinter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Enum Name="DGVPrinterHelper.DGVPrinter.Alignment">
+        <TypeIdentifier>
+          <NewMemberFileName>Connections\HelperClasses\DGVPrinter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>3l8qd9+X8t/kaFBjS+oO7skhbCrxPjww/j3/2N2C1m8=</HashCode>
+      <FileName>Connections\HelperClasses\DGVPrinter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Extentions.Extentions">
+    <Position X="3" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connections\HelperClasses\SortableBindingList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Delegate Name="DGVPrinterHelper.CellOwnerDrawEventHandler">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Connections\HelperClasses\DGVPrinter.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

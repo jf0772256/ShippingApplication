@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="shipapp.Connections.DataConnections.Classes.VendorConnClass">
+    <Position X="8.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAIAAAAAAAAAAAEAAAAgAAAAAAQEAIAAA=</HashCode>
+      <FileName>Connections\DataConnections\Classes\VendorConnClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.DataConnections.Classes.BuildingConnClass">
+    <Position X="5" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEABAAAAIAAA=</HashCode>
+      <FileName>Connections\DataConnections\Classes\BuildingConnClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.DataConnections.Classes.CarrierConnClass">
+    <Position X="2.75" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABCAAAIIQAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Connections\DataConnections\Classes\CarrierConnClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.DataConnections.Classes.Database_Audit">
+    <Position X="6.5" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAAAAAACg=</HashCode>
+      <FileName>Connections\DataConnections\Classes\Database_Audit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.DataConnections.Classes.EmployeeConnClass">
+    <Position X="0.5" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAgAAAAAAAAABAAAACAAAAAIgAA=</HashCode>
+      <FileName>Connections\DataConnections\Classes\EmployeeConnClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.DataConnections.Classes.PackageConnectionClass">
+    <Position X="2.75" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEBKAAAAAAAAAAgIAAAABQAAAQAIAIAAA=</HashCode>
+      <FileName>Connections\DataConnections\Classes\PackageConnectionClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.DataConnections.Classes.RoleConnClass">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Connections\DataConnections\Classes\RoleConnClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.DataConnections.Classes.TestConnClass">
+    <Position X="7" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAQAAAAAAAAAAAAAAAAABAAgA=</HashCode>
+      <FileName>Connections\DataConnections\Classes\TestConnClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.DataConnections.Classes.UserConnClass">
+    <Position X="10.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAACAABCAEAAAAAAIAAAAAAAAAAAAAAIAIAAQ=</HashCode>
+      <FileName>Connections\DataConnections\Classes\UserConnClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Connections.DataConnections.Classes.Authenticating">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQAAAAAAAAA=</HashCode>
+      <FileName>Connections\DataConnections\Classes\UserConnClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

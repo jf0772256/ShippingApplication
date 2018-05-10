@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="shipapp.Models.Vendors">
+    <Position X="2" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Models\Vendors.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Models.AuditItem">
+    <Position X="2" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAABAAAAAAAAAQA=</HashCode>
+      <FileName>Models\AuditItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Models.Carrier">
+    <Position X="3.75" Y="4" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAgAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Models\Carrier.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Models.Faculty">
+    <Position X="5.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAiAUAAAAAAAAAEACAAIAAAAAAAAQAAAAAAAAIAAAg=</HashCode>
+      <FileName>Models\Faculty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Models.Package">
+    <Position X="7.75" Y="0.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="shipapp.Models.Package.DeliveryStatus">
+        <TypeIdentifier>
+          <NewMemberFileName>Models\Package.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AACoBAAEAAAAAAAAAAAAAAAAgBAgAEAAAABAAAgABAc=</HashCode>
+      <FileName>Models\Package.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="shipapp.Models.User">
+    <Position X="3.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACiAkAAAAAAAAIEAQAAAAAAAAAAAAABAAAAAAAAAAg=</HashCode>
+      <FileName>Models\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
