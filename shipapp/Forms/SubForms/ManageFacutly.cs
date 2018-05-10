@@ -165,7 +165,7 @@ namespace shipapp
             NewFaculty.FirstName = txtFirstName.Text;
             NewFaculty.LastName = txtLastName.Text;
             NewFaculty.Faculty_PersonId = txtId2.Text;
-            BuildingClass g = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(m => m.BuildingLongName == comboBox1.SelectedItem.ToString());
+            BuildingClass g = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(m => m.BuildingLongName == comboBox1.Text);//comboBox1.SelectedItem.ToString());
             NewFaculty.Building_Id = g.BuildingId;
             NewFaculty.Building_Name = g.BuildingShortName;
             NewFaculty.RoomNumber = txtRoomNumber.Text;
