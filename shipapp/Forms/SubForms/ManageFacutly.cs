@@ -110,7 +110,7 @@ namespace shipapp
         /// <param name="e"></param>
         private void AddFaculty_Load(object sender, EventArgs e)
         {
-            DataConnectionClass.buildingConn.GetBuildingList(this);
+            DataConnectionClass.buildingConn.GetBuildingList();
             foreach (BuildingClass b in DataConnectionClass.DataLists.BuildingNames)
             {
                 comboBox1.Items.Add(b.BuildingLongName);
@@ -128,6 +128,12 @@ namespace shipapp
                 if (!(b is null))
                 {
                     bln = b.BuildingLongName;
+                }
+                long m = 0;
+                while (comboBox1.Items.Count < DataConnectionClass.DataLists.BuildingNames.Count)
+                {
+                    System.Threading.Thread.Sleep(100);
+                    m++;
                 }
                 comboBox1.SelectedItem = bln;
                 newFaculty.Notes = DataConnectionClass.EmployeeConn.GetNotesList(newFaculty.Faculty_PersonId);
