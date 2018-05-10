@@ -217,12 +217,14 @@
     <EmbeddedResource Include="Forms\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
-    <None Include="ClassDiagram3.cd" />
-    <None Include="ClassDiagram4.cd" />
-    <None Include="ClassDiagram5.cd" />
-    <None Include="ClassDiagram6.cd" />
+    <None Include="shipapp.cd" />
+    <None Include="shipapp_Models.cd" />
+    <None Include="shipapp_Models_ModelData.cd" />
+    <None Include="shipapp_Forms.cd" />
+    <None Include="shipapp_Connections.cd" />
+    <None Include="shipapp_Connections_HelperClasses.cd" />
+    <None Include="shipapp_Connections_DataConnections.cd" />
+    <None Include="shipapp_Connections_DataConnections_Classes.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
