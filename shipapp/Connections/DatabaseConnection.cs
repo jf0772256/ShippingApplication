@@ -986,15 +986,16 @@ namespace shipapp.Connections
                 OdbcTransaction tr = c.BeginTransaction();
                 using (OdbcCommand cmd = new OdbcCommand("", c, tr))
                 {
-                    cmd.CommandText = "UPDATE employees SET empl_fname=?,empl_lname=? WHERE person_id = ? AND empl_id = ?;";
+                    cmd.CommandText = "UPDATE employees SET empl_fname=?,empl_lname=?,building_id=?,building_room_number=? WHERE person_id = ? AND empl_id = ?;";
                     cmd.Parameters.AddRange(new OdbcParameter[]
                     {
                         new OdbcParameter("fname",f.FirstName),
                         new OdbcParameter("lname",f.LastName),
+                        new OdbcParameter("bid",f.Building_Id),
+                        new OdbcParameter("brn",f.RoomNumber),
                         new OdbcParameter("person_id",f.Faculty_PersonId),
                         new OdbcParameter("empl_id", f.Id)
                     });
-                    PWrite(f.Notes, f.Faculty_PersonId);
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -1005,6 +1006,7 @@ namespace shipapp.Connections
                         cmd.Transaction.Rollback();
                         throw new DatabaseConnectionException("Failure to process data, please review inner exception for further detail.", e);
                     }
+                    PWrite(f.Notes, f.Faculty_PersonId);
                 }
             }
         }
