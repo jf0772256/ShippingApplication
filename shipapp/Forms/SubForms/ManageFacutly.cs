@@ -43,16 +43,6 @@ namespace shipapp
             NewFaculty = (Faculty)facultyToBeEdited;
             this.message = message;
 
-            if (message == "EDIT")
-            {
-                this.Text = "Edit Faculty";
-                btnAdd.Text = "EDIT";
-                txtFirstName.Text = newFaculty.FirstName;
-                txtLastName.Text = newFaculty.LastName;
-                txtId2.Text = newFaculty.Faculty_PersonId;
-                //comboBox1.SelectedIndex = (int)newFaculty.Building_Id;
-                newFaculty.Notes = DataConnectionClass.EmployeeConn.GetNotesList(newFaculty.Faculty_PersonId);
-            }
         }
         /// <summary>
         /// When the user clicks this button it will check the data, add it to the DB, and close the form.
@@ -121,6 +111,27 @@ namespace shipapp
         private void AddFaculty_Load(object sender, EventArgs e)
         {
             DataConnectionClass.buildingConn.GetBuildingList(this);
+            foreach (BuildingClass b in DataConnectionClass.DataLists.BuildingNames)
+            {
+                comboBox1.Items.Add(b.BuildingLongName);
+            }
+            if (message == "EDIT")
+            {
+                this.Text = "Edit Faculty";
+                btnAdd.Text = "EDIT";
+                txtFirstName.Text = newFaculty.FirstName;
+                txtLastName.Text = newFaculty.LastName;
+                txtId2.Text = newFaculty.Faculty_PersonId;
+                txtRoomNumber.Text = newFaculty.RoomNumber;
+                BuildingClass b = DataConnectionClass.DataLists.BuildingNames.FirstOrDefault(i => i.BuildingShortName == newFaculty.Building_Name);
+                string bln="";
+                if (!(b is null))
+                {
+                    bln = b.BuildingLongName;
+                }
+                comboBox1.SelectedItem = bln;
+                newFaculty.Notes = DataConnectionClass.EmployeeConn.GetNotesList(newFaculty.Faculty_PersonId);
+            }
         }
         /// <summary>
         /// Grab the data and add it to the database
