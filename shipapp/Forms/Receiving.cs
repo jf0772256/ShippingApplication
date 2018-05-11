@@ -405,6 +405,7 @@ namespace shipapp
             CreateLogList();
             PrintPreview printPreview = new PrintPreview(logList, 1, printPackages);
             printPreview.ShowDialog();
+            Refreash();
         }
         /// <summary>
         /// Fill a log with the selected items.
