@@ -1183,11 +1183,14 @@ namespace shipapp.Connections
                 {
                     cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Person_Id);
-                    cmd.CommandText += "DELETE FROM users WHERE user_id = ?;";
+                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "";
+                    cmd.CommandText = "DELETE FROM users WHERE user_id = ?;";
                     cmd.Parameters.Add("uid", OdbcType.BigInt).Value=v.Id;
+                    cmd.ExecuteNonQuery();
                     try
                     {
-                        cmd.ExecuteNonQuery();
                         cmd.Transaction.Commit();
                     }
                     catch (Exception e)
