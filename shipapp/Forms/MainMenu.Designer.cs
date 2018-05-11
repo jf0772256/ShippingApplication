@@ -92,7 +92,7 @@
             this.btnReports.Name = "btnReports";
             this.btnReports.Size = new System.Drawing.Size(330, 200);
             this.btnReports.TabIndex = 1;
-            this.toolTip1.SetToolTip(this.btnReports, "Generate Reports\r\n");
+            this.toolTip1.SetToolTip(this.btnReports, "History");
             this.btnReports.UseVisualStyleBackColor = false;
             this.btnReports.Click += new System.EventHandler(this.btnReports_Click);
             // 

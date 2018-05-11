@@ -77,7 +77,7 @@ namespace shipapp
             {
                 Connections.DataConnections.DataConnectionClass.AuditLogConnClass.AddRecordToAudit("added a new or changed exising database connection");
                 Connections.DataConnections.DataConnectionClass.SaveDatabaseData(new string[] { Connections.DataConnections.DataConnectionClass.DBType.ToString(), Connections.DataConnections.DataConnectionClass.ConnectionString, Connections.DataConnections.DataConnectionClass.EncodeString });
-                MessageBox.Show("The new Databae Connection has been saved!\r\n The application must restart for the new connection to take effect.\r\n The application will now Restart", "Database Connection Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("The new Database Connection has been saved!\r\n The application must restart for the new connection to take effect.\r\n The application will now Restart", "Database Connection Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 this.Close();
                 Application.Restart();
@@ -85,7 +85,7 @@ namespace shipapp
             catch (Exception)
             {
                 Connections.DataConnections.DataConnectionClass.SaveDatabaseData(new string[] { Connections.DataConnections.DataConnectionClass.DBType.ToString(), Connections.DataConnections.DataConnectionClass.ConnectionString, Connections.DataConnections.DataConnectionClass.EncodeString });
-                MessageBox.Show("The new Databae Connection has been saved!\r\n The application must restart for the new connection to take effect.\r\n The application will now Restart", "Database Connection Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("The new Databaae Connection has been saved!\r\n The application must restart for the new connection to take effect.\r\n The application will now Restart", "Database Connection Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 this.Close();
                 Application.Restart();
