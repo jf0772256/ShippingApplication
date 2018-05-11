@@ -1219,8 +1219,12 @@ namespace shipapp.Connections
                 {
                     cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Faculty_PersonId);
-                    cmd.CommandText += "DELETE FROM employees WHERE empl_id = ?;";
+                    cmd.ExecuteNonQuery();
+                    cmd.CommandText = "";
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "DELETE FROM employees WHERE empl_id = ?;";
                     cmd.Parameters.Add("uid", OdbcType.BigInt).Value = v.Id;
+                    cmd.ExecuteNonQuery();
                     try
                     {
                         cmd.ExecuteNonQuery();
@@ -1314,11 +1318,14 @@ namespace shipapp.Connections
                 {
                     cmd.CommandText = "DELETE FROM notes WHERE note_id = ?;";
                     cmd.Parameters.AddWithValue("pid", v.Package_PersonId);
+                    cmd.ExecuteNonQuery();
+                    cmd.CommandText = "";
+                    cmd.Parameters.Clear();
                     cmd.CommandText += "DELETE FROM packages WHERE package_id = ?;";
                     cmd.Parameters.Add("uid", OdbcType.BigInt).Value = v.PackageId;
+                    cmd.ExecuteNonQuery();
                     try
                     {
-                        cmd.ExecuteNonQuery();
                         cmd.Transaction.Commit();
                     }
                     catch (Exception e)
